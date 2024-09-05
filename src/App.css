@@ -36,3 +36,136 @@
     transform: rotate(360deg);
   }
 }
+.question-box:focus {
+  outline: none;
+  box-shadow: none;
+}
+.question-card::-webkit-scrollbar {
+  display: none;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" , sans-serif;
+}
+.imagestyles{
+    width: 40%;
+    height: 20px; 
+}
+
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 55px;
+  background: #172D76;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+
+ol, ul {
+padding-left:0px
+}
+
+.sidebar .nav-list{
+  height: 100%;
+}
+.sidebar li{
+  position: relative;
+  list-style: none;
+  height: 50px;
+  cursor: pointer;
+  opacity: 0.75;
+
+}
+.sidebar li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 0px);
+  z-index: 3;
+  background:black;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+  color:white;
+  cursor:default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar li:hover .tooltip{
+  height: 50px;
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+  background: black;
+  cursor:default;
+  opacity: 0.75;
+}
+
+
+.sidebar li:hover{
+  background: #00BDD0;
+  opacity: 1;
+}
+
+.borders{
+  border: 2px solid red;
+}
+
+.barli:hover{
+  background-color: #172D76;
+}
+.header-style{
+  background: #07439C 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+.header-text{
+  font: normal normal bold 24px/30px Open Sans;
+  color:white
+}
+.footer-style{
+  background: #3E4685 0% 0% no-repeat padding-box;
+opacity: 0.31;
+backdrop-filter: blur(25px);
+-webkit-backdrop-filter: blur(25px);
+height: 5vh;
+}
+.cursor{
+  cursor: pointer;
+}
+.text-style{
+  white-space: pre;
+  text-wrap: wrap;
+  text-align: justify;
+}
+.modal-header .btn-close{
+  --bs-btn-close-focus-shadow:none !important;
+}
+.table-header{
+  background-color: blue !important;
+  color: white !important;
+}
+.heading-style{
+  color: #07439C;
+  font-size: 30px;
+}
+.button-style{
+  color: blue;
+  background-color: white;
+  border: 1px solid blue;
+}
+.hr-line{
+  color:blue !important;
+  opacity: 1 !important;
+
+}
