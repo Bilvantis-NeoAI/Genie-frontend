@@ -169,3 +169,7 @@ height: 5vh;
   opacity: 1 !important;
 
 }
+.modal-image{
+  width: 50%;
+  height: 300px;
+}

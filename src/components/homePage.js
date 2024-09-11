@@ -9,6 +9,7 @@ import { PdfModal } from "./modalBox";
 import { PDFmaker } from "./pdfMaker";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Snackbar } from "@mui/material";
+import { downloadImageService } from "../Services/homePageService";
 import Modal from "react-modal";
 
 export function HomePage() {
@@ -35,21 +36,38 @@ export function HomePage() {
 	};
 
 	const [response, setResponse] = useState([]);
+	const [tableHtml,setTableHtml] = useState("");
 
-	const submitQuestion = (field) => {
+	const submitQuestion = (field,index) => {
 		console.log(formFields, field);
 
 		let payload = new FormData();
 		payload.set("text", field?.text);
 		fetchData(payload).then(
 			(resp) => {
+				console.log("....",resp,response[index],index);
+				
 				if (resp) {
-					let tempVar = response;
-					tempVar.push(resp?.data);
-					setResponse(tempVar);
-					handleAddField();
-					console.log(tempVar);
-					setImages(response[0]["images"]);
+				
+					if(response[index] !== undefined && response[index] !== null) {
+						let tempVar = response;
+						tempVar[index] = resp?.data;
+						setResponse(tempVar);
+					}
+					else{
+						
+						let tempVar = response;
+						tempVar.push(resp?.data);
+						setResponse(tempVar);
+						setIndex(response[0])
+						handleAddField();
+					
+					}
+					//setImages(response[0]["images"]);
+					console.log('response from api',resp?.data);
+					
+					setTableHtml(resp?.data?.table)
+					
 				}
 			},
 			(error) => {
@@ -58,7 +76,6 @@ export function HomePage() {
 			}
 		);
 	};
-	const downloadPdf = () => {};
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -94,6 +111,8 @@ export function HomePage() {
 	};
 
 	const [isImagesModalOpen, setIsImagesModalOpen] = useState(false);
+	const[relevantPdfIndex,setRelevantPdfIndex] = useState(0);
+	const[similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
 
 	// Open modal
 	const openImagesModal = () => {
@@ -111,6 +130,13 @@ export function HomePage() {
 		setIndex("");
 		// setShowModal(true);
 	};
+
+	const downloadImages = (index)=>{
+
+		response[index]?.images?.forEach(element => {			
+		downloadImageService(element);
+		});
+	}
 
 	return (
 		<Container className="w-100" fluid style={{ height: "100vh" }}>
@@ -152,13 +178,13 @@ export function HomePage() {
 						}}
 					>
 						{/* Close button */}
-						<button onClick={closeModal} style={{ float: "right" }}>
+						<button onClick={closeModal} style={{ float: "right" }} className="btn btn-primary mb-1">
 							Close
 						</button>
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src="/sample.pdf"
+							src={"http://127.0.0.1:8000/"+response[relevantPdfIndex]?.context_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -177,13 +203,13 @@ export function HomePage() {
 						}}
 					>
 						{/* Close button */}
-						<button onClick={closeSimilarityModal} style={{ float: "right" }}>
+						<button onClick={closeSimilarityModal} style={{ float: "right" }} className="btn btn-primary mb-1">
 							Close
 						</button>
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src="/abc.pdf"
+							src={"http://127.0.0.1:8000/"+response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -194,14 +220,17 @@ export function HomePage() {
 						onRequestClose={closeImagesModal}
 						contentLabel="Image Modal"
 					>
-						<button onClick={closeImagesModal}>Close</button>
-						<div className="modal-content">
-						{imagesList.map((image, index) => (
+						<button onClick={closeImagesModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
+						{/* <button></button> */}
+						<div className="modal-content p-3 d-flex">
+							{response[relevantPdfIndex]?.images?.length==0 &&<span className="w-100 d-flex justify-content-center" style={{fontWeight:'bolder',fontSize:'16px'}}>No Images Found</span>}
+						{response[relevantPdfIndex]?.images?.map((image, index) => (
 							<img
-							key={index}
-							src={`data:image/${image.filename.split('.').pop()};base64,${image.base64}`}
+							key={"http://127.0.0.1:8000/"+image
+							}
+							src = {"http://127.0.0.1:8000/"+image}
 							alt={`Image ${index}`}
-							className="modal-image"
+							className="modal-image "
 							/>
 						))}
 						</div>
@@ -228,12 +257,13 @@ export function HomePage() {
 										<Button
 											className="ms-5"
 											onClick={() =>
-												submitQuestion(field)
+												submitQuestion(field,index)
 											}
 										>
 											Submit
 										</Button>
 									</div>
+									{response.length > 0 && !response[index] &&<div className="mb-5"></div>}
 									{response.length > 0 && response[index] && (
 										<div className="card w-75 mt-3 ms-5  text-style p-2">
 											<p
@@ -264,12 +294,12 @@ export function HomePage() {
 												className="mt-2 w-100"
 											>
 												<thead className=" w-100">
-													<tr className="table-header">
-														<th className="table-header">
+													<tr className="table-header w-100 ">
+														<th className="table-header" >
 															Document{" "}
 														</th>
 														<th className="table-header">
-															Page no{" "}
+															Page&nbsp;No
 														</th>
 														<th className="table-header">
 															Name{" "}
@@ -280,18 +310,23 @@ export function HomePage() {
 													</tr>
 												</thead>
 												<tbody>
+												{response[index]?.table?.map((value,index)=>(
 													<tr>
-														<td>Test</td>
-														<td>1</td>
-														<td>test</td>
+														<td>{value?.Document}</td>
+														<td>{value?.PageNo || '-'}</td>
+														<td>{value?.Name||'-'}</td>
 														<td>
-															<a href="google.com">
-																link
+															<a href={value?.Link}>
+																{value?.Link}
 															</a>
 														</td>
 													</tr>
+												))
+}
+
 												</tbody>
 											</Table>
+											{/* <div dangerouslySetInnerHTML={{ __html: tableHtml }} /> */}
 										</div>
 									)}
 									{response.length > 0 && response[index] && (
@@ -300,13 +335,16 @@ export function HomePage() {
 												onClick={(e) => openModal()}
 												className="button-style"
 											>
-												View PDF - Relevant
-											</Button>
+												View PDF - Similairty
+												</Button>
 											<Button
 													className="ms-3 button-style"
-													onClick={(e) => openSimilarityModal()}
+													onClick={(e) => {openSimilarityModal()
+														setRelevantPdfIndex(index);
+													}
+													}
 												>
-													View PDF - Similairty
+													View PDF - Relevant
 												</Button>
 
 											{/* <PDFDownloadLink
@@ -335,12 +373,15 @@ export function HomePage() {
 											</PDFDownloadLink> */}
 											<Button
 												className="ms-3 button-style"
-												onClick={(e) => openImagesModal()}
+												onClick={(e) =>{ openImagesModal()
+													setRelevantPdfIndex(index)
+												}
+												}
 											>
 												{" "}
 												Open images
 											</Button>
-											<PDFDownloadLink
+											{/* <PDFDownloadLink
 												document={
 													<PDFmaker
 														response={
@@ -355,7 +396,8 @@ export function HomePage() {
 												<Button className="ms-3 button-style">
 													Download images{" "}
 												</Button>
-											</PDFDownloadLink>
+											</PDFDownloadLink> */}
+											<Button className="ms-3 button-style" onClick={()=>downloadImages(index)}>Download Images</Button>
 										</div>
 									)}
 								</>
