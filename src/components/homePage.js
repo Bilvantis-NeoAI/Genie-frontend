@@ -11,9 +11,20 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Snackbar } from "@mui/material";
 import { downloadImageService } from "../Services/homePageService";
 import Modal from "react-modal";
+import { useDispatch, useSelector } from 'react-redux';
+import { incrementCounter } from '../actions/questionActions'; 
 
 export function HomePage() {
 	const [formFields, setFormFields] = useState([{ text: "" }]);
+	 const dispatch = useDispatch();
+
+  // Get state from Redux store
+  const { counter } = useSelector((state) => state.answersData);
+
+  const handleIncrementCounter = () => {
+    dispatch(incrementCounter());
+  };
+
 
 	const [textFlag, setTextflag] = useState(false);
 	const [imagesList, setImages] = useState([]);
@@ -140,6 +151,7 @@ export function HomePage() {
 
 	return (
 		<Container className="w-100" fluid style={{ height: "100vh" }}>
+			
 			<Snackbar
 				anchorOrigin={{ vertical, horizontal }}
 				open={open}
@@ -160,6 +172,11 @@ export function HomePage() {
 			<Row style={{ height: "10vh" }}>
 				<HeaderComponent></HeaderComponent>
 			</Row>
+			<div className="ms-5">
+			<p>Counter: {counter}</p> {/* Display counter */}
+			<button onClick={handleIncrementCounter}>Increment Counter</button>
+			</div>
+			
 			<Form>
 				<div className="w-100 mt-3" style={{ height: "82vh" }}>
 					<div style={{ width: "10%" }}>

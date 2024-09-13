@@ -45,7 +45,7 @@ export const cleanAndFormatResponse = (response) => {
         });
     };
     
-    
+
     return (
       <div>
         <ul>{parseText(text)}</ul>
