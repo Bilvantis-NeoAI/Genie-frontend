@@ -23,11 +23,26 @@ import {
           error: null, // reset error message on new request
         };
       case FETCH_ANSWERS_SUCCESS:
+
+        console.log("actionPayload.?");
+        console.log("action>>>index", action.index);
+        
+        const updatedAnswers = [...state.answers];
+      
+      if (action.index < updatedAnswers.length) {
+        // Replace the answer at the specified index if it exists
+        updatedAnswers[action.index] = action.payload;
+      } else {
+        // Append the value at the specified index
+        updatedAnswers[action.index] = action.payload;
+      }
+
+        
         return {
           ...state,
           loading: false,
           // Append new data to the existing data
-          answers: [...state.answers, ...action.payload],
+          answers: updatedAnswers,
           successMessage: "Answers fetched successfully!", // set success message
           error: null, // reset error message on success
         };

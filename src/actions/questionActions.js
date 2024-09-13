@@ -12,9 +12,10 @@ export const fetchAnswersRequest = () => ({
   type: FETCH_ANSWERS_DATA,
 });
 
-export const fetchAnswersSuccess = (data) => ({
+export const fetchAnswersSuccess = (data, index) => ({
   type: FETCH_ANSWERS_SUCCESS,
   payload: data,
+  index : index
 });
 
 export const fetchAnswersFailure = (error) => ({
@@ -22,14 +23,17 @@ export const fetchAnswersFailure = (error) => ({
   payload: error,
 });
 
-export const fetchAnswersList = (page) => {
+export const fetchAnswersList = (payload, index) => {
+  
+  
   return (dispatch) => {
     dispatch(fetchAnswersRequest());
-    Api
-      .post(ENDPOINT_FULL_QA, { page })
+    return Api
+      .post(ENDPOINT_FULL_QA, payload )
       .then((response) => {
         const answersData = response.data;
-        dispatch(fetchAnswersSuccess(answersData));
+        dispatch(fetchAnswersSuccess(answersData, index));
+        return response ;
       })
       .catch((error) => {
         dispatch(fetchAnswersFailure(error.message));

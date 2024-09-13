@@ -2,7 +2,7 @@ import { Col, Container, Form, Row, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BootstrapSidebar } from "./sideNav";
 import { HeaderComponent } from "./header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cleanAndFormatResponse, response, TextDisplay } from "../Utils";
 import { fetchData } from "../Services/homePageService";
 import { PdfModal } from "./modalBox";
@@ -13,13 +13,13 @@ import { downloadImageService } from "../Services/homePageService";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementCounter } from '../actions/questionActions'; 
+import { fetchAnswersList } from "../actions/questionActions";
 
 export function HomePage() {
 	const [formFields, setFormFields] = useState([{ text: "" }]);
 	 const dispatch = useDispatch();
 
-  // Get state from Redux store
-  const { counter } = useSelector((state) => state.answersData);
+  const answerData = useSelector((state) => state.answersData);
 
   const handleIncrementCounter = () => {
     dispatch(incrementCounter());
@@ -48,44 +48,92 @@ export function HomePage() {
 
 	const [response, setResponse] = useState([]);
 	const [tableHtml,setTableHtml] = useState("");
+	useEffect(() => {
+		console.log("answerData>>>all", answerData.answers);
+	
+		if (answerData.answers && answerData.answers.length > 0) {
+			const newFormFields = answerData.answers.map(answer => ({ text: answer.text }));
+			if (newFormFields[newFormFields.length - 1].text !== "") {
+				newFormFields.push({ text: "" });
+			}
+			setFormFields(newFormFields);
+			setResponse(answerData.answers);
+		} else {
+			setFormFields([{ text: "" }]);
+		}
+	}, [answerData]);
+	
+
+	
 
 	const submitQuestion = (field,index) => {
-		console.log(formFields, field);
-
+		
 		let payload = new FormData();
 		payload.set("text", field?.text);
-		fetchData(payload).then(
-			(resp) => {
-				console.log("....",resp,response[index],index);
+	    dispatch(fetchAnswersList(payload, index))
+
+		// .then((resp) => {
+		// 	if (resp) {
+		// 		if(response[index] !== undefined && response[index] !== null) {
+		// 			console.log("if1");
+		// 			let tempVar = response;
+		// 			tempVar[index] = resp?.data;
+		// 			console.log("tempVar>>>", tempVar);
+
+		// 			setResponse(tempVar);
+		// 		}
+		// 		else{
+		// 			console.log("else?>");
+					
+		// 			let tempVar = response;
+		// 			tempVar.push(resp?.data);
+		// 			setResponse(tempVar);
+		// 			setIndex(response[0])
+		// 			handleAddField();
 				
-				if (resp) {
+		// 		}
+		// 		//setImages(response[0]["images"]);
+		// 		console.log('response from api',resp?.data);
 				
-					if(response[index] !== undefined && response[index] !== null) {
-						let tempVar = response;
-						tempVar[index] = resp?.data;
-						setResponse(tempVar);
-					}
-					else{
+		// 		setTableHtml(resp?.data?.table)
+				
+		// 	}
+			
+		// })
+		// fetchData(payload).then(
+		// 	(resp) => {
+		// 		console.log("....",resp,response[index],index);
+				
+		// 		// if (resp) {
+				
+		// 		// 	if(response[index] !== undefined && response[index] !== null) {
+		// 		// 		let tempVar = response;
+		// 		// 		tempVar[index] = resp?.data;
+		// 		// 		setResponse(tempVar);
+		// 		// 	}
+		// 		// 	else{
 						
-						let tempVar = response;
-						tempVar.push(resp?.data);
-						setResponse(tempVar);
-						setIndex(response[0])
-						handleAddField();
+		// 		// 		let tempVar = response;
+		// 		// 		tempVar.push(resp?.data);
+		// 		// 		setResponse(tempVar);
+		// 		// 		setIndex(response[0])
+		// 		// 		handleAddField();
 					
-					}
-					//setImages(response[0]["images"]);
-					console.log('response from api',resp?.data);
+		// 		// 	}
+		// 		// 	//setImages(response[0]["images"]);
+		// 		// 	console.log('response from api',resp?.data);
 					
-					setTableHtml(resp?.data?.table)
+		// 		// 	setTableHtml(resp?.data?.table)
 					
-				}
-			},
-			(error) => {
-				setColor("red");
-				handleOpen();
-			}
-		);
+		// 		// }
+		// 		console.log(("response checking previous", response));
+		// 	},
+		// 	(error) => {
+		// 		setColor("red");
+		// 		handleOpen();
+		// 	}
+			
+		// );
 	};
 	const handleClose = () => {
 		setOpen(false);
@@ -172,10 +220,7 @@ export function HomePage() {
 			<Row style={{ height: "10vh" }}>
 				<HeaderComponent></HeaderComponent>
 			</Row>
-			<div className="ms-5">
-			<p>Counter: {counter}</p> {/* Display counter */}
-			<button onClick={handleIncrementCounter}>Increment Counter</button>
-			</div>
+		
 			
 			<Form>
 				<div className="w-100 mt-3" style={{ height: "82vh" }}>
