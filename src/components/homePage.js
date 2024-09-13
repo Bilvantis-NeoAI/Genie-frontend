@@ -36,11 +36,14 @@ export function HomePage() {
 	const [showModal, setShowModal] = useState(false);
 	const [responseText, setresponseText] = useState("");
 	const [color, setColor] = useState("green");
+	const [inputField, setInputField] = useState();
 
 	const handleInputChange = (index, event) => {
 		const values = [...formFields];
 		values[index][event.target.name] = event.target.value;
 		setFormFields(values);
+		setInputField(values); 
+
 	};
 	const handleAddField = () => {
 		setFormFields([...formFields, { text: "" }]);
@@ -311,7 +314,9 @@ export function HomePage() {
 											key={index}
 											placeholder="Enter Question"
 											name="text"
-											value={field.text}
+											// value={field.text}
+											value={inputField ? inputField[index]?.text || field.text : field.text}
+
 											onChange={(event) =>
 												handleInputChange(index, event)
 											}
