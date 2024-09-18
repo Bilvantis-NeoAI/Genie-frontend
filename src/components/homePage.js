@@ -14,6 +14,7 @@ import Modal from "react-modal";
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementCounter } from '../actions/questionActions'; 
 import { fetchAnswersList } from "../actions/questionActions";
+import { homePageTextSamples } from "../utils/constatnts";
 
 export function HomePage() {
 	const [formFields, setFormFields] = useState([{ text: "" }]);
@@ -24,7 +25,16 @@ export function HomePage() {
   const handleIncrementCounter = () => {
     dispatch(incrementCounter());
   };
+     
+  const [filterQueries, setFilterQueries] = useState({}); // State for filter queries
 
+
+  const handleSearchInputChange = (index, event) => {
+    setFilterQueries((prevQueries) => ({
+      ...prevQueries,
+      [index]: event.target.value.toLowerCase(),
+    }));
+  };
 
 	const [textFlag, setTextflag] = useState(false);
 	const [imagesList, setImages] = useState([]);
@@ -200,6 +210,14 @@ export function HomePage() {
 		});
 	}
 
+	const filteredData = (data, query) =>
+		data.filter(
+		  (item) =>
+			item?.Document.toLowerCase().includes(query) ||
+			item?.Name.toLowerCase().includes(query) ||
+			item?.Link.toLowerCase().includes(query)
+		);
+
 	return (
 		<Container className="w-100" fluid style={{ height: "100vh" }}>
 			
@@ -244,7 +262,7 @@ export function HomePage() {
 					>
 						{/* Close button */}
 						<button onClick={closeModal} style={{ float: "right" }} className="btn btn-primary mb-1">
-							Close
+							{homePageTextSamples.CLOSE}
 						</button>
 
 						{/* Iframe to display PDF */}
@@ -269,7 +287,7 @@ export function HomePage() {
 					>
 						{/* Close button */}
 						<button onClick={closeSimilarityModal} style={{ float: "right" }} className="btn btn-primary mb-1">
-							Close
+							{homePageTextSamples.CLOSE}
 						</button>
 
 						{/* Iframe to display PDF */}
@@ -316,7 +334,13 @@ export function HomePage() {
 											name="text"
 											// value={field.text}
 											value={inputField ? inputField[index]?.text || field.text : field.text}
-
+                                            onKeyDown={(event) => {
+												if (event.key === 'Enter') {
+												  event.preventDefault(); 
+												  submitQuestion(field,index)
+												  
+												}
+											  }}
 											onChange={(event) =>
 												handleInputChange(index, event)
 											}
@@ -327,7 +351,7 @@ export function HomePage() {
 												submitQuestion(field,index)
 											}
 										>
-											Submit
+											{homePageTextSamples.SUBMIT_BUTTON}
 										</Button>
 									</div>
 									{response.length > 0 && !response[index] &&<div className="mb-5"></div>}
@@ -349,19 +373,22 @@ export function HomePage() {
 									{response.length > 0 && response[index] && (
 										<div className="ms-5 w-75">
 											<p className="heading-style mt-2">
-												Hyperlinks
+												{homePageTextSamples.HYPERLINKS}
 											</p>
 											<hr className="hr-line"></hr>
-											<input
-												placeholder="search for link "
-												className="w-100 form-control question-box"
-											></input>
+											
+											 <input
+                                               placeholder="search for link"
+                                               className="w-100 form-control question-box"
+                                               value={filterQueries[index] || ''}
+                                               onChange={(event) => handleSearchInputChange(index, event)}
+                                             />
 											<Table
 												responsive
 												className="mt-2 w-100"
 											>
 												<thead className=" w-100">
-													<tr className="table-header w-100 ">
+												    <tr className="table-header w-100 ">
 														<th className="table-header" >
 															Document{" "}
 														</th>
@@ -377,7 +404,7 @@ export function HomePage() {
 													</tr>
 												</thead>
 												<tbody>
-												{response[index]?.table?.map((value,index)=>(
+												{filteredData(response[index]?.table || [], filterQueries[index] || '').map((value,index)=>(
 													<tr>
 														<td>{value?.Document}</td>
 														<td>{value?.PageNo || '-'}</td>
@@ -402,7 +429,7 @@ export function HomePage() {
 												onClick={(e) => openModal()}
 												className="button-style"
 											>
-												View PDF - Similairty
+												{homePageTextSamples.VIEW_SIMILARITY}
 												</Button>
 											<Button
 													className="ms-3 button-style"
@@ -411,7 +438,7 @@ export function HomePage() {
 													}
 													}
 												>
-													View PDF - Relevant
+													{homePageTextSamples.VIEW_REVELANT}
 												</Button>
 
 											{/* <PDFDownloadLink
@@ -431,7 +458,7 @@ export function HomePage() {
 													className="ms-3 button-style"
 													onClick={() =>
 														downloadPdf(
-															`item-${field}`
+															`ss already in useitem-${field}`
 														)
 													}
 												>
@@ -446,7 +473,7 @@ export function HomePage() {
 												}
 											>
 												{" "}
-												Open images
+												{homePageTextSamples.OPEN_IMAGES}
 											</Button>
 											{/* <PDFDownloadLink
 												document={
@@ -464,7 +491,7 @@ export function HomePage() {
 													Download images{" "}
 												</Button>
 											</PDFDownloadLink> */}
-											<Button className="ms-3 button-style" onClick={()=>downloadImages(index)}>Download Images</Button>
+											<Button className="ms-3 button-style" onClick={()=>downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
 										</div>
 									)}
 								</>

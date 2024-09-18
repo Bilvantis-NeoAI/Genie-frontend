@@ -173,3 +173,90 @@ height: 5vh;
   width: 50%;
   height: 300px;
 }
+
+.form-field-title{
+  font-size: 18px;
+}
+
+.required-styling{
+  color: red;
+}
+
+.error-message{
+  color: red;
+}
+
+
+.empty-dropzone {
+  background-image: url('../src/Assets/pdfIcon.jpeg'); /* Replace with your image URL */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 200px 150px; /* Adjust this to control the image size */
+  height: 200px; /* Adjust the height of the dropzone */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555; /* Optional text color */
+}
+
+
+.input-box {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+    border: 1px solid #E2E2E2 !important;
+    border-radius: 8px;
+    height: 48px;
+    padding-left: 54px;
+}
+
+input::placeholder {
+    opacity: 0.3;
+    color: #000000;
+    font-size: 15px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  border: 1px solid #E2E2E2 !important;
+  border-radius: 8px;
+  height: 48px;
+  padding-left: 10px; /* Reduced padding to fit the icon */
+  position: relative;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background-color: #E2E2E2;
+  margin: 0 10px; /* Space between the icon and input field */
+}
+
+
+.input-box {
+  border: none !important;
+  outline: none;
+  flex: 1;
+  height: 100%;
+  padding-left: 10px;
+  background: none;
+}
+
+.input-box:focus {
+  border: none;
+  outline: none;
+  box-shadow: none; /* Removes any focus highlight */
+}
+
+input::placeholder {
+  opacity: 0.3;
+  color: #000000;
+  font-size: 15px;
+}
