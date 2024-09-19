@@ -6,7 +6,7 @@ export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
     VIEW_REVELANT : 'View PDF - Relevant',
     OPEN_IMAGES : 'Open images',
-    DOWNLOAD_IMAGES : 'ownload Images',
+    DOWNLOAD_IMAGES : 'Download Images',
     SUBMIT_BUTTON : 'Submit',
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
