@@ -28,7 +28,7 @@ export const BootstrapSidebar = () => {
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/LocalLLMQ&A')}>
             <img src={sideBarIcon2} alt="" className="imagestyles" />
-            <span className="tooltip">Local LLM Q&A</span>
+            <span className="tooltip">Upload Document</span>
           </li>
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/ConversationalQ&A')}>

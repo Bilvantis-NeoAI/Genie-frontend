@@ -11,10 +11,9 @@
 import { createStore, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
-import sessionStorage from 'redux-persist/es/storage/session'; // Use sessionStorage
-import rootReducer from '../reducers'; // Your combined reducers
+import sessionStorage from 'redux-persist/es/storage/session'; 
+import rootReducer from '../reducers'; 
 
-// Define persist config
 const persistConfig = {
   key: 'root',
   storage: sessionStorage, 

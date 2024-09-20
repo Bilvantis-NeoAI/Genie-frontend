@@ -8,8 +8,8 @@ import {
   const initialState = {
     loading: false,
     answers: [],
-    successMessage: null, // to store success message
-    error: null, // to store error messag
+    successMessage: null, 
+    error: null, 
     counter: 0,
   };
   
@@ -19,41 +19,34 @@ import {
         return {
           ...state,
           loading: true,
-          successMessage: null, // reset success message on new request
-          error: null, // reset error message on new request
+          successMessage: null, 
+          error: null, 
         };
       case FETCH_ANSWERS_SUCCESS:
-
-        console.log("actionPayload.?");
-        console.log("action>>>index", action.index);
-        
         const updatedAnswers = [...state.answers];
       
       if (action.index < updatedAnswers.length) {
-        // Replace the answer at the specified index if it exists
+       
         updatedAnswers[action.index] = action.payload;
       } else {
-        // Append the value at the specified index
+       
         updatedAnswers[action.index] = action.payload;
       }
-
-        
         return {
           ...state,
           loading: false,
-          // Append new data to the existing data
           answers: updatedAnswers,
-          successMessage: "Answers fetched successfully!", // set success message
-          error: null, // reset error message on success
+          successMessage: "Answers fetched successfully!", 
+          error: null, 
         };
       case FETCH_ANSWERS_FAILURE:
         return {
           ...state,
           loading: false,
-          error: action.payload, // set error message
-          successMessage: null, // reset success message on failure
+          error: action.payload, 
+          successMessage: null, 
         };
-        case INCREMENT_COUNTER: // Handle increment action
+        case INCREMENT_COUNTER: 
         return {
             ...state,
             counter: state.counter + 1,

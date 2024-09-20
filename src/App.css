@@ -236,7 +236,7 @@ input::placeholder {
   width: 1px;
   height: 24px;
   background-color: #E2E2E2;
-  margin: 0 10px; /* Space between the icon and input field */
+  margin: 0 10px; 
 }
 
 
@@ -252,7 +252,7 @@ input::placeholder {
 .input-box:focus {
   border: none;
   outline: none;
-  box-shadow: none; /* Removes any focus highlight */
+  box-shadow: none; 
 }
 
 input::placeholder {
@@ -260,3 +260,8 @@ input::placeholder {
   color: #000000;
   font-size: 15px;
 }
+
+p {
+  text-wrap: wrap !important;
+}
+

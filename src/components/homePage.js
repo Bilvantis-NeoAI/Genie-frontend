@@ -26,7 +26,7 @@ export function HomePage() {
     dispatch(incrementCounter());
   };
      
-  const [filterQueries, setFilterQueries] = useState({}); // State for filter queries
+  const [filterQueries, setFilterQueries] = useState({}); 
 
 
   const handleSearchInputChange = (index, event) => {

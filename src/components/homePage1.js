@@ -9,12 +9,16 @@ import { Dropzone, FileMosaic } from "@files-ui/react";
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import LanguageIcon from '@mui/icons-material/Language';
 import { homePage1TextSamples } from '../utils/constatnts';
+import { addDocument } from '../actions/documentActions';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 export function HomePage1() {
   const [formState, setFormState] = useState({
     file: [],
     url: "",
   });
+  const dispatch = useDispatch();
 
   const [errors, setErrors] = useState({
     file: "",
@@ -88,6 +92,13 @@ export function HomePage1() {
     if (formState.url) {
       formData.append("url", formState.url);
     }
+
+    console.log("okay it is");
+    const payload = {
+
+    }
+    dispatch(addDocument(payload))
+    
     
   }
 
