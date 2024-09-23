@@ -206,7 +206,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://0.0.0.0:9000/"+response[relevantPdfIndex]?.context_pdf}
+							src={"http://3.135.9.244:9000/"+response[relevantPdfIndex]?.context_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -231,7 +231,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://0.0.0.0:9000/"+response[relevantPdfIndex]?.relevant_pdf}
+							src={"http://3.135.9.244:9000/"+response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -248,9 +248,9 @@ export function HomePage() {
 							{response[relevantPdfIndex]?.images?.length==0 &&<span className="w-100 d-flex justify-content-center" style={{fontWeight:'bolder',fontSize:'16px'}}>No Images Found</span>}
 						{response[relevantPdfIndex]?.images?.map((image, index) => (
 							<img
-							key={"http://0.0.0.0:9000/"+image
+							key={"http://3.135.9.244:9000/"+image
 							}
-							src = {"http://0.0.0.0:9000/"+image}
+							src = {"http://3.135.9.244:9000/"+image}
 							alt={`Image ${index}`}
 							className="modal-image "
 							/>
