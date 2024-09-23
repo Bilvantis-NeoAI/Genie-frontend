@@ -33,7 +33,7 @@ export const BootstrapSidebar = () => {
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/ConversationalQ&A')}>
             <img src={sideBarIcon2} alt="" className="imagestyles" />
-            <span className="tooltip">Conversational Q&A</span>
+            <span className="tooltip">Audio AI</span>
           </li>
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/home3')}>

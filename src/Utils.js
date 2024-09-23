@@ -53,6 +53,7 @@ export const cleanAndFormatResponse = (response) => {
     );
   };
 
-  export const ENDPOINT_FULL_QA = '/fullqa_answer';
+  // export const ENDPOINT_FULL_QA = '/fullqa_answer';
+  export const ENDPOINT_FULL_QA = '/answer';
   
   

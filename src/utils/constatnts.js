@@ -1,6 +1,6 @@
 export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
-}
+};
 
 export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
@@ -10,13 +10,12 @@ export const homePageTextSamples = {
     SUBMIT_BUTTON : 'Submit',
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
-}
-
+};
 
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",
-    FILES_REQUIRED: "At least one file or URL is required.",
-    URL_REQUIRED: "URL is required if no file is uploaded.",
+    FILES_REQUIRED: "At least one file is required.",
+    URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
   };

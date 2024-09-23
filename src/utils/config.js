@@ -1,4 +1,5 @@
 export const apis = {
-    ENDPOINT_FULL_QA : '/fullqa_answer',
-    DOCUMENT_UPLOAD : '/upload'
+    ENDPOINT_FULL_QA : '/answer',
+    DOCUMENT_UPLOAD : '/ingest',
+    URL_UPLOAD : '/ingest_url'
 }

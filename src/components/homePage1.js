@@ -1,71 +1,79 @@
+
 import { Col, Container, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
 import { useState } from 'react';
-import { response } from '../Utils';
-import { fetchData } from '../Services/homePageService';
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import LanguageIcon from '@mui/icons-material/Language';
 import { homePage1TextSamples } from '../utils/constatnts';
 import { addDocument } from '../actions/documentActions';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { addUrl } from '../actions/urlActions';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function HomePage1() {
   const [formState, setFormState] = useState({
     file: [],
     url: "",
   });
+  const [fileErrors, setFileErrors] = useState("");
+  const [urlErrors, setUrlErrors] = useState("");
   const dispatch = useDispatch();
 
-  const [errors, setErrors] = useState({
-    file: "",
-    url: "",
-  });
-
+  // Handle file upload and validation
   const updateFiles = (incomingFiles) => {
-    console.log("inco", incomingFiles);
-    
     setFormState((prevState) => ({
       ...prevState,
       file: incomingFiles,
     }));
+
     if (incomingFiles.length > 0) {
-      setErrors((prevErrors) => ({ ...prevErrors, file: "", url: "" }));
+      setFileErrors("");
     }
   };
-
-
-  const validateForm = () => {
-    let hasError = false;
-    const newErrors = {
-      file: "",
-      url: "",
-    };
-
-    if (formState.file.length === 0 && !formState.url) {
-      newErrors.file = homePage1TextSamples.FILES_REQUIRED;
-      newErrors.url = homePage1TextSamples.URL_REQUIRED;
-      hasError = true;
-    } 
-
-    setErrors(newErrors);
-    return !hasError;
-  };
-
-  
-  
 
   const removeFile = (index) => {
     setFormState((prevState) => {
       const newFiles = prevState.file.filter((_, i) => i !== index);
       return { ...prevState, file: newFiles };
     });
-
   };
 
+  const handleFileSubmit = (e) => {
+    e.preventDefault();
+    if (formState.file.length === 0) {
+      setFileErrors(homePage1TextSamples.FILES_REQUIRED);
+      return;
+    }
+
+    const formData = new FormData();
+    formState.file.forEach((file) => {
+      formData.append("file", file.file);
+    });
+
+     
+
+    dispatch(addDocument(formData))
+    .then((response) => {
+      if (response.data.status === 'success') {
+        toast.success('Document added successfully!');
+        setFormState((prevState) => ({
+          ...prevState,
+          file: []  
+        }));
+      
+      } 
+    })
+    .catch((error) => {
+      toast.error('An error occurred while adding the document.');
+    });
+  };
+
+  // Handle URL input and validation
   const handleUrlChange = (e) => {
     const newUrl = e.target.value;
     setFormState((prevState) => ({
@@ -74,47 +82,55 @@ export function HomePage1() {
     }));
 
     if (newUrl) {
-      setErrors((prevErrors) => ({ ...prevErrors, url: "", file: "" }));
+      setUrlErrors("");
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleUrlSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!formState.url) {
+      setUrlErrors(homePage1TextSamples.URL_REQUIRED);
+      return;
+    }
 
     const formData = new FormData();
-    formState.file.forEach((file) => {
-      console.log("file", file);
+    formData.append("url", formState.url);
+
+    console.log("okayurl");
+   
+    dispatch(addUrl(formData))
+    .then((response) => {
+      console.log("res", response);
       
-      formData.append("file", file.file);
+      if (response.data.status === 'success') {
+        toast.success('URL added successfully!');
+        setFormState((prevState) => ({
+          ...prevState,
+          url : ''  
+        }));
+      
+      } 
+    })
+    .catch((error) => {
+      toast.error('An error occurred while adding the URL.');
     });
-
-    if (formState.url) {
-      formData.append("url", formState.url);
-    }
-
-    console.log("okay it is");
-    const payload = {
-
-    }
-    dispatch(addDocument(payload))
-    
-    
-  }
+  };
 
   return (
-    <Container className=' w-100' fluid style={{ height: '100vh' }}>
-      <Row style={{ height: '10vh' }} >
-        <HeaderComponent></HeaderComponent>
+    <Container className='w-100' fluid style={{ height: '100vh' }}>
+      <Row style={{ height: '10vh' }}>
+        <HeaderComponent />
       </Row>
-      <div className="w-100 mt-3" style={{ height: '82vh' }} >
+      <div className="w-100 mt-3" style={{ height: '82vh' }}>
         <div style={{ width: '10%' }}>
-          <BootstrapSidebar></BootstrapSidebar>
+          <BootstrapSidebar />
         </div>
-        <div className='col-11   h-100 ms-5 mb-5 pb-4' >
-          <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }} >
-            <form onSubmit={handleSubmit}>
-              <div class="form-group d-flex justify-content-center w-100 d-flex mt-5 ms-5" >
+        <div className='col-11 h-100 ms-5 mb-5 pb-4'>
+          <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
+            <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-5 ms-5">
+
+              {/* File Upload Form */}
+              <form onSubmit={handleFileSubmit}>
                 <div>
                   <div>
                     <span className='form-field-title'>{homePage1TextSamples.UPLOAD_FILES}</span>
@@ -127,25 +143,33 @@ export function HomePage1() {
                     accept=".pdf, application/pdf"
                   >
                     {formState.file.map((file, index) => (
-                      <div key={file.name} className="file-preview" tyle={{ maxWidth: '100px', maxHeight: '100px' }}>
+                      <div key={file.name} className="file-preview" >
                         <FileMosaic {...file} preview />
                         <FolderDeleteIcon onClick={() => removeFile(index)} />
-
                       </div>
                     ))}
                   </Dropzone>
-                  {errors.file && <p className="error-message">{errors.file}</p>}
+                  {fileErrors && <p className="error-message">{fileErrors}</p>}
 
+                  <div className='w-100 d-flex justify-content-center'>
+                    <Button className='mt-3' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
+                  </div>
+                </div>
+              </form>
+
+              {/* URL Input Form */}
+              <form onSubmit={handleUrlSubmit}>
+                <div >
                   <div className='mt-4'>
                     <div>
                       <span className='form-field-title'>{homePage1TextSamples.URL_INPUT}</span>
                       <span className='required-styling'>*</span>
                     </div>
-                    <div class="input-container mt-2">
-                      <div class="icon-container">
+                    <div className="input-container mt-2">
+                      <div className="icon-container">
                         <LanguageIcon />
                       </div>
-                      <div class="separator"></div>
+                      <div className="separator"></div>
                       <input
                         type="url"
                         value={formState.url}
@@ -154,23 +178,21 @@ export function HomePage1() {
                         className="form-control input-box"
                       />
                     </div>
-                    {errors.url && <p className="error-message">{errors.url}</p>}
+                    {urlErrors && <p className="error-message">{urlErrors}</p>}
                   </div>
                   <div className='w-100 d-flex justify-content-center'>
-                  <Button className='mt-3' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
+                    <Button className='mt-3' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
+                  </div>
                 </div>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
       <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
-        <span style={{
-          color: "white"
-        }}>@Bilvantis 2024 </span>
+        <span style={{ color: "white" }}>@Bilvantis 2024</span>
       </div>
+      <ToastContainer />
     </Container>
-  )
-
+  );
 }

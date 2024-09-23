@@ -7,6 +7,7 @@ import { HomePage3 } from './components/homePage3';
 import { Loader } from './Interceptor/interceptor';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+
 function App() {
   return (
     <Router>

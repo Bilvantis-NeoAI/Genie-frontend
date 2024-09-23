@@ -82,71 +82,10 @@ export function HomePage() {
 	const submitQuestion = (field,index) => {
 		
 		let payload = new FormData();
-		payload.set("text", field?.text);
+		// payload.set("text", field?.text);
+		payload.set("question", field?.text);
 	    dispatch(fetchAnswersList(payload, index))
 
-		// .then((resp) => {
-		// 	if (resp) {
-		// 		if(response[index] !== undefined && response[index] !== null) {
-		// 			console.log("if1");
-		// 			let tempVar = response;
-		// 			tempVar[index] = resp?.data;
-		// 			console.log("tempVar>>>", tempVar);
-
-		// 			setResponse(tempVar);
-		// 		}
-		// 		else{
-		// 			console.log("else?>");
-					
-		// 			let tempVar = response;
-		// 			tempVar.push(resp?.data);
-		// 			setResponse(tempVar);
-		// 			setIndex(response[0])
-		// 			handleAddField();
-				
-		// 		}
-		// 		//setImages(response[0]["images"]);
-		// 		console.log('response from api',resp?.data);
-				
-		// 		setTableHtml(resp?.data?.table)
-				
-		// 	}
-			
-		// })
-		// fetchData(payload).then(
-		// 	(resp) => {
-		// 		console.log("....",resp,response[index],index);
-				
-		// 		// if (resp) {
-				
-		// 		// 	if(response[index] !== undefined && response[index] !== null) {
-		// 		// 		let tempVar = response;
-		// 		// 		tempVar[index] = resp?.data;
-		// 		// 		setResponse(tempVar);
-		// 		// 	}
-		// 		// 	else{
-						
-		// 		// 		let tempVar = response;
-		// 		// 		tempVar.push(resp?.data);
-		// 		// 		setResponse(tempVar);
-		// 		// 		setIndex(response[0])
-		// 		// 		handleAddField();
-					
-		// 		// 	}
-		// 		// 	//setImages(response[0]["images"]);
-		// 		// 	console.log('response from api',resp?.data);
-					
-		// 		// 	setTableHtml(resp?.data?.table)
-					
-		// 		// }
-		// 		console.log(("response checking previous", response));
-		// 	},
-		// 	(error) => {
-		// 		setColor("red");
-		// 		handleOpen();
-		// 	}
-			
-		// );
 	};
 	const handleClose = () => {
 		setOpen(false);
@@ -267,7 +206,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.135.9.244:8000/"+response[relevantPdfIndex]?.context_pdf}
+							src={"http://0.0.0.0:9000/"+response[relevantPdfIndex]?.context_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -292,7 +231,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.135.9.244:8000/"+response[relevantPdfIndex]?.relevant_pdf}
+							src={"http://0.0.0.0:9000/"+response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -309,9 +248,9 @@ export function HomePage() {
 							{response[relevantPdfIndex]?.images?.length==0 &&<span className="w-100 d-flex justify-content-center" style={{fontWeight:'bolder',fontSize:'16px'}}>No Images Found</span>}
 						{response[relevantPdfIndex]?.images?.map((image, index) => (
 							<img
-							key={"http://3.135.9.244:8000/"+image
+							key={"http://0.0.0.0:9000/"+image
 							}
-							src = {"http://3.135.9.244:8000/"+image}
+							src = {"http://0.0.0.0:9000/"+image}
 							alt={`Image ${index}`}
 							className="modal-image "
 							/>

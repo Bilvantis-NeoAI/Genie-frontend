@@ -7,6 +7,7 @@ import {
 } from "../actionTypes/questionActionTypes.js"
 import { Api } from "../Interceptor/interceptor.js";
 import { ENDPOINT_FULL_QA } from "../Utils.js";
+import { apis } from "../utils/config.js";
 
 export const fetchAnswersRequest = () => ({
   type: FETCH_ANSWERS_DATA,
@@ -29,7 +30,7 @@ export const fetchAnswersList = (payload, index) => {
   return (dispatch) => {
     dispatch(fetchAnswersRequest());
     return Api
-      .post(ENDPOINT_FULL_QA, payload )
+      .post(apis.ENDPOINT_FULL_QA, payload )
       .then((response) => {
         const answersData = response.data;
         dispatch(fetchAnswersSuccess(answersData, index));
