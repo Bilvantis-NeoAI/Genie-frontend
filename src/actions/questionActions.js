@@ -1,4 +1,3 @@
-// import { urls } from "../utils/config";
 import {
   FETCH_ANSWERS_DATA,
   FETCH_ANSWERS_SUCCESS,

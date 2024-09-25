@@ -265,3 +265,13 @@ p {
   text-wrap: wrap !important;
 }
 
+
+.chart-styling{
+  min-height: 200px !important;
+   width: 100% !important;
+}
+
+.card-container {
+  height: 365px;
+}
+

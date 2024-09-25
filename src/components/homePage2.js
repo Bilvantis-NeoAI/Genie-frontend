@@ -3,8 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
 import React, { useRef, useState } from 'react';
-import { response } from '../Utils';
-import { fetchData } from '../Services/homePageService';
+
 
 export function HomePage2() {
     const [recordedUrl, setRecordedUrl] = useState('');
@@ -21,9 +20,11 @@ export function HomePage2() {
             mediaStream.current = stream;
             mediaRecorder.current = new MediaRecorder(stream);
 
+            // Send each chunk to the server while recording
             mediaRecorder.current.ondataavailable = (e) => {
                 if (e.data.size > 0) {
                     chunks.current.push(e.data);
+                    uploadAudioChunk(e.data);  // Upload each audio chunk as it becomes available
                 }
             };
 
@@ -32,10 +33,9 @@ export function HomePage2() {
                 const url = URL.createObjectURL(recordedBlob);
                 setRecordedUrl(url);
                 chunks.current = [];
-                uploadAudio(recordedBlob);
             };
 
-            mediaRecorder.current.start();
+            mediaRecorder.current.start(1000);  // Record audio in 1-second chunks
             setIsRecording(true);
             setIsPaused(false);
         } catch (error) {
@@ -68,9 +68,10 @@ export function HomePage2() {
         }
     };
 
-    const uploadAudio = async (blob) => {
+    // Upload each audio chunk as it is recorded
+    const uploadAudioChunk = async (audioChunk) => {
         const formData = new FormData();
-        formData.append('audio', blob, 'recording.webm');
+        formData.append('audio', audioChunk, 'chunk.webm');
 
         try {
             const response = await fetch('http://localhost:5000/upload', {
@@ -78,22 +79,19 @@ export function HomePage2() {
                 body: formData,
             });
 
-            if (response.ok) {
-                setUploadStatus('Audio uploaded successfully!');
-            } else {
-                setUploadStatus('Failed to upload audio.');
+            if (!response.ok) {
+                throw new Error('Failed to upload audio chunk.');
             }
         } catch (error) {
-            console.error('Error uploading audio:', error);
-            setUploadStatus('Error uploading audio.');
+            console.error('Error uploading audio chunk:', error);
         }
     };
 
     const handlePauseResume = () => {
         if (isPaused) {
-            resumeRecording(); // Resume the paused recording
+            resumeRecording();
         } else {
-            pauseRecording(); // Pause the recording
+            pauseRecording();
         }
     };
 
@@ -109,18 +107,15 @@ export function HomePage2() {
                 <div className='col-11 h-100 ms-5 mb-5 pb-4'>
                     <div className='card d-flex align-items-center w-100 h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
                         <div className='w-50 d-flex justify-content-evenly mt-5'>
-                        <audio controls src={recordedUrl} />
+                            <audio controls src={recordedUrl} />
                             <button onClick={startRecording} disabled={isRecording} className='btn btn-primary'>Start Recording</button>
                             <button onClick={handlePauseResume} disabled={!isRecording} className='btn btn-secondary'>
                                 {isPaused ? 'Resume Recording' : 'Pause Recording'}
                             </button>
                             <button onClick={stopRecording} disabled={!isRecording} className='btn btn-danger'>Stop Recording</button>
-                            
                         </div>
                         <p className='mt-2'>{uploadStatus}</p>
                     </div>
-                   
-
                 </div>
             </div>
             <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
@@ -129,3 +124,4 @@ export function HomePage2() {
         </Container>
     );
 }
+
