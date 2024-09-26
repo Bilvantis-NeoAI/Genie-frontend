@@ -2,40 +2,47 @@ import { Col, Container, Form, Row, Table } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
-import { useState } from 'react';
-import { response } from '../Utils';
-import { fetchData } from '../Services/homePageService';
+import { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { PieChart } from '@mui/x-charts/PieChart';
-import { LineChart } from '@mui/x-charts/LineChart';
 import { homePage3TextSamples } from '../utils/constatnts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGraphList } from '../actions/graphsDataActions';
+import { footerTextSamples } from "../utils/constatnts";
+import { logDOM } from "@testing-library/react";
 
 export function HomePage3() {
     const dispatch = useDispatch();
     const graphsData = useSelector((state) => state.graphsData);
+    const [barGraphXAxisData, setBarGraphXAxisData] = useState([]);
+    const [barGraphData, setBarGraphData] = useState([]);
+    const [retrivalGraphData, setRetrivalGraphData] = useState([]);
+    const [retrivalGraphXAxisData, setRetrivalGraphXAxisData] = useState([]);
 
-    const tabledata = [
-        {
-          Document: 'Document 1',
-          PageNo: 12,
-          Name: 'John Doe',
-          Link: 'https://example.com/document1'
-        },
-        {
-          Document: 'Document 2',
-          PageNo: 34,
-          Name: 'Jane Smith',
-          Link: 'https://example.com/document2'
-        },
-        {
-          Document: 'Document 3',
-          PageNo: null,  // No PageNo will display as '-'
-          Name: null,    // No Name will display as '-'
-          Link: 'https://example.com/document3'
+    
+
+
+    useEffect(() => {
+        dispatch(fetchGraphList())
+    }, []);
+
+    useEffect(() => {
+        if (graphsData && graphsData.graphData && graphsData.graphData[1]?.length > 0) {
+            const data = graphsData.graphData[1]
+            const BAR_GRAPH_X_AXIS_DATA = Object.keys(data[0]).filter(key => key !== '_id');
+            const BAR_GRAPH_DATA = Object.values(data[0]).filter((value, index) => index !== 0);
+            setBarGraphXAxisData(BAR_GRAPH_X_AXIS_DATA);
+            setBarGraphData(BAR_GRAPH_DATA);
         }
-      ];
+
+        if (graphsData && graphsData.graphData && graphsData.graphData[3]) {
+            const newData = graphsData.graphData[3];
+            const NEW_GRAPH_X_AXIS_DATA = Object.keys(newData).filter(key => key !== '_id');
+            const NEW_GRAPH_DATA = Object.values(newData).filter((value, index) => index !== 0);
+            setRetrivalGraphXAxisData(NEW_GRAPH_X_AXIS_DATA);
+            setRetrivalGraphData(NEW_GRAPH_DATA);
+          }
+
+    }, [graphsData])
 
     return (
         <Container className=' w-100' fluid style={{ height: '100vh' }}>
@@ -55,10 +62,10 @@ export function HomePage3() {
                                         <BarChart
                                             className='chart-styling'
                                             series={[
-                                                { data: homePage3TextSamples.BAR_GRAPH_DATA, label: 'Courses', id: 'pvId', },
+                                                { data: barGraphData, label: 'Cummulative Metrics', id: 'pvId', },
                                             ]}
                                             xAxis={[{
-                                                data: homePage3TextSamples.BAR_GRAPH_X_AXIS_DATA, scaleType: 'band', disableLine: true, disableTicks: true, categoryGapRatio: 0.7,
+                                                data: barGraphXAxisData, scaleType: 'band', disableLine: true, disableTicks: true, categoryGapRatio: 0.7,
                                                 barGapRatio: 0.2,
                                             }]}
                                             yAxis={[{
@@ -72,10 +79,10 @@ export function HomePage3() {
                                         <BarChart
                                             className='chart-styling'
                                             series={[
-                                                { data: homePage3TextSamples.BAR_GRAPH_DATA, label: 'Courses', id: 'pvId', color: '#2196F3', },
+                                                { data: retrivalGraphData, label: 'Cummulative Retrival Metrics', id: 'pvId', color: '#2196F3', },
                                             ]}
                                             xAxis={[{
-                                                data: homePage3TextSamples.BAR_GRAPH_X_AXIS_DATA, scaleType: 'band', disableLine: true, disableTicks: true, categoryGapRatio: 0.7,
+                                                data: retrivalGraphXAxisData, scaleType: 'band', disableLine: true, disableTicks: true, categoryGapRatio: 0.7,
                                                 barGapRatio: 0.8,
                                             }]}
                                             yAxis={[{
@@ -93,35 +100,48 @@ export function HomePage3() {
                                 <thead className=" w-100">
                                     <tr className="table-header w-100 ">
                                         <th className="table-header" >
-                                            Document{" "}
+                                            {homePage3TextSamples.DOCUMENT_NAME}
                                         </th>
                                         <th className="table-header">
-                                            Page&nbsp;No
+                                            {homePage3TextSamples.DOCUMENT_SIZE}
                                         </th>
                                         <th className="table-header">
-                                            Name{" "}
+                                            {homePage3TextSamples.INGESTION_TIME}
                                         </th>
                                         <th className="table-header">
-                                            Link{" "}
+                                            {homePage3TextSamples.NO_OF_PAGES}
+                                        </th>
+                                        <th className="table-header">
+                                            {homePage3TextSamples.NO_OF_IMAGE_DOCS}
+                                        </th>
+                                        <th className="table-header">
+                                            {homePage3TextSamples.NO_OF_TABLE_DOCS}
+                                        </th>
+                                        <th className="table-header">
+                                            {homePage3TextSamples.NO_OF_TEXT_DOCS}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {tabledata.map((value, index) => (
-                                        <tr>
-                                            <td>{value?.Document}</td>
-                                            <td>{value?.PageNo || '-'}</td>
-                                            <td>{value?.Name || '-'}</td>
-                                            <td>
-                                                <a href={value?.Link}>
-                                                    {value?.Link}
-                                                </a>
-                                            </td>
+                                    {graphsData && graphsData.graphData && Array.isArray(graphsData.graphData[0]) && graphsData.graphData[0].length > 0 ? (
+                                        graphsData.graphData[0].map((value, index) => (
+                                            <tr key={index}>
+                                                <td>{value?.document_name}</td>
+                                                <td>{value?.document_size}</td>
+                                                <td>{value?.ingestion_time}</td>
+                                                <td>{value?.no_of_pages}</td>
+                                                <td>{value['no._of_image_docs']}</td>
+                                                <td>{value['no._of_table_docs']}</td>
+                                                <td>{value['no._of_text_docs']}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr style={{ textAlign: 'center' }}>
+                                            <td colSpan="7">No data available</td>
                                         </tr>
-                                    ))
-                                    }
-
+                                    )}
                                 </tbody>
+
                             </Table>
                         </div>
                     </div>
@@ -130,7 +150,7 @@ export function HomePage3() {
             <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
                 <span style={{
                     color: "white"
-                }}>@Bilvantis 2024 </span>
+                }}>{footerTextSamples.BILVANTIS} </span>
             </div>
         </Container >
     )

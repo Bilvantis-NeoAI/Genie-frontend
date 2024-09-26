@@ -20,12 +20,14 @@ import {
     payload: error,
   });
   
-  export const fetchGraphList = (payload) => {
+  export const fetchGraphList = () => {
     return (dispatch) => {
       dispatch(fetchGraphRequest());
       return Api
-        .post(apis.GRAPHS_DATA, payload)
+        .get(apis.GRAPHS_DATA)
         .then((response) => {
+          console.log("response>>", response);
+          
           const graphData = response.data;
           dispatch(fetchGraphSuccess(graphData));
           return response;

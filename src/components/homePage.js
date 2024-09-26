@@ -12,29 +12,39 @@ import { Snackbar } from "@mui/material";
 import { downloadImageService } from "../Services/homePageService";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementCounter } from '../actions/questionActions'; 
+import { incrementCounter } from '../actions/questionActions';
 import { fetchAnswersList } from "../actions/questionActions";
 import { homePageTextSamples } from "../utils/constatnts";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import React from "react";
 
 export function HomePage() {
 	const [formFields, setFormFields] = useState([{ text: "" }]);
-	 const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const answerData = useSelector((state) => state.answersData);
+	const [selectedSearchOption, setSelectedSearchOption] = useState("All");
 
-  const handleIncrementCounter = () => {
-    dispatch(incrementCounter());
-  };
-     
-  const [filterQueries, setFilterQueries] = useState({}); 
+	const searchOptions = ["Chroma", "Best", "Neo4j", "Elastic Search", "All"]
+
+	const answerData = useSelector((state) => state.answersData);
+
+	const handleIncrementCounter = () => {
+		dispatch(incrementCounter());
+	};
+
+	const [filterQueries, setFilterQueries] = useState({});
 
 
-  const handleSearchInputChange = (index, event) => {
-    setFilterQueries((prevQueries) => ({
-      ...prevQueries,
-      [index]: event.target.value.toLowerCase(),
-    }));
-  };
+	const handleSearchInputChange = (index, event) => {
+		setFilterQueries((prevQueries) => ({
+			...prevQueries,
+			[index]: event.target.value.toLowerCase(),
+		}));
+	};
 
 	const [textFlag, setTextflag] = useState(false);
 	const [imagesList, setImages] = useState([]);
@@ -52,7 +62,7 @@ export function HomePage() {
 		const values = [...formFields];
 		values[index][event.target.name] = event.target.value;
 		setFormFields(values);
-		setInputField(values); 
+		setInputField(values);
 
 	};
 	const handleAddField = () => {
@@ -60,10 +70,10 @@ export function HomePage() {
 	};
 
 	const [response, setResponse] = useState([]);
-	const [tableHtml,setTableHtml] = useState("");
+	const [tableHtml, setTableHtml] = useState("");
 	useEffect(() => {
 		console.log("answerData>>>all", answerData.answers);
-	
+
 		if (answerData.answers && answerData.answers.length > 0) {
 			const newFormFields = answerData.answers.map(answer => ({ text: answer.text }));
 			if (newFormFields[newFormFields.length - 1].text !== "") {
@@ -75,16 +85,15 @@ export function HomePage() {
 			setFormFields([{ text: "" }]);
 		}
 	}, [answerData]);
-	
 
-	
 
-	const submitQuestion = (field,index) => {
+	const submitQuestion = (field, index) => {
 		
 		let payload = new FormData();
-		// payload.set("text", field?.text);
 		payload.set("question", field?.text);
-	    dispatch(fetchAnswersList(payload, index))
+		payload.set('answer_config', selectedSearchOption )
+		
+		dispatch(fetchAnswersList(payload, index))
 
 	};
 	const handleClose = () => {
@@ -113,7 +122,7 @@ export function HomePage() {
 	// Open modal
 	const openSimilarityModal = () => {
 		setIsSimilarityModalOpen(true)
-		
+
 	};
 
 	// Close modal
@@ -122,14 +131,14 @@ export function HomePage() {
 	};
 
 	const [isImagesModalOpen, setIsImagesModalOpen] = useState(false);
-	const[relevantPdfIndex,setRelevantPdfIndex] = useState(0);
-	const[similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
+	const [relevantPdfIndex, setRelevantPdfIndex] = useState(0);
+	const [similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
 
 	// Open modal
 	const openImagesModal = () => {
 		setIsImagesModalOpen(true);
 		console.log("-----", response[0]["images"]);
-		
+
 	};
 
 	// Close modal
@@ -142,24 +151,30 @@ export function HomePage() {
 		// setShowModal(true);
 	};
 
-	const downloadImages = (index)=>{
+	const downloadImages = (index) => {
 
-		response[index]?.images?.forEach(element => {			
-		downloadImageService(element);
+		response[index]?.images?.forEach(element => {
+			downloadImageService(element);
 		});
 	}
 
 	const filteredData = (data, query) =>
 		data.filter(
-		  (item) =>
-			item?.Document.toLowerCase().includes(query) ||
-			item?.Name.toLowerCase().includes(query) ||
-			item?.Link.toLowerCase().includes(query)
+			(item) =>
+				item?.Document.toLowerCase().includes(query) ||
+				item?.Name.toLowerCase().includes(query) ||
+				item?.Link.toLowerCase().includes(query)
 		);
+
+	const handleSearchChange = (event) => {
+		console.log("vent.target.value>>", typeof event.target.value);
+		
+		setSelectedSearchOption(event.target.value); // Update selected value
+	};
 
 	return (
 		<Container className="w-100" fluid style={{ height: "100vh" }}>
-			
+
 			<Snackbar
 				anchorOrigin={{ vertical, horizontal }}
 				open={open}
@@ -180,8 +195,8 @@ export function HomePage() {
 			<Row style={{ height: "10vh" }}>
 				<HeaderComponent></HeaderComponent>
 			</Row>
-		
-			
+
+
 			<Form>
 				<div className="w-100 mt-3" style={{ height: "82vh" }}>
 					<div style={{ width: "10%" }}>
@@ -206,7 +221,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.135.9.244:9000/"+response[relevantPdfIndex]?.context_pdf}
+							src={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.context_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -231,7 +246,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.135.9.244:9000/"+response[relevantPdfIndex]?.relevant_pdf}
+							src={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -245,16 +260,16 @@ export function HomePage() {
 						<button onClick={closeImagesModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
 						{/* <button></button> */}
 						<div className="modal-content p-3 d-flex">
-							{response[relevantPdfIndex]?.images?.length==0 &&<span className="w-100 d-flex justify-content-center" style={{fontWeight:'bolder',fontSize:'16px'}}>No Images Found</span>}
-						{response[relevantPdfIndex]?.images?.map((image, index) => (
-							<img
-							key={"http://3.135.9.244:9000/"+image
-							}
-							src = {"http://3.135.9.244:9000/"+image}
-							alt={`Image ${index}`}
-							className="modal-image "
-							/>
-						))}
+							{response[relevantPdfIndex]?.images?.length == 0 && <span className="w-100 d-flex justify-content-center" style={{ fontWeight: 'bolder', fontSize: '16px' }}>No Images Found</span>}
+							{response[relevantPdfIndex]?.images?.map((image, index) => (
+								<img
+									key={"http://3.135.9.244:9000/" + image
+									}
+									src={"http://3.135.9.244:9000/" + image}
+									alt={`Image ${index}`}
+									className="modal-image "
+								/>
+							))}
 						</div>
 					</Modal>
 					<div className="col-11   h-100 ms-5 mb-5 pb-4">
@@ -273,27 +288,52 @@ export function HomePage() {
 											name="text"
 											// value={field.text}
 											value={inputField ? inputField[index]?.text || field.text : field.text}
-                                            onKeyDown={(event) => {
+											onKeyDown={(event) => {
 												if (event.key === 'Enter') {
-												  event.preventDefault(); 
-												  submitQuestion(field,index)
-												  
+													event.preventDefault();
+													submitQuestion(field, index)
+
 												}
-											  }}
+											}}
 											onChange={(event) =>
 												handleInputChange(index, event)
 											}
 										/>
+										{/*  */}
+
+										<Box className= "select-input-box ms-1">
+											<FormControl fullWidth>
+												<InputLabel id="demo-simple-select-label">Select </InputLabel>
+												<Select
+													labelId="demo-simple-select-label"
+													id="demo-simple-select"
+													value={selectedSearchOption}
+													label="Options"
+													onChange={handleSearchChange}
+													style={{height : '38px'}}
+												>
+													{searchOptions.map((option, index) => (
+														<MenuItem key={index} value={option}>
+															{option}
+														</MenuItem>
+													))}
+												</Select>
+											</FormControl>
+										</Box>
+
+
+										{/*  */}
+
 										<Button
 											className="ms-5"
 											onClick={() =>
-												submitQuestion(field,index)
+												submitQuestion(field, index)
 											}
 										>
 											{homePageTextSamples.SUBMIT_BUTTON}
 										</Button>
 									</div>
-									{response.length > 0 && !response[index] &&<div className="mb-5"></div>}
+									{response.length > 0 && !response[index] && <div className="mb-5"></div>}
 									{response.length > 0 && response[index] && (
 										<div className="card w-75 mt-3 ms-5  text-style p-2">
 											<p
@@ -315,19 +355,19 @@ export function HomePage() {
 												{homePageTextSamples.HYPERLINKS}
 											</p>
 											<hr className="hr-line"></hr>
-											
-											 <input
-                                               placeholder="search for link"
-                                               className="w-100 form-control question-box"
-                                               value={filterQueries[index] || ''}
-                                               onChange={(event) => handleSearchInputChange(index, event)}
-                                             />
+
+											<input
+												placeholder="search for link"
+												className="w-100 form-control question-box"
+												value={filterQueries[index] || ''}
+												onChange={(event) => handleSearchInputChange(index, event)}
+											/>
 											<Table
 												responsive
 												className="mt-2 w-100"
 											>
 												<thead className=" w-100">
-												    <tr className="table-header w-100 ">
+													<tr className="table-header w-100 ">
 														<th className="table-header" >
 															Document{" "}
 														</th>
@@ -343,19 +383,19 @@ export function HomePage() {
 													</tr>
 												</thead>
 												<tbody>
-												{filteredData(response[index]?.table || [], filterQueries[index] || '').map((value,index)=>(
-													<tr>
-														<td>{value?.Document}</td>
-														<td>{value?.PageNo || '-'}</td>
-														<td>{value?.Name||'-'}</td>
-														<td>
-															<a href={value?.Link}>
-																{value?.Link}
-															</a>
-														</td>
-													</tr>
-												))
-}
+													{filteredData(response[index]?.table || [], filterQueries[index] || '').map((value, index) => (
+														<tr>
+															<td>{value?.Document}</td>
+															<td>{value?.PageNo || '-'}</td>
+															<td>{value?.Name || '-'}</td>
+															<td>
+																<a href={value?.Link}>
+																	{value?.Link}
+																</a>
+															</td>
+														</tr>
+													))
+													}
 
 												</tbody>
 											</Table>
@@ -369,16 +409,17 @@ export function HomePage() {
 												className="button-style"
 											>
 												{homePageTextSamples.VIEW_SIMILARITY}
-												</Button>
+											</Button>
 											<Button
-													className="ms-3 button-style"
-													onClick={(e) => {openSimilarityModal()
-														setRelevantPdfIndex(index);
-													}
-													}
-												>
-													{homePageTextSamples.VIEW_REVELANT}
-												</Button>
+												className="ms-3 button-style"
+												onClick={(e) => {
+													openSimilarityModal()
+													setRelevantPdfIndex(index);
+												}
+												}
+											>
+												{homePageTextSamples.VIEW_REVELANT}
+											</Button>
 
 											{/* <PDFDownloadLink
 												document={
@@ -406,7 +447,8 @@ export function HomePage() {
 											</PDFDownloadLink> */}
 											<Button
 												className="ms-3 button-style"
-												onClick={(e) =>{ openImagesModal()
+												onClick={(e) => {
+													openImagesModal()
 													setRelevantPdfIndex(index)
 												}
 												}
@@ -430,7 +472,7 @@ export function HomePage() {
 													Download images{" "}
 												</Button>
 											</PDFDownloadLink> */}
-											<Button className="ms-3 button-style" onClick={()=>downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
+											<Button className="ms-3 button-style" onClick={() => downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
 										</div>
 									)}
 								</>

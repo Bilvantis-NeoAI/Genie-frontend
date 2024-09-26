@@ -21,24 +21,24 @@ export const BootstrapSidebar = () => {
             <img src={barsimage} alt="" className="imagestyles" />
           </li>
           <li
-            className="d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/')}>
+            className="d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/homepage')}>
             <img src={sideBarIcon1} alt="" className="imagestyles" />
             <span className="tooltip">Q&A</span>
           </li>
           <li
-            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/LocalLLMQ&A')}>
+            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/document')}>
             <img src={sideBarIcon2} alt="" className="imagestyles" />
             <span className="tooltip">Upload Document</span>
           </li>
           <li
-            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/ConversationalQ&A')}>
+            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/audio')}>
             <img src={sideBarIcon2} alt="" className="imagestyles" />
             <span className="tooltip">Audio AI</span>
           </li>
           <li
-            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/home3')}>
+            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/metrics')}>
             <img src={sideBarIcon2} alt="" className="imagestyles"/>
-            <span className="tooltip">Q&A with Knowledge</span>
+            <span className="tooltip">Metrics</span>
           </li>
         </ul>
       </div>

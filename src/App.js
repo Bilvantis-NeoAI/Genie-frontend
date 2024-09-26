@@ -6,18 +6,22 @@ import { HomePage2 } from './components/homePage2';
 import { HomePage3 } from './components/homePage3';
 import { Loader } from './Interceptor/interceptor';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoginPage from './components/LoginPage';
+import { AdminDashboard } from './components/AdminDashboard';
 
 
 function App() {
   return (
     <Router>
-    <Loader></Loader>
-<Routes>
-<Route path='/' element={<HomePage />} />
-<Route path='/LocalLLMQ&A' element={<HomePage1 />} />
-<Route path='/ConversationalQ&A' element={<HomePage2 />} />
-<Route path='/home3' element={<HomePage3 />} />
-</Routes>
+      <Loader></Loader>
+      <Routes>
+        <Route path='/' element={<LoginPage />} />
+        <Route path='/homepage' element={<HomePage />} />
+        <Route path='/document' element={<HomePage1 />} />
+        <Route path='/audio' element={<HomePage2 />} />
+        <Route path='/metrics' element={<HomePage3 />} />
+        <Route path='/admin' element={<AdminDashboard />} />
+      </Routes>
     </Router>
   );
 }
