@@ -6,6 +6,7 @@ export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
     VIEW_REVELANT : 'View PDF - Relevant',
     OPEN_IMAGES : 'Open images',
+    OPEN_GRAPHS : 'Open Graphs',
     DOWNLOAD_IMAGES : 'Download Images',
     SUBMIT_BUTTON : 'Submit',
     CLOSE : 'Close',
@@ -33,6 +34,7 @@ export const homePage3TextSamples = {
     NO_OF_IMAGE_DOCS : 'No of Image Docs',
     NO_OF_TABLE_DOCS : 'No of Table Docs',
     NO_OF_TEXT_DOCS : 'No of Text Docs',
+    QUESTIONS_TABLE_DATA_HEADERS : ["Question","Tech","Pages context","Pages relv","No of Chroma Tokens","No ES Tokens","No of Neo4j Tokens","Total tokens"]
 }
 
 export const headerTextSamples = {

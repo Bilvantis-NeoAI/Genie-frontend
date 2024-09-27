@@ -18,7 +18,7 @@ export function HomePage3() {
     const [retrivalGraphData, setRetrivalGraphData] = useState([]);
     const [retrivalGraphXAxisData, setRetrivalGraphXAxisData] = useState([]);
 
-    
+
 
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export function HomePage3() {
             const NEW_GRAPH_DATA = Object.values(newData).filter((value, index) => index !== 0);
             setRetrivalGraphXAxisData(NEW_GRAPH_X_AXIS_DATA);
             setRetrivalGraphData(NEW_GRAPH_DATA);
-          }
+        }
 
     }, [graphsData])
 
@@ -138,6 +138,42 @@ export function HomePage3() {
                                     ) : (
                                         <tr style={{ textAlign: 'center' }}>
                                             <td colSpan="7">No data available</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+
+                            </Table>
+
+                            <Table
+                                responsive
+                                className="mt-2 w-100"
+                            >
+                                <thead className="w-100">
+                                    <tr className="table-header w-100">
+                                        {homePage3TextSamples.QUESTIONS_TABLE_DATA_HEADERS.map((header, index) => (
+                                            <th key={index} className="table-header">
+                                                {header}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {graphsData && graphsData.graphData && Array.isArray(graphsData.graphData[2]) && graphsData.graphData[2].length > 0 ? (
+                                        graphsData.graphData[2].map((value, index) => (
+                                            <tr key={index}>
+                                                <td>{value?.Question}</td>
+                                                <td>{value?.Tech}</td>
+                                                <td>{value?.pages_context}</td>
+                                                <td>{value?.pages_relv}</td>
+                                                <td>{value?.No_of_Chroma_Tokens}</td>
+                                                <td>{value?.No_ES_Tokens}</td>
+                                                <td>{value?.No_of_Neo4j_Tokens}</td>
+                                                <td>{value?.total_tokens}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr style={{ textAlign: 'center' }}>
+                                            <td colSpan="8">No data available</td>
                                         </tr>
                                     )}
                                 </tbody>

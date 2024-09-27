@@ -18,12 +18,12 @@ const LoginPage = () => {
     let valid = true;
     let errors = { username: '', password: '' };
 
-    if (formData.username.trim() === '' || formData.username !== 'test') {
+    if (formData.username.trim() === '') {
       errors.username = 'Please enter a valid username';
       valid = false;
     }
 
-    if (formData.password.trim() === '' || formData.password !== 'test123') {
+    if (formData.password.trim() === '') {
       errors.password = 'Please enter a valid password';
       valid = false;
     }
@@ -47,8 +47,21 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (validateForm()) {
-      navigate('/homepage'); 
+      if (formData.username === 'admin' && formData.password === 'admin123') {
+        navigate('/admin'); 
+      } 
+     
+      else if (formData.username === 'test' && formData.password === 'test123') {
+        navigate('/homepage'); 
+      } 
+      else {
+        setErrors({
+          username: '',
+          password: 'Invalid username or password'
+        });
+      }
     }
   };
 

@@ -88,11 +88,11 @@ export function HomePage() {
 
 
 	const submitQuestion = (field, index) => {
-		
+
 		let payload = new FormData();
 		payload.set("question", field?.text);
-		payload.set('answer_config', selectedSearchOption )
-		
+		payload.set('answer_config', selectedSearchOption)
+
 		dispatch(fetchAnswersList(payload, index))
 
 	};
@@ -133,6 +133,7 @@ export function HomePage() {
 	const [isImagesModalOpen, setIsImagesModalOpen] = useState(false);
 	const [relevantPdfIndex, setRelevantPdfIndex] = useState(0);
 	const [similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
+	const [isGraphsModalOpen, setIsGraphsModalOpen] = useState(false);
 
 	// Open modal
 	const openImagesModal = () => {
@@ -144,6 +145,14 @@ export function HomePage() {
 	// Close modal
 	const closeImagesModal = () => {
 		setIsImagesModalOpen(false);
+	};
+
+	const openGraphsModal = () => {
+		setIsGraphsModalOpen(true)
+	}
+
+	const closeGraphsModal = () => {
+		setIsGraphsModalOpen(false);
 	};
 
 	const test = () => {
@@ -168,7 +177,7 @@ export function HomePage() {
 
 	const handleSearchChange = (event) => {
 		console.log("vent.target.value>>", typeof event.target.value);
-		
+
 		setSelectedSearchOption(event.target.value); // Update selected value
 	};
 
@@ -211,7 +220,11 @@ export function HomePage() {
 								width: "80%",
 								height: "80%",
 								margin: "auto",
+								zIndex: 1402, 
 							},
+							overlay: {
+								zIndex: 1302, 
+							  },
 						}}
 					>
 						{/* Close button */}
@@ -236,7 +249,12 @@ export function HomePage() {
 								width: "80%",
 								height: "80%",
 								margin: "auto",
+								zIndex: 1402, 
 							},
+							overlay: {
+								zIndex: 1302, 
+							  },
+
 						}}
 					>
 						{/* Close button */}
@@ -256,6 +274,14 @@ export function HomePage() {
 						isOpen={isImagesModalOpen}
 						onRequestClose={closeImagesModal}
 						contentLabel="Image Modal"
+						style={{
+							content: {
+							  zIndex: 1402, 
+							},
+							overlay: {
+							  zIndex: 1302, 
+							},
+						}}
 					>
 						<button onClick={closeImagesModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
 						{/* <button></button> */}
@@ -272,6 +298,51 @@ export function HomePage() {
 							))}
 						</div>
 					</Modal>
+					{/* Graphs modal */}
+					<Modal
+						isOpen={isGraphsModalOpen}
+						onRequestClose={closeGraphsModal}
+						contentLabel="Graphs Modal"
+						style={{
+							content: {
+							  zIndex: 1402, 
+							},
+							overlay: {
+							  zIndex: 1302, 
+							},
+						}}
+					>
+						<button onClick={closeGraphsModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
+						{/* <button></button> */}
+						<div className="modal-content p-3 d-flex">
+							{(!response[relevantPdfIndex]?.full_graph && !response[relevantPdfIndex]?.semi_graph) ? (
+								<span className="w-100 d-flex justify-content-center" style={{ fontWeight: 'bolder', fontSize: '16px' }}>
+									No Graphs Found
+								</span>
+							) : (
+								<>
+									{response[relevantPdfIndex]?.full_graph && (
+										<img
+											key={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.full_graph}
+											src={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.full_graph}
+											alt="Full Graph"
+											className="modal-graph-image"
+										/>
+									)}
+									{response[relevantPdfIndex]?.semi_graph && (
+										<img
+											key={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.semi_graph}
+											src={"http://3.135.9.244:9000/" + response[relevantPdfIndex]?.semi_graph}
+											alt="Semi Graph"
+											className="modal-graph-image"
+										/>
+									)}
+								</>
+							)}
+						</div>
+
+					</Modal>
+
 					<div className="col-11   h-100 ms-5 mb-5 pb-4">
 						<div
 							className="card d-flex h-100 question-card ms-4"
@@ -286,7 +357,7 @@ export function HomePage() {
 											key={index}
 											placeholder="Enter Question"
 											name="text"
-											// value={field.text}
+
 											value={inputField ? inputField[index]?.text || field.text : field.text}
 											onKeyDown={(event) => {
 												if (event.key === 'Enter') {
@@ -299,18 +370,17 @@ export function HomePage() {
 												handleInputChange(index, event)
 											}
 										/>
-										{/*  */}
 
-										<Box className= "select-input-box ms-1">
+										<Box className="select-input-box ms-1">
 											<FormControl fullWidth>
-												<InputLabel id="demo-simple-select-label">Select </InputLabel>
+												<InputLabel id="demo-simple-select-label" >Select </InputLabel>
 												<Select
 													labelId="demo-simple-select-label"
 													id="demo-simple-select"
 													value={selectedSearchOption}
 													label="Options"
 													onChange={handleSearchChange}
-													style={{height : '38px'}}
+													style={{ height: '38px' }}
 												>
 													{searchOptions.map((option, index) => (
 														<MenuItem key={index} value={option}>
@@ -320,9 +390,6 @@ export function HomePage() {
 												</Select>
 											</FormControl>
 										</Box>
-
-
-										{/*  */}
 
 										<Button
 											className="ms-5"
@@ -399,7 +466,6 @@ export function HomePage() {
 
 												</tbody>
 											</Table>
-											{/* <div dangerouslySetInnerHTML={{ __html: tableHtml }} /> */}
 										</div>
 									)}
 									{response.length > 0 && response[index] && (
@@ -421,30 +487,6 @@ export function HomePage() {
 												{homePageTextSamples.VIEW_REVELANT}
 											</Button>
 
-											{/* <PDFDownloadLink
-												document={
-													<PDFmaker
-														response={
-															response[index]
-																?.text2
-														}
-														type="text"
-													></PDFmaker>
-												}
-												fileName="form"
-											>
-												{" "}
-												<Button
-													className="ms-3 button-style"
-													onClick={() =>
-														downloadPdf(
-															`ss already in useitem-${field}`
-														)
-													}
-												>
-													View PDF - Similairty
-												</Button>
-											</PDFDownloadLink> */}
 											<Button
 												className="ms-3 button-style"
 												onClick={(e) => {
@@ -456,23 +498,17 @@ export function HomePage() {
 												{" "}
 												{homePageTextSamples.OPEN_IMAGES}
 											</Button>
-											{/* <PDFDownloadLink
-												document={
-													<PDFmaker
-														response={
-															response[index]
-																?.text2
-														}
-														type="image"
-													></PDFmaker>
-												}
-												fileName="form"
-											>
-												<Button className="ms-3 button-style">
-													Download images{" "}
-												</Button>
-											</PDFDownloadLink> */}
 											<Button className="ms-3 button-style" onClick={() => downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
+											<Button
+												className="ms-3 button-style"
+												onClick={(e) => {
+													openGraphsModal()
+													setRelevantPdfIndex(index)
+												}
+												}
+											>
+												{homePageTextSamples.OPEN_GRAPHS}
+											</Button>
 										</div>
 									)}
 								</>
