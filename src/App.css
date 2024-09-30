@@ -196,7 +196,7 @@ height: 5vh;
   background-image: url('../src/Assets/pdfIcon.jpeg'); /* Replace with your image URL */
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 200px 150px; /* Adjust this to control the image size */
+  background-size: 100px 80px; /* Adjust this to control the image size */
   height: 200px; /* Adjust the height of the dropzone */
   display: flex;
   align-items: center;

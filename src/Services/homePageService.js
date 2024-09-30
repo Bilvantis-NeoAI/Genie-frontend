@@ -11,7 +11,7 @@ export const fetchData =  (payload) => {
 export const downloadImageService = async (imageName) => {
   try {
     
-    const imageUrl = "http://3.135.9.244:9000/"+imageName; 
+    const imageUrl = "http://3.139.56.147:9000/"+imageName; 
 
     const response = await Api.get(imageUrl, {
       responseType: 'blob', // Important to specify blob type to handle binary data
