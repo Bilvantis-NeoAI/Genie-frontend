@@ -19,6 +19,7 @@ export const homePage1TextSamples = {
     FILES_REQUIRED: "At least one file is required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
+    ONLY_FILE : 'Please select only 1 file.'
 };
 
 export const homePage3TextSamples = {
@@ -28,13 +29,14 @@ export const homePage3TextSamples = {
     BAR_GRAPH_X_AXIS_DATA : ['Node Js','React Js','Angular','Java','Spring Boot','CDE','Data',],
     PIE_CHART_DATA : [{ label: 'Project Manager', value: 400 },{ label: 'User', value: 300 },],
     DOCUMENT_NAME : 'Document Name',
-    DOCUMENT_SIZE : 'Document Size',
+    DOCUMENT_SIZE : 'Document Size in MB',
     INGESTION_TIME : 'Ingestion time',
     NO_OF_PAGES : 'No of Pages',
     NO_OF_IMAGE_DOCS : 'No of Image Docs',
     NO_OF_TABLE_DOCS : 'No of Table Docs',
     NO_OF_TEXT_DOCS : 'No of Text Docs',
-    QUESTIONS_TABLE_DATA_HEADERS : ["Question","Tech","Pages context","Pages relv","No of Chroma Tokens","No ES Tokens","No of Neo4j Tokens","Total tokens"]
+    TOTAL_INGESTION_TOKENS : 'Total Ingestion Tokens in K',
+    QUESTIONS_TABLE_DATA_HEADERS : ["Question","Tech","Pages context","Pages relv","No of Chroma Tokens in K","No ES Tokens in K","No of Neo4j Tokens in K","Total tokens in K"]
 }
 
 export const headerTextSamples = {

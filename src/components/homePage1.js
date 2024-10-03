@@ -25,16 +25,22 @@ export function HomePage1() {
   const dispatch = useDispatch();
 
   // Handle file upload and validation
-  const updateFiles = (incomingFiles) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      file: incomingFiles,
-    }));
+const updateFiles = (incomingFiles) => {
+  if (incomingFiles.length > 1) {
+    setFileErrors(homePage1TextSamples.ONLY_FILE);
+    return; // Stop here if more than one file is selected
+  }
 
-    if (incomingFiles.length > 0) {
-      setFileErrors("");
-    }
-  };
+  setFormState((prevState) => ({
+    ...prevState,
+    file: incomingFiles,
+  }));
+
+  if (incomingFiles.length > 0) {
+    setFileErrors(""); 
+  }
+};
+
 
   const removeFile = (index) => {
     setFormState((prevState) => {
@@ -45,6 +51,7 @@ export function HomePage1() {
 
   const handleFileSubmit = (e) => {
     e.preventDefault();
+    setFileErrors("");
     if (formState.file.length === 0) {
       setFileErrors(homePage1TextSamples.FILES_REQUIRED);
       return;

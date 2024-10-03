@@ -120,6 +120,9 @@ export function HomePage3() {
                                         <th className="table-header">
                                             {homePage3TextSamples.NO_OF_TEXT_DOCS}
                                         </th>
+                                        <th className="table-header">
+                                            {homePage3TextSamples.TOTAL_INGESTION_TOKENS}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -133,6 +136,7 @@ export function HomePage3() {
                                                 <td>{value['no._of_image_docs']}</td>
                                                 <td>{value['no._of_table_docs']}</td>
                                                 <td>{value['no._of_text_docs']}</td>
+                                                <td>{value['total_ingestion_tokens']}</td>
                                             </tr>
                                         ))
                                     ) : (
@@ -169,6 +173,7 @@ export function HomePage3() {
                                                 <td>{value?.No_ES_Tokens}</td>
                                                 <td>{value?.No_of_Neo4j_Tokens}</td>
                                                 <td>{value?.total_tokens}</td>
+                                                
                                             </tr>
                                         ))
                                     ) : (
