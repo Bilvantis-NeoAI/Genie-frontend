@@ -4,7 +4,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export const Api = axios.create({
-    baseURL: 'http://3.139.56.147:9000/', //  deploy url
+    baseURL: 'http://3.139.66.49:9000/', //  deploy url
     // baseURL: 'http://0.0.0.0:9000/', // local
   });
 
