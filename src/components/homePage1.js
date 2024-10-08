@@ -159,7 +159,7 @@ const updateFiles = (incomingFiles) => {
                   {fileErrors && <p className="error-message">{fileErrors}</p>}
 
                   <div className='w-100 d-flex justify-content-center'>
-                    <Button className='mt-3' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
+                    <Button className='mt-3 buttons-colour' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
                   </div>
                 </div>
               </form>
@@ -188,7 +188,7 @@ const updateFiles = (incomingFiles) => {
                     {urlErrors && <p className="error-message">{urlErrors}</p>}
                   </div>
                   <div className='w-100 d-flex justify-content-center'>
-                    <Button className='mt-3' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
+                    <Button className='mt-3 buttons-colour' type='submit'>{homePage1TextSamples.SUBMIT}</Button>
                   </div>
                 </div>
               </form>

@@ -4,7 +4,10 @@ import {
     FLUSH_DB_FAILURE,
     CONTAINER_RESTART_DATA,
     CONTAINER_RESTART_SUCCESS,
-    CONTAINER_RESTART_FAILURE
+    CONTAINER_RESTART_FAILURE,
+    NEO4J_STATUS_DATA,
+    NEO4J_STATUS_SUCCESS,
+    NEO4J_STATUS_FAILURE
   } from "../actionTypes/adminActionTypes.js";
   import { Api } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
@@ -70,5 +73,35 @@ import {
         });
     };
   };
+
+  export const neo4jStatusRequest = () => ({
+    type: NEO4J_STATUS_DATA,
+});
+
+export const neo4jStatusSuccess = (status) => ({
+    type: NEO4J_STATUS_SUCCESS,
+    payload: status,
+});
+
+export const neo4jStatusFailure = (error) => ({
+    type: NEO4J_STATUS_FAILURE,
+    payload: error,
+});
   
+export const neo4jStatus = (payload) => {
+  console.log("pay", payload);
+  
+  return (dispatch) => {
+      dispatch(neo4jStatusRequest()); 
+      return Api
+          .post(apis.NEO4J_STATUS, payload) 
+          .then((response) => {
+              dispatch(neo4jStatusSuccess(response.data)); 
+              return response.data; 
+          })
+          .catch((error) => {
+              dispatch(neo4jStatusFailure(error.message)); 
+          });
+  };
+};
   

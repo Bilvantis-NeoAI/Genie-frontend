@@ -14,34 +14,88 @@ export function HomePage2() {
     const [isPaused, setIsPaused] = useState(false);
     const [uploadStatus, setUploadStatus] = useState('');
 
+    // const startRecording = async () => {
+    //     try {
+    //         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    //         mediaStream.current = stream;
+    //         mediaRecorder.current = new MediaRecorder(stream);
+
+    //         // Send each chunk to the server while recording
+    //         mediaRecorder.current.ondataavailable = (e) => {
+    //             if (e.data.size > 0) {
+    //                 chunks.current.push(e.data);
+    //                 uploadAudioChunk(e.data);  // Upload each audio chunk as it becomes available
+    //             }
+    //         };
+
+    //         mediaRecorder.current.onstop = () => {
+    //             const recordedBlob = new Blob(chunks.current, { type: 'audio/webm' });
+    //             const url = URL.createObjectURL(recordedBlob);
+    //             setRecordedUrl(url);
+    //             chunks.current = [];
+    //         };
+
+    //         mediaRecorder.current.start(1000);  // Record audio in 1-second chunks
+    //         setIsRecording(true);
+    //         setIsPaused(false);
+    //     } catch (error) {
+    //         console.error('Error accessing microphone:', error);
+    //     }
+    // };
+
+
     const startRecording = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaStream.current = stream;
             mediaRecorder.current = new MediaRecorder(stream);
-
-            // Send each chunk to the server while recording
+    
+            let chunkTimer;
+            let tenSecondChunks = []; // To collect chunks for 10 seconds
+    
+            const uploadTenSecondBatch = () => {
+                const recordedBlob = new Blob(tenSecondChunks, { type: 'audio/webm' });
+                uploadAudioChunk(recordedBlob); // Upload the 10-second blob to the server
+                tenSecondChunks = []; // Clear the array for the next 10 seconds
+            };
+    
             mediaRecorder.current.ondataavailable = (e) => {
                 if (e.data.size > 0) {
-                    chunks.current.push(e.data);
-                    uploadAudioChunk(e.data);  // Upload each audio chunk as it becomes available
+                    chunks.current.push(e.data); // Push chunk to all collected chunks
+                    tenSecondChunks.push(e.data); // Collect chunks for 10 seconds
                 }
             };
-
+    
             mediaRecorder.current.onstop = () => {
+                clearInterval(chunkTimer);
+                if (tenSecondChunks.length > 0) {
+                    uploadTenSecondBatch(); // Upload the last batch of chunks if any left
+                }
                 const recordedBlob = new Blob(chunks.current, { type: 'audio/webm' });
                 const url = URL.createObjectURL(recordedBlob);
                 setRecordedUrl(url);
                 chunks.current = [];
             };
-
-            mediaRecorder.current.start(1000);  // Record audio in 1-second chunks
+    
+            // Start the recording in 1-second chunks
+            mediaRecorder.current.start(1000); // Record audio in 1-second chunks
+    
+            // Set a timer to collect and upload chunks every 10 seconds
+            chunkTimer = setInterval(() => {
+                if (tenSecondChunks.length > 0) {
+                    uploadTenSecondBatch(); // Upload 10-second batch every 10 seconds
+                }
+            }, 10000);
+    
             setIsRecording(true);
             setIsPaused(false);
         } catch (error) {
             console.error('Error accessing microphone:', error);
         }
     };
+
+    
+    
 
     const stopRecording = () => {
         if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
@@ -68,22 +122,49 @@ export function HomePage2() {
         }
     };
 
-    // Upload each audio chunk as it is recorded
-    const uploadAudioChunk = async (audioChunk) => {
+   
+    const uploadAudioChunk = async (audioChunk) => { 
         const formData = new FormData();
-        formData.append('audio', audioChunk, 'chunk.webm');
+        formData.append('file', audioChunk);
+        formData.append('handleID', '83046fac-23c9-4ae1-b411-7794cc417d4b_live'); 
 
         try {
-            const response = await fetch('http://localhost:5000/upload', {
+            const response = await fetch('http://localhost:8000/upload-frame/', {
                 method: 'POST',
                 body: formData,
+                
+                
             });
 
             if (!response.ok) {
                 throw new Error('Failed to upload audio chunk.');
             }
+            console.log('Audio chunk uploaded successfully');
+            await fetchDisplayData('83046fac-23c9-4ae1-b411-7794cc417d4b_live');
         } catch (error) {
             console.error('Error uploading audio chunk:', error);
+        }
+    };
+
+
+    const fetchDisplayData = async (handleID) => {
+        try {
+            
+            const response = await fetch(`http://localhost:8000/stream?handleID=${handleID}`, {
+                method: 'GET',
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch display data.');
+            }
+    
+            
+            
+            console.log('Display data:');
+    
+    
+        } catch (error) {
+            console.error('Error fetching display data:', error);
         }
     };
 

@@ -283,7 +283,7 @@ export function HomePage() {
 							},
 						}}
 					>
-						<button onClick={closeImagesModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
+						<button onClick={closeImagesModal} className="btn btn-primary buttons-colour mb-3" style={{ float: "right" }} >Close</button>
 						{/* <button></button> */}
 						<div className="modal-content p-3 d-flex">
 							{response[relevantPdfIndex]?.images?.length == 0 && <span className="w-100 d-flex justify-content-center" style={{ fontWeight: 'bolder', fontSize: '16px' }}>No Images Found</span>}
@@ -312,7 +312,7 @@ export function HomePage() {
 							},
 						}}
 					>
-						<button onClick={closeGraphsModal} className="btn btn-primary mb-3" style={{ float: "right" }} >Close</button>
+						<button onClick={closeGraphsModal} className="btn btn-primary buttons-colour mb-3" style={{ float: "right" }} >Close</button>
 						{/* <button></button> */}
 						<div className="modal-content p-3 d-flex">
 							{(!response[relevantPdfIndex]?.full_graph && !response[relevantPdfIndex]?.semi_graph) ? (

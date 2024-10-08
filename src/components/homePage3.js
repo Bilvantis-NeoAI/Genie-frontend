@@ -141,7 +141,7 @@ export function HomePage3() {
                                         ))
                                     ) : (
                                         <tr style={{ textAlign: 'center' }}>
-                                            <td colSpan="7">No data available</td>
+                                            <td colSpan="8">No data available</td>
                                         </tr>
                                     )}
                                 </tbody>

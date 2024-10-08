@@ -152,7 +152,7 @@ height: 5vh;
   --bs-btn-close-focus-shadow:none !important;
 }
 .table-header{
-  background-color: blue !important;
+  background-color: #07439C !important;
   color: white !important;
 }
 .heading-style{
@@ -343,3 +343,8 @@ p {
   min-width: 180px;
   height: 30px;
 }
+
+.buttons-colour{
+  background-color: #07439C;
+}
+

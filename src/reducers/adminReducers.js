@@ -5,6 +5,9 @@ import {
     CONTAINER_RESTART_DATA,
     CONTAINER_RESTART_SUCCESS,
     CONTAINER_RESTART_FAILURE,
+    NEO4J_STATUS_DATA,
+    NEO4J_STATUS_SUCCESS,
+    NEO4J_STATUS_FAILURE
 } from "../actionTypes/adminActionTypes";
 
 const initialState = {
@@ -13,6 +16,9 @@ const initialState = {
     containerRestartData: null,
     containerRestartSuccessMessage: null,
     containerRestartError: null,
+    neo4jStatusData: null,
+    neo4jStatusSuccessMessage: null,
+    neo4jStatusError: null,
 };
 
 const flushDBReducer = (state = initialState, action) => {
@@ -56,6 +62,28 @@ const flushDBReducer = (state = initialState, action) => {
                 containerRestartSuccessMessage: null,
                 containerRestartData: null,
             };
+        case NEO4J_STATUS_DATA:
+            return {
+                ...state,
+                neo4jStatusData: null,
+                neo4jStatusSuccessMessage: null,
+                neo4jStatusError: null,
+            };
+        case NEO4J_STATUS_SUCCESS:
+            return {
+                ...state,
+                neo4jStatusData: action.payload,
+                neo4jStatusSuccessMessage: "Neo4j status retrieved successfully.",
+                neo4jStatusError: null,
+            };
+        case NEO4J_STATUS_FAILURE:
+            return {
+                ...state,
+                neo4jStatusError: action.payload,
+                neo4jStatusSuccessMessage: null,
+                neo4jStatusData: null,
+            };
+
         default:
             return state;
     }
