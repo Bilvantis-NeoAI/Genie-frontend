@@ -189,7 +189,7 @@ export function HomePage2() {
                     <div className='card d-flex align-items-center w-100 h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
                         <div className='w-50 d-flex justify-content-evenly mt-5'>
                             <audio controls src={recordedUrl} />
-                            <button onClick={startRecording} disabled={isRecording} className='btn btn-primary'>Start Recording</button>
+                            <button onClick={startRecording} disabled={isRecording} className='btn btn-primary buttons-colour'>Start Recording</button>
                             <button onClick={handlePauseResume} disabled={!isRecording} className='btn btn-secondary'>
                                 {isPaused ? 'Resume Recording' : 'Pause Recording'}
                             </button>

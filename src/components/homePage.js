@@ -392,7 +392,7 @@ export function HomePage() {
 										</Box>
 
 										<Button
-											className="ms-5"
+											className="ms-5 buttons-colour"
 											onClick={() =>
 												submitQuestion(field, index)
 											}
