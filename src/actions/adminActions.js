@@ -63,7 +63,7 @@ import {
     return (dispatch) => {
       dispatch(containerRestartRequest());
       return Api
-        .get(apis.CONTAINER_RESTART)  
+        .post(apis.CONTAINER_RESTART)  
         .then((response) => {
           dispatch(containerRestartSuccess(response.data));
           return response.data;

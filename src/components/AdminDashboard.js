@@ -41,6 +41,14 @@ export function AdminDashboard() {
 
     const handleContainerRestart = () => {
         dispatch(containerRestart())
+        .then((response) => {
+            if (response) {
+                toast.success(adminDashboardTextSamples.APP_RESATRT_MSG);
+            }
+        })
+        .catch((error) => {
+            toast.error(adminDashboardTextSamples.RESTART_ERROR);
+        });
     }
 
     const [isActive, setIsActive] = useState(false);

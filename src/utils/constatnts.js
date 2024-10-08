@@ -49,9 +49,11 @@ export const footerTextSamples = {
 
 export const adminDashboardTextSamples = {
     FLUSH_DB : 'flushDB',
-    CONATAINER_RESTART : 'Container Restart',
+    CONATAINER_RESTART : 'App Restart',
     NEO_FOURJ : 'Neo4j Status',
+    APP_RESATRT_MSG : 'App restart sucessful',
     FLUSH_ERROR : 'An error occurred while flushing.',
+    RESTART_ERROR : 'An Error occured while restarting',
     CHANDE_STATUS_ERROR : 'An error occurred while changing status.',
     API_ERROR : 'API call failed:'
 }
