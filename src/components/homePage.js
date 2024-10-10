@@ -21,6 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import React from "react";
+import { baseURL } from "../utils/constatnts";
 
 export function HomePage() {
 	const [formFields, setFormFields] = useState([{ text: "" }]);
@@ -72,8 +73,6 @@ export function HomePage() {
 	const [response, setResponse] = useState([]);
 	const [tableHtml, setTableHtml] = useState("");
 	useEffect(() => {
-		console.log("answerData>>>all", answerData.answers);
-
 		if (answerData.answers && answerData.answers.length > 0) {
 			const newFormFields = answerData.answers.map(answer => ({ text: answer.text }));
 			if (newFormFields[newFormFields.length - 1].text !== "") {
@@ -220,11 +219,11 @@ export function HomePage() {
 								width: "80%",
 								height: "80%",
 								margin: "auto",
-								zIndex: 1402, 
+								zIndex: 1402,
 							},
 							overlay: {
-								zIndex: 1302, 
-							  },
+								zIndex: 1302,
+							},
 						}}
 					>
 						{/* Close button */}
@@ -234,7 +233,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.context_pdf}
+							src={baseURL + response[relevantPdfIndex]?.context_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -249,11 +248,11 @@ export function HomePage() {
 								width: "80%",
 								height: "80%",
 								margin: "auto",
-								zIndex: 1402, 
+								zIndex: 1402,
 							},
 							overlay: {
-								zIndex: 1302, 
-							  },
+								zIndex: 1302,
+							},
 
 						}}
 					>
@@ -264,7 +263,7 @@ export function HomePage() {
 
 						{/* Iframe to display PDF */}
 						<iframe
-							src={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.relevant_pdf}
+							src={baseURL + response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
 							height="100%"
 							title="PDF Viewer"
@@ -276,10 +275,10 @@ export function HomePage() {
 						contentLabel="Image Modal"
 						style={{
 							content: {
-							  zIndex: 1402, 
+								zIndex: 1402,
 							},
 							overlay: {
-							  zIndex: 1302, 
+								zIndex: 1302,
 							},
 						}}
 					>
@@ -289,9 +288,9 @@ export function HomePage() {
 							{response[relevantPdfIndex]?.images?.length == 0 && <span className="w-100 d-flex justify-content-center" style={{ fontWeight: 'bolder', fontSize: '16px' }}>No Images Found</span>}
 							{response[relevantPdfIndex]?.images?.map((image, index) => (
 								<img
-									key={"http://3.139.66.49:9000/" + image
+									key={baseURL + image
 									}
-									src={"http://3.139.66.49:9000/" + image}
+									src={baseURL + image}
 									alt={`Image ${index}`}
 									className="modal-image "
 								/>
@@ -305,39 +304,52 @@ export function HomePage() {
 						contentLabel="Graphs Modal"
 						style={{
 							content: {
-							  zIndex: 1402, 
+								zIndex: 1402,
 							},
 							overlay: {
-							  zIndex: 1302, 
+								zIndex: 1302,
 							},
 						}}
 					>
 						<button onClick={closeGraphsModal} className="btn btn-primary buttons-colour mb-3" style={{ float: "right" }} >Close</button>
 						{/* <button></button> */}
-						<div className="modal-content p-3 d-flex">
+						<div className="modal-content w-100 p-3 d-flex justify-content-center">
 							{(!response[relevantPdfIndex]?.full_graph && !response[relevantPdfIndex]?.semi_graph) ? (
 								<span className="w-100 d-flex justify-content-center" style={{ fontWeight: 'bolder', fontSize: '16px' }}>
 									No Graphs Found
 								</span>
 							) : (
-								<>
+								<div className="d-flex flex-column align-items-center justify-content-center w-100">
 									{response[relevantPdfIndex]?.full_graph && (
-										<img
-											key={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.full_graph}
-											src={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.full_graph}
-											alt="Full Graph"
-											className="modal-graph-image"
+										<iframe
+											src={baseURL + response[relevantPdfIndex]?.full_graph}
+											style={{
+												border: 'none', marginBottom: '20px',
+												width: '100%',
+												maxWidth: '1200px', 
+												height: '600px', 
+												overflow: 'auto' 
+											}}
+
 										/>
 									)}
-									{response[relevantPdfIndex]?.semi_graph && (
-										<img
-											key={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.semi_graph}
-											src={"http://3.139.66.49:9000/" + response[relevantPdfIndex]?.semi_graph}
-											alt="Semi Graph"
-											className="modal-graph-image"
-										/>
-									)}
-								</>
+
+									{response[relevantPdfIndex]?.sub_graph_list && (
+										response[relevantPdfIndex]?.sub_graph_list.map((graph, index) => (
+											<iframe
+												key={index}
+												src={baseURL + graph}
+												title={`Sub Graph ${index + 1}`}
+												style={{
+													border: 'none', marginBottom: '20px',
+													width: '100%',
+													maxWidth: '1200px', 
+													height: '600px', 
+													overflow: 'auto' 
+												}}
+											/>
+										)))}
+								</div>
 							)}
 						</div>
 
@@ -421,8 +433,6 @@ export function HomePage() {
 											<p className="heading-style mt-2">
 												{homePageTextSamples.HYPERLINKS}
 											</p>
-											<hr className="hr-line"></hr>
-
 											<input
 												placeholder="search for link"
 												className="w-100 form-control question-box"
@@ -469,6 +479,8 @@ export function HomePage() {
 										</div>
 									)}
 									{response.length > 0 && response[index] && (
+										<div>
+
 										<div className=" ms-5 d-flex justify-content-center w-75 mt-3">
 											<Button
 												onClick={(e) => openModal()}
@@ -510,6 +522,9 @@ export function HomePage() {
 												{homePageTextSamples.OPEN_GRAPHS}
 											</Button>
 										</div>
+										<hr className="hr-line"></hr>
+										</div>
+
 									)}
 								</>
 							))}

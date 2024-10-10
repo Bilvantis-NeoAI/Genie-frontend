@@ -94,7 +94,6 @@ export function AdminDashboard() {
     };
 
     const handleNeo4jChange = (event) => {
-        console.log("Selected Value >>", event.target.value);
         setSelectedNeo4jOption(event.target.value);
     };
 
@@ -116,7 +115,7 @@ export function AdminDashboard() {
                         </div>
                         <div className="card w-25 mt-5">
                             <div className="d-flex flex-column justify-content-center align-items-center p-4">
-                                <h4>{adminDashboardTextSamples.NEO_FOURJ}</h4>
+                                <h5>{adminDashboardTextSamples.NEO_FOURJ}</h5>
                                 <div className="d-flex mt-4">
                                     <Box className="select-input-box">
                                         <FormControl fullWidth>

@@ -1,5 +1,6 @@
 import { Api } from "../Interceptor/interceptor";
 import { ENDPOINT_FULL_QA } from "../Utils";
+import { baseURL } from "../utils/constatnts";
 
 export const fetchData =  (payload) => {
       const response =  Api.post(ENDPOINT_FULL_QA, payload);
@@ -11,7 +12,7 @@ export const fetchData =  (payload) => {
 export const downloadImageService = async (imageName) => {
   try {
     
-    const imageUrl = "http://3.139.66.49:9000/"+imageName; 
+    const imageUrl = baseURL+imageName; 
 
     const response = await Api.get(imageUrl, {
       responseType: 'blob', // Important to specify blob type to handle binary data

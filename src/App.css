@@ -157,7 +157,7 @@ height: 5vh;
 }
 .heading-style{
   color: #07439C;
-  font-size: 30px;
+  font-size: 20px;
 }
 .button-style{
   color: blue;
@@ -167,6 +167,7 @@ height: 5vh;
 .hr-line{
   color:blue !important;
   opacity: 1 !important;
+  width: 80%;
 
 }
 .modal-image{

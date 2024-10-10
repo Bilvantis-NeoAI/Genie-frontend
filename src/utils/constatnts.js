@@ -2,6 +2,8 @@ export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
 };
 
+export const  baseURL = 'http://0.0.0.0:9001/'
+
 export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
     VIEW_REVELANT : 'View PDF - Relevant',
@@ -57,3 +59,4 @@ export const adminDashboardTextSamples = {
     CHANDE_STATUS_ERROR : 'An error occurred while changing status.',
     API_ERROR : 'API call failed:'
 }
+
