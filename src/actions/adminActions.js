@@ -7,7 +7,10 @@ import {
     CONTAINER_RESTART_FAILURE,
     NEO4J_STATUS_DATA,
     NEO4J_STATUS_SUCCESS,
-    NEO4J_STATUS_FAILURE
+    NEO4J_STATUS_FAILURE,
+    RELOAD_DATA,
+    RELOAD_SUCCESS,
+    RELOAD_FAILURE
   } from "../actionTypes/adminActionTypes.js";
   import { Api } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
@@ -105,3 +108,34 @@ export const neo4jStatus = (payload) => {
   };
 };
   
+
+export const reloadDataRequest = () => ({
+  type: RELOAD_DATA,
+});
+
+export const reloadDataSuccess = (message) => ({
+  type: RELOAD_SUCCESS,
+  payload: message,
+});
+
+export const reloadDataFailure = (error) => ({
+  type: RELOAD_FAILURE,
+  payload: error,
+});
+
+export const reloadData = () => {
+  return (dispatch) => {
+    dispatch(reloadDataRequest());
+    return Api
+      .post(apis.RELOAD_API) 
+      .then((response) => {
+        console.log("Reload response:", response);
+        const successMessage = response.data; 
+        dispatch(reloadDataSuccess(successMessage));
+        return response;
+      })
+      .catch((error) => {
+        dispatch(reloadDataFailure(error.message));
+      });
+  };
+}

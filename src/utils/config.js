@@ -5,5 +5,6 @@ export const apis = {
     GRAPHS_DATA : '/metrics',
     FLUSH_DB : '/flushDB',
     CONTAINER_RESTART : '/restart-container',
-    NEO4J_STATUS : '/neo4j_status'
+    NEO4J_STATUS : '/neo4j_status',
+    RELOAD_API : '/reload-docs',
 }

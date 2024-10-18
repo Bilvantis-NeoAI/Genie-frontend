@@ -3,7 +3,7 @@ import {
     ADD_DOCUMENT_SUCCESS,
     ADD_DOCUMENT_FAILURE,
   } from "../actionTypes/documentActionTypes.js";
-  import { Api } from "../Interceptor/interceptor.js";
+  import { ApiInject } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
   
  
@@ -26,7 +26,7 @@ import {
     
     return (dispatch) => {
       dispatch(addDocumentRequest());
-      return Api
+      return ApiInject
         .post(apis.DOCUMENT_UPLOAD, payload)  
         .then((response) => {
           const addedDocument = response.data;

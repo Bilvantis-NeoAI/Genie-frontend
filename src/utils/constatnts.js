@@ -2,7 +2,7 @@ export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
 };
 
-export const  baseURL = 'http://0.0.0.0:9001/'
+export const  baseURL =  'http://3.139.66.49:9000/'
 
 export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
@@ -52,10 +52,12 @@ export const footerTextSamples = {
 export const adminDashboardTextSamples = {
     FLUSH_DB : 'flushDB',
     CONATAINER_RESTART : 'App Restart',
+    RELOAD : 'Reload',
     NEO_FOURJ : 'Neo4j Status',
     APP_RESATRT_MSG : 'App restart sucessful',
     FLUSH_ERROR : 'An error occurred while flushing.',
     RESTART_ERROR : 'An Error occured while restarting',
+    RELOAD_ERROR : 'An error occurred while Reloading.',
     CHANDE_STATUS_ERROR : 'An error occurred while changing status.',
     API_ERROR : 'API call failed:'
 }

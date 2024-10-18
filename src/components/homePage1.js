@@ -24,12 +24,7 @@ export function HomePage1() {
   const [urlErrors, setUrlErrors] = useState("");
   const dispatch = useDispatch();
 
-  // Handle file upload and validation
 const updateFiles = (incomingFiles) => {
-  if (incomingFiles.length > 1) {
-    setFileErrors(homePage1TextSamples.ONLY_FILE);
-    return; // Stop here if more than one file is selected
-  }
 
   setFormState((prevState) => ({
     ...prevState,
@@ -59,7 +54,7 @@ const updateFiles = (incomingFiles) => {
 
     const formData = new FormData();
     formState.file.forEach((file) => {
-      formData.append("file", file.file);
+      formData.append("files", file.file);
     });
 
      
@@ -80,7 +75,6 @@ const updateFiles = (incomingFiles) => {
     });
   };
 
-  // Handle URL input and validation
   const handleUrlChange = (e) => {
     const newUrl = e.target.value;
     setFormState((prevState) => ({
@@ -136,7 +130,6 @@ const updateFiles = (incomingFiles) => {
           <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
             <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-5 ms-5">
 
-              {/* File Upload Form */}
               <form onSubmit={handleFileSubmit}>
                 <div>
                   <div>
@@ -146,8 +139,8 @@ const updateFiles = (incomingFiles) => {
                   <Dropzone
                     onChange={updateFiles}
                     value={formState.file}
-                    className={`mt-2 dropzone ${formState.file.length === 0 ? 'empty-dropzone' : ''}`}
-                    accept=".pdf, application/pdf"
+                    className={`mt-2 dropzone`}
+                    accept=".pdf, .docx, .pptx, .jpg, .jpeg, .png, .bmp, .tiff, .svg"
                   >
                     {formState.file.map((file, index) => (
                       <div key={file.name} className="file-preview" >
@@ -164,7 +157,6 @@ const updateFiles = (incomingFiles) => {
                 </div>
               </form>
 
-              {/* URL Input Form */}
               <form onSubmit={handleUrlSubmit}>
                 <div >
                   <div className='mt-4'>

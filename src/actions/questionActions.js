@@ -4,7 +4,7 @@ import {
   FETCH_ANSWERS_FAILURE,
   INCREMENT_COUNTER
 } from "../actionTypes/questionActionTypes.js"
-import { Api } from "../Interceptor/interceptor.js";
+import { ApiAnswer } from "../Interceptor/interceptor.js";
 import { ENDPOINT_FULL_QA } from "../Utils.js";
 import { apis } from "../utils/config.js";
 
@@ -28,7 +28,7 @@ export const fetchAnswersList = (payload, index) => {
   
   return (dispatch) => {
     dispatch(fetchAnswersRequest());
-    return Api
+    return ApiAnswer
       .post(apis.ENDPOINT_FULL_QA, payload )
       .then((response) => {
         const answersData = response.data;

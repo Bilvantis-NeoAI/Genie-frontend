@@ -3,7 +3,7 @@ import {
     ADD_URL_SUCCESS,
     ADD_URL_FAILURE,
   } from "../actionTypes/urlActionTypes.js";
-  import { Api } from "../Interceptor/interceptor.js";
+  import { ApiInject } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
   
   export const addUrlRequest = () => ({
@@ -23,7 +23,7 @@ import {
   export const addUrl = (payload) => {
     return (dispatch) => {
       dispatch(addUrlRequest());
-      return Api
+      return ApiInject
         .post(apis.URL_UPLOAD, payload)  
         .then((response) => {
           const addedUrl = response.data;

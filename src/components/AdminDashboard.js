@@ -4,7 +4,7 @@ import { HeaderComponent } from './header';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { footerTextSamples, adminDashboardTextSamples } from "../utils/constatnts";
-import { flushDB, containerRestart, neo4jStatus } from "../actions/adminActions";
+import { flushDB, containerRestart, neo4jStatus, reloadData } from "../actions/adminActions";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import Switch from '@mui/material/Switch';
@@ -48,6 +48,18 @@ export function AdminDashboard() {
         })
         .catch((error) => {
             toast.error(adminDashboardTextSamples.RESTART_ERROR);
+        });
+    }
+
+    const handleReaload = () => {
+        dispatch(reloadData())
+        .then((response) => {
+            if (response) {
+                toast.success(response.data.message);
+            }
+        })
+        .catch((error) => {
+            toast.error(adminDashboardTextSamples.RELOAD_ERROR);
         });
     }
 
@@ -112,6 +124,8 @@ export function AdminDashboard() {
                         <div className="d-flex justify-content-center mt-3">
                             <button className="btn btn-primary buttons-colour" onClick={handleFlushDB} > {adminDashboardTextSamples.FLUSH_DB}</button>
                             <button className="btn btn-primary buttons-colour ms-3" onClick={handleContainerRestart} > {adminDashboardTextSamples.CONATAINER_RESTART}</button>
+                            <button className="btn btn-primary buttons-colour ms-3" onClick={handleReaload} > {adminDashboardTextSamples.RELOAD}</button>
+
                         </div>
                         <div className="card w-25 mt-5">
                             <div className="d-flex flex-column justify-content-center align-items-center p-4">

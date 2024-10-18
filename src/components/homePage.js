@@ -261,7 +261,7 @@ export function HomePage() {
 							{homePageTextSamples.CLOSE}
 						</button>
 
-						{/* Iframe to display PDF */}
+
 						<iframe
 							src={baseURL + response[relevantPdfIndex]?.relevant_pdf}
 							width="100%"
@@ -326,36 +326,32 @@ export function HomePage() {
 											style={{
 												border: 'none', marginBottom: '20px',
 												width: '100%',
-												maxWidth: '1200px', 
-												height: '600px', 
-												overflow: 'auto' 
+												maxWidth: '1200px',
+												height: '600px',
+												overflow: 'auto'
 											}}
 
 										/>
 									)}
 
-									{response[relevantPdfIndex]?.sub_graph_list && (
-										response[relevantPdfIndex]?.sub_graph_list.map((graph, index) => (
-											<iframe
-												key={index}
-												src={baseURL + graph}
-												title={`Sub Graph ${index + 1}`}
-												style={{
-													border: 'none', marginBottom: '20px',
-													width: '100%',
-													maxWidth: '1200px', 
-													height: '600px', 
-													overflow: 'auto' 
-												}}
-											/>
-										)))}
+									{response[relevantPdfIndex]?.semi_graph && (
+										<iframe
+											src={baseURL + response[relevantPdfIndex]?.semi_graph}
+											style={{
+												border: 'none', marginBottom: '20px',
+												width: '100%',
+												maxWidth: '1200px',
+												height: '600px',
+												overflow: 'auto'
+											}}
+
+										/>
+									)}
 								</div>
 							)}
 						</div>
-
 					</Modal>
-
-					<div className="col-11   h-100 ms-5 mb-5 pb-4">
+					<div className="col-11 h-100 ms-5 mb-5 pb-4">
 						<div
 							className="card d-flex h-100 question-card ms-4"
 							style={{ overflowY: "scroll" }}
@@ -481,48 +477,48 @@ export function HomePage() {
 									{response.length > 0 && response[index] && (
 										<div>
 
-										<div className=" ms-5 d-flex justify-content-center w-75 mt-3">
-											<Button
-												onClick={(e) => openModal()}
-												className="button-style"
-											>
-												{homePageTextSamples.VIEW_SIMILARITY}
-											</Button>
-											<Button
-												className="ms-3 button-style"
-												onClick={(e) => {
-													openSimilarityModal()
-													setRelevantPdfIndex(index);
-												}
-												}
-											>
-												{homePageTextSamples.VIEW_REVELANT}
-											</Button>
+											<div className=" ms-5 d-flex justify-content-center w-75 mt-3">
+												<Button
+													onClick={(e) => openModal()}
+													className="button-style"
+												>
+													{homePageTextSamples.VIEW_SIMILARITY}
+												</Button>
+												<Button
+													className="ms-3 button-style"
+													onClick={(e) => {
+														openSimilarityModal()
+														setRelevantPdfIndex(index);
+													}
+													}
+												>
+													{homePageTextSamples.VIEW_REVELANT}
+												</Button>
 
-											<Button
-												className="ms-3 button-style"
-												onClick={(e) => {
-													openImagesModal()
-													setRelevantPdfIndex(index)
-												}
-												}
-											>
-												{" "}
-												{homePageTextSamples.OPEN_IMAGES}
-											</Button>
-											<Button className="ms-3 button-style" onClick={() => downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
-											<Button
-												className="ms-3 button-style"
-												onClick={(e) => {
-													openGraphsModal()
-													setRelevantPdfIndex(index)
-												}
-												}
-											>
-												{homePageTextSamples.OPEN_GRAPHS}
-											</Button>
-										</div>
-										<hr className="hr-line"></hr>
+												<Button
+													className="ms-3 button-style"
+													onClick={(e) => {
+														openImagesModal()
+														setRelevantPdfIndex(index)
+													}
+													}
+												>
+													{" "}
+													{homePageTextSamples.OPEN_IMAGES}
+												</Button>
+												<Button className="ms-3 button-style" onClick={() => downloadImages(index)}>{homePageTextSamples.DOWNLOAD_IMAGES}</Button>
+												<Button
+													className="ms-3 button-style"
+													onClick={(e) => {
+														openGraphsModal()
+														setRelevantPdfIndex(index)
+													}
+													}
+												>
+													{homePageTextSamples.OPEN_GRAPHS}
+												</Button>
+											</div>
+											<hr className="hr-line"></hr>
 										</div>
 
 									)}
