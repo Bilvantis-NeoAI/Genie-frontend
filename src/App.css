@@ -343,9 +343,41 @@ p {
 .select-input-box{
   min-width: 180px;
   height: 30px;
+  border: #000000;
 }
 
 .buttons-colour{
   background-color: #07439C;
+  /* margin-top: 10px; */
 }
 
+.form-field-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.form-field-title {
+  font-weight: bold;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.icon-container {
+  margin-right: 0.5rem;
+}
+
+.input-box {
+  width: 100%;
+}
+
+.required-styling {
+  color: red;
+  margin-left: 0.25rem;
+}

@@ -6,8 +6,8 @@ import audiIcon from "../Assets/Sidenavimgaudio.svg"
 import sideBarIcon4 from "../Assets/Sidenavimg4.svg";
 import metricsIcon from "../Assets/Sidenavimgmetrics.svg"
 import { useNavigate } from "react-router-dom";
-
-
+import retriveData from '../Assets/retriveData.svg'
+import injectingRepo from '../Assets/injectingRepo.svg'
 export const BootstrapSidebar = () => {
   const navigate = useNavigate()
 
@@ -40,6 +40,16 @@ export const BootstrapSidebar = () => {
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/metrics')}>
             <img src={metricsIcon} alt="" className="imagestyles"/>
             <span className="tooltip">Metrics</span>
+          </li>
+          <li
+            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/kb')}>
+            <img src={injectingRepo} alt="" className="imagestyles"/>
+            <span className="tooltip">Injecting Repo</span>
+          </li>
+          <li
+            className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/retrivingData')}>
+            <img src={retriveData} alt="" className="imagestyles"/>
+            <span className="tooltip">Retrive data</span>
           </li>
         </ul>
       </div>

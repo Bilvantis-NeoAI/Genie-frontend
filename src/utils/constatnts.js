@@ -21,7 +21,8 @@ export const homePage1TextSamples = {
     FILES_REQUIRED: "At least one file is required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
-    ONLY_FILE : 'Please select only 1 file.'
+    ONLY_FILE : 'Please select only 1 file.',
+    BRANCH_NAME :'Branch Name'
 };
 
 export const homePage3TextSamples = {

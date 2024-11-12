@@ -8,8 +8,8 @@ import { Loader } from './Interceptor/interceptor';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './components/LoginPage';
 import { AdminDashboard } from './components/AdminDashboard';
-
-
+import Kb from './components/Kb';
+import RetriveData from './components/RetriveData';
 function App() {
   return (
     <Router>
@@ -21,6 +21,8 @@ function App() {
         <Route path='/audio' element={<HomePage2 />} />
         <Route path='/metrics' element={<HomePage3 />} />
         <Route path='/admin' element={<AdminDashboard />} />
+        <Route path='/kb' element ={<Kb/>}/>
+        <Route path ='/retrivingData' element ={<RetriveData/>}/>
       </Routes>
     </Router>
   );
