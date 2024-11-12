@@ -281,7 +281,9 @@ p {
   height: 365px;
 }
 
-
+.downloadbutton{
+  height: 20px;
+}
 
 
 .login-container{

@@ -22,7 +22,8 @@ export const homePage1TextSamples = {
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
     ONLY_FILE : 'Please select only 1 file.',
-    BRANCH_NAME :'Branch Name'
+    BRANCH_NAME :'Branch Name',
+    TOKEN: 'Token'
 };
 
 export const homePage3TextSamples = {

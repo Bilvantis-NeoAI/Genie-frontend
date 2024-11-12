@@ -44,7 +44,7 @@ export const BootstrapSidebar = () => {
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/kb')}>
             <img src={injectingRepo} alt="" className="imagestyles"/>
-            <span className="tooltip">Injecting Repo</span>
+            <span className="tooltip">Inject Repo</span>
           </li>
           <li
             className=" d-flex justify-content-center align-items-center" onClick={()=>handleNavigation('/retrivingData')}>

@@ -3,31 +3,39 @@ import { Button, Container, Row, Form } from "react-bootstrap";
 import { HeaderComponent } from "./header";
 import { BootstrapSidebar } from "./sideNav";
 import { homePageTextSamples } from "../utils/constatnts";
-
+import downloadIcon from "../Assets/downloadIcon.svg"
 export default function RetrieveData() {
   const [inputField, setInputField] = useState("");
   const [error, setError] = useState("");
   const [displayData, setDisplayData] = useState(false);
-  const [Answer, setAnswer] = useState([]);
+  const [Answer, setAnswer] = useState([
+    {
+      Source: "GenieRepo",
+      Content: "This is sample content from GenieRepo. This is sample content from GenieRepo.This is sample content from GenieRepo.This is sample content from GenieRepo. This is sample content from GenieRepo.",
+    },
+    {
+      Sourceh: "Solarwinds",
+      Content: "This is sample content from Solarwinds.",
+    },
+    {
+      Source: "React",
+      Content: "This is sample content from React.",
+    },
+    {
+      Source: "React",
+      Content: "This is sample content from React.",
+    },
+    {
+      Source: "React",
+      Content: "This is sample content from React.",
+    },
+  ]);
+
   const handleInputChange = (event) => {
     const { value } = event.target;
     setInputField(value);
     if (error) setError("");
   };
-  const data = [
-    {
-      Source: "GenieRepo",
-      Content: "When the onSubmit function is called, it checks if the inputField is empty. If empty, an error message is displayed using Form.Control.Feedback."
-    },
-    {
-      Source: "Solarwinds",
-      Content: "This content comes from Solarwinds. It describes the purpose of the onSubmit function and form error handling."
-    },
-    {
-      Source: "React",
-      Content: "Additional React-related content regarding the onSubmit function and empty input checks."
-    }
-  ];
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -36,9 +44,23 @@ export default function RetrieveData() {
       setDisplayData(false);
     } else {
       setDisplayData(true);
-      setAnswer(data.slice(0, 2));
       setError("");
     }
+  };
+  const handleDownload = (item) => {
+    const content = Object.entries(item)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("\n");
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${item.Source}_data.txt`;
+    link.click();
+
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -62,21 +84,36 @@ export default function RetrieveData() {
                   onChange={handleInputChange}
                   isInvalid={!!error}
                 />
-                <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  {error}
+                </Form.Control.Feedback>
               </Form.Group>
               <Button className="mt-3 buttons-colour" type="submit">
                 {homePageTextSamples.SUBMIT_BUTTON}
               </Button>
             </Form>
+
             {displayData && (
               <div className="mt-4">
-                {Answer.map((item, index) => (
-                  <div key={index} className="mb-3">
-                    {Object.entries(item).map(([key, value]) => (
-                      <p key={key}><strong>{key}:</strong> {value}</p>
+                <table className="table table-bordered">
+                  <tbody>
+                    {Answer.slice(0, 3).map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                        <div className=" d-flex justify-content-end" onClick={() => handleDownload(item)}>
+                           <img src={downloadIcon} alt="" className="downloadbutton"/>
+                           </div>
+                          {Object.entries(item).map(([key, value]) => (
+                            <div key={key}>
+                              <strong>{key}:</strong> {value}
+                            </div>
+                          ))}
+                          <td></td>
+                        </td>
+                      </tr>
                     ))}
-                  </div>
-                ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>

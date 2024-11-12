@@ -76,6 +76,22 @@ export default function Kb() {
                         Fetch
                       </Button>
                     </div>
+                    <div className="mt-4">
+                    <div>
+                      <span className="form-field-title">
+                        {homePage1TextSamples.TOKEN}
+                      </span>
+                    </div>
+                    <div className="input-container mt-2 d-flex align-items-center">
+                      <input
+                        type="url"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        placeholder="Enter the URL"
+                        className="form-control input-box"
+                      />
+                      </div>
+                      </div>
                   </div>
 
                   {showDropdown && (
