@@ -9,13 +9,11 @@ export default function RetrieveData() {
   const [error, setError] = useState("");
   const [displayData, setDisplayData] = useState(false);
   const [Answer, setAnswer] = useState([]);
-  
   const handleInputChange = (event) => {
     const { value } = event.target;
     setInputField(value);
-    if (error) setError(""); // Clear error when user starts typing
+    if (error) setError("");
   };
-
   const data = [
     {
       Source: "GenieRepo",
