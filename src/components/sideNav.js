@@ -7,11 +7,11 @@ import metricsIcon from "../Assets/Sidenavimgmetrics.svg";
 import { useNavigate } from "react-router-dom";
 import retriveData from '../Assets/retriveData.svg';
 import injectingRepo from '../Assets/injectingRepo.svg';
-
+import adminIcon from '../Assets/admin.svg'
 export const BootstrapSidebar = () => {
   const navigate = useNavigate();
   const [showMetricsOptions, setShowMetricsOptions] = useState(false);
-
+  const[showadminOptions, setShowadminOptions] = useState(false)
   const handleNavigation = (path, state = {}) => {
     navigate(path, { state });
   };
@@ -19,7 +19,10 @@ export const BootstrapSidebar = () => {
   const toggleMetricsDropdown = () => {
     setShowMetricsOptions((prevState) => !prevState);
   };
+const toggleAdminDropdown=()=>{
+  setShowadminOptions((prevState) => !prevState);
 
+}
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
@@ -38,8 +41,6 @@ export const BootstrapSidebar = () => {
           <img src={audiIcon} alt="" className="imagestyles" />
           <span className="tooltip">Audio AI</span>
         </li>
-
-        {/* Metrics with tooltip arrow and dropdown */}
         <li className="d-flex justify-content-center align-items-center">
           <img src={metricsIcon} alt="" className="imagestyles" />
           <span className="tooltip" onClick={toggleMetricsDropdown}>
@@ -62,6 +63,18 @@ export const BootstrapSidebar = () => {
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/retrivingData')}>
           <img src={retriveData} alt="" className="imagestyles" />
           <span className="tooltip">Retrieve Data</span>
+        </li>
+        <li className="d-flex justify-content-center align-items-center">
+          <img src={adminIcon} alt="" className="imagestyles" />
+          <span className="tooltip" onClick={toggleAdminDropdown}>
+            Admin <span className="arrow-down">{showadminOptions ? "▼" : "▲"}</span>
+          </span>
+          {showadminOptions && (
+            <ul className="metrics-dropdown">
+              <li> Profile</li>
+              <li> Settings</li>
+            </ul>
+          )}
         </li>
       </ul>
     </div>
