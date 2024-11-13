@@ -69,13 +69,12 @@ export default function RetrieveData() {
         <Row style={{ height: "10vh" }}>
           <HeaderComponent />
         </Row>
-        <div className="w-100 mt-3" style={{ height: "82vh" }}>
+        <div className="w-100 mt-5" style={{ height: "82vh",marginLeft:"5%" }}>
           <div style={{ width: "10%" }}>
             <BootstrapSidebar />
           </div>
-          <div className="form-group w-75 d-flex flex-column mt-5 ms-5">
+          <div className="form-group w-50 mt-5 ms-5">
             <Form onSubmit={onSubmit}>
-              <Form.Group controlId="formQuestion">
                 <Form.Control
                   type="text"
                   className="form-control question-box"
@@ -87,11 +86,12 @@ export default function RetrieveData() {
                 <Form.Control.Feedback type="invalid">
                   {error}
                 </Form.Control.Feedback>
-              </Form.Group>
               <Button className="mt-3 buttons-colour" type="submit">
                 {homePageTextSamples.SUBMIT_BUTTON}
               </Button>
             </Form>
+            </div>
+            <div className="form-group w-50 mt-5 ms-5">
 
             {displayData && (
               <div className="mt-4">

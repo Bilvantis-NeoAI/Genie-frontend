@@ -45,13 +45,37 @@ const toggleAdminDropdown=()=>{
           <img src={metricsIcon} alt="" className="imagestyles" />
           <span className="tooltip" onClick={toggleMetricsDropdown}>
             Metrics <span className="arrow-down">{showMetricsOptions ? "▼" : "▲"}</span>
-          </span>
+          </span> 
 
           {showMetricsOptions && (
             <ul className="metrics-dropdown">
-              <li onClick={() => handleNavigation('/metrics', { header: 'GIT repo metrics' })}>GIT repo metric</li>
-              <li onClick={() => handleNavigation('/metrics', { header: 'Review code metrics' })}>Review code metric</li>
-              <li onClick={() => handleNavigation('/metrics', { header: 'Code Assistance Metrics' })}>Code assistance metric</li>
+<li
+  onClick={() => {
+    handleNavigation('/metrics', { header: 'GIT repo metrics' });
+    setShowMetricsOptions(false);
+  }}
+>
+  GIT repo metric
+</li>              
+<li
+  onClick={() => {
+    handleNavigation('/metrics', { header: 'Review code metrics' });
+    setShowMetricsOptions(false);
+  }}
+>
+Review code metrics
+</li> 
+<li
+  onClick={() => {
+    handleNavigation('/metrics', { header: 'Code Assistance Metrics' });
+    setShowMetricsOptions(false);
+  }}
+>
+Code Assistance Metrics
+</li> 
+
+{/* <li onClick={() => handleNavigation('/metrics', { header: 'Review code metrics' })}>Review code metric</li> */}
+              {/* <li onClick={() => handleNavigation('/metrics', { header: 'Code Assistance Metrics' })}>Code assistance metric</li> */}
             </ul>
           )}
         </li>
