@@ -8,18 +8,87 @@ import { homePage3TextSamples } from '../utils/constatnts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGraphList } from '../actions/graphsDataActions';
 import { footerTextSamples } from "../utils/constatnts";
+import { useLocation } from "react-router-dom";
 import { logDOM } from "@testing-library/react";
-
 export function HomePage3() {
     const dispatch = useDispatch();
-    const graphsData = useSelector((state) => state.graphsData);
+    const location = useLocation();
+    const header = location.state?.header || "Metrics";
+    // const graphsData = useSelector((state) => state.graphsData);
     const [barGraphXAxisData, setBarGraphXAxisData] = useState([]);
     const [barGraphData, setBarGraphData] = useState([]);
     const [retrivalGraphData, setRetrivalGraphData] = useState([]);
     const [retrivalGraphXAxisData, setRetrivalGraphXAxisData] = useState([]);
 
 
-
+    const graphsData = {
+        graphData: [
+          // Data for the first table
+          [
+            {
+              document_name: "Document 1",
+              document_size: "2 MB",
+              ingestion_time: "2024-11-13 10:00",
+              no_of_pages: 12,
+              "no._of_image_docs": 3,
+              "no._of_table_docs": 2,
+              "no._of_text_docs": 7,
+              total_ingestion_tokens: 1500
+            },
+            {
+              document_name: "Document 2",
+              document_size: "5 MB",
+              ingestion_time: "2024-11-13 11:00",
+              no_of_pages: 20,
+              "no._of_image_docs": 5,
+              "no._of_table_docs": 4,
+              "no._of_text_docs": 11,
+              total_ingestion_tokens: 2500
+            }
+          ],
+      
+          // Data for the first BarChart
+          [
+            {
+              metricA: 120,
+              metricB: 200,
+              metricC: 150
+            }
+          ],
+      
+          // Data for the second table
+          [
+            {
+              Question: "What is the purpose of this document?",
+              Tech: "React",
+              pages_context: 5,
+              pages_relv: 4,
+              No_of_Chroma_Tokens: 100,
+              No_ES_Tokens: 80,
+              No_of_Neo4j_Tokens: 60,
+              total_tokens: 240
+            },
+            {
+              Question: "How does authentication work?",
+              Tech: "Node.js",
+              pages_context: 6,
+              pages_relv: 5,
+              No_of_Chroma_Tokens: 120,
+              No_ES_Tokens: 90,
+              No_of_Neo4j_Tokens: 70,
+              total_tokens: 280
+            }
+          ],
+      
+          // Data for the second BarChart
+          {
+            metricX: 300,
+            metricY: 450,
+            metricZ: 200
+          }
+        ]
+      };
+      
 
     useEffect(() => {
         dispatch(fetchGraphList())
@@ -56,6 +125,8 @@ export function HomePage3() {
                 <div className='col-11   h-100 ms-5 mb-5 pb-4' >
                     <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }} >
                         <div className='dasboard-container mt-3 container-fluid'>
+                        <h4>{header}</h4>
+
                             <div className='top-charts-container row'>
                                 <div className='col-12 col-md-6 mb-2'>
                                     <div className='card card-container shadow'>

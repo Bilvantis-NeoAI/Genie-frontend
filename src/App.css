@@ -383,3 +383,48 @@ p {
   color: red;
   margin-left: 0.25rem;
 }
+.tooltip {
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.arrow-down {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.metrics-dropdown {
+  display: block;
+  position: absolute;
+  top: 50px; /* Adjust as needed */
+  left: 250%;
+  transform: translateX(-50%);
+  background-color: rgb(46, 44, 44);
+  /* border-radius: 5px; */
+  /* z-index: 10; */
+  font-size: 12px;
+  color: #ccc;
+  width: 150px; /* Increased width */
+}
+
+.metrics-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.metrics-dropdown li:hover {
+  background-color: #ccc ;
+  color: #000000;
+}
+
+.metrics-dropdown input {
+  width: 100%; /* Full width to match dropdown */
+  padding: 5px;
+  border: 1px solid #0b0a0a;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box; /* Ensures padding does not exceed width */
+}
