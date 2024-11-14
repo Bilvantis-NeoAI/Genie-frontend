@@ -44,7 +44,7 @@ export const homePage3TextSamples = {
 }
 
 export const headerTextSamples = {
-    SOLAR_WINDS : 'Welcome  to Solarwinds'
+    SOLAR_WINDS : 'Welcome  to Genie'
 }
 
 export const footerTextSamples = {
