@@ -21,7 +21,7 @@ function App() {
         <Route path='/audio' element={<HomePage2 />} />
         <Route path='/metrics' element={<HomePage3 />} />
         <Route path='/admin' element={<AdminDashboard />} />
-        <Route path='/kb' element ={<Kb/>}/>
+        <Route path='/repoingestion' element ={<Kb/>}/>
         <Route path ='/retrivingData' element ={<RetriveData/>}/>
       </Routes>
     </Router>

@@ -4,35 +4,80 @@ import LanguageIcon from "@mui/icons-material/Language";
 import Button from "react-bootstrap/Button";
 import { BootstrapSidebar } from "./sideNav";
 import { HeaderComponent } from "./header";
-import { Col, Container, Row, Form } from "react-bootstrap";
+import {Container, Row, Form } from "react-bootstrap";
 import Select from "react-select";
-
+import { repoIngestion } from "../actions/IngestionAction";
+import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
+import { repoIngestionStatus } from "../actions/IngestionAction";
 export default function Kb() {
-  const [isMultiSelect, setIsMultiSelect] = useState(false);
-  const [url, setUrl] = useState("");
-  const [selectedBranches, setSelectedBranches] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [branchName, setBranchName] = useState("");
+  const [error, setError] = useState({
+    url: "",
+  });
+  const [inputFields, setInputFields] = useState({
+    branchName: [],
+    url: "",
+    token: "",
+  });
+  let dispatch = useDispatch()
   const branchOptions = [
     { value: "Develop", label: "Develop" },
     { value: "Uat", label: "Uat" },
     { value: "Dev", label: "Dev" },
     { value: "Prod", label: "Prod" },
   ];
+
   const handleFetchClick = () => {
+    if (inputFields.url.trim() === "") {
+      setError((prevErrors) => ({
+        ...prevErrors,
+        url: "URL is required",
+      }));
+      return;
+    }
+
+    setError((prevErrors) => ({ ...prevErrors, url: "" }));
     setShowDropdown(true);
-    setIsMultiSelect(true);
+    dispatch(repoIngestion(inputFields))
+        .then((response) => {
+          if (response.data.Status === 'Success') {
+            dispatch(repoIngestionStatus())
+            .then((response) => {              
+            })
+          }
+        })
+        .catch((error) => {
+          toast.error('An error occurred while adding the document.');
+        });
   };
 
-  const handleBranchChange = (selected) => {
-    setSelectedBranches(selected);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputFields({
+      ...inputFields,
+      [name]: value,
+    });
   };
 
-  const handleBranchNameChange = (e) => {
-    setBranchName(e.target.value);
-    setSelectedBranches([]);
+  const handleSelectChange = (selectedOptions) => {
+    setInputFields({
+      ...inputFields,
+      branchName: selectedOptions || [],
+    });
   };
-
+  const handleFileSubmit = (e) => {
+    e.preventDefault();
+    if (inputFields.url.trim() === "") {
+      setError((prevErrors) => ({
+        ...prevErrors,
+        url: "URL is required",
+      }));
+      return;
+    } else {
+      setError((prevErrors) => ({ ...prevErrors, url: "" }));
+    }
+  };
   return (
     <div>
       <Container className="w-100" fluid style={{ height: "100vh" }}>
@@ -43,13 +88,13 @@ export default function Kb() {
           <div style={{ width: "10%" }}>
             <BootstrapSidebar />
           </div>
-          <div className="col-11 h-100 ms-5 mb-5 pb-4">
-            <div
-              className="card d-flex h-100 question-card ms-4"
-              style={{ overflowY: "scroll" }}
-            >
-              <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-5 ms-5">
-                <form>
+          <form onSubmit={handleFileSubmit}>
+            <div className="col-11 h-100 ms-5 mb-5 pb-4">
+              <div
+                className="card d-flex h-100 question-card ms-4"
+                style={{ overflowY: "scroll" }}
+              >
+                <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-5 ms-5">
                   <div className="mt-4">
                     <div>
                       <span className="form-field-title">
@@ -63,12 +108,12 @@ export default function Kb() {
                       </div>
                       <input
                         type="url"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={handleChange}
+                        name="url"
+                        value={inputFields.url}
                         placeholder="Enter the URL"
                         className="form-control input-box"
                       />
-
                       <Button
                         className="ms-2 buttons-colour"
                         onClick={handleFetchClick}
@@ -76,62 +121,68 @@ export default function Kb() {
                         Fetch
                       </Button>
                     </div>
+                    {error.url && (
+                      <div style={{ color: "red", marginTop: "5px" }}>
+                        {error.url}
+                      </div>
+                    )}
                     <div className="mt-4">
-                    <div>
-                      <span className="form-field-title">
-                        {homePage1TextSamples.TOKEN}
-                      </span>
+                      <div>
+                        <span className="form-field-title">
+                          {homePage1TextSamples.TOKEN}
+                        </span>
+                      </div>
+                      <div className="input-container mt-2 d-flex align-items-center">
+                        <input
+                          type="text"
+                          name="token"
+                          value={inputFields.token}
+                          onChange={handleChange}
+                          placeholder="Enter the Token"
+                          className="form-control input-box"
+                        />
+                      </div>
                     </div>
-                    <div className="input-container mt-2 d-flex align-items-center">
-                      <input
-                        type="url"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        placeholder="Enter the URL"
-                        className="form-control input-box"
-                      />
-                      </div>
-                      </div>
                   </div>
 
                   {showDropdown && (
-                    <div className="mt-4">
+                    <div style={{ width: '30%', marginTop: '3%' }}>
                       <div>
                         <span className="form-field-title">
                           Select Branches
                         </span>
-                        <span className="required-styling">*</span>
                       </div>
                       <Select
                         isMulti
                         options={branchOptions}
-                        value={selectedBranches}
-                        onChange={handleBranchChange}
+                        value={inputFields.branchName}
+                        onChange={handleSelectChange}
                         getOptionLabel={(e) => e.label}
                         getOptionValue={(e) => e.value}
                         placeholder="Select multiple branches"
+                        className="input-box"
                       />
                     </div>
                   )}
 
-                  <div className="mt-4">
+                  <div style={{ width: '30%', marginTop: '3%' }}>
                     {showDropdown ? (
                       ""
                     ) : (
                       <>
-                        <div className="input-box">
+                        <div>
                           <span className="form-field-title">
                             {homePage1TextSamples.BRANCH_NAME}
                           </span>
-                          <span className="required-styling">*</span>
                         </div>
-                        <div className="input-container flex-column">
+                        <div className="input-container mt-2 d-flex align-items-center">
                           <input
                             type="text"
-                            className="form-control input-box mt-2"
+                            name="branchName"
+                            className="form-control input-box"
                             placeholder="Enter Branches"
-                            value={branchName}
-                            onChange={handleBranchNameChange}
+                            value={inputFields.branchName}
+                            onChange={handleChange}
                           />
                         </div>
                       </>
@@ -143,10 +194,10 @@ export default function Kb() {
                       {homePage1TextSamples.SUBMIT}
                     </Button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </Container>
     </div>
