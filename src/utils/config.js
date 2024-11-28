@@ -7,4 +7,6 @@ export const apis = {
     CONTAINER_RESTART : '/restart-container',
     NEO4J_STATUS : '/neo4j_status',
     RELOAD_API : '/reload-docs',
+    ingetion :'/process_multibranch_repo',
+    retriveRepoData :'qa_git'
 }

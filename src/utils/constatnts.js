@@ -21,7 +21,9 @@ export const homePage1TextSamples = {
     FILES_REQUIRED: "At least one file is required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
-    ONLY_FILE : 'Please select only 1 file.'
+    ONLY_FILE : 'Please select only 1 file.',
+    TOKEN:'Enter Token',
+    BRANCH_NAME:'Branch Name'
 };
 
 export const homePage3TextSamples = {
@@ -62,3 +64,13 @@ export const adminDashboardTextSamples = {
     API_ERROR : 'API call failed:'
 }
 
+export const Retrive_repo_data={
+    THIS_FIELD_CANT_NOT_BE_EMPTY :'This field cannot be empty',
+    FAILED_TO_RETRIVE_DATA : 'Failed to retrieve data. Please try again.',
+    NO_DATA_AVAILABLE : 'No data available'
+}
+export const repo_Ingestion ={
+    URL_REQUIRED : 'URL is required',
+    INGESTION_INITIATED_SUCCEEFULLY :"Ingestion initiated successfully!",
+    ERROR_OCCURED_REPO_INGESTION :"An error occurred while repo ingestion!"
+}

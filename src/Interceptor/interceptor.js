@@ -18,7 +18,9 @@ export const ApiAnswer = axios.create({
   baseURL: 'http://3.139.66.49:9000/', //  deploy url
   // baseURL: 'http://0.0.0.0:9000/', // local 
 });
-
+export const GitIngestion = axios.create({
+  baseURL : 'http://localhost:9000' //local
+})
 // Helper function to add interceptors to axios instances
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(
