@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import MicrosoftLogin from './MicrosoftLogin';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
@@ -53,10 +54,25 @@ const LoginPage = () => {
         navigate('/admin'); 
       } 
      
-      else if (formData.username === 'test' && formData.password === 'test123') {
-        navigate('/homepage'); 
-      } 
-      else {
+      try {
+        const response = await fetch('http://localhost:3000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams(formData).toString() // Convert to form data format
+        });
+
+        if (!response.ok) {
+          throw new Error('Invalid username or password');
+        }
+
+        const data = await response.json();
+
+        sessionStorage.setItem('access_token', data.access_token);
+
+        navigate('/homepage');
+      } catch (error) {
         setErrors({
           username: '',
           password: 'Invalid username or password'
@@ -64,6 +80,10 @@ const LoginPage = () => {
       }
     }
   };
+
+  const handleRegister = () => {
+    navigate('/register')
+  }
 
   return (
     <div className='login-container'>
@@ -102,6 +122,14 @@ const LoginPage = () => {
             className="login-button"
           />
         </form>
+        <div className='pt-4'>
+          <span className='font-bold-600'>Not Reistered Yet ?</span>
+          <span className='px-2 register-link' onClick={handleRegister}>Register</span>
+          {/* <span>(OR)</span> */}
+        </div>
+        {/* <div className="mt-2" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <MicrosoftLogin />
+        </div> */}
       </div>
     </div>
   );

@@ -349,3 +349,50 @@ p {
   background-color: #07439C;
 }
 
+
+.register-link {
+  font-weight: 600;
+  color: #b79ae0; 
+  cursor: pointer; 
+  transition: color 0.3s ease; 
+}
+
+.register-link:hover {
+  color: blue ; 
+  border-bottom: 2px solid blue;
+}
+
+.logout-btn {
+  background-color: #cce7ff; 
+  color: black; 
+  border-radius: 8px; 
+  padding: 8px 16px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center;
+  transition: background-color 0.3s ease; 
+}
+
+.logout-btn:hover {
+  background-color: white;
+}
+
+.microsoft-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius:22px;
+  padding: 10px;
+  cursor: pointer;
+  width: 80%;
+}
+
+.microsoft-login:hover {
+  background-color: #D4BDF3;
+}
+
+
