@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { repo_Ingestion } from "../utils/constatnts";
 export default function IngestionRepo() {
+  const [disable , setDisable] =useState(false)
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState({
@@ -21,6 +22,7 @@ export default function IngestionRepo() {
   });
   const dispatch = useDispatch();
   const handleChange = (e) => {
+    setDisable(false)
     const { name, value } = e.target;
     setInputFields((prevState) => ({
       ...prevState,
@@ -28,8 +30,10 @@ export default function IngestionRepo() {
     }));
   };
   const handleSubmit = (e) => {
+    setDisable(true)
     e.preventDefault();
     if (!inputFields.url.trim()) {
+      setDisable(false)
       setError((prevState) => ({ ...prevState, url: repo_Ingestion.URL_REQUIRED }));
       return;
     } else {
@@ -55,7 +59,7 @@ export default function IngestionRepo() {
       })
       .catch((e) => {
         setLoading(false)
-
+        setDisable(false)
         toast.error(repo_Ingestion.ERROR_OCCURED_REPO_INGESTION);
       });
   };
@@ -145,7 +149,7 @@ export default function IngestionRepo() {
                     </div>
                   </div>
                   <div className="w-100 d-flex justify-content-center">
-                    <Button className="mt-3 buttons-colour" type="submit">
+                    <Button className="mt-3 buttons-colour" type="submit" disabled ={disable}>
                       {homePage1TextSamples.SUBMIT}
                     </Button>
                   </div>

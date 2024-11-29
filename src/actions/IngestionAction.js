@@ -14,21 +14,16 @@ export const addIngestionFailure=(error)=>({
    action : error
 })
 export const repoIngestion =(payload)=>{
-   return (dispatch)=>{
-       console.log("+++GitIngestionGitIngestionGitIngestion",GitIngestion);
-       
+   return (dispatch)=>{       
        dispatch (addIngestionRequest())
        return GitIngestion
        .post(apis.ingetion,payload)
        .then((response) => {
-           console.log("+++responseresponse",response);
            const ingestionResponse = response;
            dispatch(addIngestionSuccess(ingestionResponse));
            return response;
          })
-         .catch((error) => {  
-           console.log("===errorerror",error);
-                     
+         .catch((error) => {                     
            dispatch(addIngestionFailure(error));
          });
    }

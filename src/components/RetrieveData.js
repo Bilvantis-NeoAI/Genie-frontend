@@ -8,6 +8,7 @@ import { retriveRepoData } from "../actions/RetriveDataAction";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Retrive_repo_data } from "../utils/constatnts";
+import ReactMarkdown from 'react-markdown';
 export default function RetrieveData() {
   const [inputField, setInputField] = useState("");
   const [error, setError] = useState("");
@@ -15,6 +16,7 @@ export default function RetrieveData() {
   const [Answer, setAnswer] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [disable , setDisable] =useState(false)
   const answerData = useSelector((state) => state.repoData);
   useEffect(() => {
     const savedQuestion = localStorage.getItem("inputField");
@@ -28,6 +30,7 @@ export default function RetrieveData() {
     }
   }, []);
   useEffect(() => {
+    setDisplayData(false);
     if (answerData && answerData.repoData?.action?.data) {
       const data = answerData.repoData.action.data;
       const newAnswer = [{ response: data.response }];
@@ -39,13 +42,12 @@ export default function RetrieveData() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
+    setDisable(true)
     if (inputField.trim() === "") {
       setError(Retrive_repo_data.THIS_FIELD_CANT_NOT_BE_EMPTY);
       setDisplayData(false);
       return;
     }
-
     const payload = { q: inputField };
     try {
       setError("");
@@ -62,6 +64,7 @@ export default function RetrieveData() {
 
   const handleInputChange = (event) => {
     const { value } = event.target;
+    setDisable(false)
     setInputField(value);
     localStorage.setItem("inputField", value); // Update localStorage as user types
     if (error) setError("");
@@ -82,12 +85,12 @@ export default function RetrieveData() {
 
   return (
     <div>
-      <Container className="w-100" fluid style={{ height: "100vh" }}>
+      <Container className="w-90" fluid style={{ height: "100vh" }}>
         <Row style={{ height: "10vh" }}>
           <HeaderComponent />
         </Row>
-        <div className="w-90 mt-5" style={{ height: "82vh", marginLeft: "5%" }}>
-          <div style={{ width: "10%" }}>
+        <div className="w-80 mt-5" style={{marginLeft: "5%" }}>
+          <div>
             <BootstrapSidebar />
           </div>
           <div className="form-group w-50 mt-5 ms-5">
@@ -103,7 +106,7 @@ export default function RetrieveData() {
               <Form.Control.Feedback type="invalid">
                 {error}
               </Form.Control.Feedback>
-              <Button className="mt-3 buttons-colour" type="submit">
+              <Button className="mt-3 buttons-colour" type="submit" disabled={disable}>
                 {homePageTextSamples.SUBMIT_BUTTON}
               </Button>
             </Form>
@@ -113,7 +116,7 @@ export default function RetrieveData() {
               <span>Loading...</span>
             </div>
           )}
-          <div className="form-group w-100 mt-5 ms-5">
+          <div className="form-group w-90 mt-5 ms-5">
             {displayData && (
               <div className="mt-4">
                 <table className="table table-bordered">
@@ -121,7 +124,7 @@ export default function RetrieveData() {
                     {Answer && Array.isArray(Answer) && Answer.length > 0 ? (
                       Answer.slice(0, 3).map((item, index) => (
                         <tr key={index}>
-                          <td>
+                          <td >
                             <div
                               className="d-flex justify-content-end"
                               onClick={() => handleDownload(item)}
@@ -132,10 +135,10 @@ export default function RetrieveData() {
                                 className="downloadbutton"
                               />
                             </div>
-                            {item && typeof item === "object" ? (
+                             {item && typeof item === "object" ? (
                               Object.entries(item).map(([key, value]) => (
                                 <div key={key}>
-                                  <strong>{key}:</strong> {value}
+                                  <strong>{key}:</strong> <ReactMarkdown>{value}</ReactMarkdown>
                                 </div>
                               ))
                             ) : (

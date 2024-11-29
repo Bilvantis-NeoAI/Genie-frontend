@@ -17,9 +17,7 @@ export const retriveRepoData =(payload) => {
          await dispatch(retriveData())
         return GitIngestion
             .post(apis.retriveRepoData, payload)
-            .then(async(response) => {
-                console.log("+++responseresponse1212",response);
-                
+            .then(async(response) => {                
                 await dispatch(retriveDataSuccess(response))
             })
             .catch((error) => {

@@ -5,9 +5,7 @@ const initialState = {
     successMessage: null,
     error: null,
   };
-  const ingestionReducer =(state =initialState , action)=>{
-    console.log("action action",action);
-    
+  const ingestionReducer =(state =initialState , action)=>{    
     switch(action.type){
     case ADD_INGESTION_DATA :
         return {
