@@ -285,7 +285,8 @@ p {
 
 
 .login-container{
-  background: linear-gradient(135deg, #1B8AF1, #B58DED);
+  /* background: linear-gradient(135deg, #1B8AF1, #B58DED); */
+  background-color: #f0f2f5;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -295,16 +296,17 @@ p {
 
 .login-form{
   display: inline-block;
-  align-items: center;
+  align-items: left;
   width: 350px;
 }
 
 .text-area{
-  align-content: center;
-  border-radius: 22px;
+  align-content: left;
+  border: 1px solid gray;
+  border-radius: 5px;
   width: 100%;
-  height: 64px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
+  height: 50px;
+  /* box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 .text-input{
@@ -317,14 +319,14 @@ p {
 
 .login-button{
     margin-top: 28px;
-    width: 165px;
-    height: 60px;
-    border-radius: 30px;
-    background: #B58DED;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    background: blue;
     border: none;
     font-size: 20px;
     color: #FFFFFF;
-    box-shadow: 0 4px 8px 0 rgba(181, 141, 237, 0.7), 0 6px 20px 0 rgba(181, 141, 237, 0.9);
+    /* box-shadow: 0 4px 8px 0 rgba(181, 141, 237, 0.7), 0 6px 20px 0 rgba(181, 141, 237, 0.9); */
     cursor: pointer;
 }
 
@@ -351,15 +353,13 @@ p {
 
 
 .register-link {
-  font-weight: 600;
-  color: #b79ae0; 
+  color: blue; 
   cursor: pointer; 
   transition: color 0.3s ease; 
 }
 
 .register-link:hover {
-  color: blue ; 
-  border-bottom: 2px solid blue;
+  border-bottom: 1px solid blue;
 }
 
 .logout-btn {
@@ -377,7 +377,7 @@ p {
   background-color: white;
 }
 
-.microsoft-login {
+/* .microsoft-login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -393,6 +393,6 @@ p {
 
 .microsoft-login:hover {
   background-color: #D4BDF3;
-}
+} */
 
 

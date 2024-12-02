@@ -1,132 +1,193 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import '../styles/Register.css'
+import { red } from "@mui/material/colors";
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    fullName: "",
+    password: "",
+    confirmPassword: "",
+    username: "",
+    companyName: "",
+  });
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [username, setUsername] = useState('');
-    const [fullname, setFullname] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const navigate = useNavigate(); 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-    const handleRegister = async (e) => {
-        e.preventDefault(); // Prevents form default submission
-    
-        // Password validation
-        if (password !== confirmPassword) {
-          setErrorMessage('Passwords do not match');
-          return;
-        }
-    
-        try {
-          const response = await fetch('http://localhost:3000/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username,
-              password,
-              full_name: fullname,
-            }),
-          });
-    
-          if (response.ok) {
-            // Navigate to login on success
-            navigate('/');
-          } else {
-            const data = await response.json();
-            if (data.detail) {
-              setErrorMessage(data.detail); // Display error from API response
-            } else {
-              setErrorMessage('Registration failed. Please try again.');
-            }
-          }
-        } catch (error) {
-          setErrorMessage('An error occurred. Please try again.');
-        }
-      };
-    
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
-    const handleLogin = () => {
-        navigate('/')
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); 
+    const payload = {
+      email: formData.email,
+      full_name: formData.fullName,
+      password: formData.password,
+      confirm_password: formData.confirmPassword,
+      username: formData.username,
+      company_name: formData.companyName,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.detail || "Registration failed");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
     }
+  };
 
-    return (
-        <div className='login-container'>
-      <div className="login-card pt-4 pb-4">
-        <h4>Get Registered</h4>
-        <form className='login-form' onSubmit={handleRegister}>
-          <div className="text-area">
+  const handleLogin = () => {
+    navigate("/");
+  };
+
+  return (
+    <div className="register-body">
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h2>Register</h2>
+        {error && <p className="error" style={{ color:'red', marginBottom:'20px'}}>{error}</p>}
+        <div className="form-row">
+          <div className="form-details">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-details">
+            <label>User Name:</label>
             <input
               type="text"
-              id="username"
               name="username"
-              placeholder="Username*"
-              className="text-input"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
               required
             />
           </div>
-
-          <div className="text-area mt-4">
+        </div>
+        <div className="form-row">
+          <div className="form-details">
+            <label>Full Name:</label>
             <input
               type="text"
-              id="fullname"
-              name="fullname"
-              placeholder="Full Name*"
-              className="text-input"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
               required
             />
           </div>
-
-          <div className="text-area mt-4">
+          <div className="form-details">
+            <label>Company Name:</label>
             <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password*"
-              className="text-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="text"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleChange}
               required
             />
           </div>
-          <div className="text-area mt-4">
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirm-password"
-              placeholder="Confirm Password*"
-              className="text-input"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {errorMessage && (
-            <div className="error-message text-danger mt-2">{errorMessage}</div>
-          )}
-
-          <input
-            type="submit"
-            value="REGISTER"
-            className="login-button"
-          />
-        </form>
-        <div className='pt-4'>
-          <span className='font-bold-600'>Already Registered ?</span><span className='px-2 register-link' onClick={handleLogin}>Login</span>
         </div>
-      </div>
+        <div className="form-row">
+          <div className="form-details">
+            <label>Password:</label>
+            <div className="password-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <button type="button" onClick={togglePasswordVisibility}>
+                {showPassword ? 
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 2L22 22" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 14.2362C13.4692 14.7112 12.7684 15.0001 12 15.0001C10.3431 15.0001 9 13.657 9 12.0001C9 11.1764 9.33193 10.4303 9.86932 9.88818" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg> 
+                  :
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+          <div className="form-details">
+            <label>Confirm Password:</label>
+            <div className="password-container">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <button type="button" onClick={toggleConfirmPasswordVisibility}>
+                {showConfirmPassword ? 
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 2L22 22" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M14 14.2362C13.4692 14.7112 12.7684 15.0001 12 15.0001C10.3431 15.0001 9 13.657 9 12.0001C9 11.1764 9.33193 10.4303 9.86932 9.88818" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg> 
+                  : 
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="submit" className="register-button">
+          Register
+        </button>
+        <div className="login-redirect">
+        <p>
+          Already have an account?{" "}
+          <span className="login-link" onClick={handleLogin}>
+            Login
+          </span>
+        </p>
+        </div>
+      </form>
     </div>
-    )
-} 
+    </div>
+  );
+};
 
-export default Register
+export default Register;
