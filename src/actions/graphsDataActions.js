@@ -18,17 +18,12 @@ import {
   export const fetchGraphFailure = (error) => ({
     type: FETCH_GRAPH_FAILURE,
     payload: error,
-  });
-  console.log("++++++++MetricMetricMetricMetric",Metric);
-  
+  });  
   export const fetchGraphList = () => {
   return (dispatch) => {
-    dispatch(fetchGraphRequest());
-    console.log("++++++****************");
-    
+    dispatch(fetchGraphRequest());    
     return Metric.get(apis.GRAPHS_DATA)
       .then((response) => {
-        console.log("API Response:", response);
         if (!response || !response.data) {
           throw new Error("Invalid API Response");
         }

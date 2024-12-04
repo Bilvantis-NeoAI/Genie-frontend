@@ -74,20 +74,19 @@ export default function IngestionRepo() {
 
   return (
     <div>
-      <Container fluid className="w-100" style={{ height: "100vh" }}>
+      <Container fluid className="w-100">
         <Row style={{ height: "10vh" }}>
           <HeaderComponent />
         </Row>
 
         <div className="w-100 mt-3" style={{ height: "82vh" }}>
-          <div style={{ width: "10%" }}>
+          <div>
             <BootstrapSidebar />
           </div>
           <form onSubmit={handleSubmit}>
             <div className="col-11 h-100 ms-5 mb-5 pb-4">
               <div
                 className="card d-flex h-100 question-card ms-4"
-                style={{ overflowY: "scroll" }}
               >
                 <div className="form-group d-flex flex-column align-items-center mt-5 ms-5">
                   <div className="mt-4">
@@ -116,7 +115,7 @@ export default function IngestionRepo() {
                       </div>
                     )}
                     {error.url && (
-                      <div style={{ color: "red", marginTop: "5px" }}>
+                      <div className = 'errorMessage'>
                         {error.url}
                       </div>
                     )}

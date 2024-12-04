@@ -357,9 +357,7 @@ p {
 
 .buttons-colour{
   background-color: #07439C;
-  /* margin-top: 10px; */
 }
-
 .form-field-container {
   width: 100%;
   display: flex;
@@ -367,11 +365,9 @@ p {
   align-items: start;
   margin-bottom: 1rem;
 }
-
 .form-field-title {
   font-weight: bold;
 }
-
 .input-container {
   display: flex;
   align-items: center;
@@ -404,7 +400,7 @@ p {
 .metrics-dropdown {
   display: block;
   position: absolute;
-  top: 50px; /* Adjust as needed */
+  top: 50px;
   left: 235%;
   transform: translateX(-50%);
   background-color: rgb(46, 44, 44);
@@ -447,4 +443,8 @@ p {
   font-size: 24px;
   color: #000;
   z-index: 9999;
+}
+.errorMessage{
+  color: 'red';
+  margin-top: 5px;
 }
