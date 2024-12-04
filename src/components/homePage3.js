@@ -19,18 +19,24 @@ export function HomePage3() {
   const dispatch = useDispatch();
   const location = useLocation();
   const header = location.state?.header || "Metrics";
-
   const data = useSelector((state) => state.graphsData.graphData);
-
   useEffect(() => {
     dispatch(fetchGraphList());
   }, [dispatch]);
-
-  const processedData = (data || []).map((item) => ({
-    ...item,
-    fill: item.metrics_name === "no_of_security_reviews" ? "red" : "#4451E9",
-  }));
-
+  const processedData = (data || []).map((item) => {
+    const transformedName = item.metrics_name
+      .replace(/_/g, " ")
+      .replace(/\s+/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ")
+      .trim();  
+    return {
+      ...item,
+      metrics_name: transformedName,
+      fill: transformedName === "No Of Refactors Gen" ? "red" : "#07439C",
+    };
+  }); 
   return (
     <Container className="w-100" fluid style={{ height: "100vh" }}>
       <Row style={{ height: "10vh" }}>
@@ -49,6 +55,7 @@ export function HomePage3() {
               <h4>{header}</h4>
               <div className="top-charts-container row">
                 <div className="col-12 col-md-12 mb-2">
+                    
                   <ResponsiveContainer width="100%" height={350}>
                     <BarChart
                       data={processedData}
@@ -62,19 +69,16 @@ export function HomePage3() {
                         interval={0}
                       />
                       <YAxis />
-                      <Tooltip cursor={{ fill: "transparent" }} />
-                      <Bar
-                        dataKey="count"
-                        isAnimationActive={false}
-                        fill="#4451E9"
-                        name="Metrics"
-                      >
+                      <Tooltip
+                        cursor={{ fill: "transparent" }}
+                        formatter={(value, name, props) => [
+                          value,
+                          processedData[props.index]?.metrics_name || name,
+                        ]}
+                      />
+                      <Bar dataKey="count" fill="#4451E9">
                         {processedData.map((entry, index) => (
-                          <Bar
-                            key={`bar-${index}`}
-                            dataKey="count"
-                            fill={entry.fill}
-                          />
+                          <Bar key={`bar-${index}`} dataKey="count" fill={entry.fill}/>
                         ))}
                       </Bar>
                     </BarChart>
@@ -89,7 +93,8 @@ export function HomePage3() {
         <span
           style={{
             color: "white",
-          }}>
+          }}
+        >
           {footerTextSamples.BILVANTIS}
         </span>
       </div>
