@@ -7,12 +7,12 @@ import { HeaderComponent } from "./header";
 import { Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { repoIngestion } from "../actions/IngestionAction";
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { repo_Ingestion } from "../utils/constatnts";
+import { repo_Ingestion, sweetalert } from "../utils/constatnts";
+import Swal from "sweetalert2";
 export default function IngestionRepo() {
-  const [disable , setDisable] =useState(false)
+  const [disable, setDisable] = useState(false)
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState({
@@ -22,7 +22,6 @@ export default function IngestionRepo() {
   });
   const dispatch = useDispatch();
   const handleChange = (e) => {
-    setDisable(false)
     const { name, value } = e.target;
     setInputFields((prevState) => ({
       ...prevState,
@@ -30,10 +29,8 @@ export default function IngestionRepo() {
     }));
   };
   const handleSubmit = (e) => {
-    setDisable(true)
     e.preventDefault();
     if (!inputFields.url.trim()) {
-      setDisable(false)
       setError((prevState) => ({ ...prevState, url: repo_Ingestion.URL_REQUIRED }));
       return;
     } else {
@@ -48,19 +45,30 @@ export default function IngestionRepo() {
       branch: branchNames,
     };
     setLoading(true)
+    setDisable(true)
     dispatch(repoIngestion(submissionData))
       .then((d) => {
         setLoading(false)
-
+        setInputFields({})
         if (d.status == 200) {
-          toast.success(repo_Ingestion.INGESTION_INITIATED_SUCCEEFULLY);
+          setDisable(false)
+          Swal.fire({
+            title: sweetalert.SUCCESS_TITLE,
+            text: repo_Ingestion.INGESTION_INITIATED_SUCCEEFULLY,
+            icon: sweetalert.SUCCESS_ICON,
+            confirmButtonText: sweetalert.OK_CONFIRMED_TEXT,
+          })
         }
 
       })
       .catch((e) => {
         setLoading(false)
-        setDisable(false)
-        toast.error(repo_Ingestion.ERROR_OCCURED_REPO_INGESTION);
+        Swal.fire({
+          title: sweetalert.ERROR_CONFIRMED_TEXT,
+          text: repo_Ingestion.ERROR_OCCURED_REPO_INGESTION,
+          icon: sweetalert.ERROR_ICON,
+          confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT
+        });
       });
   };
 
@@ -75,7 +83,6 @@ export default function IngestionRepo() {
           <div style={{ width: "10%" }}>
             <BootstrapSidebar />
           </div>
-
           <form onSubmit={handleSubmit}>
             <div className="col-11 h-100 ms-5 mb-5 pb-4">
               <div
@@ -149,7 +156,7 @@ export default function IngestionRepo() {
                     </div>
                   </div>
                   <div className="w-100 d-flex justify-content-center">
-                    <Button className="mt-3 buttons-colour" type="submit" disabled ={disable}>
+                    <Button className="mt-3 buttons-colour" type="submit" disabled={disable}>
                       {homePage1TextSamples.SUBMIT}
                     </Button>
                   </div>

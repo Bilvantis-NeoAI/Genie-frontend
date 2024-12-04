@@ -40,39 +40,10 @@ export const BootstrapSidebar = () => {
           <img src={audiIcon} alt="" className="imagestyles" />
           <span className="tooltip">Audio AI</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center">
+        <li className="d-flex justify-content-center align-items-center" onClick={() => {
+                  handleNavigation('/metrics')}}>
           <img src={metricsIcon} alt="" className="imagestyles" />
-          <span className="tooltip" onClick={toggleMetricsDropdown}>
-            Metrics <span className="arrow-down">{showMetricsOptions ? "▲" : "▼"}</span>
-          </span>
-
-          {showMetricsOptions && (
-            <ul className="metrics-dropdown">
-              <li
-                onClick={() => {
-                  handleNavigation('/metrics', { header: 'GIT repo metrics' });
-                  setShowMetricsOptions(false);
-                }}
-              >
-                GIT repo metric
-              </li>
-              <li
-                onClick={() => {
-                  handleNavigation('/metrics', { header: 'Review code metrics' });
-                  setShowMetricsOptions(false);
-                }}
-              >
-                Review code metrics
-              </li>
-              <li
-                onClick={() => {
-                  handleNavigation('/metrics', { header: 'Code Assistance Metrics' });
-                  setShowMetricsOptions(false);
-                }}
-              >
-                Code Assistance Metrics
-              </li>             </ul>
-          )}
+          <span className="tooltip">Metrics</span>
         </li>
 
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/repoingestion')}>

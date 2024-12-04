@@ -1,7 +1,15 @@
 export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
 };
+export const sweetalert={
+    SUCCESS_TITLE :'SUCCESS',
+    SUCCESS_ICON :'success',
+    OK_CONFIRMED_TEXT :'OK',
+    ERROR_TITLE :'Error',
+    ERROR_ICON : 'error',
+    ERROR_CONFIRMED_TEXT :'Error'
 
+}
 export const  baseURL =  'http://3.139.66.49:9000/'
 
 export const homePageTextSamples = {
@@ -22,7 +30,7 @@ export const homePage1TextSamples = {
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
     ONLY_FILE : 'Please select only 1 file.',
-    TOKEN:'Enter Token',
+    TOKEN:'Enter Pat',
     BRANCH_NAME:'Branch Name'
 };
 
@@ -44,7 +52,7 @@ export const homePage3TextSamples = {
 }
 
 export const headerTextSamples = {
-    SOLAR_WINDS : 'Welcome  to Solarwinds'
+    SOLAR_WINDS : 'Welcome  to Genie'
 }
 
 export const footerTextSamples = {

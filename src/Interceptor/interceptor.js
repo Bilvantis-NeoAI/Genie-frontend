@@ -21,6 +21,10 @@ export const ApiAnswer = axios.create({
 export const GitIngestion = axios.create({
   baseURL : 'http://localhost:9000' //local
 })
+export const Metric = axios.create({
+  baseURL : 'http://localhost:3005' //local
+
+})
 // Helper function to add interceptors to axios instances
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(

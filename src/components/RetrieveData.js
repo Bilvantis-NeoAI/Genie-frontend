@@ -137,8 +137,8 @@ export default function RetrieveData() {
                             </div>
                              {item && typeof item === "object" ? (
                               Object.entries(item).map(([key, value]) => (
-                                <div key={key}>
-                                  <strong>{key}:</strong> <ReactMarkdown>{value}</ReactMarkdown>
+                                <div key={key} style={{marginLeft:'4%'}}>
+                                   <ReactMarkdown>{value}</ReactMarkdown>
                                 </div>
                               ))
                             ) : (
