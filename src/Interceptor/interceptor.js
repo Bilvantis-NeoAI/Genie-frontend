@@ -2,30 +2,23 @@ import axios from "axios";
 import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
-// Axios instances
+import { URL } from "../utils/config";
 export const Api = axios.create({
-  baseURL: 'http://3.139.66.49:9002/', //  deploy url
-  // baseURL: 'http://0.0.0.0:9002/', // local 
+  baseURL:URL.Api,
 });
-
 export const ApiInject = axios.create({
-  baseURL: 'http://3.139.66.49:9001/', //  deploy url
-  // baseURL: 'http://0.0.0.0:9001/', // local 
+  baseURL: URL.ApiInject
 });
 
 export const ApiAnswer = axios.create({
-  baseURL: 'http://3.139.66.49:9000/', //  deploy url
-  // baseURL: 'http://0.0.0.0:9000/', // local 
+  baseURL: URL.ApiAnswer
 });
 export const GitIngestion = axios.create({
-  baseURL : 'http://localhost:9000' //local
+  baseURL : URL.GitIngestion
 })
 export const Metric = axios.create({
-  baseURL : 'http://localhost:3005' //local
-
+  baseURL : URL.Metric
 })
-// Helper function to add interceptors to axios instances
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(
     function (config) {
@@ -37,7 +30,6 @@ const addInterceptors = (axiosInstance, setLoading) => {
       return Promise.reject(error);
     }
   );
-
   axiosInstance.interceptors.response.use(
     function (response) {
       setLoading(false);

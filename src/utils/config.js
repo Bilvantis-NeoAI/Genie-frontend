@@ -10,3 +10,10 @@ export const apis = {
     ingetion :'/process_multibranch_repo',
     retriveRepoData :'qa_git'
 }
+export const URL ={
+    Api : 'http://3.139.66.49:9002/',
+    ApiInject : 'http://3.139.66.49:9001/',
+    ApiAnswer:'http://3.139.66.49:9000/',
+    GitIngestion:'http://localhost:9000', //local
+    Metric : 'http://localhost:3005' //local
+}
