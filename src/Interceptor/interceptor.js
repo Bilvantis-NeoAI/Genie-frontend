@@ -25,6 +25,9 @@ export const Metric = axios.create({
   baseURL : 'http://localhost:3005' //local
 
 })
+export const Login =axios.create({
+  baseURL: 'http://34.27.22.123:3000/' //deploy url
+})
 // Helper function to add interceptors to axios instances
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(
