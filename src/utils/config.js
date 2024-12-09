@@ -9,12 +9,14 @@ export const apis = {
     RELOAD_API : '/reload-docs',
     ingetion :'/process_multibranch_repo',
     retriveRepoData :'/explain',
-    GET_CODE : '/get_code'
-}
-export const URL ={
-    Api : 'http://3.139.66.49:9002/',
-    ApiInject : 'http://3.139.66.49:9001/',
-    ApiAnswer:'http://3.139.66.49:9000/',
-    GitIngestion: ' http://localhost:3005',//http://34.27.22.123:3001',
-    Metric:'http://34.27.22.123:3000'
-}
+    GET_CODE : '/get_code',
+    LOGIN : 'auth/login',
+    REGISTER : 'auth/register'}
+    export const URL ={
+        Api : 'http://3.139.66.49:9002/',
+        ApiInject : 'http://3.139.66.49:9001/',
+        ApiAnswer:'http://3.139.66.49:9000/',
+        GitIngestion: 'http://34.27.22.123:3001',//'http://localhost:3005', //local
+        // Metric : 'http://localhost:3005' //local
+        DeployedURL:'http://34.27.22.123:3000/'
+    }

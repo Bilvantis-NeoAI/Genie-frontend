@@ -3,7 +3,7 @@ import {
     FETCH_GRAPH_SUCCESS,
     FETCH_GRAPH_FAILURE,
   } from "../actionTypes/graphsDataActionTypes.js";
-  import { Metric } from "../Interceptor/interceptor.js";
+  import { DeployedURL } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
   
   export const fetchGraphRequest = () => ({
@@ -22,7 +22,7 @@ import {
   export const fetchGraphList = () => {
   return (dispatch) => {
     dispatch(fetchGraphRequest());    
-    return Metric.get(apis.GRAPHS_DATA)
+    return DeployedURL.get(apis.GRAPHS_DATA)
       .then((response) => {
         if (!response || !response.data) {
           throw new Error("Invalid API Response");

@@ -31,15 +31,12 @@ GitIngestion.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-export const Metric = axios.create({
-  baseURL: URL.Metric,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+export const DeployedURL = axios.create({
+  baseURL: URL.DeployedURL
 });
 
 // Interceptor for adding dynamic Authorization header for Metric
-Metric.interceptors.request.use(
+DeployedURL.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("access_token");
     if (token) {
@@ -49,7 +46,6 @@ Metric.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(
     function (config) {

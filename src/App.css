@@ -324,7 +324,7 @@ p {
   outline: none;
 }
 
-.login-button{
+/* .login-button{
     margin-top: 28px;
     width: 115px;
     height: 60px;
@@ -335,7 +335,7 @@ p {
     color: #FFFFFF;
     box-shadow: 0 4px 8px 0 rgba(181, 141, 237, 0.7), 0 6px 20px 0 rgba(181, 141, 237, 0.9);
     cursor: pointer;
-}
+} */
 
 .login-card{
     background: #FFFFFF;
