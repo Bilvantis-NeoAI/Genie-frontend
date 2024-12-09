@@ -4,19 +4,19 @@ import { HeaderComponent } from "./header";
 import { BootstrapSidebar } from "./sideNav";
 import { homePageTextSamples } from "../utils/constatnts";
 import downloadIcon from "../Assets/downloadIcon.svg";
-import { retriveRepoData } from "../actions/RetriveDataAction";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { retriveRepoData, getRepoCodeData } from "../actions/RetriveDataAction";
+import { useDispatch, useSelector } from "react-redux";
 import { Retrive_repo_data } from "../utils/constatnts";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 export default function RetrieveData() {
   const [inputField, setInputField] = useState("");
   const [error, setError] = useState("");
   const [displayData, setDisplayData] = useState(false);
   const [Answer, setAnswer] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [disable, setDisable] = useState(false);
+  const [codeData, setCodeData] = useState(null);
   const dispatch = useDispatch();
-  const [disable , setDisable] =useState(false)
   const answerData = useSelector((state) => state.repoData);
   useEffect(() => {
     const savedQuestion = localStorage.getItem("inputField");
@@ -42,13 +42,13 @@ export default function RetrieveData() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setDisable(true)
+    setDisable(true);
     if (inputField.trim() === "") {
       setError(Retrive_repo_data.THIS_FIELD_CANT_NOT_BE_EMPTY);
       setDisplayData(false);
       return;
     }
-    const payload = { q: inputField };
+    const payload = { question: inputField };
     try {
       setError("");
       setDisplayData(false);
@@ -62,11 +62,32 @@ export default function RetrieveData() {
     }
   };
 
+  const onSubmitGetCode = async (event) => {
+    event.preventDefault();
+    setDisable(true);
+    if (inputField.trim() === "") {
+      setError(Retrive_repo_data.THIS_FIELD_CANT_NOT_BE_EMPTY);
+      return;
+    }
+    const payload = { question: inputField };
+    try {
+      setError("");
+      setLoading(true);
+      const response = await dispatch(getRepoCodeData(payload)); // Dispatch new action
+      setCodeData(response.data); // Save response in state
+      setLoading(false);
+    } catch (error) {
+      console.log("Error fetching code:", error);
+      setError(Retrive_repo_data.FAILED_TO_FETCH_CODE);
+      setLoading(false);
+    }
+  };
+
   const handleInputChange = (event) => {
     const { value } = event.target;
-    setDisable(false)
+    setDisable(false);
     setInputField(value);
-    localStorage.setItem("inputField", value); // Update localStorage as user types
+    localStorage.setItem("inputField", value);
     if (error) setError("");
   };
 
@@ -94,7 +115,7 @@ export default function RetrieveData() {
             <BootstrapSidebar />
           </div>
           <div className="form-group w-50 mt-5 ms-5">
-            <Form onSubmit={onSubmit}>
+            <Form>
               <Form.Control
                 type="text"
                 className="form-control question-box"
@@ -106,8 +127,22 @@ export default function RetrieveData() {
               <Form.Control.Feedback type="invalid">
                 {error}
               </Form.Control.Feedback>
-              <Button className="mt-3 buttons-colour" type="submit" disabled={disable}>
-                {homePageTextSamples.SUBMIT_BUTTON}
+              <Button
+                className="mt-3 buttons-colour"
+                type="submit"
+                disabled={disable}
+                onClick={onSubmit}
+              >
+                {homePageTextSamples.EXPLAIN}
+              </Button>
+              <Button
+                className="mt-3 buttons-colour"
+                type="button"
+                disabled={disable}
+                style={{ marginLeft: "30px" }}
+                onClick={onSubmitGetCode}
+              >
+                {homePageTextSamples.GET_CODE}
               </Button>
             </Form>
           </div>
@@ -135,10 +170,10 @@ export default function RetrieveData() {
                                 className="downloadbutton"
                               />
                             </div>
-                             {item && typeof item === "object" ? (
+                            {item && typeof item === "object" ? (
                               Object.entries(item).map(([key, value]) => (
-                                <div key={key} style={{marginLeft:'4%'}}>
-                                   <ReactMarkdown>{value}</ReactMarkdown>
+                                <div key={key} style={{marginLeft: "4%" }}>
+                                  <ReactMarkdown>{value}</ReactMarkdown>
                                 </div>
                               ))
                             ) : (
@@ -154,6 +189,12 @@ export default function RetrieveData() {
                     )}
                   </tbody>
                 </table>
+              </div>
+            )}
+            {codeData && (
+              <div className="mt-4">
+                <h5>Code Response:</h5>
+                <pre>{JSON.stringify(codeData, null, 2)}</pre>
               </div>
             )}
           </div>

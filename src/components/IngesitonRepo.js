@@ -12,7 +12,6 @@ import { ToastContainer } from 'react-toastify';
 import { repo_Ingestion, sweetalert } from "../utils/constatnts";
 import Swal from "sweetalert2";
 export default function IngestionRepo() {
-  const [disable, setDisable] = useState(false)
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState({
@@ -45,13 +44,11 @@ export default function IngestionRepo() {
       branch: branchNames,
     };
     setLoading(true)
-    setDisable(true)
     dispatch(repoIngestion(submissionData))
       .then((d) => {
         setLoading(false)
         setInputFields({})
         if (d.status == 200) {
-          setDisable(false)
           Swal.fire({
             title: sweetalert.SUCCESS_TITLE,
             text: repo_Ingestion.INGESTION_INITIATED_SUCCEEFULLY,
@@ -155,7 +152,7 @@ export default function IngestionRepo() {
                     </div>
                   </div>
                   <div className="w-100 d-flex justify-content-center">
-                    <Button className="mt-3 buttons-colour" type="submit" disabled={disable}>
+                    <Button className="mt-3 buttons-colour" type="submit">
                       {homePage1TextSamples.SUBMIT}
                     </Button>
                   </div>

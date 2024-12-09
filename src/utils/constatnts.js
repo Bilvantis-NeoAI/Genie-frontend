@@ -19,6 +19,8 @@ export const homePageTextSamples = {
     OPEN_GRAPHS : 'Open Graphs',
     DOWNLOAD_IMAGES : 'Download Images',
     SUBMIT_BUTTON : 'Submit',
+    EXPLAIN:'Explain',
+    GET_CODE : 'Get Code',
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };

@@ -14,11 +14,42 @@ export const ApiAnswer = axios.create({
   baseURL: URL.ApiAnswer
 });
 export const GitIngestion = axios.create({
-  baseURL : URL.GitIngestion
-})
+  baseURL: URL.GitIngestion,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Interceptor for adding dynamic Authorization header for GitIngestion
+GitIngestion.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 export const Metric = axios.create({
-  baseURL : URL.Metric
-})
+  baseURL: URL.Metric,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Interceptor for adding dynamic Authorization header for Metric
+Metric.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 const addInterceptors = (axiosInstance, setLoading) => {
   axiosInstance.interceptors.request.use(
     function (config) {

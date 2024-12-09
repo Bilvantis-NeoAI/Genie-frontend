@@ -8,12 +8,13 @@ export const apis = {
     NEO4J_STATUS : '/neo4j_status',
     RELOAD_API : '/reload-docs',
     ingetion :'/process_multibranch_repo',
-    retriveRepoData :'qa_git'
+    retriveRepoData :'/explain',
+    GET_CODE : '/get_code'
 }
 export const URL ={
     Api : 'http://3.139.66.49:9002/',
     ApiInject : 'http://3.139.66.49:9001/',
     ApiAnswer:'http://3.139.66.49:9000/',
-    GitIngestion:'http://localhost:9000', //local
-    Metric : 'http://localhost:3005' //local
+    GitIngestion: ' http://localhost:3005',//http://34.27.22.123:3001',
+    Metric:'http://34.27.22.123:3000'
 }
