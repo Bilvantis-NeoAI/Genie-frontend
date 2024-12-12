@@ -164,7 +164,7 @@ const updateFiles = (incomingFiles) => {
                       <span className='form-field-title'>{homePage1TextSamples.URL_INPUT}</span>
                       <span className='required-styling'>*</span>
                     </div>
-                    <div className="input-container mt-2">
+                    <div className="input-container mt-2" style={{width:"250%"}}>
                       <div className="icon-container">
                         <LanguageIcon />
                       </div>

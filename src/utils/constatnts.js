@@ -1,7 +1,15 @@
 export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
 };
+export const sweetalert={
+    SUCCESS_TITLE :'SUCCESS',
+    SUCCESS_ICON :'success',
+    OK_CONFIRMED_TEXT :'OK',
+    ERROR_TITLE :'Error',
+    ERROR_ICON : 'error',
+    ERROR_CONFIRMED_TEXT :'Error'
 
+}
 export const  baseURL =  'http://3.139.66.49:9000/'
 
 export const homePageTextSamples = {
@@ -11,6 +19,8 @@ export const homePageTextSamples = {
     OPEN_GRAPHS : 'Open Graphs',
     DOWNLOAD_IMAGES : 'Download Images',
     SUBMIT_BUTTON : 'Submit',
+    EXPLAIN:'Explain',
+    GET_CODE : 'Get Code',
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };
@@ -21,7 +31,9 @@ export const homePage1TextSamples = {
     FILES_REQUIRED: "At least one file is required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
-    ONLY_FILE : 'Please select only 1 file.'
+    ONLY_FILE : 'Please select only 1 file.',
+    TOKEN:'Enter Pat',
+    BRANCH_NAME:'Branch Name'
 };
 
 export const homePage3TextSamples = {
@@ -42,7 +54,7 @@ export const homePage3TextSamples = {
 }
 
 export const headerTextSamples = {
-    SOLAR_WINDS : 'Welcome  to Solarwinds'
+    SOLAR_WINDS : 'Welcome  to Genie'
 }
 
 export const footerTextSamples = {
@@ -62,3 +74,13 @@ export const adminDashboardTextSamples = {
     API_ERROR : 'API call failed:'
 }
 
+export const Retrive_repo_data={
+    THIS_FIELD_CANT_NOT_BE_EMPTY :'This field cannot be empty',
+    FAILED_TO_RETRIVE_DATA : 'Failed to retrieve data. Please try again.',
+    NO_DATA_AVAILABLE : 'No data available'
+}
+export const repo_Ingestion ={
+    URL_REQUIRED : 'URL is required',
+    INGESTION_INITIATED_SUCCEEFULLY :"Ingestion initiated successfully!",
+    ERROR_OCCURED_REPO_INGESTION :"An error occurred while repo ingestion!"
+}
