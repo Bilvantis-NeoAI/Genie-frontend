@@ -21,11 +21,10 @@ function App() {
         <Route
           path="/"
           element={
-            <RedirectRoute>
               <LoginPage />
-            </RedirectRoute>
           }
         />
+        <Route path="/" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
         <Route
           path="/homepage"
           element={

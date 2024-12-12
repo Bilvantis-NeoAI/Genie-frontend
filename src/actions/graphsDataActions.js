@@ -34,6 +34,7 @@ import {
       .catch((error) => {
         console.error("API Error:", error);
         dispatch(fetchGraphFailure(error.message || "Unknown error"));
+        return error;
       });
   };
 };

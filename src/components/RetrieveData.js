@@ -11,83 +11,78 @@ import ReactMarkdown from "react-markdown";
 export default function RetrieveData() {
   const [inputField, setInputField] = useState("");
   const [error, setError] = useState("");
-  const [displayData, setDisplayData] = useState(false);
-  const [Answer, setAnswer] = useState([]);
+  const [explainData, setExplainData] = useState([]);
+  const [codeData, setCodeData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [disable, setDisable] = useState(false);
-  const [codeData, setCodeData] = useState(null);
+  const [activeTab, setActiveTab] = useState("");
   const dispatch = useDispatch();
   const answerData = useSelector((state) => state.repoData);
+  const getCodeResponse = useSelector((state) => state.getCode);
   useEffect(() => {
-    const savedQuestion = localStorage.getItem("inputField");
-    const savedAnswer = localStorage.getItem("retrievedData");
-    if (savedQuestion) {
-      setInputField(savedQuestion);
-    }
-    if (savedAnswer) {
-      setAnswer(JSON.parse(savedAnswer));
-      setDisplayData(true);
-    }
+    const savedInput = sessionStorage.getItem("inputField");
+    const savedExplainData = sessionStorage.getItem("explainData");
+    const savedCodeData = sessionStorage.getItem("codeData");
+
+    if (savedInput) setInputField(savedInput);
+    if (savedExplainData) setExplainData(JSON.parse(savedExplainData));
+    if (savedCodeData) setCodeData(JSON.parse(savedCodeData));
   }, []);
   useEffect(() => {
-    setDisplayData(false);
-    if (answerData && answerData.repoData?.action?.data) {
-      const data = answerData.repoData.action.data;
-      const newAnswer = [{ response: data.response }];
-      setAnswer(newAnswer);
-      setDisplayData(true);
-      localStorage.setItem("retrievedData", JSON.stringify(newAnswer));
+    sessionStorage.setItem("inputField", inputField);
+    sessionStorage.setItem("explainData", JSON.stringify(explainData));
+    sessionStorage.setItem("codeData", JSON.stringify(codeData));
+  }, [inputField, explainData, codeData]);
+  useEffect(() => {
+    if (answerData?.repoData?.action?.data) {
+      setExplainData([{ data: answerData.repoData.action.data }]);
+      setActiveTab("explain");
     }
   }, [answerData]);
+  useEffect(() => {
+    if (getCodeResponse?.getCode?.action?.code) {
+      setCodeData([{ data: getCodeResponse.getCode.action.code }]);
+      setActiveTab("code");
+    }
+  }, [getCodeResponse]);
 
-  const onSubmit = async (event) => {
+  const onSubmitExplain = async (event) => {
     event.preventDefault();
-    setDisable(true);
-    if (inputField.trim() === "") {
+    if (!inputField.trim()) {
       setError(Retrive_repo_data.THIS_FIELD_CANT_NOT_BE_EMPTY);
-      setDisplayData(false);
       return;
     }
-    const payload = { question: inputField };
     try {
       setError("");
-      setDisplayData(false);
       setLoading(true);
-      await dispatch(retriveRepoData(payload));
-      setLoading(false);
-      localStorage.setItem("inputField", inputField); // Save the question in localStorage
+      setExplainData([]);
+      await dispatch(retriveRepoData({ question: inputField }));
     } catch (error) {
       setError(Retrive_repo_data.FAILED_TO_RETRIVE_DATA);
+    } finally {
       setLoading(false);
     }
   };
 
   const onSubmitGetCode = async (event) => {
     event.preventDefault();
-    setDisable(true);
-    if (inputField.trim() === "") {
+    if (!inputField.trim()) {
       setError(Retrive_repo_data.THIS_FIELD_CANT_NOT_BE_EMPTY);
       return;
     }
-    const payload = { question: inputField };
     try {
       setError("");
       setLoading(true);
-      const response = await dispatch(getRepoCodeData(payload)); // Dispatch new action
-      setCodeData(response.data); // Save response in state
-      setLoading(false);
+      setCodeData([]);
+      await dispatch(getRepoCodeData({ question: inputField }));
     } catch (error) {
-      console.log("Error fetching code:", error);
       setError(Retrive_repo_data.FAILED_TO_FETCH_CODE);
+    } finally {
       setLoading(false);
     }
   };
 
   const handleInputChange = (event) => {
-    const { value } = event.target;
-    setDisable(false);
-    setInputField(value);
-    localStorage.setItem("inputField", value);
+    setInputField(event.target.value);
     if (error) setError("");
   };
 
@@ -103,42 +98,110 @@ export default function RetrieveData() {
     link.click();
     URL.revokeObjectURL(url);
   };
-
+  const renderTableData = (data) => (
+    <table className="table table-bordered">
+      <tbody>
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <tr key={index}>
+              <td>
+                <div
+                  className="d-flex justify-content-end"
+                  onClick={() => handleDownload(item)}
+                >
+                  <img
+                    src={downloadIcon}
+                    alt="Download"
+                    className="downloadbutton"
+                  />
+                </div>
+                {Array.isArray(item.data) ? (
+                  item.data.map((codeSnippet, snippetIndex) => (
+                    <div key={snippetIndex} style={{ marginBottom: "20px" }}>
+                      <ReactMarkdown>
+                        {`\n\`\`\`javascript\n${codeSnippet}\n\`\`\``}
+                      </ReactMarkdown>
+                    </div>
+                  ))
+                ) : typeof item.data === "object" && item.data !== null ? (
+                  Object.entries(item.data).map(([key, value]) => (
+                    <div key={key} style={{ marginBottom: "10px" }}>
+                      <strong>{key}:</strong>
+                      {Array.isArray(value) ? (
+                        value.map((innerItem, innerIndex) => (
+                          <div
+                            key={innerIndex}
+                            style={{
+                              marginLeft: "20px",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            {Object.entries(innerItem).map(([innerKey, innerValue]) => (
+                              <div key={innerKey}>
+                                <strong>{innerKey}:</strong>
+                                <ReactMarkdown>
+                                  {typeof innerValue === "string"
+                                    ? innerValue
+                                    : JSON.stringify(innerValue, null, 2)}
+                                </ReactMarkdown>
+                              </div>
+                            ))}
+                          </div>
+                        ))
+                      ) : (
+                        <ReactMarkdown>
+                          {typeof value === "string"
+                            ? value
+                            : JSON.stringify(value, null, 2)}
+                        </ReactMarkdown>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <ReactMarkdown>
+                    {`\n\`\`\`javascript\n${item.data}\n\`\`\``}
+                  </ReactMarkdown>
+                )}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td>{Retrive_repo_data.NO_DATA_AVAILABLE}</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
+  
   return (
     <div>
       <Container className="w-90" fluid style={{ height: "100vh" }}>
         <Row style={{ height: "10vh" }}>
           <HeaderComponent />
         </Row>
-        <div className="w-80 mt-5" style={{marginLeft: "5%" }}>
-          <div>
-            <BootstrapSidebar />
-          </div>
+        <div className="w-80 mt-5" style={{ marginLeft: "5%" }}>
+          <BootstrapSidebar />
           <div className="form-group w-50 mt-5 ms-5">
             <Form>
               <Form.Control
                 type="text"
-                className="form-control question-box"
                 placeholder="Enter Question"
                 value={inputField}
                 onChange={handleInputChange}
                 isInvalid={!!error}
               />
-              <Form.Control.Feedback type="invalid">
-                {error}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
               <Button
                 className="mt-3 buttons-colour"
-                type="submit"
-                disabled={disable}
-                onClick={onSubmit}
+                disabled={loading}
+                onClick={onSubmitExplain}
               >
                 {homePageTextSamples.EXPLAIN}
               </Button>
               <Button
                 className="mt-3 buttons-colour"
-                type="button"
-                disabled={disable}
+                disabled={loading}
                 style={{ marginLeft: "30px" }}
                 onClick={onSubmitGetCode}
               >
@@ -151,52 +214,9 @@ export default function RetrieveData() {
               <span>Loading...</span>
             </div>
           )}
-          <div className="form-group w-90 mt-5 ms-5">
-            {displayData && (
-              <div className="mt-4">
-                <table className="table table-bordered">
-                  <tbody>
-                    {Answer && Array.isArray(Answer) && Answer.length > 0 ? (
-                      Answer.slice(0, 3).map((item, index) => (
-                        <tr key={index}>
-                          <td >
-                            <div
-                              className="d-flex justify-content-end"
-                              onClick={() => handleDownload(item)}
-                            >
-                              <img
-                                src={downloadIcon}
-                                alt="Download"
-                                className="downloadbutton"
-                              />
-                            </div>
-                            {item && typeof item === "object" ? (
-                              Object.entries(item).map(([key, value]) => (
-                                <div key={key} style={{marginLeft: "4%" }}>
-                                  <ReactMarkdown>{value}</ReactMarkdown>
-                                </div>
-                              ))
-                            ) : (
-                              <p>{Retrive_repo_data.NO_DATA_AVAILABLE}</p>
-                            )}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td>{Retrive_repo_data.NO_DATA_AVAILABLE}</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            {codeData && (
-              <div className="mt-4">
-                <h5>Code Response:</h5>
-                <pre>{JSON.stringify(codeData, null, 2)}</pre>
-              </div>
-            )}
+          <div className="form-group w-90 mt-5 ms-5" style ={{overflowX: "auto", width: "70%"}}>
+            {activeTab === "explain" && renderTableData(explainData)}
+            {activeTab === "code" && renderTableData(codeData)}
           </div>
         </div>
       </Container>

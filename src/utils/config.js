@@ -16,7 +16,6 @@ export const apis = {
         Api : 'http://3.139.66.49:9002/',
         ApiInject : 'http://3.139.66.49:9001/',
         ApiAnswer:'http://3.139.66.49:9000/',
-        GitIngestion: 'http://34.27.22.123:3001',//'http://localhost:3005', //local
-        // Metric : 'http://localhost:3005' //local
+        GitIngestion: 'http://34.27.22.123:3001',
         DeployedURL:'http://34.27.22.123:3000/'
     }

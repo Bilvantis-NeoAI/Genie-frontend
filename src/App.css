@@ -140,6 +140,11 @@ backdrop-filter: blur(25px);
 -webkit-backdrop-filter: blur(25px);
 height: 5vh;
 }
+.custom-table {
+  width: 60% !important;
+  margin: 0 auto;
+  table-layout: auto;
+}
 .cursor{
   cursor: pointer;
 }
@@ -158,9 +163,9 @@ height: 5vh;
   background-color: #07439C !important;
   color: white !important;
 }
-.table{
+/* .table{
   width: 170%;
-}
+} */
 .heading-style{
   color: #07439C;
   font-size: 20px;
@@ -290,6 +295,8 @@ p {
 
 .downloadbutton{
   height: 20px;
+  cursor: pointer;
+   position: "sticky";
 }
 
 
@@ -323,20 +330,6 @@ p {
   border: none; 
   outline: none;
 }
-
-/* .login-button{
-    margin-top: 28px;
-    width: 115px;
-    height: 60px;
-    border-radius: 30px;
-    background: #B58DED;
-    border: none;
-    font-size: 20px;
-    color: #FFFFFF;
-    box-shadow: 0 4px 8px 0 rgba(181, 141, 237, 0.7), 0 6px 20px 0 rgba(181, 141, 237, 0.9);
-    cursor: pointer;
-} */
-
 .login-card{
     background: #FFFFFF;
     width: 434px;
@@ -445,6 +438,6 @@ p {
   z-index: 9999;
 }
 .errorMessage{
-  color: 'red';
+  color: 'red' !important;
   margin-top: 5px;
 }

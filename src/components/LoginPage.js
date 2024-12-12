@@ -23,8 +23,6 @@ const LoginPage = () => {
     Object.keys(formData).forEach((key) => {
       Payload.append(key, formData[key]);
     });
-    console.log("Payload",Payload);
-    
     return Payload;
   };
   
@@ -55,7 +53,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login s</h2>
+        <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
         <label>Email:</label>
         <input

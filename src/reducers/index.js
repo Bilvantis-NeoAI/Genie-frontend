@@ -8,6 +8,7 @@ import ingestionReducer from './IngestionReducer';
 import retriveRepoDataReducer from './retriveRepoDataReducer';
 import loginReducer from './loginReducer';
 import registrationReducer from './registrationReducer';
+import getCodeReducer from './getCodeReducer';
 const rootReducer = combineReducers({
     answersData : answersReducer,
     documentData : documentReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     ingestion : ingestionReducer,
     repoData : retriveRepoDataReducer,
     loginData : loginReducer,
-    registrationData :registrationReducer
+    registrationData :registrationReducer,
+    getCode : getCodeReducer
 });
 
 export default rootReducer;

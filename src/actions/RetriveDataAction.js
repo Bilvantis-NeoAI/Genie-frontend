@@ -43,7 +43,7 @@ export const getRepoCodeData = (payload)=>{
             return GitIngestion
             .post(apis.GET_CODE,payload)
             .then(async(response)=>{
-                await dispatch(getCodeSuccess(response))
+                await dispatch(getCodeSuccess(response.data))
             })
             .catch((error)=>{
                 dispatch(getCodeFailure(error))
