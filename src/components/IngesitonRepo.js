@@ -36,7 +36,7 @@ export default function IngestionRepo() {
     } else {
       setError((prevState) => ({ ...prevState, url: "" }));
     }
-    const branchNames = inputFields.branch
+    const branchNames = inputFields?.branch
       .split(",")
       .map((name) => name?.trim())
       .filter((name) => name !== "");
@@ -44,13 +44,13 @@ export default function IngestionRepo() {
       ...inputFields,
       branch: branchNames,
     };
+    console.log("+++branchNamesbranchNamesbranchNamesbranchNamesbranchNames",branchNames);
     setLoading(true)
     setIsDisable(true)
     dispatch(repoIngestion(submissionData))
       .then((d) => {
         setLoading(false)
         setIsDisable(false)
-        setInputFields({})
         if (d.status == 200) {
           Swal.fire({
             title: sweetalert.SUCCESS_TITLE,

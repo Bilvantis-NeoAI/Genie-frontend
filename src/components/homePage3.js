@@ -21,7 +21,6 @@ import { footerTextSamples } from "../utils/constatnts";
 export function HomePage3() {
   const dispatch = useDispatch();
   const isInitialCall = useRef(true);
-
   const data = useSelector((state) => state.graphsData.graphData);
   useEffect(() => {
     if (isInitialCall.current) {

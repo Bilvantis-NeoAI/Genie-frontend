@@ -173,7 +173,6 @@ export default function RetrieveData() {
       </tbody>
     </table>
   );
-  
   return (
     <div>
       <Container className="w-90" fluid style={{ height: "100vh" }}>

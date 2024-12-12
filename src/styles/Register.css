@@ -1,129 +1,127 @@
 .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f7fa;
-  }
-  
-  .register-form {
-    background: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-  }
-  
-  .register-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .form-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  .register-container label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  .register-container input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .register-container input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-  }
-  
-  .password-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  .password-container input {
-    flex: 1;
-  }
-  
-  .password-container button {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: #007bff;
-  }
-  
-  .password-container button:focus {
-    outline: none;
-  }
-  
-  .register-button {
-    width: 100%;
-    padding: 7px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .register-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .register-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  .error {
-    color: red;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  /* Login Link */
-  .register-container p {
-    text-align: center;
-    margin: 0;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .register-container .login-redirect {
-    margin-top: 20px;
-  }
-  
-  .register-container .login-link {
-    color: #007bff;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .register-container .login-link:hover {
-    text-decoration: underline;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.register-form {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.register-container label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.register-container input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.register-container input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-container input {
+  flex: 1;
+}
+
+.password-container button {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #007bff;
+}
+
+.password-container button:focus {
+  outline: none;
+}
+
+.register-button {
+  width: 100%;
+  padding: 7px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.register-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 14px;
+}
+
+.register-container p {
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.register-container .login-redirect {
+  margin-top: 20px;
+}
+
+.register-container .login-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.register-container .login-link:hover {
+  text-decoration: underline;
+}

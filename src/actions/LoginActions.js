@@ -23,23 +23,6 @@ export const registrationSuccess=(data)=>({
     type : REGISTRATION_SUCCESS,
     action : data
 })
-// export const userLogin=(payload)=>{
-//     return(dispatch)=>{
-//         dispatch(fetchLoginData())
-//         return DeployedURL
-//        .post(apis.LOGIN,payload)
-//        .then((response) => {
-//            const loginResponse = response;
-//            dispatch(fetchLoginDataSuccess(loginResponse));
-//            return response;
-//          })
-//          .catch((error) => {                                
-//            dispatch(fetchLoginDataFailure(error?.response?.data?.detail));
-//            return error?.response?.data?.detail;
-//          });
-//     }
-// }
-
 export const userLogin=(payload)=>{
     return(dispatch)=>{
         dispatch(fetchLoginData())

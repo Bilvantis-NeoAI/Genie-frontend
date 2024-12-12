@@ -20,20 +20,16 @@ const Register = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     let dispatch = useDispatch()
     const navigate = useNavigate();
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
     const toggleConfirmPasswordVisibility = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -74,7 +70,6 @@ const Register = () => {
     const handleLogin = () => {
         navigate("/");
     };
-
     return (
         <div className="register-body">
             <div className="register-container">
@@ -197,5 +192,4 @@ const Register = () => {
         </div>
     );
 };
-
 export default Register;

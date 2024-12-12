@@ -1,34 +1,33 @@
-import { REGISTRATION_DATA , REGISTRATION_FAILURE,REGISTRATION_SUCCESS } from "../actionTypes/loginActionTypes";
-let initialState ={
+import { REGISTRATION_DATA, REGISTRATION_FAILURE, REGISTRATION_SUCCESS } from "../actionTypes/loginActionTypes";
+let initialState = {
     loading: false,
-    registrationDetail : null,
-    successMessage : null,
-    error : null
+    registrationDetail: null,
+    successMessage: null,
+    error: null
 }
-
-const registrationReducer =(state = initialState , action)=>{
-    switch (action.type){
+const registrationReducer = (state = initialState, action) => {
+    switch (action.type) {
         case REGISTRATION_DATA:
             return {
-                loading : true,
-                registrationDetail : null,
-                successMessage :null,
-                error:null
+                loading: true,
+                registrationDetail: null,
+                successMessage: null,
+                error: null
             }
-            case REGISTRATION_SUCCESS:
-                return {
-                    loading : false,
-                    registrationDetail : "User Register Logedin Successfully",
-                    error : null
-                }
-                case REGISTRATION_FAILURE :
-                    return {
-                        loading:false,
-                        registrationDetail: null,
-                        error : 'Something went wrong'
-                    }
-                    default :
-                    return state;
+        case REGISTRATION_SUCCESS:
+            return {
+                loading: false,
+                registrationDetail: "User Register Logedin Successfully",
+                error: null
+            }
+        case REGISTRATION_FAILURE:
+            return {
+                loading: false,
+                registrationDetail: null,
+                error: 'Something went wrong'
+            }
+        default:
+            return state;
 
     }
 }
