@@ -17,7 +17,7 @@ const registrationReducer = (state = initialState, action) => {
         case REGISTRATION_SUCCESS:
             return {
                 loading: false,
-                registrationDetail: "User Register Logedin Successfully",
+                registrationDetail: "User Register Successfully",
                 error: null
             }
         case REGISTRATION_FAILURE:
