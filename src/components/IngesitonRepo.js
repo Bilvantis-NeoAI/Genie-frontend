@@ -9,11 +9,12 @@ import { useDispatch } from "react-redux";
 import { repoIngestion } from "../actions/IngestionAction";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { repo_Ingestion, sweetalert } from "../utils/constatnts";
+import { repo_Ingestion, sweetalert, footerTextSamples } from "../utils/constatnts";
 import Swal from "sweetalert2";
 export default function IngestionRepo() {
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
+  const [isDisable, setIsDisable] = useState(false)
   const [inputFields, setInputFields] = useState({
     branch: "",
     url: "",
@@ -29,25 +30,27 @@ export default function IngestionRepo() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputFields.url.trim()) {
+    if (!inputFields?.url?.trim()) {
       setError((prevState) => ({ ...prevState, url: repo_Ingestion.URL_REQUIRED }));
       return;
     } else {
       setError((prevState) => ({ ...prevState, url: "" }));
     }
-    const branchNames = inputFields.branch
+    const branchNames = inputFields?.branch
       .split(",")
-      .map((name) => name.trim())
+      .map((name) => name?.trim())
       .filter((name) => name !== "");
     const submissionData = {
       ...inputFields,
       branch: branchNames,
     };
+    console.log("+++branchNamesbranchNamesbranchNamesbranchNamesbranchNames",branchNames);
     setLoading(true)
+    setIsDisable(true)
     dispatch(repoIngestion(submissionData))
       .then((d) => {
         setLoading(false)
-        setInputFields({})
+        setIsDisable(false)
         if (d.status == 200) {
           Swal.fire({
             title: sweetalert.SUCCESS_TITLE,
@@ -56,10 +59,10 @@ export default function IngestionRepo() {
             confirmButtonText: sweetalert.OK_CONFIRMED_TEXT,
           })
         }
-
       })
       .catch((e) => {
         setLoading(false)
+        setIsDisable(false)
         Swal.fire({
           title: sweetalert.ERROR_CONFIRMED_TEXT,
           text: repo_Ingestion.ERROR_OCCURED_REPO_INGESTION,
@@ -68,7 +71,6 @@ export default function IngestionRepo() {
         });
       });
   };
-
   return (
     <div>
       <Container fluid className="w-100">
@@ -112,7 +114,7 @@ export default function IngestionRepo() {
                       </div>
                     )}
                     {error.url && (
-                      <div className = 'errorMessage'>
+                      <div className='errorMessage' style={{ color: 'red' }}>
                         {error.url}
                       </div>
                     )}
@@ -152,7 +154,7 @@ export default function IngestionRepo() {
                     </div>
                   </div>
                   <div className="w-100 d-flex justify-content-center">
-                    <Button className="mt-3 buttons-colour" type="submit">
+                    <Button className="mt-3 buttons-colour" type="submit" disabled={isDisable}>
                       {homePage1TextSamples.SUBMIT}
                     </Button>
                   </div>
@@ -162,6 +164,15 @@ export default function IngestionRepo() {
           </form>
         </div>
         <ToastContainer />
+        <div className="position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded">
+          <span
+            style={{
+              color: "white",
+            }}
+          >
+            {footerTextSamples.BILVANTIS}
+          </span>
+        </div>
       </Container>
     </div>
   );

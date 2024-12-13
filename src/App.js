@@ -10,22 +10,85 @@ import LoginPage from './components/LoginPage';
 import { AdminDashboard } from './components/AdminDashboard';
 import RetrieveData from './components/RetrieveData';
 import IngestionRepo from './components/IngesitonRepo';
+import RedirectRoute from './RedirectRoute';
+import ProtectRoute from './ProtectRoute';
+import Register from './components/Register';
 function App() {
   return (
     <Router>
-    <Loader></Loader>
-    <Routes>
-      <Route path='/' element={<LoginPage />} />
-      <Route path='/homepage' element={<HomePage />} />
-      <Route path='/document' element={<HomePage1 />} />
-      <Route path='/audio' element={<HomePage2 />} />
-      <Route path='/metrics' element={<HomePage3 />} />
-      <Route path='/admin' element={<AdminDashboard />} />
-      <Route path='/repoingestion' element ={<IngestionRepo/>}/>
-      <Route path ='/retrivingData' element ={<RetrieveData/>}/>
-    </Routes>
-  </Router>
+      <Loader />
+      <Routes>
+        <Route
+          path="/"
+          element={
+              <LoginPage />
+          }
+        />
+        <Route path="/" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
+        <Route
+          path="/homepage"
+          element={
+            <ProtectRoute>
+              <HomePage />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/repoingestion"
+          element={
+            <ProtectRoute>
+              <IngestionRepo />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/retrivingData"
+          element={
+            <ProtectRoute>
+              <RetrieveData />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/document"
+          element={
+            <ProtectRoute>
+              <HomePage1 />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/audio"
+          element={
+            <ProtectRoute>
+              <HomePage2 />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/metrics"
+          element={
+            <ProtectRoute>
+              <HomePage3 />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectRoute>
+              <AdminDashboard />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Register />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
-
 export default App;
