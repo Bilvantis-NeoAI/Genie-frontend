@@ -54,19 +54,19 @@ export const BootstrapSidebar = () => {
           <img src={retriveData} alt="" className="imagestyles" />
           <span className="tooltip">GIT Q&A</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center">
+        {/* <li className="d-flex justify-content-center align-items-center">
           <img src={adminIcon} alt="" className="imagestyles" />
           <span className="tooltip" onClick={toggleAdminDropdown}>
             Admin 
-            {/* <span className="arrow-down">{showadminOptions ? "▲" : "▼"}</span> */}
+            <span className="arrow-down">{showadminOptions ? "▲" : "▼"}</span>
           </span>
-          {/* {showadminOptions && (
+          {showadminOptions && (
             <ul className="metrics-dropdown">
               <li> Profile</li>
               <li> Settings</li>
             </ul>
-          )} */}
-        </li>
+          )}
+        </li> */}
       </ul>
     </div>
   );
