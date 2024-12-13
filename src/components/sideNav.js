@@ -25,7 +25,7 @@ export const BootstrapSidebar = () => {
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
-        <li className="d-flex justify-content-center align-items-center barli">
+        {/* <li className="d-flex justify-content-center align-items-center barli">
           <img src={barsimage} alt="" className="imagestyles" />
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/homepage')}>
@@ -39,8 +39,8 @@ export const BootstrapSidebar = () => {
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/audio')}>
           <img src={audiIcon} alt="" className="imagestyles" />
           <span className="tooltip">Audio AI</span>
-        </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => {
+        </li> */}
+        <li className="d-flex justify-content-center align-items-center Iconstyles" onClick={() => {
                   handleNavigation('/metrics')}}>
           <img src={metricsIcon} alt="" className="imagestyles" />
           <span className="tooltip">Metrics</span>
@@ -48,23 +48,24 @@ export const BootstrapSidebar = () => {
 
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/repoingestion')}>
           <img src={injectingRepo} alt="" className="imagestyles" />
-          <span className="tooltip">Repo Ingestion</span>
+          <span className="tooltip">GIT Ingestion</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/retrivingData')}>
           <img src={retriveData} alt="" className="imagestyles" />
-          <span className="tooltip">Retrieve Data</span>
+          <span className="tooltip">GIT Q&A</span>
         </li>
         <li className="d-flex justify-content-center align-items-center">
           <img src={adminIcon} alt="" className="imagestyles" />
           <span className="tooltip" onClick={toggleAdminDropdown}>
-            Admin <span className="arrow-down">{showadminOptions ? "▲" : "▼"}</span>
+            Admin 
+            {/* <span className="arrow-down">{showadminOptions ? "▲" : "▼"}</span> */}
           </span>
-          {showadminOptions && (
+          {/* {showadminOptions && (
             <ul className="metrics-dropdown">
               <li> Profile</li>
               <li> Settings</li>
             </ul>
-          )}
+          )} */}
         </li>
       </ul>
     </div>
