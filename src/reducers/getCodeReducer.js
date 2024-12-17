@@ -11,6 +11,7 @@ const getCodeReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         successMessage: null,
+        getCode: null,
         error: null,
       };
     case FETCH_CODE_SUCCESS:

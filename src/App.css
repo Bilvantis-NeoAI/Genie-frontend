@@ -166,9 +166,9 @@ height: 5vh;
   background-color: #07439C !important;
   color: white !important;
 }
-/* .table{
-  width: 170%;
-} */
+.form-control{
+  width: 80% !important;
+}
 .heading-style{
   color: #07439C;
   font-size: 20px;
