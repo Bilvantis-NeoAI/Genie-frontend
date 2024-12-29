@@ -1,67 +1,84 @@
 import React, { useState, useEffect } from "react";
-import HorizontalGraph from "../graphs/HorizotalGraph";
-import { DatePicker } from 'antd';
-import 'antd/dist/reset.css';
+import { DatePicker } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGraphList } from "../actions/graphsDataActions";
+import "antd/dist/reset.css";
+import BarGraph from "../graphs/BarGraph";
+import MuilBarGraph from "../graphs/MultiBarGraph";
+import StackedBarGraph from "../graphs/StackedBarGraph";
+
 const { RangePicker } = DatePicker;
-export default function CommonIssuesMetric() {
+
+export default function UsageMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [filters, setFilters] = useState([]);
-    const [selectedFilter, setSelectedFilter] = useState("");
+    const [selectedFilter, setSelectedFilter] = useState({});
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.graphs.usage);
+
+
     const handleFilter = (filterValues) => {
         setFilters(filterValues || []);
         setOffCanvas(true);
     };
+
     const handleCloseCanvas = () => {
         setOffCanvas(false);
         setFilters([]);
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setOffCanvas(false)
-    }
+        setOffCanvas(false);
+    };
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setSelectedFilter({ ...selectedFilter, [name]: value });
-
-    }
-    const sampledata = [
-        {
-            type: "Heat",
-            data: [
-                { error: 'syntax error', count: 100, percentage: 40 },
-                { error: 'security error', count: 150, percentage: 60 },
-                { error: 'login error', count: 80, percentage: 32 },
-                { error: 'performance error', count: 200, percentage: 80 },
-            ],
-            filters: ["Admin", "developer", "tester"],
-        }
-    ];
-
-    const graphComponents = {
-        Heat: HorizontalGraph
     };
 
-    useEffect(() => {
-    }, [offCanvas]);
+    const graphComponents = {
+        bar: BarGraph,
+        stacked_bar: StackedBarGraph,
+    };
 
+    let metrics = [];
+    if (data && data?.data?.metrics) {
+        metrics = Object.values(data?.data?.metrics);
+    }
+
+    useEffect(() => {
+        let params = {};
+        params.type = "usage";
+        params.filter = false;
+        dispatch(fetchGraphList(params, 'usage'))
+    }, []);
     return (
         <>
             <div className="row g-4">
-                {sampledata.map((dataset, index) => {
-                    const GraphComponent = graphComponents[dataset.type] || null;
+                {metrics.map((metric, index) => {
+                    const titleToFromMapping = {
+                        "Review Usage Data": "Review",
+                        "Assistant Usage Data": "Assistant",
+                        "Application Usage": "Application",
+                    };
+                    const from = titleToFromMapping[metric.title] || "Default";
+                    const GraphComponent = graphComponents[metric.graph_type] || null;
                     return (
                         <div className="col-lg-6 col-md-12" key={index}>
                             {GraphComponent && (
                                 <GraphComponent
-                                    data={dataset.data}
-                                    title={dataset.type}
-                                    handleFilter={() => handleFilter(dataset.filters)}
+                                    data={metric.data}
+                                    title={metric.title}
+                                    from={from}
+                                    handleFilter={() => handleFilter(metric.filters)}
                                 />
                             )}
                         </div>
                     );
                 })}
             </div>
+
             {offCanvas && (
                 <div
                     className="offcanvas offcanvas-end show"
@@ -78,10 +95,10 @@ export default function CommonIssuesMetric() {
                             <label htmlFor="filterSelect">Select Filter:</label>
                             <select
                                 id="filterSelect"
-                                value={selectedFilter.filter}
+                                value={selectedFilter.filter || ""}
                                 name="filter"
                                 onChange={onChange}
-                                style={{ height: '30px', width: '80%', borderRadius: '3px' }}
+                                style={{ height: "30px", width: "80%", borderRadius: "3px" }}
                             >
                                 <option value="">-- Select a Filter --</option>
                                 {filters.map((filter, index) => (
@@ -91,27 +108,17 @@ export default function CommonIssuesMetric() {
                                 ))}
                             </select>
                             <br />
-                            <label htmlFor="name">Name:</label>
-                            <br />
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                onChange={onChange}
-                                style={{ height: '30px', width: '80%', borderRadius: '3px' }}
-                            />
-                            <br />
                             <label htmlFor="dateRange">Select Date Range:</label>
                             <br />
                             <RangePicker
                                 id="dateRange"
-                                style={{ width: '80%' }}
+                                style={{ width: "80%" }}
                                 getPopupContainer={(trigger) => trigger.parentElement}
                                 dropdownClassName="custom-range-picker-popup"
                                 onChange={(dates, dateStrings) => {
                                     onChange({
                                         target: {
-                                            name: 'dateRange',
+                                            name: "dateRange",
                                             value: dateStrings,
                                         },
                                     });

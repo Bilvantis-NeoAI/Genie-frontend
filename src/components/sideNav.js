@@ -96,7 +96,7 @@ export default function SideNav() {
                         }`}
                         onClick={handleLogout}
                     >
-                        <img src={logoutIcon} alt="" className="imagestyles" />
+                        <img src={logoutIcon} alt="" className="imagestyles"/>
                         <span className="tooltip">Logout</span>
                     </li>
                 </ul>

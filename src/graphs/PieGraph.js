@@ -1,8 +1,8 @@
 import React from "react";
-import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell,Legend } from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell, Legend } from "recharts";
 import {
     FilterOutlined
-  } from "@ant-design/icons";
+} from "@ant-design/icons";
 const COLORS = ["#1DB9EF", "#A91DEF", "#1DEF81", "#EF8F1D"];
 
 
@@ -19,23 +19,23 @@ const PieGraph = ({ data, title, handleFilter }) => (
                 padding: "10px",
             }}
         >
-            <h6 style={{marginTop:'-4%'}}>
+            <h6 style={{ marginTop: '-4%' }}>
                 {title} Distribution
             </h6>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <button type="button" className="btn btn-light" onClick={handleFilter} data-bs-toggle="offcanvas"
+                <button type="button" className="btn btn-light" onClick={handleFilter} data-bs-toggle="offcanvas"
                     data-bs-target="#addPriority"
                     aria-controls="offcanvasRight">
                     <FilterOutlined />
                 </button>
             </div>
         </div>
-        <ResponsiveContainer width="80%" height={240}>
+        <ResponsiveContainer width="100%" height={240}>
             <PieChart>
                 <Pie
                     data={data}
                     dataKey="count"
-                    nameKey="name"
+                    nameKey="severity"
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
@@ -46,7 +46,7 @@ const PieGraph = ({ data, title, handleFilter }) => (
                     ))}
                 </Pie>
                 <Tooltip />
-                <Legend/>
+                <Legend />
             </PieChart>
         </ResponsiveContainer>
     </div>

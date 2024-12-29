@@ -1,121 +1,89 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { DatePicker } from "antd";
+import "antd/dist/reset.css";
 import BarGraph from "../graphs/BarGraph";
 import PieGraph from "../graphs/PieGraph";
-import HeatGraph from "../graphs/HeatGraph";
 import AreaGraph from "../graphs/AreaGraph";
-import { DatePicker } from 'antd';
-import 'antd/dist/reset.css';
+import MuilBarGraph from "../graphs/MultiBarGraph";
+import { fetchGraphList } from "../actions/graphsDataActions";
+
 const { RangePicker } = DatePicker;
 
-// import DatePicker from "react-multi-date-picker";
 export default function SeverityMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
-    const [filters, setFilters] = useState([{
-        name: ''
-    }]);
-    const [selectedFilter, setSelectedFilter] = useState("");
+    const [selectedFilter, setSelectedFilter] = useState({});
+    const data = useSelector((state) => state.graphs.severity);
+    const dispatch = useDispatch();
+
     const handleFilter = (filterValues) => {
         setFilters(filterValues || []);
         setOffCanvas(true);
     };
+
     const handleCloseCanvas = () => {
         setOffCanvas(false);
         setFilters([]);
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setOffCanvas(false)
-        console.log("*** from handle submit=====++++", selectedFilter);
-    }
+        if (!selectedFilter.projectId) {
+            alert("Please select a project");
+            return;
+        }
+        setOffCanvas(false);
+        let params = {};
+        params.type = "severity";
+        params.filter = false;
+        dispatch(fetchGraphList(params, 'severity'))
+        dispatch(fetchGraphList({ projectId: selectedFilter.projectId }, 'severity'));
+    };
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setSelectedFilter({ ...selectedFilter, [name]: value });
-        console.log("+++setSelectedFilter ***********", selectedFilter);
+    };
 
-    }
-    console.log("+++selectedFilterselectedFilterselectedFilter", selectedFilter);
-
-    const sampledata = [
-        {
-            type: "Quality",
-            data: [
-                { name: "low", count: 100, percentage: 40 },
-                { name: "critical", count: 150, percentage: 60 },
-                { name: "medium", count: 80, percentage: 32 },
-                { name: "severity", count: 200, percentage: 80 },
-            ],
-            filters: ["alpha", "beta"],
-        },
-        {
-            type: "Severity",
-            data: [
-                { name: "low", count: 100, percentage: 40 },
-                { name: "critical", count: 150, percentage: 60 },
-                { name: "medium", count: 80, percentage: 32 },
-                { name: "severity", count: 200, percentage: 80 },
-            ],
-            filters: ["low", "medium", "high"],
-        },
-        {
-            type: "Users",
-            data: [
-                { count: 100, percentage: 54 },
-                { count: 150, percentage: 67 },
-                { count: 80, percentage: 32 },
-                { count: 200, percentage: 10 },
-            ],
-            filters: ["Admin", "developer", "tester"],
-        },
-        {
-            type: "Heat",
-            data: [
-                { count: 100, percentage: 45 },
-                { count: 150, percentage: 36 },
-                { count: 80, percentage: 36 },
-                { count: 200, percentage: 24 },
-            ],
-            filters: ["Admin", "developer", "tester"],
-        },
-        {
-            type: "Frequency",
-            data: [
-                { name: "admin", count: 10, percentage: 40 },
-                { name: "Develo", count: 150, percentage: 10 },
-                { name: "medium", count: 80, percentage: 32 },
-                { name: "severity", count: 200, percentage: 80 },
-                { name: "normal", count: 200, percentage: 80 },
-                { name: "sevef", count: 100, percentage: 80 }
-            ],
-            filters: ["Admin", "developer", "tester"],
-        }
-    ];
 
     const graphComponents = {
-        Quality: BarGraph,
-        Severity: PieGraph,
-        Users: BarGraph,
-        Heat: HeatGraph,
-        Frequency: AreaGraph,
+        double_bar_graph: BarGraph,
+        pie: PieGraph,
+        area_chart: AreaGraph,
+        multi_bar: MuilBarGraph,
     };
+
+    let metrics = [];
+    if (data?.data && data?.data?.metrics) {
+        metrics = Object.values(data?.data?.metrics);
+    }
+    useEffect(() => {
+        let params = {};
+        params.type = "severity";
+        params.filter = false;
+        dispatch(fetchGraphList(params, 'severity'))
+    }, []);
+
     return (
         <>
             <div className="row g-4">
-                {sampledata.map((dataset, index) => {
-                    const GraphComponent = graphComponents[dataset.type] || null;
+                {metrics?.map((metric, index) => {
+                    const GraphComponent = graphComponents[metric.graph_type] || null;
                     return (
                         <div className="col-lg-6 col-md-12" key={index}>
                             {GraphComponent && (
                                 <GraphComponent
-                                    data={dataset.data}
-                                    title={dataset.type}
-                                    handleFilter={() => handleFilter(dataset.filters)}
+                                    data={metric.data}
+                                    title={metric.title}
+                                    from="severity"
+                                    handleFilter={() => handleFilter(metric.filters)}
                                 />
                             )}
                         </div>
                     );
                 })}
             </div>
+
             {offCanvas && (
                 <div
                     className="offcanvas offcanvas-end show"
@@ -129,34 +97,34 @@ export default function SeverityMetric() {
                     </div>
                     <div className="offcanvas-body">
                         <form onSubmit={handleSubmit}>
-                            <label htmlFor="filterSelect">Select Filter:</label>
+                            <label htmlFor="filterSelect">Project Name:</label>
                             <select
                                 id="filterSelect"
-                                value={selectedFilter.filter}
-                                name="filter"
+                                value={selectedFilter.projectId || ""}
+                                name="projectId"
                                 onChange={onChange}
-                                style={{ height: '30px', width: '80%', borderRadius: '3px' }}
+                                style={{ height: "30px", width: "80%", borderRadius: "3px" }}
                             >
-                                <option value="">-- Select a Filter --</option>
-                                {filters.map((filter, index) => (
-                                    <option key={index} value={filter}>
-                                        {filter}
+                                <option value="">-- Select a Project --</option>
+                                {data?.data?.metrics?.project_user_mapping.map((project) => (
+                                    <option key={project._id} value={project._id}>
+                                        {project.project_name || "Unnamed Project"}
                                     </option>
                                 ))}
                             </select>
+
                             <br />
                             <label htmlFor="dateRange">Select Date Range:</label>
                             <br />
                             <RangePicker
                                 id="dateRange"
-                                style={{ width: '80%' }}
+                                style={{ width: "80%" }}
                                 getPopupContainer={(trigger) => trigger.parentElement}
-                                dropdownClassName="custom-range-picker-popup" 
+                                dropdownClassName="custom-range-picker-popup"
                                 onChange={(dates, dateStrings) => {
-                                    console.log(dates, dateStrings);
                                     onChange({
                                         target: {
-                                            name: 'dateRange',
+                                            name: "dateRange",
                                             value: dateStrings,
                                         },
                                     });

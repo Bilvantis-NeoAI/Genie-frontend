@@ -56,13 +56,13 @@ export function HeaderComponent() {
         level={5}
         style={{
           color: "Black",
-          margin: 0,
+          marginTop: '20px',
           textAlign: "center",
           flex: 2, // Allow the title to take more space in the center
           fontSize: "16px",
         }}
       >
-       Welcome to Genie
+      <h4> Welcome to Genie</h4>
       </Title>
  
       {/* Right Section: Profile Icon and Username */}
