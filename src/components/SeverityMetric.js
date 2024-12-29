@@ -12,6 +12,7 @@ const { RangePicker } = DatePicker;
 
 export default function SeverityMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
+    const [filters, setFilters] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({});
     const data = useSelector((state) => state.graphs.severity);
     const dispatch = useDispatch();
