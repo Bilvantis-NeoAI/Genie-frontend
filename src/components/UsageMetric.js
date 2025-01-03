@@ -15,9 +15,6 @@ export default function UsageMetric() {
     const dispatch = useDispatch();
     const [moduleType, setModuleType] = useState("usage");
     const data = useSelector((state) => state.graphs[moduleType]?.data);
-    console.log("+++++++++ data data data data---------", data);
-
-
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
             ...prevFilter,
@@ -28,14 +25,12 @@ export default function UsageMetric() {
     };
     const onClear = () => {
         setSelectedFilter((prevState) => {
-            console.log("Clearing filter... Previous state:", prevState);
             const updatedState = {
                 ...prevState,
                 project_name: "",
                 user_id: "",
                 date: "",
             };
-            console.log("Updated state after clearing:", updatedState);
             return updatedState;
         });
     
@@ -142,9 +137,6 @@ export default function UsageMetric() {
             }
         }
     }
-    console.log("=========metrics metrics metrics metrics1212121212", metrics);
-
-
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType));
@@ -153,8 +145,6 @@ export default function UsageMetric() {
         <>
             <div className="row g-2">
                 {metrics?.map((metric, index) => {
-                    console.log("====metric metricmetric30909", metric?.key);
-
                     const titleToFromMapping = {
                         "Review Usage Data": "Review",
                         "Assistant Usage Data": "Assistant",

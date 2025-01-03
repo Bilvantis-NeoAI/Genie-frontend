@@ -44,7 +44,6 @@ export default function IngestionRepo() {
       ...inputFields,
       branch: branchNames,
     };
-    console.log("+++branchNamesbranchNamesbranchNamesbranchNamesbranchNames",branchNames);
     setLoading(true)
     setIsDisable(true)
     dispatch(repoIngestion(submissionData))

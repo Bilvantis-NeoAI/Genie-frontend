@@ -16,6 +16,7 @@ const initialState = {
       issue_severity_pie_chart_data: null,
       issue_severity_area_chart_data: null,
       issue_severity_frequency_by_project: null,
+      project_user_count:null
     },
     error: null,
   },
@@ -38,8 +39,6 @@ const initialState = {
   },
 };
 export const graphReducer = (state = initialState, action) => {
-  console.log("=======action action", action);
-
   switch (action.type) {
     case FETCH_GRAPH_DATA:
     case FETCH_FILTER_GRAPH_DATA:
@@ -55,8 +54,6 @@ export const graphReducer = (state = initialState, action) => {
     case FETCH_FILTER_GRAPH_SUCCESS: {
       const { filter } = action.payload; // Check if the request was filtered
       const metricsData = action.payload.metrics || {};
-      console.log("=====metricsData metricsData", metricsData);
-
       if (filter) {
         return {
           ...state,
@@ -99,7 +96,6 @@ export const graphReducer = (state = initialState, action) => {
           },
         };
       } else {
-        console.log("********filter filter");
         return {
           ...state,
           [action.graphType]: {

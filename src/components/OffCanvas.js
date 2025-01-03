@@ -32,12 +32,9 @@ const OffCanvas = ({
     ));
     const handleClear = () => {
         handleReset();
-        console.log("clear......");
         selectedFilter.project_name = ""
         onClose();
     };
-    console.log("====== selectedFilter0000", selectedFilter);
-
     return (
         isVisible && (
             <div

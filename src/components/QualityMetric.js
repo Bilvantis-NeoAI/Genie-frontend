@@ -29,14 +29,12 @@ export default function QualityMetric() {
     };
     const onClear = () => {
         setSelectedFilter((prevState) => {
-            console.log("Clearing filter... Previous state:", prevState);
             const updatedState = {
                 ...prevState,
                 project_name: "",
                 user_id: "",
                 date: "",
             };
-            console.log("Updated state after clearing:", updatedState);
             return updatedState;
         });
     

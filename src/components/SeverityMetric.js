@@ -5,6 +5,7 @@ import BarGraph from "../graphs/BarGraph";
 import PieGraph from "../graphs/PieGraph";
 import AreaGraph from "../graphs/AreaGraph";
 import MuilBarGraph from "../graphs/MultiBarGraph";
+import CountGraph from "../graphs/CountGraphs";
 import "react-datepicker/dist/react-datepicker.css";
 import OffCanvas from "./OffCanvas";
 
@@ -87,7 +88,6 @@ export default function SeverityMetric() {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Before submit:", selectedFilter);
         const filters = {};
         if (selectedFilter.key === "issue_severity_distribution") {
             filters.project_name = selectedFilter.project_name;
@@ -107,9 +107,6 @@ export default function SeverityMetric() {
         };
         dispatch(fetchGraphList(params, moduleType));
         setOffCanvas(false);
-        console.log("After submit:", selectedFilter); // Log after submit
-
-
         };
 
     const handleCloseCanvas = () => {
@@ -141,6 +138,7 @@ export default function SeverityMetric() {
         pie: PieGraph,
         area_chart: AreaGraph,
         bar: MuilBarGraph,
+        bar_graph:CountGraph
     };
 
     let metrics = [];

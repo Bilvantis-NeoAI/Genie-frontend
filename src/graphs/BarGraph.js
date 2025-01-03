@@ -12,7 +12,6 @@ import {
 import { FilterOutlined } from "@ant-design/icons";
 
 const BarGraph = ({ data, title, handleFilter, from, key }) => {
-    // Handle transformation of data based on the 'from' value
     if (from === "Assistant") {
         data = data?.map((item) => ({
             ...item,
