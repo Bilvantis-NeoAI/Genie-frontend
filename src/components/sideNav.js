@@ -25,27 +25,26 @@ export const BootstrapSidebar = () => {
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
-        {/* <li className="d-flex justify-content-center align-items-center barli">
+        <li className="d-flex justify-content-center align-items-center barli">
           <img src={barsimage} alt="" className="imagestyles" />
         </li>
+        <li className="d-flex justify-content-center align-items-center" onClick={() => {
+                  handleNavigation('/metrics')}}>
+          <img src={metricsIcon} alt="" className="imagestyles" />
+          <span className="tooltip">Metrics</span>
+        </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/homepage')}>
-          <img src={sideBarIcon1} alt="" className="imagestyles" />
+          <img src={sideBarIcon1} alt="" className="imagestyles"/>
           <span className="tooltip">Q&A</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/document')}>
           <img src={sideBarIcon2} alt="" className="imagestyles" />
           <span className="tooltip">Upload Document</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/audio')}>
+        {/* <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/audio')}>
           <img src={audiIcon} alt="" className="imagestyles" />
           <span className="tooltip">Audio AI</span>
         </li> */}
-        <li className="d-flex justify-content-center align-items-center Iconstyles" onClick={() => {
-                  handleNavigation('/metrics')}}>
-          <img src={metricsIcon} alt="" className="imagestyles" />
-          <span className="tooltip">Metrics</span>
-        </li>
-
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/repoingestion')}>
           <img src={injectingRepo} alt="" className="imagestyles" />
           <span className="tooltip">GIT Ingestion</span>

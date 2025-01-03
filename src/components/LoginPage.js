@@ -34,7 +34,7 @@ const LoginPage = () => {
         if (response?.status == 200) {
           const data = await response;
           sessionStorage.setItem("access_token", data.data.access_token);
-          navigate("/homepage");
+          navigate("/metrics");
         } else {
           Swal.fire({
             title: sweetalert.ERROR_CONFIRMED_TEXT,

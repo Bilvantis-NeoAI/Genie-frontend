@@ -74,7 +74,7 @@ export default function IngestionRepo() {
   return (
     <div>
       <Container fluid className="w-100">
-        <Row style={{ height: "10vh" }}>
+      <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
           <HeaderComponent />
         </Row>
 
@@ -164,7 +164,7 @@ export default function IngestionRepo() {
           </form>
         </div>
         <ToastContainer />
-        <div className="position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded">
+        {/* <div className="position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded">
           <span
             style={{
               color: "white",
@@ -172,7 +172,7 @@ export default function IngestionRepo() {
           >
             {footerTextSamples.BILVANTIS}
           </span>
-        </div>
+        </div> */}
       </Container>
     </div>
   );

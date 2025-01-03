@@ -130,7 +130,7 @@ export default function RetrieveData() {
 
   return (
 <Container fluid className="w-100">
-        <Row style={{ height: "10vh" }}>
+<Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
           <HeaderComponent />
         </Row>
       <div className="flex-grow-1 w-100v" style={{ marginTop: "20px", marginLeft:'5%' }}>
@@ -209,6 +209,15 @@ export default function RetrieveData() {
           </div>
         </div>
       </div>
+      {/* <div className="position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded">
+          <span
+            style={{
+              color: "white",
+            }}
+          >
+            {footerTextSamples.BILVANTIS}
+          </span>
+        </div> */}
     </Container>
   );
 }
