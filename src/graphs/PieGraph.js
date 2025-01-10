@@ -1,41 +1,35 @@
 import React from "react";
+import { DATAKEY ,XAXISKEYS} from "../utils/constatnts";
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell, Legend } from "recharts";
 import {
     FilterOutlined
 } from "@ant-design/icons";
 const COLORS = ["#1DB9EF", "#A91DEF", "#1DEF81", "#EF8F1D"];
-
-
-const PieGraph = ({ data, title, handleFilter }) => (
+const PieGraph = ({ data, title, handleFilter, key }) => (
     <div className="card g-4">
-        <div
-            className="flex"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-                marginTop: "2%",
-                padding: "10px",
-            }}
-        >
-            <h6 style={{ marginTop: '-4%' }}>
-                {title} Distribution
-            </h6>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <button type="button" className="btn btn-light" onClick={handleFilter} data-bs-toggle="offcanvas"
-                    data-bs-target="#addPriority"
-                    aria-controls="offcanvasRight">
-                    <FilterOutlined />
-                </button>
+        <div>
+            <div className='graph-title'>
+                <div>{title}</div>
+                <div >
+                    <button
+                        type="button"
+                        className="btn btn-light"
+                        onClick={() => handleFilter(data, title, key)}
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#addPriority"
+                        aria-controls="offcanvasRight"
+                    >
+                        <FilterOutlined />
+                    </button>
+                </div>
             </div>
         </div>
         <ResponsiveContainer width="100%" height={240}>
             <PieChart>
                 <Pie
                     data={data}
-                    dataKey="count"
-                    nameKey="severity"
+                    dataKey={DATAKEY.PERCENTAGE}
+                    nameKey={XAXISKEYS.SEVERITY}
                     cx="50%"
                     cy="50%"
                     outerRadius={80}

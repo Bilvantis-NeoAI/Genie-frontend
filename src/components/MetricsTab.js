@@ -7,7 +7,6 @@ import { useState } from "react";
 import SideNav from "./SideNav";
 export default function MetricTabs() {
     console.log("from metrics tab");
-
     const [activeTab, setActiveTab] = useState("Severity");
     const tabStyle = (tabName) => ({
         color: activeTab === tabName ? "#07439C" : "#666666",
@@ -15,31 +14,15 @@ export default function MetricTabs() {
     return (
         <>
             <Container fluid className="w-100" >
-                <Row
-                    style={{
-                        height: "12vh",
-                        position: "fixed",
-                        width: '100%',
-                        left: 0,
-                        top: 0,
-                        zIndex: 1000,
-                    }}
-                >
+                <Row className="metric-row">
                     <HeaderComponent />
                 </Row>
                 <div className="w-100 mt-3">
-                    <div style={{ width: "10%" }}>
+                    <div>
                         <SideNav />
                     </div>
                     <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
-                        <Nav
-                            style={{
-                                borderBottom: "2px solid #878786",
-                                position: 'sticky',
-                                marginLeft: '5%',
-                                marginTop: '5%'
-                            }}
-                        >
+                        <Nav className="Nav-tabs">
                             <Nav.Link eventKey="Severity" style={tabStyle("Severity")}>
                                 Issue Severity Distribution
                             </Nav.Link>
@@ -50,14 +33,7 @@ export default function MetricTabs() {
                                 Usage Metric
                             </Nav.Link>
                         </Nav>
-                        <Tab.Content
-                            style={{
-                                marginTop: "26px",
-                                marginLeft: '5%',
-                                backgroundColor: "rgb(248, 248, 248)",
-                                padding: "0 10px",
-                            }}
-                        >
+                        <Tab.Content className="nav-components">
                             <Tab.Pane eventKey="Severity" type='severity'>
                                 <SeverityMetric />
                             </Tab.Pane>

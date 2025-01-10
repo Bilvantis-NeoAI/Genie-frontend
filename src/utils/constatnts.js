@@ -1,86 +1,35 @@
-export const sidebarTextSamples = {
-    BILVANTIS_TEXT : 'BILVANTIS.IO',
-};
-export const sweetalert={
-    SUCCESS_TITLE :'SUCCESS',
-    SUCCESS_ICON :'success',
-    OK_CONFIRMED_TEXT :'OK',
-    ERROR_TITLE :'Error',
-    ERROR_ICON : 'error',
-    ERROR_CONFIRMED_TEXT :'Error'
-
+export const sweetalert = {
+    SUCCESS_TITLE: 'SUCCESS',
+    SUCCESS_ICON: 'success',
+    OK_CONFIRMED_TEXT: 'OK',
+    ERROR_TITLE: 'Error',
+    ERROR_ICON: 'error',
+    ERROR_CONFIRMED_TEXT: 'Error'
 }
-export const  baseURL =  'http://3.139.66.49:9000/'
-
-export const homePageTextSamples = {
-    VIEW_SIMILARITY : 'View PDF - Similairty',
-    VIEW_REVELANT : 'View PDF - Relevant',
-    OPEN_IMAGES : 'Open images',
-    OPEN_GRAPHS : 'Open Graphs',
-    DOWNLOAD_IMAGES : 'Download Images',
-    SUBMIT_BUTTON : 'Submit',
-    EXPLAIN:'Explain',
-    GET_CODE : 'Get Code',
-    CLOSE : 'Close',
-    HYPERLINKS : 'Hyperlinks'
-};
-
-export const homePage1TextSamples = {
-    UPLOAD_FILES: "Upload Files",
-    URL_INPUT: "Enter URL",
-    FILES_REQUIRED: "At least one file is required.",
-    URL_REQUIRED: "URL is required.",
-    SUBMIT: "Submit",
-    ONLY_FILE : 'Please select only 1 file.',
-    TOKEN:'Enter Pat',
-    BRANCH_NAME:'Branch Name'
-};
-
-export const homePage3TextSamples = {
-    LINE_GRAPH_DATA : [1, 7, 8, 9, 5, 3, 4, 10, 11, 5, 6, 7],
-    LINE_GRAPH_X_AXIS_DATA : ['Jan','Feb', 'Mar', 'Apr','May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov','Dec'],
-    BAR_GRAPH_DATA : [10, 15, 7, 4, 6, 8, 7],
-    BAR_GRAPH_X_AXIS_DATA : ['Node Js','React Js','Angular','Java','Spring Boot','CDE','Data',],
-    PIE_CHART_DATA : [{ label: 'Project Manager', value: 400 },{ label: 'User', value: 300 },],
-    DOCUMENT_NAME : 'Document Name',
-    DOCUMENT_SIZE : 'Document Size in MB',
-    INGESTION_TIME : 'Ingestion time',
-    NO_OF_PAGES : 'No of Pages',
-    NO_OF_IMAGE_DOCS : 'No of Image Docs',
-    NO_OF_TABLE_DOCS : 'No of Table Docs',
-    NO_OF_TEXT_DOCS : 'No of Text Docs',
-    TOTAL_INGESTION_TOKENS : 'Total Ingestion Tokens in K',
-    QUESTIONS_TABLE_DATA_HEADERS : ["Question","Tech","Pages context","Pages relv","No of Chroma Tokens in K","No ES Tokens in K","No of Neo4j Tokens in K","Total tokens in K"]
+export const XAXISKEYS = {
+    SEVERITY: 'severity',
+    ASSISTANCE: 'assistant_name',
+    REVIEW: 'review_name',
+    APPLICATION: 'Application',
+    MONTH: 'month'
 }
-
-export const headerTextSamples = {
-    SOLAR_WINDS : 'Welcome  to Genie'
+export const XAXISNAMES = {
+    AVARAGE_QUALITY: 'Avarage quality',
+    AVARAGE_SEVERITY: 'Avarage severity',
+    COUNT: 'Count',
+    PERCENTAGE: 'Percentage'
 }
-
-export const footerTextSamples = {
-    BILVANTIS : '@Bilvantis 2024'
+export const DATAKEY = {
+    COUNT: 'count',
+    PERCENTAGE: 'percentage',
+    AVARAGE_QUALITY: 'average_quality',
+    AVARAGE_SEVERITY: 'average_severity'
 }
-
-export const adminDashboardTextSamples = {
-    FLUSH_DB : 'flushDB',
-    CONATAINER_RESTART : 'App Restart',
-    RELOAD : 'Reload',
-    NEO_FOURJ : 'Neo4j Status',
-    APP_RESATRT_MSG : 'App restart sucessful',
-    FLUSH_ERROR : 'An error occurred while flushing.',
-    RESTART_ERROR : 'An Error occured while restarting',
-    RELOAD_ERROR : 'An error occurred while Reloading.',
-    CHANDE_STATUS_ERROR : 'An error occurred while changing status.',
-    API_ERROR : 'API call failed:'
+export const TITLE = {
+    AVARAGE_CODE_QUALITY: 'Average Code Quality',
+    AVARAGE_CODE_SEVERITY: 'Average Code Severity'
 }
-
-export const Retrive_repo_data={
-    THIS_FIELD_CANT_NOT_BE_EMPTY :'This field cannot be empty',
-    FAILED_TO_RETRIVE_DATA : 'Failed to retrieve data. Please try again.',
-    NO_DATA_AVAILABLE : 'No data available'
-}
-export const repo_Ingestion ={
-    URL_REQUIRED : 'URL is required',
-    INGESTION_INITIATED_SUCCEEFULLY :"Ingestion initiated successfully!",
-    ERROR_OCCURED_REPO_INGESTION :"An error occurred while repo ingestion!"
+export const CANVASKEY = {
+    ASSISTANCE : 'Assistance',
+    REVIEW : 'Review'
 }
