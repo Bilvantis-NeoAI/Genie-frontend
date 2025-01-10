@@ -22,55 +22,20 @@ export const fetchGraphFailure = (graphType, error) => ({
   payload: error,
 });
 
-
-// export const fetchGraphList = (param, graphType) => {
-//   console.log("==param param",param);
-  
-//   return (dispatch) => {
-//     dispatch(fetchGraphRequest(graphType));
-//     return DeployedURL.get(apis.GRAPHS_DATA, { params: param })
-//       .then((response) => {
-//         console.log("====responseresponse",response);
-        
-//         if (param.filter==true) {
-//           console.log("======0000");
-//           dispatch(fetchGraphSuccess(graphType, response.data));
-//         } else {
-          
-//           dispatch(fetchGraphSuccess(graphType, response.data));
-//         }
-//         return response.data;
-//       })
-//       .catch((error) => {
-//         console.log("====error errorerrorerrorerror",error);
-        
-//         dispatch(fetchGraphFailure(graphType, error.message || "Unknown error"));
-//         return error;
-//       });
-//   };
-// };
-
 export const fetchGraphList = (param, graphType) => {
-  console.log("==param param", param);
-
   return (dispatch) => {
     dispatch(fetchGraphRequest(graphType));
     return DeployedURL.get(apis.GRAPHS_DATA, { params: param })
       .then((response) => {
-        console.log("====response response", response);
-
         const payload = {
           ...response.data,
-          filter: param.filter || false, // Pass the filter flag along with the response
+          filter: param.filter || false,
         };
-
         dispatch(fetchGraphSuccess(graphType, payload));
         return response.data;
       })
       .catch((error) => {
-        console.log("====error error", error);
-
-        dispatch(fetchGraphFailure(graphType, error.message || "Unknown error"));
+        dispatch(fetchGraphFailure(graphType, error.message));
         return error;
       });
   };

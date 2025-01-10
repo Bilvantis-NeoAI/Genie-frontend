@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../styles/Register.css'
 import { useDispatch } from "react-redux";
 import { userRegistration } from "../actions/LoginActions";
 import Swal from "sweetalert2";

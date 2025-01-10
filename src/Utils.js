@@ -25,7 +25,6 @@ export const cleanAndFormatResponse = (response) => {
 
  export const TextDisplay = ({ text }) => {
     const parseText = (text) => {
-      console.log(text);
       
         const regex = /(?:\*\*(.+?)\*\*|(\d+\.\s+|[-*]\s+)?(.+?)):/g;
     

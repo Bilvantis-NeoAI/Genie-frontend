@@ -6,7 +6,6 @@ import { HeaderComponent } from "./Header";
 import { useState } from "react";
 import SideNav from "./SideNav";
 export default function MetricTabs() {
-    console.log("from metrics tab");
     const [activeTab, setActiveTab] = useState("Severity");
     const tabStyle = (tabName) => ({
         color: activeTab === tabName ? "#07439C" : "#666666",
