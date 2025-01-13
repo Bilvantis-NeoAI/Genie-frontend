@@ -29,8 +29,11 @@ export default function MetricTabs() {
                                 Code Quality Per User
                             </Nav.Link>
                             <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
-                                Usage Metric
+                                Usage Metrics
                             </Nav.Link>
+                            {/* <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
+                                Commit Review Metrics
+                            </Nav.Link> */}
                         </Nav>
                         <Tab.Content className="nav-components">
                             <Tab.Pane eventKey="Severity" type='severity'>
@@ -39,8 +42,10 @@ export default function MetricTabs() {
                             <Tab.Pane eventKey="Quality" type='quality'>
                                 <QualityMetric />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="Usage"><UsageMetric type='usage' />
+                            <Tab.Pane eventKey="Usage" type='usage'>
+                                <UsageMetric />
                             </Tab.Pane>
+                            {/* <Tab.Pane eventKey="Commit" type="commit"><CommitMetrics /></Tab.Pane> */}
                         </Tab.Content>
                     </Tab.Container>
                 </div>

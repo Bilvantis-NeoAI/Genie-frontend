@@ -154,7 +154,7 @@ export default function SeverityMetric() {
 
     return (
         <>
-            <div className="row g-2">
+            <div className="row g-2 ">
                 {loading ? (
                     <div className="col-12 text-center">Loading...</div>
                 ) : (
