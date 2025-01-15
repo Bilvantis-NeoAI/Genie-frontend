@@ -2,9 +2,9 @@ import { Container, Row, Tab, Nav } from "react-bootstrap";
 import SeverityMetric from "./SeverityMetric";
 import QualityMetric from "./QualityMetric";
 import UsageMetric from "./UsageMetric";
-import { HeaderComponent } from "./Header";
+import { HeaderComponent } from "./HeaderComponent";
 import { useState } from "react";
-import SideNav from "./SideNav";
+import SideNav from "./SideNavComponent";
 export default function MetricTabs() {
     const [activeTab, setActiveTab] = useState("Severity");
     const tabStyle = (tabName) => ({

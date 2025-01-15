@@ -1,5 +1,5 @@
 import { LOGIN_DATA,LOGIN_SUCCESS,LOGIN_FAILURE ,REGISTRATION_DATA,REGISTRATION_FAILURE,REGISTRATION_SUCCESS } from "../actionTypes/loginActionTypes";
-import { DeployedURL } from "../interceptor/interceptor";
+import { DeployedURL } from "../interceptors/interceptors";
 import { apis } from "../utils/config";
 export const fetchLoginData=()=>({
 type:LOGIN_DATA

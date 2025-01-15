@@ -3,7 +3,7 @@ import {
   FETCH_GRAPH_SUCCESS,
   FETCH_GRAPH_FAILURE,
 } from "../actionTypes/graphsDataActionTypes.js";
-import { DeployedURL } from "../interceptor/interceptor.js";
+import { DeployedURL } from "../interceptors/interceptors.js";
 import { apis } from "../utils/config.js";
 export const fetchGraphRequest = (graphType) => ({
   type: FETCH_GRAPH_DATA,

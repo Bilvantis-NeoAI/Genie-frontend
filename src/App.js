@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { Loader } from './interceptor/interceptor';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './components/LoginPage';
 import RedirectRoute from './RedirectRoute';
@@ -10,7 +9,6 @@ import MetricTabs from './components/MetricsTab';
 function App() {
   return (
     <Router>
-      <Loader />
       <Routes>
         <Route
           path="/"

@@ -30,6 +30,6 @@ export const TITLE = {
     AVARAGE_CODE_SEVERITY: 'Average Code Severity'
 }
 export const CANVASKEY = {
-    ASSISTANCE : 'Assistance',
+    ASSISTANCE : 'Assistant',
     REVIEW : 'Review'
 }
