@@ -1,5 +1,3 @@
-import { DeployedURL } from "../interceptor/interceptor"
-
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
@@ -18,7 +16,6 @@ export const apis = {
         Api : 'http://3.139.66.49:9002/',
         ApiInject : 'http://3.139.66.49:9001/',
         ApiAnswer:'http://3.139.66.49:9000/',
-        GitIngestion: 'http://34.46.36.105:3001',//'http://34.27.22.123:3001',
-        DeployedURL:'http://34.46.36.105:3000'
-        // DeployedURL: "http://localhost:3009"
+        GitIngestion: 'http://34.46.36.105:3001',
+        DeployedURL:'http://34.44.232.243'
     }
