@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import "antd/dist/reset.css";
-import LineGraph from "../graphs/LineGraph";
+import LineGraph from "../graph/LineGraph";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import OffCanvas from "./OffCanvas";
 

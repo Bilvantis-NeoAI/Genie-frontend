@@ -3,8 +3,8 @@ import { DatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import "antd/dist/reset.css";
-import BarGraph from "../graphs/BarGraph";
-import StackedBarGraph from "../graphs/StackedBarGraph";
+import BarGraph from "../graph/BarGraph";
+import StackedBarGraph from "../graph/StackedBarGraph";
 import OffCanvas from "./OffCanvas";
 export default function UsageMetric() {
     const [offCanvas, setOffCanvas] = useState(false);

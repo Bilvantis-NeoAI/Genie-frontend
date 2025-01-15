@@ -29,10 +29,8 @@ const CustomTick = ({ x, y, payload }) => {
         </foreignObject>
     );
 };
-
 const CountGraph = ({ data, title }) => {
     const chartWidth = Math.max(data.length * 60, 800);
-
     return (
         <div className="card g-4">
             <div
@@ -48,7 +46,6 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
-
             <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
                 <ResponsiveContainer width={chartWidth} height={240}>
                     <BarChart

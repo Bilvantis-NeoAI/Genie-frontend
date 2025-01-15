@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
-import BarGraph from "../graphs/BarGraph";
-import PieGraph from "../graphs/PieGraph";
-import AreaGraph from "../graphs/AreaGraph";
-import MuilBarGraph from "../graphs/MultiBarGraph";
-import CountGraph from "../graphs/CountGraphs";
+import BarGraph from "../graph/BarGraph";
+import PieGraph from "../graph/PieGraph";
+import AreaGraph from "../graph/AreaGraph";
+import MuilBarGraph from "../graph/MultiBarGraph";
+import CountGraph from "../graph/CountGraphs";
 import "react-datepicker/dist/react-datepicker.css";
 import OffCanvas from "./OffCanvas";
 
@@ -153,7 +153,7 @@ export default function SeverityMetric() {
     }
 
     useEffect(() => {
-        setLoading(true); // Start loading
+        setLoading(true);
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
             .finally(() => {
