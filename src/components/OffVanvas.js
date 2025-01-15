@@ -52,7 +52,7 @@ const OffCanvas = ({
                         marginTop: "19px",
                     }}
                 >
-                    <h5
+                    <div
                         style={{
                             margin: 0,
                             fontSize: "15px",
@@ -65,7 +65,7 @@ const OffCanvas = ({
                         }}
                     >
                         {selectedFilter.initiatedBy}
-                    </h5>
+                    </div>
                     <button
                         type="button"
                         onClick={onClose}
@@ -184,7 +184,20 @@ const OffCanvas = ({
 
                             </div>
                         )}
-                        <div style={{ display: "flex", gap: "30%", marginTop: '70%' }}>
+                        <div
+                            className="offcanvas-footer"
+                            style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "100%",
+                                padding: "10px 20px",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 -1px 5px rgba(0, 0, 0, 0.1)",
+                            }}
+                        >
                             <button
                                 type="submit"
                                 style={{

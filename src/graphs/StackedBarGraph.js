@@ -9,21 +9,15 @@ import {
     Legend,
     CartesianGrid
 } from "recharts";
-import { FilterOutlined } from "@ant-design/icons";
 
 const StackedBarGraph = ({ data, title, handleFilter }) => {
-    // Transforming data to be used in Recharts
     const transformedData = [];
     const months = new Set();
-
-    // Extract all months from the data
     data.forEach(item => {
         Object.keys(item).forEach(key => {
             item[key].forEach(({ month }) => months.add(month));
         });
     });
-
-    // Transform data for Recharts
     [...months].forEach(month => {
         const monthData = { month };
         data.forEach(item => {

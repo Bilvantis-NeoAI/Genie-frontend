@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './components/LoginPage';
 import RedirectRoute from './RedirectRoute';
 import Register from './components/Register';
+import ProtectRoute from './ProtectRoute';
 import MetricTabs from './components/MetricsTab';
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         <Route
           path="/metrics"
           element={
-            <MetricTabs />
+            <ProtectRoute>
+            <MetricTabs /></ProtectRoute>
           }
         />
       </Routes>

@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import { sweetalert } from "../utils/constatnts";
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   let dispatch = useDispatch()
@@ -30,7 +29,7 @@ const LoginPage = () => {
     e.preventDefault();
     dispatch(userLogin(Payload))
       .then(async (response) => {
-        if (response?.status == 200) {
+        if (response?.status === 200) {
           const data = await response;
           sessionStorage.setItem("access_token", data.data.access_token);
           navigate("/metrics");
@@ -53,7 +52,6 @@ const LoginPage = () => {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
-        {error && <p className="error-message">{error}</p>}
         <label>Email:</label>
         <input
           type="email"

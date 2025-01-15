@@ -17,5 +17,5 @@ export const apis = {
         ApiInject : 'http://3.139.66.49:9001/',
         ApiAnswer:'http://3.139.66.49:9000/',
         GitIngestion: 'http://34.46.36.105:3001',
-        DeployedURL:'http://34.44.232.243'
+        DeployedURL:'http://34.57.32.181'
     }

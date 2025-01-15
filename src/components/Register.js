@@ -41,7 +41,7 @@ const Register = () => {
         };
         dispatch(userRegistration(payload))
             .then((response) => {
-                if (response?.status == 200) {
+                if (response?.status === 200) {
                     Swal.fire({
                         title: sweetalert.SUCCESS_TITLE,
                         text: response?.data.message,
