@@ -19,7 +19,7 @@ const DynamicBarGraph = ({ title, data, key, handleFilter }) => {
     let innerStyle = { width: "100%", height: "100%" };
 
     if (title === TITLE.COMMIT_ISSUES_SEVERITY) {
-        containerStyle = { width: "100%", height: 255, overflow: "hidden" };
+        containerStyle = { width: "100%", height: 240, overflow: "hidden" };
         xAxisKey = XAXISKEYS.SEVERITY
         bars = [
             { key: DATAKEY.COUNT, color: "#1DB9EF", name: XAXISNAMES.COUNT },
@@ -44,7 +44,7 @@ const DynamicBarGraph = ({ title, data, key, handleFilter }) => {
             <div>
                 <div className='graph-title'>
                     <div>{title}</div>
-                    {title === TITLE.COMMIT_VIOLATE && <div >
+                   <div >
                         <button
                             type="button"
                             className="btn btn-light"
@@ -55,7 +55,7 @@ const DynamicBarGraph = ({ title, data, key, handleFilter }) => {
                         >
                             <FilterOutlined />
                         </button>
-                    </div>}
+                    </div>
                 </div>
             </div>
             <div style={containerStyle}>

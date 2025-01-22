@@ -47,6 +47,8 @@ export const CANVASKEY = {
 export const GRAPHKEYS ={
 COMMIT_AVARAGE_CODE_QUALITY :'commit_avg_code_quality',
 COMMIT_VIOLATE:'commit_violation_metrics',
+COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT :'commit_issue_severity_by_user_and_project',
+COMMIT_ORG_COMMIT_METRICS : 'org_commit_metrics',
 ISSUSE_SEVERITY_FREQUESCY_PROJECT : 'issue_severity_frequency_by_project',
 MONTH_USAGE:'monthly_usage',
 ISSUE_SEVERITY_DISTRIBUTION : 'issue_severity_distribution',

@@ -8,6 +8,8 @@ import {
     CartesianGrid,
     Tooltip
 } from "recharts";
+import { FilterOutlined } from "@ant-design/icons";
+
 const handleMissingData = (value) => (value === null ? 0 : value);
 const formatRepoName = (name) => {
     if (!name) return "";
@@ -16,10 +18,13 @@ const formatRepoName = (name) => {
         .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 const transformData = (data) => {
+    if (!data || data.length === 0) {
+        return [];
+    }
     const allIssueKeys = new Set();
     const allRecentCommitKeys = new Set();
     const allCommitKeys = new Set();
-    data.forEach((item) => {
+    data?.forEach((item) => {
         if (item.total_issues) {
             Object.keys(item.total_issues).forEach((key) =>
                 allIssueKeys.add(`total_issues_${key}`)
@@ -78,17 +83,19 @@ const getColor = (index) => {
     return colors[index % colors.length];
 };
 
-const MultiStackedGraph = ({ data, title }) => {
+const MultiStackedGraph = ({ data, title, handleFilter, key }) => {
     const formattedData = transformData(data);
-    const issueKeys = Object.keys(formattedData[0]).filter((key) =>
+    if(formattedData.length!==0){
+    var issueKeys = Object.keys(formattedData[0]).filter((key) =>
         key.startsWith("total_issues_")
     );
-    const recentCommitKeys = Object.keys(formattedData[0]).filter((key) =>
+    var recentCommitKeys = Object.keys(formattedData[0]).filter((key) =>
         key.startsWith("recent_commit_issues_")
     );
-    const commitKeys = Object.keys(formattedData[0]).filter((key) =>
+    var commitKeys = Object.keys(formattedData[0]).filter((key) =>
         key.startsWith("total_commits_")
     );
+}
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const groupedData = {
@@ -156,7 +163,18 @@ const MultiStackedGraph = ({ data, title }) => {
             <div>
                 <div className="graph-title">
                     <div>{title}</div>
-
+                    <div >
+                        <button
+                            type="button"
+                            className="btn btn-light"
+                            onClick={() => handleFilter(data, title, key)}
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#addPriority"
+                            aria-controls="offcanvasRight"
+                        >
+                            <FilterOutlined />
+                        </button>
+                    </div>
                 </div>
             </div>
             <div
@@ -164,10 +182,11 @@ const MultiStackedGraph = ({ data, title }) => {
                     overflowX: "auto",
                     overflowY: "hidden",
                     width: "100%",
-                    height: "253px",
+                    height: "240px",
                     scrollbarWidth: "none",
                 }}
             >
+                {data.length!==0 &&
                 <ResponsiveContainer width="150%">
                     <BarChart
                         data={formattedData}
@@ -212,6 +231,7 @@ const MultiStackedGraph = ({ data, title }) => {
                         ))}
                     </BarChart>
                 </ResponsiveContainer>
+            }
             </div>
         </div>
     );

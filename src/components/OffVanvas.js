@@ -158,7 +158,8 @@ const OffCanvas = ({
                                     </select>
                                 </div>
                             )}
-                        {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE)) && (
+                        {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) || 
+                        (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key ===GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <label htmlFor="dateRange" className="form-label">
                                     Select Date Range:
@@ -180,7 +181,8 @@ const OffCanvas = ({
                                 />
                             </div>
                         )}
-                        {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
+                        {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA 
+                        || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <label
                                     htmlFor="date"

@@ -108,7 +108,10 @@ export const graphReducer = (state = initialState, action) => {
                 state[action.graphType].data.commit_avg_code_quality,
 
                 commit_violation_metrics :metricsData.commit_violation_metrics ??
-                state[action.graphType].data.commit_violation_metrics
+                state[action.graphType].data.commit_violation_metrics,
+
+                org_commit_metrics : metricsData.org_commit_metrics ??
+                state[action.graphType].data.org_commit_metrics
             },
             error: null,
           },
