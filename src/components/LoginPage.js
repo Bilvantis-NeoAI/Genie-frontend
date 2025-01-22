@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../actions/LoginActions";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+
 import { sweetalert } from "../utils/constatnts";
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -23,7 +24,6 @@ const LoginPage = () => {
     });
     return Payload;
   };
-  
   const Payload = createFormData();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ const LoginPage = () => {
         <input
           type="email"
           name="username"
-          value= {formData.username}
+          value={formData.username}
           onChange={handleInputChange}
           required
         />

@@ -3,5 +3,5 @@ export const apis = {
     LOGIN : 'auth/login',
     REGISTER : 'auth/register'}
     export const URL ={
-        DeployedURL:'http://34.57.32.181'
+        DeployedURL:'http://34.46.36.105:3000/',
     }

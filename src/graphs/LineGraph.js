@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
     ResponsiveContainer,
@@ -10,24 +11,20 @@ import {
     Legend,
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
-
+import { XAXISKEYS, XAXISNAMES, TITLE, DATAKEY } from "../utils/constatnts";
 const LineGraph = ({ data, title, handleFilter, from, key }) => {
     const xAxisKeyMapping = {
-        Review: "review_name",
-        Assistant: "assistant_name",
-        severity: "severity",
-        Application: "review",
-        AverageQuality: "month",
-        AverageSeverity: "month",
+        AverageQuality: XAXISKEYS.MONTH,
+        AverageSeverity: XAXISKEYS.MONTH,
+        severity: XAXISKEYS.WEEK
     };
-
     const xAxisDataKey = xAxisKeyMapping[from];
     const scrollStyle =
-        xAxisDataKey !== "severity" && xAxisDataKey !== "month"
+        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH
             ? { overflowX: "auto", scrollbarWidth: "none" }
             : {};
     const containerWidth =
-        xAxisDataKey !== "severity" && xAxisDataKey !== "month" ? "150%" : "100%";
+        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH ? "150%" : "100%";
 
     return (
         <div className="card g-4">
@@ -59,40 +56,32 @@ const LineGraph = ({ data, title, handleFilter, from, key }) => {
                         <YAxis fontSize={10} />
                         <Tooltip cursor={{ fill: "transparent" }} />
                         <Legend />
-                        {xAxisDataKey !== "month" && (
+                        {xAxisDataKey === XAXISKEYS.WEEK && (
                             <Line
                                 type="monotone"
-                                dataKey="count"
+                                dataKey={DATAKEY.AVARAGE_QUALITY}
                                 stroke="#1DB9EF"
+                                name={XAXISNAMES.AVARAGE_QUALITY}
                                 strokeWidth={2}
                                 activeDot={{ r: 8 }}
                             />
                         )}
-                        {from === "severity" && (
+                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
                             <Line
                                 type="monotone"
-                                dataKey="percentage"
-                                stroke="#1DEF81"
+                                dataKey={DATAKEY.AVARAGE_QUALITY}
+                                stroke="#1DB9EF"
+                                name={XAXISNAMES.AVARAGE_QUALITY}
                                 strokeWidth={2}
                                 activeDot={{ r: 8 }}
                             />
                         )}
-                        {xAxisDataKey === "month" && title === "Average Code Quality" && (
+                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
                             <Line
                                 type="monotone"
-                                dataKey="average_quality"
+                                dataKey={DATAKEY.AVARAGE_SEVERITY}
                                 stroke="#1DB9EF"
-                                name="Average Quality"
-                                strokeWidth={2}
-                                activeDot={{ r: 8 }}
-                            />
-                        )}
-                        {xAxisDataKey === "month" && title === "Average Code Severity" && (
-                            <Line
-                                type="monotone"
-                                dataKey="average_severity"
-                                stroke="#1DB9EF"
-                                name="Average Severity"
+                                name={XAXISNAMES.AVARAGE_SEVERITY}
                                 strokeWidth={2}
                                 activeDot={{ r: 8 }}
                             />

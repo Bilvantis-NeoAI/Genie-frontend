@@ -38,6 +38,15 @@ const initialState = {
     },
     error: null,
   },
+  commit:{
+    loading :false,
+    data:{
+      commit_issue_severity_by_user_and_project:null,
+      commit_avg_code_quality:null,
+      org_commit_metrics:null,
+      commit_violation_metrics:null
+    }
+  }
 };
 export const graphReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -92,6 +101,14 @@ export const graphReducer = (state = initialState, action) => {
               avg_code_severity: metricsData.avg_code_severity ??
                 state[action.graphType].data.avg_code_severity,
 
+                commit_issue_severity_by_user_and_project :metricsData.commit_issue_severity_by_user_and_project ??
+                state[action.graphType].data.commit_issue_severity_by_user_and_project,
+
+                commit_avg_code_quality : metricsData.commit_avg_code_quality ??
+                state[action.graphType].data.commit_avg_code_quality,
+
+                commit_violation_metrics :metricsData.commit_violation_metrics ??
+                state[action.graphType].data.commit_violation_metrics
             },
             error: null,
           },

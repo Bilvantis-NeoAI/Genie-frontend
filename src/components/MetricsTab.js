@@ -5,6 +5,7 @@ import UsageMetric from "./UsageMetric";
 import { HeaderComponent } from "./HeaderComponent";
 import { useState } from "react";
 import SideNav from "./SideNavComponent";
+import CommitReviewMetric from "./CommitReviewMetric";
 export default function MetricTabs() {
     const [activeTab, setActiveTab] = useState("Severity");
     const tabStyle = (tabName) => ({
@@ -31,6 +32,9 @@ export default function MetricTabs() {
                             <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
                                 Usage Metrics
                             </Nav.Link>
+                            <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
+                                Commit Review Metrics
+                            </Nav.Link>
                         </Nav>
                         <Tab.Content className="nav-components">
                             <Tab.Pane eventKey="Severity" type='severity'>
@@ -41,6 +45,9 @@ export default function MetricTabs() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="Usage" type='usage'>
                                 <UsageMetric />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="Commit" type='commit'>
+                                <CommitReviewMetric/>
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>

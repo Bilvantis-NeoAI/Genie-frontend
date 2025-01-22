@@ -11,7 +11,7 @@ import {
     Legend,
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
-const BarGraph = ({ data, title, handleFilter, from, key }) => {
+const BarGraph = ({ data, title, key, handleFilter, from }) => {
     const formatName = (name) =>
         name
             ? name

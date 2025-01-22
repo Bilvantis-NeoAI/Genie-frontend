@@ -9,7 +9,7 @@ import {
     Legend,
     CartesianGrid,
 } from "recharts";
-
+import { DATAKEY,XAXISNAMES } from "../utils/constatnts";
 const CustomTick = ({ x, y, payload }) => {
     const fixedWidth = 30;
     return (
@@ -57,11 +57,11 @@ const CountGraph = ({ data, title }) => {
                         barGap={10}
                     >
                         <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} />
+                        <XAxis dataKey={DATAKEY.PROJECT} tick={<CustomTick />} interval={0} />
                         <YAxis fontSize={10} />
                         <Tooltip cursor={{ fill: "transparent" }} />
                         <Legend />
-                        <Bar dataKey="count" fill="#1DB9EF" barSize={20} name="Count" />
+                        <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

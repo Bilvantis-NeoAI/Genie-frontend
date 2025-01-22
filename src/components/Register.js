@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userRegistration } from "../actions/LoginActions";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+
 import { sweetalert } from "../utils/constatnts";
 const Register = () => {
     const [formData, setFormData] = useState({

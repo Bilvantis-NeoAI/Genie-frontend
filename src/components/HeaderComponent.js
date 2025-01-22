@@ -5,7 +5,7 @@ const { Header } = Layout;
 const { Title } = Typography;
  
 export function HeaderComponent() {
-  const username = localStorage.getItem("username") || "Guest"; // Fallback to "Guest" if not found
+  const username = localStorage.getItem("username") || "Guest";
  
   return (
     <Header
@@ -28,30 +28,21 @@ export function HeaderComponent() {
             marginRight: "10px",
           }}
         >
-          {/* <img
-            src="https://bilvantis.io/wp-content/uploads/2022/12/Bilvantis-logo-png.jpg"
-            alt="Bilvantis Logo"
-            style={{ height: "30px" }} // Adjust logo height if needed
-          /> */}
         </a>
       </div>
- 
-      {/* Center Section: Title */}
-      <Title
+       <Title
         level={5}
         style={{
           color: "Black",
           marginTop: '20px',
           textAlign: "center",
-          flex: 2, // Allow the title to take more space in the center
+          flex: 2,
           fontSize: "16px",
         }}
       >
       <h4> Welcome to Genie</h4>
       </Title>
- 
-      {/* Right Section: Profile Icon and Username */}
-      <div style={{ display: "flex", alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
+       <div style={{ display: "flex", alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
         <div style={{
           width: "30px",
           height: "30px",
@@ -62,7 +53,7 @@ export function HeaderComponent() {
           alignItems: "center",
           marginRight: "8px",
         }}>
-          <UserOutlined style={{ fontSize: '16px', color: "Black" }} /> {/* Profile icon */}
+          <UserOutlined style={{ fontSize: '16px', color: "Black" }} />
         </div>
         <span style={{ color: "Black", fontSize: "14px" }}>
           {username}

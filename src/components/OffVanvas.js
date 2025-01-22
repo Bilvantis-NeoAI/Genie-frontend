@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { GRAPHKEYS } from '../utils/constatnts'
+
 const OffCanvas = ({
     isVisible,
     onClose,
-    onClear,
     selectedFilter,
     users,
     data,
@@ -40,7 +41,7 @@ const OffCanvas = ({
             <div
                 className="offcanvas offcanvas-end show"
                 tabIndex="-1"
-                style={{ zIndex: 1050, maxWidth: "400px"}}
+                style={{ zIndex: 1050, maxWidth: "400px" }}
             >
                 <div
                     className="offcanvas-header"
@@ -89,7 +90,7 @@ const OffCanvas = ({
                         onSubmit={handleSubmit}
                         style={{ display: "flex", flexDirection: "column", gap: "15px" }}
                     >
-                        {selectedFilter.key !== "issue_severity_frequency_by_project" && selectedFilter.key !== "monthly_usage" && (
+                        {selectedFilter.key !== GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT && selectedFilter.key !== GRAPHKEYS.MONTH_USAGE && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <label
                                     htmlFor="filterSelect"
@@ -124,8 +125,8 @@ const OffCanvas = ({
                                 </select>
                             </div>
                         )}
-                        {selectedFilter?.key !== "issue_severity_distribution" &&
-                            selectedFilter?.key !== "issue_severity_frequency_by_project" && selectedFilter.key !== "monthly_usage" && selectedFilter.key !== "avg_code_quality" && selectedFilter.key !== "avg_code_severity" && (
+                        {selectedFilter?.key !== GRAPHKEYS.ISSUE_SEVERITY_DISTRIBUTION &&
+                            selectedFilter?.key !== GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT && selectedFilter.key !== GRAPHKEYS.MONTH_USAGE && selectedFilter.key !== GRAPHKEYS.AVARAGE_CODE_QUALITY && selectedFilter.key !== GRAPHKEYS.AVARAGE_CODE_SEVERITY && (
                                 <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                     <label
                                         htmlFor="userSelect"
@@ -157,7 +158,29 @@ const OffCanvas = ({
                                     </select>
                                 </div>
                             )}
-                        {(selectedFilter.key === "issue_severity_frequency_by_project" || selectedFilter.key === "review_usage_data" || selectedFilter.key === "assistant_usage_data" || selectedFilter.key === "monthly_usage") && (
+                        {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE)) && (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                <label htmlFor="dateRange" className="form-label">
+                                    Select Date Range:
+                                </label>
+                                <DatePicker
+                                    selectsRange
+                                    startDate={selectedFilter.start_date ? new Date(selectedFilter.start_date) : null}
+                                    endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : null}
+                                    onChange={(dates) => {
+                                        const [start, end] = dates;
+                                        const formattedStartDate = start ? start.toISOString().split("T")[0] : "";
+                                        const formattedEndDate = end ? end.toISOString().split("T")[0] : "";
+                                        onChange({ target: { name: "start_date", value: formattedStartDate } });
+                                        onChange({ target: { name: "end_date", value: formattedEndDate } });
+                                    }}
+                                    format="YYYY-MM-DD"
+                                    placeholderText="Select date range"
+                                    customInput={<CustomInput />}
+                                />
+                            </div>
+                        )}
+                        {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <label
                                     htmlFor="date"
