@@ -5,7 +5,7 @@ import { userLogin } from "../actions/LoginActions";
 import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 
 import { sweetalert } from "../utils/constatnts";
-const LoginPage = () => {
+const LoginPage = () => {  
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -52,18 +52,20 @@ const LoginPage = () => {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
-        <label>Email:</label>
+        <label id="email-label">Email:</label>
         <input
           type="email"
+          aria-labelledby ="email-label"
           name="username"
           value={formData.username}
           onChange={handleInputChange}
           required
         />
-        <label>Password:</label>
+        <label id="password-label">Password:</label>
         <div className="password-wrapper">
           <input
             type={showPassword ? "text" : "password"}
+             aria-labelledby ="password-label"
             name="password"
             value={formData.password}
             onChange={handleInputChange}

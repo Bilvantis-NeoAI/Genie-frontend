@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 import { URL } from "../utils/config";
 export const DeployedURL = axios.create({
   baseURL: URL.DeployedURL
 });
+console.log("========sd");
 
 DeployedURL.interceptors.request.use(
   (config) => {
