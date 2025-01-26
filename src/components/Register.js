@@ -155,7 +155,7 @@ console.log("====responseresponse from test",response);
 
                     <div className="form-row">
                         <div className="form-details">
-                            <label htmlFor="password">Your Password:</label>
+                            <label htmlFor="password">new Password:</label>
                             <div className="password-container">
                                 <input
                                     type={passwordVisibility.password ? "text" : "password"}

@@ -29,7 +29,7 @@
 //         fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
 //         fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Test User' } });
 //         fireEvent.change(screen.getByLabelText(/company name/i), { target: { value: 'Test Company' } });
-//         fireEvent.change(screen.getByLabelText(/Your Password/i), { target: { value: 'password123' } });
+//         fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'password123' } });
 //         fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: '' } });
 //         fireEvent.click(screen.getByRole('button', { name: /register/i }));
 //         await waitFor(() => expect(Swal.fire).toHaveBeenCalledWith(
@@ -51,7 +51,7 @@
 //         fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
 //         fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Test User' } });
 //         fireEvent.change(screen.getByLabelText(/company name/i), { target: { value: 'Test Company' } });
-//         fireEvent.change(screen.getByLabelText(/Your Password/i), { target: { value: 'password123' } });
+//         fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'password123' } });
 //         fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'password123' } });
 //         fireEvent.click(screen.getByRole('button', { name: /register/i }));
 //         await waitFor(() => expect(Swal.fire).toHaveBeenCalledWith(
@@ -104,19 +104,14 @@ describe("Register Component", () => {
     );
 
     test('renders all form fields and buttons correctly', () => {
-        // render(<Register />); // Render the component
-      
-        // Check for input fields
-        expect(screen.getByRole({name:'email'})).toBeInTheDocument(); // Email field
-        expect(screen.getByLabelText(/username/i)).toBeInTheDocument(); // Username field
-        expect(screen.getByLabelText(/full name/i)).toBeInTheDocument(); // Full Name field
-        expect(screen.getByLabelText(/company name/i)).toBeInTheDocument(); // Company Name field
-        expect(screen.getByLabelText(/password/i)).toBeInTheDocument(); // Password field
-        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument(); // Confirm Password field
-      
-        // Check for buttons
-        expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument(); // Register button
-        expect(screen.getByText(/login/i)).toBeInTheDocument(); // Login button
+        expect(screen.getByRole('label',{name: /Email/i })).toBeInTheDocument();
+        expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/company name/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/new password/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
       });
 
   test("allows user to type in all fields", () => {
@@ -143,10 +138,10 @@ describe("Register Component", () => {
     });
     expect(screen.getByLabelText(/company name/i).value).toBe("Test Company");
 
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/new password/i), {
       target: { value: "password123" },
     });
-    expect(screen.getByLabelText(/password/i).value).toBe("password123");
+    expect(screen.getByLabelText(/new password/i).value).toBe("password123");
 
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
       target: { value: "password123" },
@@ -157,14 +152,14 @@ describe("Register Component", () => {
   test("shows error when passwords do not match", async () => {
     renderComponent();
 
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/new password/i), {
       target: { value: "password123" },
     });
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
       target: { value: "password456" },
     });
 
-        fireEvent.click(screen.getByRole('button', { name: /register/i }));
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
     await waitFor(() => {
       expect(Swal.fire).toHaveBeenCalledWith(
@@ -192,7 +187,7 @@ icon: "error",
     fireEvent.change(screen.getByLabelText(/company name/i), {
       target: { value: "Test Company" },
     });
-    fireEvent.change(screen.getByLabelText(/your password/i), {
+    fireEvent.change(screen.getByLabelText(/new password/i), {
       target: { value: "password123" },
     });
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
@@ -218,7 +213,7 @@ icon: "error",
     fireEvent.change(screen.getByLabelText(/username/i), {
       target: { value: "testuser" },
     });
-    fireEvent.change(screen.getByLabelText(/your password/i), {
+    fireEvent.change(screen.getByLabelText(/new password/i), {
       target: { value: "password123" },
     });
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
