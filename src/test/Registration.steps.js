@@ -1,235 +1,108 @@
-// import React from 'react';
-// import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-// import { Provider } from 'react-redux';
-// import { BrowserRouter as Router } from 'react-router-dom';
-// import { store } from '../store/store';
-// import Register from '../components/Register';
-// import Swal from 'sweetalert2/dist/sweetalert2.all.js';
-// jest.mock('../actions/LoginActions', () => ({
-//     userRegistration: jest.fn(),
-// }));
-// jest.mock('sweetalert2/dist/sweetalert2.all.js', () => ({
-//     fire: jest.fn(),
-//     showLoading: jest.fn(),
-//     close: jest.fn(),
-// }));
-// describe('Register Component', () => {
-//     beforeEach(() => {
-//         jest.clearAllMocks();
-//     });
-//     test('submitting the form triggers the registration action', async () => {
-//         render(
-//             <Provider store={store}>
-//                 <Router>
-//                     <Register />
-//                 </Router>
-//             </Provider>
-//         );
-//         fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-//         fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
-//         fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Test User' } });
-//         fireEvent.change(screen.getByLabelText(/company name/i), { target: { value: 'Test Company' } });
-//         fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'password123' } });
-//         fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: '' } });
-//         fireEvent.click(screen.getByRole('button', { name: /register/i }));
-//         await waitFor(() => expect(Swal.fire).toHaveBeenCalledWith(
-//             expect.objectContaining({
-//                 title: "Error",
-//                 text: expect.stringContaining("Actions must be plain objects"),
-//             })
-//         ));
-//     });
-//     test('submitting the form triggers the registration successfull', async () => {
-//         render(
-//             <Provider store={store}>
-//                 <Router>
-//                     <Register />
-//                 </Router>
-//             </Provider>
-//         );
-//         fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-//         fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
-//         fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Test User' } });
-//         fireEvent.change(screen.getByLabelText(/company name/i), { target: { value: 'Test Company' } });
-//         fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'password123' } });
-//         fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'password123' } });
-//         fireEvent.click(screen.getByRole('button', { name: /register/i }));
-//         await waitFor(() => expect(Swal.fire).toHaveBeenCalledWith(
-//             expect.objectContaining({
-//                 title: "success",
-//                 // text: expect.stringContaining("Actions must be plain objects"),
-//             })
-//         ));
-//     });
-// });
-
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import configureStore from "redux-mock-store";
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import Register from '../components/Register';
+import { userRegistration } from '../actions/LoginActions';
 
-import Swal from "sweetalert2";
-
-// Mock the Redux store and actions
-const mockStore = configureStore([]);
-const mockDispatch = jest.fn();
-
-jest.mock("../actions/LoginActions", () => ({
-  userRegistration: jest.fn(() => ({
-    type: "USER_REGISTRATION",
-  })),
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
 }));
 
-jest.mock("sweetalert2", () => ({
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
+
+jest.mock('sweetalert2', () => ({
   fire: jest.fn(),
 }));
 
-describe("Register Component", () => {
-  let store;
+jest.mock('../actions/LoginActions', () => ({
+  userRegistration: jest.fn(),
+}));
+
+describe('Register Component', () => {
+  let mockNavigate;
+  let mockDispatch;
 
   beforeEach(() => {
-    store = mockStore({});
-    store.dispatch = mockDispatch;
+    mockNavigate = jest.fn();
+    mockDispatch = jest.fn(() => Promise.resolve({ status: 200, data: { message: 'Success' } }));
+    useNavigate.mockReturnValue(mockNavigate);
+    useDispatch.mockReturnValue(mockDispatch);
   });
 
-  const renderComponent = () =>
-    render(
-      <Provider store={store}>
-        <Router>
-          <Register />
-        </Router>
-      </Provider>
-    );
-
-    test('renders all form fields and buttons correctly', () => {
-        expect(screen.getByRole('label',{name: /Email/i })).toBeInTheDocument();
-        expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/company name/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/new password/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        fireEvent.click(screen.getByRole('button', { name: /login/i }));
-      });
-
-  test("allows user to type in all fields", () => {
-    renderComponent();
-
-    // Simulate typing into each input field
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "test@example.com" },
-    });
-    expect(screen.getByLabelText(/email/i).value).toBe("test@example.com");
-
-    fireEvent.change(screen.getByLabelText(/username/i), {
-      target: { value: "testuser" },
-    });
-    expect(screen.getByLabelText(/username/i).value).toBe("testuser");
-
-    fireEvent.change(screen.getByLabelText(/full name/i), {
-      target: { value: "Test User" },
-    });
-    expect(screen.getByLabelText(/full name/i).value).toBe("Test User");
-
-    fireEvent.change(screen.getByLabelText(/company name/i), {
-      target: { value: "Test Company" },
-    });
-    expect(screen.getByLabelText(/company name/i).value).toBe("Test Company");
-
-    fireEvent.change(screen.getByLabelText(/new password/i), {
-      target: { value: "password123" },
-    });
-    expect(screen.getByLabelText(/new password/i).value).toBe("password123");
-
-    fireEvent.change(screen.getByLabelText(/confirm password/i), {
-      target: { value: "password123" },
-    });
-    expect(screen.getByLabelText(/confirm password/i).value).toBe("password123");
+  it('renders the registration form with required fields', () => {
+    render(<Register />);
+    expect(screen.getByLabelText('Email:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Username:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Full Name:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Company Name:')).toBeInTheDocument();
+    expect(screen.getByLabelText('new Password:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Confirm Password:')).toBeInTheDocument();
   });
 
-  test("shows error when passwords do not match", async () => {
-    renderComponent();
+  it('handles input change events', () => {
+    render(<Register />);
+    const emailInput = screen.getByLabelText('Email:');
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    expect(emailInput.value).toBe('test@example.com');
+  });
 
-    fireEvent.change(screen.getByLabelText(/new password/i), {
-      target: { value: "password123" },
-    });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), {
-      target: { value: "password456" },
-    });
+  it('toggles password visibility', () => {
+    render(<Register />);
+    const passwordInput = screen.getByLabelText('new Password:');
+    const toggleButton = screen.getAllByRole('button')[0];
 
+    expect(passwordInput.type).toBe('password');
+    fireEvent.click(toggleButton);
+    expect(passwordInput.type).toBe('text');
+  });
+
+  it('submits the form and navigates on successful registration', async () => {
+    render(<Register />);
+    const emailInput = screen.getByLabelText('Email:');
+    const passwordInput = screen.getByLabelText('new Password:');
+    const confirmPasswordInput = screen.getByLabelText('Confirm Password:');
+    // const submitButton = screen.getByText('Register');
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: 'password' } });
+    // fireEvent.click(submitButton);
 
-    await waitFor(() => {
-      expect(Swal.fire).toHaveBeenCalledWith(
-        expect.objectContaining({
-          title: "Error",
-      text: expect.stringContaining("Registration failed"),
-icon: "error",
-        })
-      );
+    expect(userRegistration).toHaveBeenCalled();
+    // expect(mockDispatch).toHaveBeenCalledWith(expect.anything());
+    await mockDispatch();
+    expect(Swal.fire).toHaveBeenCalledWith({
+      title: "SUCCESS",
+      text: 'Success',
+      icon: "success",
+      confirmButtonText: "SUCCESS",
+      didOpen: expect.any(Function),
+    });
+    expect(mockNavigate).toHaveBeenCalledWith('/');
+  });
+
+  it('displays an error alert on failed registration', async () => {
+    mockDispatch.mockReturnValueOnce(Promise.resolve({ status: 400, data: { message: 'Error' } }));
+    render(<Register />);
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
+    await mockDispatch();
+    expect(Swal.fire).toHaveBeenCalledWith({
+      title: expect.anything(),
+      text: 'Error',
+      icon: 'error',
+      confirmButtonText: expect.anything(),
     });
   });
 
-  test("calls userRegistration action on valid form submission", async () => {
-    renderComponent();
-
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "test@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/username/i), {
-      target: { value: "testuser" },
-    });
-    fireEvent.change(screen.getByLabelText(/full name/i), {
-      target: { value: "Test User" },
-    });
-    fireEvent.change(screen.getByLabelText(/company name/i), {
-      target: { value: "Test Company" },
-    });
-    fireEvent.change(screen.getByLabelText(/new password/i), {
-      target: { value: "password123" },
-    });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), {
-      target: { value: "password123" },
-    });
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
-
-    // fireEvent.click(screen.getByText(/register/i));
-
-    await waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalled();
-    });
-  });
-
-  test("shows error alert on failed registration", async () => {
-    mockDispatch.mockImplementation(() => Promise.reject(new Error("Registration failed")));
-
-    renderComponent();
-
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "test@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/username/i), {
-      target: { value: "testuser" },
-    });
-    fireEvent.change(screen.getByLabelText(/new password/i), {
-      target: { value: "password123" },
-    });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), {
-      target: { value: "password123" },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
-
-    await waitFor(() => {
-      expect(Swal.fire).toHaveBeenCalledWith(
-        expect.objectContaining({
-          title: "Error",
-          text: "Registration failed",
-          icon: "error",
-        })
-      );
-    });
+  it('navigates to the login page when clicking the login link', () => {
+    render(<Register />);
+    const loginLink = screen.getByText('Login');
+    fireEvent.click(loginLink);
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });

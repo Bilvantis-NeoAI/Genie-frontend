@@ -74,9 +74,7 @@ console.log("====responseresponse from test",response);
             } else {
                 throw new Error(response?.data?.message || "Registration failed");
             }
-        } catch (err) {
-            console.log("====errerr",err);
-            
+        } catch (err) {            
             Swal.fire({
                 title: sweetalert.ERROR_CONFIRMED_TEXT,
                 text: err.message,
@@ -86,7 +84,6 @@ console.log("====responseresponse from test",response);
         }
     };
 
-    // Navigate to login
     const redirectToLogin = () => {
         navigate("/");
     };
