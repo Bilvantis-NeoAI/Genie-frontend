@@ -12,7 +12,7 @@ import {
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts'
 
-const DynamicBarGraph = ({ title, data, key, handleFilter }) => {
+const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
     let xAxisKey = "";
     let bars = [];
     let containerStyle = { width: "100%", height: 240, overflow: "hidden" };
@@ -48,7 +48,7 @@ const DynamicBarGraph = ({ title, data, key, handleFilter }) => {
                         <button
                             type="button"
                             className="btn btn-light"
-                            onClick={() => handleFilter(data, title, key)}
+                            onClick={() => handleFilter(data, title, keys)}
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"

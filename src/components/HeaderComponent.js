@@ -30,7 +30,7 @@ export function HeaderComponent() {
                     fontSize: "16px",
                 }}
             >
-                <h4> Welcome to Genie</h4>
+                Welcome to Genie
             </Title>
             <div style={{ display: "flex", alignItems: "center", flex: 1, justifyContent: "flex-end", marginRight: '20px' }}>
                 <div style={{

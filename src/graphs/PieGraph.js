@@ -5,7 +5,7 @@ import {
     FilterOutlined
 } from "@ant-design/icons";
 const COLORS = ["#1DB9EF", "#A91DEF", "#1DEF81", "#EF8F1D"];
-const PieGraph = ({ data, title, handleFilter, key }) => (
+const PieGraph = ({ data, title, handleFilter, keys }) => (
     <div className="card g-4">
         <div>
             <div className='graph-title'>
@@ -14,7 +14,7 @@ const PieGraph = ({ data, title, handleFilter, key }) => (
                     <button
                         type="button"
                         className="btn btn-light"
-                        onClick={() => handleFilter(data, title, key)}
+                        onClick={() => handleFilter(data, title, keys)}
                         data-bs-toggle="offcanvas"
                         data-bs-target="#addPriority"
                         aria-controls="offcanvasRight"

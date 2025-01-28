@@ -31,7 +31,7 @@ const CustomTick = ({ x, y, payload }) => {
     );
 };
 
-const MuilBarGraph = ({ data, title, handleFilter, key }) => {
+const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
     const chartWidth = Math.max(data.length * 60, 800);
 
     return (
@@ -43,7 +43,7 @@ const MuilBarGraph = ({ data, title, handleFilter, key }) => {
                         <button
                             type="button"
                             className="btn btn-light"
-                            onClick={() => handleFilter(data, title, key)}
+                            onClick={() => handleFilter(data, title, keys)}
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"

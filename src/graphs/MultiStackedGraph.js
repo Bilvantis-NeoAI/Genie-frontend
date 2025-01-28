@@ -83,7 +83,7 @@ const getColor = (index) => {
     return colors[index % colors.length];
 };
 
-const MultiStackedGraph = ({ data, title, handleFilter, key }) => {
+const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
     const formattedData = transformData(data);
     if(formattedData.length!==0){
     var issueKeys = Object.keys(formattedData[0]).filter((key) =>
@@ -167,7 +167,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, key }) => {
                         <button
                             type="button"
                             className="btn btn-light"
-                            onClick={() => handleFilter(data, title, key)}
+                            onClick={() => handleFilter(data, title, keys)}
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
