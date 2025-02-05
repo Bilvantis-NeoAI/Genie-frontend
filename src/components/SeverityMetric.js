@@ -147,9 +147,7 @@ export default function SeverityMetric() {
         setLoading(true);
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
-            .finally(() => {
-                setLoading(false);
-            });
+                // setLoading(false);            
     }, [dispatch, moduleType]);
 
     return (

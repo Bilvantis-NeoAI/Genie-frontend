@@ -1,6 +1,7 @@
 import React from 'react';
+import '@testing-library/jest-dom';
+
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -66,15 +67,12 @@ describe('Register Component', () => {
     const emailInput = screen.getByLabelText('Email:');
     const passwordInput = screen.getByLabelText('new Password:');
     const confirmPasswordInput = screen.getByLabelText('Confirm Password:');
-    // const submitButton = screen.getByText('Register');
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
     fireEvent.change(confirmPasswordInput, { target: { value: 'password' } });
-    // fireEvent.click(submitButton);
 
     expect(userRegistration).toHaveBeenCalled();
-    // expect(mockDispatch).toHaveBeenCalledWith(expect.anything());
     await mockDispatch();
     expect(Swal.fire).toHaveBeenCalledWith({
       title: "SUCCESS",

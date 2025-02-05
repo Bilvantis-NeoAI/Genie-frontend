@@ -16,6 +16,8 @@ const OffCanvas = ({
     handleSubmit,
     handleDateChange,
 }) => {
+    console.log("=========usersusers",users);
+    
     const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
         <input
             ref={ref}
@@ -33,9 +35,10 @@ const OffCanvas = ({
     ));
     const handleClear = () => {
         handleReset();
-        selectedFilter.project_name = ""
         onClose();
     };
+    console.log("********selectedFilter",selectedFilter);
+    
     return (
         isVisible && (
             <div
@@ -65,7 +68,7 @@ const OffCanvas = ({
                             borderBottom: "1px solid #dcdcdc",
                         }}
                     >
-                        {selectedFilter.initiatedBy}
+                        {selectedFilter && selectedFilter.initiatedBy}
                     </div>
                     <button
                         type="button"

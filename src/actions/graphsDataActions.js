@@ -26,6 +26,8 @@ export const fetchGraphFailure = (graphType, error) => ({
 
 export const fetchGraphList = (param, graphType) => {
   return (dispatch) => {
+    console.log("(((dispatch",dispatch);
+    
     dispatch(fetchGraphRequest(graphType));
     return DeployedURL.get(apis.GRAPHS_DATA, { params: param })
       .then((response) => {

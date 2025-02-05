@@ -3,6 +3,7 @@ import metricsIcon from "../Assets/Sidenavimgmetrics.svg";
 import logoutIcon from "../Assets/logout.svg";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import React from "react";
 export default function SideNav() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("metrics");

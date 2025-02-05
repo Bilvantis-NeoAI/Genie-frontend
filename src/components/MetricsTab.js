@@ -4,6 +4,7 @@ import QualityMetric from "./QualityMetric";
 import UsageMetric from "./UsageMetric";
 import { HeaderComponent } from "./HeaderComponent";
 import { useState } from "react";
+import React from "react";
 import SideNav from "./SideNavComponent";
 import CommitReviewMetric from "./CommitReviewMetric";
 export default function MetricTabs() {

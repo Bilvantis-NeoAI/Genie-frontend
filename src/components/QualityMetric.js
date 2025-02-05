@@ -13,6 +13,8 @@ export default function QualityMetric() {
     const dispatch = useDispatch();
     const moduleType = "quality"
     const data = useSelector((state) => state.graphs[moduleType]?.data);
+    console.log("+++datadatadatadata",data);
+    
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
             ...prevFilter,
@@ -119,6 +121,8 @@ export default function QualityMetric() {
     };
     let metrics = [];
     if (data) {
+        console.log("====data from if",data);
+        
         for (let key in data) {
             let innerObject = data[key];
             if (innerObject && typeof innerObject === "object") {
@@ -136,31 +140,28 @@ export default function QualityMetric() {
     return (
         <>
             <div className="row g-2">
-            {loading ? (
-                    <div className="col-12 text-center">Loading...</div>
-                ) : (
-                metrics?.map((metric, index) => {
-                    const titleToFromMapping = {
-                        "Average Code Quality": "AverageQuality",
-                        "Average Code Severity": "AverageSeverity",
-                    };
-                    const from = titleToFromMapping[metric.title] || "Default";
-                    const GraphComponent = graphComponents[metric.graph_type] || null;
-                    return (
-                        <div className="col-lg-6 col-md-12" key={index}>
-                            {GraphComponent && (
-                                <GraphComponent
-                                    data={metric.data}
-                                    title={metric.title}
-                                    from={from}
-                                    key={metric.key}
-                                    handleFilter={() => handleFilter(metric?.filters, metric?.title, metric?.key)}
-                                />
-                            )}
-                        </div>
-                    );
-                })
-            )}
+                    {metrics?.map((metric, index) => {
+                        const titleToFromMapping = {
+                            "Average Code Quality": "AverageQuality",
+                            "Average Code Severity": "AverageSeverity",
+                        };
+                        const from = titleToFromMapping[metric.title] || "Default";
+                        const GraphComponent = graphComponents[metric.graph_type] || null;
+                        return (
+                            <div className="col-lg-6 col-md-12" key={index}>
+                                {GraphComponent && (
+                                    <GraphComponent
+                                        data={metric.data}
+                                        title={metric.title}
+                                        from={from}
+                                        key={metric.key}
+                                        handleFilter={() => handleFilter(metric?.filters, metric?.title, metric?.key)}
+                                    />
+                                )}
+                            </div>
+                        )
+                    })
+                }
             </div>
             <OffCanvas
                 isVisible={offCanvas}

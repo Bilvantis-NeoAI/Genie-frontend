@@ -6,7 +6,7 @@ import { fetchGraphList } from "../actions/graphsDataActions";
 import MultiStackedGraph from "../graphs/MultiStackedGraph";
 import DoubleBarGraph from "../graphs/DoubleBarGraph";
 import { GRAPHKEYS, CANVASKEY } from '../utils/constatnts'
-
+import React from "react";
 export default function CommitReviewMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState({});
@@ -17,8 +17,8 @@ export default function CommitReviewMetric() {
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
-            .finally(() => {
-            });
+            // .finally(() => {
+            // });
     }, [dispatch, moduleType]);
     const onClear = () => {
         setSelectedFilter((prevState) => {
