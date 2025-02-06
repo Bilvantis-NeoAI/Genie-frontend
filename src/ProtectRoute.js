@@ -3,6 +3,6 @@ import { Navigate } from "react-router-dom";
 
 const ProtectRoute = ({ children }) => {
     const token = sessionStorage.getItem("access_token");
-    return token ? children : <Navigate to="/" />;
+    return token ? children : <Navigate to="/genie" />;
 };
 export default ProtectRoute;

@@ -11,20 +11,20 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/"
+          path="/genie"
           element={
             <LoginPage />
           }
         />
-        <Route path="/" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
+        <Route path="/genie" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
         <Route
-          path="/register"
+          path="/genie/register"
           element={
             <Register />
           }
         />
         <Route
-          path="/metrics"
+          path="/genie/metrics"
           element={
             <ProtectRoute>
             <MetricTabs /></ProtectRoute>
