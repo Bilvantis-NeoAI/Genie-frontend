@@ -5,6 +5,8 @@ import {
 } from "../actionTypes/graphsDataActionTypes.js";
 import { DeployedURL } from "../Interceptor/interceptor.js";
 import { apis } from "../utils/config.js";
+import Swal from "sweetalert2";
+
 export const fetchGraphRequest = (graphType) => ({
   type: FETCH_GRAPH_DATA,
   graphType,
@@ -36,6 +38,12 @@ export const fetchGraphList = (param, graphType) => {
         return response.data;
       })
       .catch((error) => {
+        Swal.fire({
+          title: "error",
+          text: graphType + error.message ,
+          icon: 'error',
+          confirmButtonText:'OK'
+        });
         dispatch(fetchGraphFailure(graphType, error.message || "Unknown error"));
         return error;
       });

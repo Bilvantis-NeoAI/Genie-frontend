@@ -5,6 +5,7 @@ import UsageMetric from "./UsageMetric";
 import { HeaderComponent } from "./header";
 import { useState } from "react";
 import { BootstrapSidebar } from "./sideNav";
+import CommitReviewMetric from "./CommitReviewMetric";
 // export default function homePage3() {
 export function HomePage3() {
 
@@ -45,6 +46,9 @@ export function HomePage3() {
                             <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
                                 Usage Metric
                             </Nav.Link>
+                            <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
+                                Commit Review Metrics
+                            </Nav.Link>
                         </Nav>
                         <Tab.Content
                             style={{
@@ -61,6 +65,9 @@ export function HomePage3() {
                                 <QualityMetric />
                             </Tab.Pane>
                             <Tab.Pane eventKey="Usage"><UsageMetric type='usage' />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="Commit" type='commit'>
+                                <CommitReviewMetric/>
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>

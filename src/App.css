@@ -273,7 +273,12 @@ input::placeholder {
   align-items: center;
  
 }
-
+.graph-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 2%;
+  margin-bottom: 0;
+}
 .separator {
   width: 1px;
   height: 24px;

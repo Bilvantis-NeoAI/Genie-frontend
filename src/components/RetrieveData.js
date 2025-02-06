@@ -421,7 +421,7 @@ export default function RetrieveData() {
                 <div
                   className={`d-inline-block p-2 text-black bg-light
                     ${chat.sender === "user"
-                    ? "text-black"
+                    ? 'bg-light'//"text-black"
                     : "bg-light"
                     } rounded`
                     
