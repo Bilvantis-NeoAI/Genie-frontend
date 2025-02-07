@@ -33,7 +33,6 @@ const OffCanvas = ({
     ));
     const handleClear = () => {
         handleReset();
-        selectedFilter.project_name = ""
         onClose();
     };
     return (
@@ -65,7 +64,7 @@ const OffCanvas = ({
                             borderBottom: "1px solid #dcdcdc",
                         }}
                     >
-                        {selectedFilter.initiatedBy}
+                        {selectedFilter && selectedFilter.initiatedBy}
                     </div>
                     <button
                         type="button"
@@ -158,57 +157,57 @@ const OffCanvas = ({
                                     </select>
                                 </div>
                             )}
-                        {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) || 
-                        (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key ===GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                <label htmlFor="dateRange" className="form-label">
-                                    Select Date Range:
-                                </label>
-                                <DatePicker
-                                    selectsRange
-                                    startDate={selectedFilter.start_date ? new Date(selectedFilter.start_date) : null}
-                                    endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : null}
-                                    onChange={(dates) => {
-                                        const [start, end] = dates;
-                                        const formattedStartDate = start ? start.toISOString().split("T")[0] : "";
-                                        const formattedEndDate = end ? end.toISOString().split("T")[0] : "";
-                                        onChange({ target: { name: "start_date", value: formattedStartDate } });
-                                        onChange({ target: { name: "end_date", value: formattedEndDate } });
-                                    }}
-                                    format="YYYY-MM-DD"
-                                    placeholderText="Select date range"
-                                    customInput={<CustomInput />}
-                                />
-                            </div>
-                        )}
-                        {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA 
-                        || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                <label
-                                    htmlFor="date"
-                                    style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
-                                >
-                                    Select Month
-                                </label>
-                                <DatePicker
-                                    selected={
-                                        selectedFilter.date
-                                            ? (() => {
-                                                let [year, month] = selectedFilter.date.split("-");
-                                                return new Date(Number(year), Number(month) - 1);
-                                            })()
-                                            : null
-                                    }
-                                    onChange={handleDateChange}
-                                    name="date"
-                                    dateFormat="yyyy-MM"
-                                    showMonthYearPicker
-                                    customInput={<CustomInput />}
-                                />
+                        {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) ||
+                            (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key === GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
+                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                    <label htmlFor="dateRange" className="form-label" data-testid="date-picker">
+                                        Select Date Range:
+                                    </label>
+                                    <DatePicker
+                                        selectsRange
+                                        startDate={selectedFilter.start_date ? new Date(selectedFilter.start_date) : null}
+                                        endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : null}
+                                        onChange={(dates) => {
+                                            const [start, end] = dates;
+                                            const formattedStartDate = start ? start.toISOString().split("T")[0] : "";
+                                            const formattedEndDate = end ? end.toISOString().split("T")[0] : "";
+                                            onChange({ target: { name: "start_date", value: formattedStartDate } });
+                                            onChange({ target: { name: "end_date", value: formattedEndDate } });
+                                        }}
+                                        format="YYYY-MM-DD"
+                                        placeholderText="Select date range"
+                                        customInput={<CustomInput />}
+                                    />
+                                </div>
+                            )}
+                        {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA
+                            || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
+                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                    <label
+                                        htmlFor="date"
+                                        style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
+                                    >
+                                        Select Month
+                                    </label>
+                                    <DatePicker
+                                        selected={
+                                            selectedFilter.date
+                                                ? (() => {
+                                                    let [year, month] = selectedFilter.date.split("-");
+                                                    return new Date(Number(year), Number(month) - 1);
+                                                })()
+                                                : null
+                                        }
+                                        onChange={handleDateChange}
+                                        name="date"
+                                        dateFormat="yyyy-MM"
+                                        showMonthYearPicker
+                                        customInput={<CustomInput />}
+                                    />
 
 
-                            </div>
-                        )}
+                                </div>
+                            )}
                         <div
                             className="offcanvas-footer"
                             style={{
@@ -225,6 +224,7 @@ const OffCanvas = ({
                         >
                             <button
                                 type="submit"
+                                data-testid="submit-button"
                                 style={{
                                     padding: "10px 20px",
                                     fontSize: "14px",
@@ -240,6 +240,7 @@ const OffCanvas = ({
                             </button>
                             <button
                                 type="button"
+                                data-testid="reset-button"
                                 onClick={handleClear}
                                 style={{
                                     padding: "10px 20px",

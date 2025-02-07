@@ -85,17 +85,17 @@ const getColor = (index) => {
 
 const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
     const formattedData = transformData(data);
-    if(formattedData.length!==0){
-    var issueKeys = Object.keys(formattedData[0]).filter((key) =>
-        key.startsWith("total_issues_")
-    );
-    var recentCommitKeys = Object.keys(formattedData[0]).filter((key) =>
-        key.startsWith("recent_commit_issues_")
-    );
-    var commitKeys = Object.keys(formattedData[0]).filter((key) =>
-        key.startsWith("total_commits_")
-    );
-}
+    if (formattedData.length !== 0) {
+        var issueKeys = Object.keys(formattedData[0]).filter((key) =>
+            key.startsWith("total_issues_")
+        );
+        var recentCommitKeys = Object.keys(formattedData[0]).filter((key) =>
+            key.startsWith("recent_commit_issues_")
+        );
+        var commitKeys = Object.keys(formattedData[0]).filter((key) =>
+            key.startsWith("total_commits_")
+        );
+    }
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const groupedData = {
@@ -171,6 +171,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
@@ -186,52 +187,53 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     scrollbarWidth: "none",
                 }}
             >
-                {data.length!==0 &&
-                <ResponsiveContainer width="150%">
-                    <BarChart
-                        data={formattedData}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                        barGap={3}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="repo_name" />
-                        <YAxis />
-                        <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
-                        {issueKeys.map((key, index) => (
-                            <Bar
-                                key={key}
-                                dataKey={key}
-                                barSize={20}
-                                stackId="stack1"
-                                fill={getColor(index)}
-                                name={key.replace("total_issues_", "").replace("_count", "")}
+                {data.length !== 0 &&
+                    <ResponsiveContainer width="150%">
+                        <BarChart
+                            data={formattedData}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                            barGap={3}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="repo_name" fontSize={10}
                             />
-                        ))}
-                        {recentCommitKeys.map((key, index) => (
-                            <Bar
-                                key={key}
-                                dataKey={key}
-                                barSize={20}
-                                stackId="stack2"
-                                fill={getColor(index + issueKeys.length)}
-                                name={key
-                                    .replace("recent_commit_issues_", "")
-                                    .replace("_count", "")}
-                            />
-                        ))}
-                        {commitKeys.map((key, index) => (
-                            <Bar
-                                key={key}
-                                dataKey={key}
-                                barSize={20}
-                                stackId="stack3"
-                                fill={getColor(index + issueKeys.length + recentCommitKeys.length)}
-                                name={key.replace("total_commits_", "").replace("_commits", "")}
-                            />
-                        ))}
-                    </BarChart>
-                </ResponsiveContainer>
-            }
+                            <YAxis fontSize={10} />
+                            <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
+                            {issueKeys.map((key, index) => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    barSize={20}
+                                    stackId="stack1"
+                                    fill={getColor(index)}
+                                    name={key.replace("total_issues_", "").replace("_count", "")}
+                                />
+                            ))}
+                            {recentCommitKeys.map((key, index) => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    barSize={20}
+                                    stackId="stack2"
+                                    fill={getColor(index + issueKeys.length)}
+                                    name={key
+                                        .replace("recent_commit_issues_", "")
+                                        .replace("_count", "")}
+                                />
+                            ))}
+                            {commitKeys.map((key, index) => (
+                                <Bar
+                                    key={key}
+                                    dataKey={key}
+                                    barSize={20}
+                                    stackId="stack3"
+                                    fill={getColor(index + issueKeys.length + recentCommitKeys.length)}
+                                    name={key.replace("total_commits_", "").replace("_commits", "")}
+                                />
+                            ))}
+                        </BarChart>
+                    </ResponsiveContainer>
+                }
             </div>
         </div>
     );

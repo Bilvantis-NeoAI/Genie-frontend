@@ -56,6 +56,7 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>

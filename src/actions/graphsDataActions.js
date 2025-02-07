@@ -41,7 +41,7 @@ export const fetchGraphList = (param, graphType) => {
           title: "error",
           text: error.message,
           icon: 'error',
-          confirmButtonText:'OK'
+          confirmButtonText: 'OK'
         });
         dispatch(fetchGraphFailure(graphType, error.message));
         return error;

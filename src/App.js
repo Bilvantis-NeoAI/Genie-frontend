@@ -27,7 +27,8 @@ function App() {
           path="/genie/metrics"
           element={
             <ProtectRoute>
-            <MetricTabs /></ProtectRoute>
+            <MetricTabs />
+            </ProtectRoute>
           }
         />
       </Routes>

@@ -20,18 +20,6 @@ export default function UsageMetric() {
         }));
         setOffCanvas(true);
     };
-    const onClear = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
-                user_id: "",
-                date: "",
-            };
-            return updatedState;
-        });
-        setUsers([]);
-    };
     const handleCloseCanvas = () => {
         setOffCanvas(false);
     };
@@ -167,7 +155,6 @@ export default function UsageMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset}
             />
         </>

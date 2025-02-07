@@ -3,6 +3,8 @@ import metricsIcon from "../Assets/Sidenavimgmetrics.svg";
 import logoutIcon from "../Assets/logout.svg";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import React from "react";
+import { sweetalert } from "../utils/constatnts";
 export default function SideNav() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("metrics");
@@ -12,12 +14,12 @@ export default function SideNav() {
     };
     const handleLogout = () => {
         Swal.fire({
-            title: "Warning",
-            text: "Are you sure you want to logout?",
-            icon: "warning",
+            title: sweetalert.WARNING_TITLE,
+            text: sweetalert.LOGOUT_CONFIRM_TEXT,
+            icon: sweetalert.WARNING_ICON,
             showCancelButton: true,
-            confirmButtonText: "Yes, Logout",
-            cancelButtonText: "Cancel",
+            confirmButtonText: sweetalert.CONFIRM_BUTTON_TEXT,
+            cancelButtonText: sweetalert.CANCEL_BUTTON_TEXT,
         }).then((result) => {
             if (result.isConfirmed) {
                 setActiveTab("");

@@ -9,7 +9,6 @@ export default function QualityMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({});
-    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const moduleType = "quality"
     const data = useSelector((state) => state.graphs[moduleType]?.data);
@@ -23,18 +22,6 @@ export default function QualityMetric() {
     };
     const handleCloseCanvas = () => {
         setOffCanvas(false);
-    };
-    const onClear = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
-                user_id: "",
-                date: "",
-            };
-            return updatedState;
-        });
-        setUsers([]);
     };
     const handleReset = () => {
         setSelectedFilter((prevState) => {
@@ -128,18 +115,13 @@ export default function QualityMetric() {
         }
     }
     useEffect(() => {
-        setLoading(true)
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType));
-        setLoading(false)
     }, [dispatch, moduleType]);
     return (
         <>
             <div className="row g-2">
-            {loading ? (
-                    <div className="col-12 text-center">Loading...</div>
-                ) : (
-                metrics?.map((metric, index) => {
+                {metrics?.map((metric, index) => {
                     const titleToFromMapping = {
                         "Average Code Quality": "AverageQuality",
                         "Average Code Severity": "AverageSeverity",
@@ -158,9 +140,9 @@ export default function QualityMetric() {
                                 />
                             )}
                         </div>
-                    );
+                    )
                 })
-            )}
+                }
             </div>
             <OffCanvas
                 isVisible={offCanvas}
@@ -172,7 +154,6 @@ export default function QualityMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset}
             />
         </>

@@ -44,7 +44,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
             <div>
                 <div className='graph-title'>
                     <div>{title}</div>
-                   <div >
+                    <div >
                         <button
                             type="button"
                             className="btn btn-light"
@@ -52,6 +52,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
@@ -67,8 +68,8 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
                             barGap={3}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey={xAxisKey} />
-                            <YAxis />
+                            <XAxis dataKey={xAxisKey} fontSize={10} />
+                            <YAxis fontSize={10} />
                             <Tooltip cursor={{ fill: "transparent" }} />
                             <Legend />
                             {bars.map((bar, index) => (

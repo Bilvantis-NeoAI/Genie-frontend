@@ -62,7 +62,7 @@ export const graphReducer = (state = initialState, action) => {
 
     case FETCH_GRAPH_SUCCESS:
     case FETCH_FILTER_GRAPH_SUCCESS: {
-      const { filter } = action.payload; // Check if the request was filtered
+      const { filter } = action.payload;
       const metricsData = action.payload.metrics || {};
       if (filter) {
         return {
