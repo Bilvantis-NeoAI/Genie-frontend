@@ -9,7 +9,7 @@
 // export default store;
 
 import { createStore, applyMiddleware } from 'redux';
-import {thunk} from 'redux-thunk';
+import thunk from 'redux-thunk'; // ✅ CORRECT
 import { persistStore, persistReducer } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session'; 
 import rootReducer from '../reducers'; 

@@ -57,8 +57,6 @@ const Register = () => {
 
         try {
             const response = await dispatch(userRegistration(payload));
-console.log("====responseresponse from test",response);
-
             if (response?.status === 200) {
                 Swal.fire({
                     title: sweetalert.SUCCESS_TITLE,

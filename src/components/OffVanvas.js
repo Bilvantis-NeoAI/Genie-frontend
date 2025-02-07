@@ -15,9 +15,7 @@ const OffCanvas = ({
     handleReset,
     handleSubmit,
     handleDateChange,
-}) => {
-    console.log("=========usersusers",users);
-    
+}) => {    
     const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
         <input
             ref={ref}
@@ -36,9 +34,7 @@ const OffCanvas = ({
     const handleClear = () => {
         handleReset();
         onClose();
-    };
-    console.log("********selectedFilter",selectedFilter);
-    
+    };    
     return (
         isVisible && (
             <div
@@ -164,7 +160,7 @@ const OffCanvas = ({
                         {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) || 
                         (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key ===GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                <label htmlFor="dateRange" className="form-label">
+                                <label htmlFor="dateRange" className="form-label" data-testid="date-picker">
                                     Select Date Range:
                                 </label>
                                 <DatePicker
@@ -227,22 +223,24 @@ const OffCanvas = ({
                             }}
                         >
                             <button
-                                type="submit"
-                                style={{
-                                    padding: "10px 20px",
-                                    fontSize: "14px",
-                                    borderRadius: "5px",
-                                    backgroundColor: "#007bff",
-                                    borderColor: "#007bff",
-                                    color: "#fff",
-                                    width: "35%",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                Submit
-                            </button>
+    type="submit"
+    data-testid="submit-button"
+    style={{
+        padding: "10px 20px",
+        fontSize: "14px",
+        borderRadius: "5px",
+        backgroundColor: "#007bff",
+        borderColor: "#007bff",
+        color: "#fff",
+        width: "35%",
+        cursor: "pointer",
+    }}
+>
+    Submit
+</button>
                             <button
                                 type="button"
+                                data-testid="reset-button"
                                 onClick={handleClear}
                                 style={{
                                     padding: "10px 20px",

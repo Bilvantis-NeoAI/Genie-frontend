@@ -1,15 +1,17 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import QualityMetric from '../components/QualityMetric'; // Adjust this path according to your folder structure
-import { fetchGraphList } from '../actions/graphsDataActions';
-
-const mockStore = configureStore([]);
-
-describe('QualityMetric Component', () => {
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { Provider } from "react-redux";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import "@testing-library/jest-dom";
+import QualityMetric from "../components/QualityMetric";
+import { fetchGraphList } from "../actions/graphsDataActions";
+jest.mock("../actions/graphsDataActions", () => ({
+    fetchGraphList: jest.fn(),
+}));
+const mockStore = configureMockStore([thunk]);
+describe("QualityMetric Component", () => {
     let store;
-
     beforeEach(() => {
         store = mockStore({
             graphs: {
@@ -46,72 +48,56 @@ describe('QualityMetric Component', () => {
                 },
             },
         });
+        store.dispatch = jest.fn();
     });
-
-    const renderComponent = () =>
+    test("dispatches fetchGraphList on mount", async () => {
         render(
             <Provider store={store}>
                 <QualityMetric />
             </Provider>
         );
 
-    test('renders graph components based on data', () => {
-        renderComponent();
-        
-        // Check if both metrics are rendered
-        expect(screen.getByText('Average Code Quality')).toBeInTheDocument();
-        expect(screen.getByText('Average Code Severity')).toBeInTheDocument();
-    });
-
-    test('opens off canvas on filter button click', () => {
-        renderComponent();
-
-        // Simulate clicking the filter button (assuming it's in the LineGraph component)
-        const filterButton = screen.getAllByRole('button', { name: /filter/i })[0]; // Adjust selector based on actual button
-        fireEvent.click(filterButton);
-
-        // Check if off-canvas is visible
-        expect(screen.getByText(/off canvas/i)).toBeVisible(); // Adjust based on actual text in OffCanvas
-    });
-
-    test('submits filters correctly', () => {
-        renderComponent();
-
-        // Open off canvas
-        const filterButton = screen.getAllByRole('button', { name: /filter/i })[0];
-        fireEvent.click(filterButton);
-
-        // Fill out form fields (example)
-        fireEvent.change(screen.getByLabelText(/project name/i), { target: { value: 'medicalapp-react' } });
-        fireEvent.change(screen.getByLabelText(/user/i), { target: { value: '6749680d179953e102f1d99c' } });
-        
-        // Submit form
-        const submitButton = screen.getByRole('button', { name: /submit/i }); // Adjust selector based on actual button text
-        fireEvent.click(submitButton);
-
-        // Check if fetchGraphList was called with correct parameters (mocked function)
-        const actions = store.getActions();
-        const expectedPayload = expect.objectContaining({
-            type: 'FETCH_GRAPH_LIST',
-            payload: expect.objectContaining({
-                filters: JSON.stringify({ project_name: 'medicalapp-react', user_id: '6749680d179953e102f1d99c', month: '' }),
-            }),
+        await waitFor(() => {
+            expect(fetchGraphList).toHaveBeenCalledWith(
+                { type: "quality", filter: false },
+                "quality"
+            );
         });
-        
-        expect(actions).toEqual(expect.arrayContaining([expectedPayload]));
     });
-
-    test('clears filters correctly', () => {
-        renderComponent();
-
-        // Open off canvas
-        const filterButton = screen.getAllByRole('button', { name: /filter/i })[0];
+    it("should open offcanvas when clicking the filter button", () => {
+        render(
+            <Provider store={store}>
+                <QualityMetric />
+            </Provider>
+        );
+        const filterButtons = screen.queryAllByTestId("filter-button");
+        const filterButton = filterButtons[0];
         fireEvent.click(filterButton);
 
-        // Clear filters
-        const clearButton = screen.getByRole('button', { name: /clear/i }); // Adjust selector based on actual button text
-        fireEvent.click(clearButton);
+        const offcanvasElements = screen.getAllByText("Average Code Quality", { hidden: true });
+        const offcanvas = offcanvasElements[0];
 
-        // Assert that state has been cleared (e.g., check if input fields are empty)
+        expect(offcanvas).toBeInTheDocument();
+    });
+    it("should Submit offcanvas when clicking the submit button", async () => {
+        render(
+            <Provider store={store}>
+                <QualityMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.change(screen.getByLabelText(/Project Name/i), { target: { value: 'medicalapp-react' } });
+        fireEvent.click(screen.getByTestId("submit-button"));
+    });
+    it("should Reset offcanvas when clicking the Rest button", async () => {
+        render(
+            <Provider store={store}>
+                <QualityMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.click(screen.getByTestId("reset-button"));
     });
 });

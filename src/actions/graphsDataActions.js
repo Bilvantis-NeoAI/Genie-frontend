@@ -26,8 +26,6 @@ export const fetchGraphFailure = (graphType, error) => ({
 
 export const fetchGraphList = (param, graphType) => {
   return (dispatch) => {
-    console.log("(((dispatch",dispatch);
-    
     dispatch(fetchGraphRequest(graphType));
     return DeployedURL.get(apis.GRAPHS_DATA, { params: param })
       .then((response) => {
@@ -43,7 +41,7 @@ export const fetchGraphList = (param, graphType) => {
           title: "error",
           text: error.message,
           icon: 'error',
-          confirmButtonText:'OK'
+          confirmButtonText: 'OK'
         });
         dispatch(fetchGraphFailure(graphType, error.message));
         return error;

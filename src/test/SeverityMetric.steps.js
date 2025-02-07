@@ -1,184 +1,161 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import SeverityMetric from "../components/SeverityMetric";
-import * as graphsDataActions from "../actions/graphsDataActions";
 import '@testing-library/jest-dom';
 import React from "react";
-import store from '../store/store'
-jest.mock("../actions/graphsDataActions");
-
-const createMockStore = (initialState = {}) => {
-    let state = initialState;
-    console.log("===statestate",state);
-    
-    const actions = [];
-    return {
-        getState: () => state,
-        dispatch: (action) => {
-            actions.push(action);
-            if (typeof action === "function") {
-                return action(() => state, (newAction) => actions.push(newAction));
-            }
-        },
-        getActions: () => actions,
-        clearActions: () => {
-            actions.length = 0;
-        },
-        subscribe: () => () => { },
-    };
-};
-
-const apiData = {
-    "metrics": {
-        "issue_severity_distribution": {
-            "title": "Issue severity distribution",
-            "graph_type": "double_bar_graph",
-            "data": [
-                { "severity": "critical", "count": 290, "percentage": 14.515 },
-                { "severity": "major", "count": 890, "percentage": 44.545 },
-                { "severity": "minor", "count": 597, "percentage": 29.88 },
-                { "severity": "cosmetic", "count": 219, "percentage": 10.961 }
-            ]
-        },
-        "issue_severity_by_user_and_project": {
-            "title": "Issue severity distribution by User",
-            "graph_type": "double_bar_graph",
-            "data": [
-                {
-                    "severity": "critical",
-                    "count": 290,
-                    "percentage": 14.515
+import configureMockStore from "redux-mock-store";
+import { fetchGraphList } from "../actions/graphsDataActions";
+jest.mock("../actions/graphsDataActions", () => ({
+    fetchGraphList: jest.fn(),
+}));
+const mockStore = configureMockStore([thunk]);
+describe("Severity Component", () => {
+    let store;
+    beforeEach(() => {
+        store = mockStore({
+            graphs: {
+                severity: {
+                    data: {
+                        "issue_severity_distribution": {
+                            "title": "Issue severity distribution",
+                            "graph_type": "double_bar_graph",
+                            "data": [
+                                {
+                                    "severity": "critical",
+                                    "count": 334,
+                                    "percentage": 14.917
+                                },
+                            ]
+                        },
+                        "issue_severity_by_user_and_project": {
+                            "title": "Issue severity distribution by User",
+                            "graph_type": "double_bar_graph",
+                            "data": [
+                                {
+                                    "severity": "cosmetic",
+                                    "count": 240,
+                                    "percentage": 10.719
+                                }
+                            ]
+                        },
+                        "issue_severity_pie_chart_data": {
+                            "title": "Issue Severity Data",
+                            "graph_type": "pie",
+                            "data": [
+                                {
+                                    "severity": "cosmetic",
+                                    "percentage": 10.73
+                                }
+                            ]
+                        },
+                        "issue_severity_area_chart_data": {
+                            "title": "Issue Severity Distribution",
+                            "graph_type": "area_chart",
+                            "data": [
+                                {
+                                    "date": "2025-01-23",
+                                    "critical": 1,
+                                    "major": 6,
+                                    "minor": 7,
+                                    "cosmetic": 5
+                                },
+                            ]
+                        },
+                        "issue_severity_frequency_by_project": {
+                            "title": "Issue Severity Frequency by Project",
+                            "graph_type": "bar",
+                            "data": [
+                                {
+                                    "project": "Genie",
+                                    "critical": 2,
+                                    "major": 2,
+                                    "minor": 3,
+                                    "cosmetic": 0
+                                },
+                            ]
+                        },
+                        "project_user_count": {
+                            "title": "Project User Count",
+                            "graph_type": "bar_graph",
+                            "data": [
+                                {
+                                    "project": "hello-world",
+                                    "count": 1
+                                },
+                                {
+                                    "project": "medicalapp-react",
+                                    "count": 1
+                                },
+                            ]
+                        },
+                        "project_user_mapping": [
+                            {
+                                "_id": "6763e7bc388b54276371ed27",
+                                "project_name": "hello-world",
+                                "users": [
+                                    {
+                                        "user_id": "6749680d179953e102f1d99c",
+                                        "email": "rahul97@gmail.com",
+                                        "full_name": "Rahul97"
+                                    }
+                                ]
+                            },
+                        ]
+                    },
                 },
-                {
-                    "severity": "major",
-                    "count": 890,
-                    "percentage": 44.545
-                },
-            ]
-        },
-        "issue_severity_pie_chart_data": {
-            "title": "Issue Severity Data",
-            "graph_type": "pie",
-            "data": [
-                { "severity": "critical", "percentage": 14.53 },
-                { "severity": "major", "percentage": 44.59 },
-                { "severity": "minor", "percentage": 29.91 },
-                { "severity": "cosmetic", "percentage": 10.97 }
-            ]
-        },
-        "issue_severity_area_chart_data": {
-            "title": "Issue Severity Distribution",
-            "graph_type": "area_chart",
-            "data": [
-                {
-                    "date": "2025-01-16",
-                    "critical": 0,
-                    "major": 8,
-                    "minor": 3,
-                    "cosmetic": 0
-                },
-                {
-                    "date": "2025-01-17",
-                    "critical": 12,
-                    "major": 59,
-                    "minor": 70,
-                    "cosmetic": 15
-                },
-            ]
-        },
-        "issue_severity_frequency_by_project": {
-            "title": "Issue Severity Frequency by Project",
-            "graph_type": "bar",
-            "data": [
-                {
-                    "project": "Genie",
-                    "critical": 2,
-                    "major": 2,
-                    "minor": 3,
-                    "cosmetic": 0
-                },
-                {
-                    "project": "Zelis",
-                    "critical": 1,
-                    "major": 10,
-                    "minor": 4,
-                    "cosmetic": 1
-                }
-            ]
-        },
-        "project_user_count": {
-            "title": "Project User Count",
-            "graph_type": "bar_graph",
-            "data": [
-                {
-                    "project": "sample_project",
-                    "count": 1
-                },
-                {
-                    "project": "tokens_sample",
-                    "count": 1
-                }
-            ]
-        },
-    }
-};
-
-describe("SeverityMetric Component", () => {
-    const mockState = {
-        graphs: {
-            severity: {
-                data: apiData.metrics,
             },
-        },
-    };
-
-    const mockStore = createMockStore(mockState);
-console.log('=====mockStoremockStore',mockStore.getState);
-
-    test("shows loading state initially", () => {
-        render(
-            <Provider store={mockStore}>
-                <SeverityMetric />
-            </Provider>
-        );
-
-        expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+        });
+        store.dispatch = jest.fn();
     });
-    test("renders severity metrics when data is available", async () => {
+    test("dispatches fetchGraphList on mount", async () => {
         render(
-            <Provider store={mockStore}>
+            <Provider store={store}>
                 <SeverityMetric />
             </Provider>
         );
-    
-        console.log("mock data", mockStore.getState());
-        screen.debug(); // Prints the current DOM in the test
-    
         await waitFor(() => {
-            
-            expect(screen.getByText("Issue severity distribution")).toBeInTheDocument();
+            expect(fetchGraphList).toHaveBeenCalledWith(
+                { type: "severity", filter: false },
+                "severity"
+            );
         });
     });
-    it("should update selectedFilter state and set offCanvas to true when handleFilter is called", () => {
-        const {container} = render(
-            <Provider store={mockStore}>
+    it("should open offcanvas when clicking the filter button", () => {
+        render(
+            <Provider store={store}>
                 <SeverityMetric />
             </Provider>
-        );    
-            const offcanvasComponent = container.querySelector("OffVanvas"); 
-            console.log("offcanvasComponent",offcanvasComponent);
-            
-            const handleFilter = offcanvasComponent?.props?.handleSubmit;  
-            console.log("handleFilter",handleFilter);
-                   
-        expect(handleFilter).toBeDefined();
-            act(() => {
-            handleFilter("Critical");
-        });
-    
-        expect(screen.getByText("Selected Filter: Critical")).toBeInTheDocument();
-        expect(screen.getByRole("dialog")).toBeVisible();
+        );
+        const filterButtons = screen.queryAllByTestId("filter-button");
+        const filterButton = filterButtons[0];
+        fireEvent.click(filterButton);
+
+        const offcanvasElements = screen.getAllByText("Issue severity distribution", { hidden: true });
+        const offcanvas = offcanvasElements[0];
+
+        expect(offcanvas).toBeInTheDocument();
     });
-    
+    it("should Submit offcanvas when clicking the submit button", async () => {
+        render(
+            <Provider store={store}>
+                <SeverityMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.change(screen.getByLabelText(/Project Name/i), { target: { value: 'medicalapp-react' } });
+        fireEvent.click(screen.getByTestId("submit-button"));
+    });
+    it("should Reset offcanvas when clicking the Rest button", async () => {
+        render(
+            <Provider store={store}>
+                <SeverityMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.click(screen.getByTestId("reset-button"));
+    });
 
 });

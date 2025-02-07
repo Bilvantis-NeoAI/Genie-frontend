@@ -12,9 +12,7 @@ import {
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, XAXISNAMES, TITLE, DATAKEY } from "../utils/constatnts";
-const LineGraph = ({ data, title, handleFilter, from, keys }) => {
-    console.log("****title****",title);
-    
+const LineGraph = ({ data, title, handleFilter, from, keys }) => {    
     const xAxisKeyMapping = {
         AverageQuality: XAXISKEYS.MONTH,
         AverageSeverity: XAXISKEYS.MONTH,
@@ -41,6 +39,7 @@ const LineGraph = ({ data, title, handleFilter, from, keys }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>

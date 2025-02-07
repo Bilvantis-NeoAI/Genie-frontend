@@ -1,8 +1,6 @@
 import { LOGIN_DATA,LOGIN_SUCCESS,LOGIN_FAILURE ,REGISTRATION_DATA,REGISTRATION_FAILURE,REGISTRATION_SUCCESS } from "../actionTypes/loginActionTypes";
 import { DeployedURL } from "../interceptors/interceptors";
 import { apis } from "../utils/config";
-console.log("===========adfsdsfd");
-
 export const fetchLoginData=()=>({
 type:LOGIN_DATA
 })
@@ -33,11 +31,11 @@ export const userLogin = (payload) => {
         .then((response) => {
           const loginResponse = response;
           dispatch(fetchLoginDataSuccess(loginResponse));
-          return loginResponse; // Return the response here
+          return loginResponse;
         })
         .catch((error) => {
           dispatch(fetchLoginDataFailure(error?.response?.data?.detail));
-          return Promise.reject(error?.response?.data?.detail); // Reject with the error here
+          return Promise.reject(error?.response?.data?.detail);
         });
     };
   };
@@ -48,15 +46,11 @@ export const userRegistration =(payload)=>{
         dispatch(registrationData())
         return DeployedURL
         .post(apis.REGISTER,payload)
-        .then((response)=>{     
-          console.log("====responseresponse from actions",response);
-                 
+        .then((response)=>{                      
             const registartionResponse = response;
            dispatch(fetchLoginDataSuccess(registartionResponse));
            return response;
-        }).catch((error)=>{
-          console.log("===error form actions",error);
-          
+        }).catch((error)=>{          
             dispatch(fetchLoginDataFailure(error?.response?.data?.detail));
            return error?.response?.data?.detail;
         })

@@ -11,7 +11,7 @@ import {
     Legend,
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
-const BarGraph = ({ data, title, key, handleFilter, from }) => {
+const BarGraph = ({ data, title, key, handleFilter, from }) => {    
     const formatName = (name) =>
         name
             ? name
@@ -56,6 +56,7 @@ const BarGraph = ({ data, title, key, handleFilter, from }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>

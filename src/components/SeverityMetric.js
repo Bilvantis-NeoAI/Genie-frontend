@@ -24,19 +24,6 @@ export default function SeverityMetric() {
         }));
         setOffCanvas(true);
     };
-    const onClear = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
-                user_id: '',
-                _id: "",
-                date: ''
-            };
-            return updatedState;
-        });
-        setUsers([]);
-    };
     const handleReset = () => {
         setSelectedFilter((prevState) => {
             const updatedState = {
@@ -125,7 +112,7 @@ export default function SeverityMetric() {
                 date: formattedDate,
             }));
         }
-    };
+    };    
     const graphComponents = {
         double_bar_graph: BarGraph,
         pie: PieGraph,
@@ -147,9 +134,8 @@ export default function SeverityMetric() {
         setLoading(true);
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
-                // setLoading(false);            
+        setLoading(false);
     }, [dispatch, moduleType]);
-
     return (
         <>
             <div className="row g-2 ">
@@ -185,7 +171,6 @@ export default function SeverityMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset} />
         </>
     );

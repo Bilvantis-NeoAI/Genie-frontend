@@ -12,9 +12,7 @@ export default function QualityMetric() {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const moduleType = "quality"
-    const data = useSelector((state) => state.graphs[moduleType]?.data);
-    console.log("+++datadatadatadata",data);
-    
+    const data = useSelector((state) => state.graphs[moduleType]?.data);    
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
             ...prevFilter,
@@ -25,18 +23,6 @@ export default function QualityMetric() {
     };
     const handleCloseCanvas = () => {
         setOffCanvas(false);
-    };
-    const onClear = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
-                user_id: "",
-                date: "",
-            };
-            return updatedState;
-        });
-        setUsers([]);
     };
     const handleReset = () => {
         setSelectedFilter((prevState) => {
@@ -120,9 +106,7 @@ export default function QualityMetric() {
         line: LineGraph
     };
     let metrics = [];
-    if (data) {
-        console.log("====data from if",data);
-        
+    if (data) {        
         for (let key in data) {
             let innerObject = data[key];
             if (innerObject && typeof innerObject === "object") {
@@ -133,7 +117,7 @@ export default function QualityMetric() {
     }
     useEffect(() => {
         setLoading(true)
-        const params = { type: moduleType, filter: false };
+        const params = { type: moduleType, filter: false };        
         dispatch(fetchGraphList(params, moduleType));
         setLoading(false)
     }, [dispatch, moduleType]);
@@ -173,7 +157,6 @@ export default function QualityMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset}
             />
         </>

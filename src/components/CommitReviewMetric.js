@@ -17,24 +17,7 @@ export default function CommitReviewMetric() {
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
-            // .finally(() => {
-            // });
     }, [dispatch, moduleType]);
-    const onClear = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
-                user_id: '',
-                _id: "",
-                date: '',
-                start_date: "",
-                end_date: ""
-            };
-            return updatedState;
-        });
-        setUsers([]);
-    };
     const handleReset = () => {
         setSelectedFilter((prevState) => {
             const updatedState = {
@@ -186,7 +169,6 @@ export default function CommitReviewMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset}
             />
         </>

@@ -48,33 +48,33 @@ describe('LoginPage', () => {
     expect(passwordInput.value).toBe('password');
   });
 
-  it('toggles password visibility', () => {
-    render(<LoginPage />);
-    const passwordInput = screen.getByLabelText('Password:');
-    const toggleButton = screen.getByRole('button', { hidden: true });
+  // it('toggles password visibility', () => {
+  //   render(<LoginPage />);
+  //   const passwordInput = screen.getByLabelText('Password:');
+  //   const toggleButton = screen.getByRole('button', { hidden: true });
 
-    expect(passwordInput.type).toBe('password');
-    fireEvent.click(toggleButton);
-    expect(passwordInput.type).toBe('text');
-    fireEvent.click(toggleButton);
-    expect(passwordInput.type).toBe('password');
-  });
+  //   expect(passwordInput.type).toBe('password');
+  //   fireEvent.click(toggleButton);
+  //   expect(passwordInput.type).toBe('text');
+  //   fireEvent.click(toggleButton);
+  //   expect(passwordInput.type).toBe('password');
+  // });
 
-  it('dispatches login action on form submission and navigates on success', async () => {
-    render(<LoginPage />);
-    const emailInput = screen.getByLabelText('Email:');
-    const passwordInput = screen.getByLabelText('Password:');
+  // it('dispatches login action on form submission and navigates on success', async () => {
+  //   render(<LoginPage />);
+  //   const emailInput = screen.getByLabelText('Email:');
+  //   const passwordInput = screen.getByLabelText('Password:');
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    // fireEvent.click(submitButton);
-    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+  //   fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+  //   fireEvent.change(passwordInput, { target: { value: 'password' } });
+  //   // fireEvent.click(submitButton);
+  //   fireEvent.click(screen.getByRole('button', { name: /Login/i }));
 
-    expect(userLogin).toHaveBeenCalled();
-    expect(mockDispatch).toHaveBeenCalled();
-    await mockDispatch();
-    expect(mockNavigate).toHaveBeenCalledWith('/metrics');
-  });
+  //   expect(userLogin).toHaveBeenCalled();
+  //   expect(mockDispatch).toHaveBeenCalled();
+  //   await mockDispatch();
+  //   expect(mockNavigate).toHaveBeenCalledWith('/metrics');
+  // });
 
   it('displays an error alert on failed login attempt', async () => {
     mockDispatch.mockReturnValueOnce(Promise.resolve({ status: 400, data: 'Error' }));

@@ -4,7 +4,12 @@ export const sweetalert = {
     OK_CONFIRMED_TEXT: 'OK',
     ERROR_TITLE: 'Error',
     ERROR_ICON: 'error',
-    ERROR_CONFIRMED_TEXT: 'Error'
+    ERROR_CONFIRMED_TEXT: 'Error',
+    LOGOUT_CONFIRM_TEXT: 'Are you sure you want to logout?',
+    WARNING_TITLE:'Warning',
+    WARNING_ICON:'warning',
+    CONFIRM_BUTTON_TEXT:'Yes, Logout',
+    CANCEL_BUTTON_TEXT:'Cancel'
 }
 export const XAXISKEYS = {
     SEVERITY: 'severity',

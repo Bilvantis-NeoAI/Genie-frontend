@@ -1,37 +1,20 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import CommitReviewMetric from "../components/CommitReviewMetric";
-import * as graphsDataActions from "../actions/graphsDataActions";
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 import React from "react";
-import { act } from "react-dom/test-utils";
-
-jest.mock("../actions/graphsDataActions");
-
-const createMockStore = (initialState = {}) => {
-    let state = initialState;
-    const actions = [];
-    return {
-        getState: () => state,
-        dispatch: (action) => {
-            actions.push(action);
-            if (typeof action === "function") {
-                return action(() => state, (newAction) => actions.push(newAction));
-            }
-        },
-        getActions: () => actions,
-        clearActions: () => {
-            actions.length = 0;
-        },
-        subscribe: () => () => {},
-    };
-};
-
-describe("CommitReviewMetric - handleSubmit", () => {
-    let mockStore;
+import { fetchGraphList } from "../actions/graphsDataActions";
+import configureMockStore from "redux-mock-store";
+jest.mock("../actions/graphsDataActions", () => ({
+    fetchGraphList: jest.fn(() => async (dispatch) => { }),
+}));
+const mockStore = configureMockStore([thunk]);
+describe("Commit Component", () => {
+    let store;
 
     beforeEach(() => {
-        mockStore = createMockStore({
+        store = mockStore({
             graphs: {
                 commit: {
                     data: {
@@ -89,7 +72,7 @@ describe("CommitReviewMetric - handleSubmit", () => {
                                     "disallowed_files_count": 5,
                                     "secrets_count": 12
                                 },
-                             ]
+                            ]
                         },
                         "project_user_mapping": [
                             {
@@ -103,7 +86,7 @@ describe("CommitReviewMetric - handleSubmit", () => {
                                     }
                                 ]
                             },
-                                       {
+                            {
                                 "_id": "67641b8b388b54276371ed4b",
                                 "project_name": "medicalapp-admin-portal",
                                 "users": [
@@ -114,55 +97,63 @@ describe("CommitReviewMetric - handleSubmit", () => {
                                     }
                                 ]
                             },
-                     ]
-                
-                
+                        ]
+
+
                     },
                 },
             },
         });
-
-        graphsDataActions.fetchGraphList.mockImplementation(() => Promise.resolve());
-    });
-
-    it("should dispatch fetchGraphList with correct parameters when OffCanvas form is submitted", async () => {
-        await act(async () => {
-            render(
-                <Provider store={mockStore}>
-                    <CommitReviewMetric />
-                </Provider>
+    })
+    test("dispatches fetchGraphList on mount", async () => {
+        render(
+            <Provider store={store}>
+                <CommitReviewMetric />
+            </Provider>
+        );
+        await waitFor(() => {
+            expect(fetchGraphList).toHaveBeenCalledWith(
+                { type: "commit", filter: false },
+                "commit"
             );
         });
-
-        const graphTitle = screen.getByText(/Commit violation metrics/i);
-        fireEvent.click(graphTitle);
-        expect(graphsDataActions.fetchGraphList).toHaveBeenCalledTimes(1);
-        expect(graphsDataActions.fetchGraphList).toHaveBeenCalledWith(
-            expect.objectContaining({
-                type: "commit",
-                filter: false,
-            }),
-            "commit"
-        );
     });
-    it("should dispatch fetchGraphList with correct parameters when OffCanvas form is filter true", async () => {
-        await act(async () => {
-            render(
-                <Provider store={mockStore}>
-                    <CommitReviewMetric />
-                </Provider>
-            );
-        });
-
-        const graphTitle = screen.getByText(/Commit violation metrics/i);
-        fireEvent.click(graphTitle);
-        expect(graphsDataActions.fetchGraphList).toHaveBeenCalledTimes(1);
-        expect(graphsDataActions.fetchGraphList).toHaveBeenCalledWith(
-            expect.objectContaining({
-                type: "commit",
-                filter: false,
-            }),
-            "commit"
+    it("should open offcanvas when clicking the filter button", () => {
+        render(
+            <Provider store={store}>
+                <CommitReviewMetric />
+            </Provider>
         );
+        const filterButtons = screen.queryAllByTestId("filter-button");
+        const filterButton = filterButtons[0];
+        fireEvent.click(filterButton);
+
+        const offcanvasElements = screen.getAllByText("Commit Issue severity distribution by User", { hidden: true });
+        const offcanvas = offcanvasElements[0];
+
+        expect(offcanvas).toBeInTheDocument();
     });
-});
+    it("should Submit offcanvas when clicking the submit button", async () => {
+        render(
+            <Provider store={store}>
+                <CommitReviewMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.change(screen.getByLabelText(/Project Name/i), { target: { value: 'medicalapp-react' } });
+        fireEvent.change(screen.getByLabelText(/Developer/i), { target: { value: 'medicalapp-react' } });
+        fireEvent.click(screen.getByTestId("submit-button"));
+    });
+    it("should Reset offcanvas when clicking the Rest button", async () => {
+        render(
+            <Provider store={store}>
+                <CommitReviewMetric />
+            </Provider>
+        );
+
+        fireEvent.click(screen.getAllByTestId("filter-button")[0]);
+        fireEvent.click(screen.getByTestId("reset-button"));
+
+    })
+})

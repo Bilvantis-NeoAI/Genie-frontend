@@ -47,6 +47,7 @@ const MuilBarGraph = ({ data, title, handleFilter, key }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
