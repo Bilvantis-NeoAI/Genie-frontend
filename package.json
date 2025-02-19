@@ -23,8 +23,10 @@
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "express": "^4.21.2",
+    "install": "^0.13.0",
+    "npm": "^10.9.2",
     "nth-check": "^2.1.1",
-    "postcss": "^8.5.1",
+    "postcss": "^8.5.2",
     "react": "^18.3.1",
     "react-audio-visualize": "^1.2.0",
     "react-audio-voice-recorder": "^2.2.0",
@@ -37,6 +39,7 @@
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.15.0",
     "react-toastify": "^10.0.5",
     "recharts": "^2.13.3",
     "redux": "^4.2.1",
@@ -47,7 +50,7 @@
     "rollup": "^4.31.0",
     "send": "^1.1.0",
     "serve-static": "^1.16.2",
-    "sweetalert2": "^11.15.10",
+    "sweetalert2": "^11.6.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

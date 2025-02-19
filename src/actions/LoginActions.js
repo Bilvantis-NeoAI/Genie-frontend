@@ -35,7 +35,7 @@ export const userLogin = (payload) => {
       })
       .catch((error) => {
         dispatch(fetchLoginDataFailure(error?.response?.data?.detail));
-        return Promise.reject(error?.response?.data?.detail);
+        return (error?.response?.data?.detail);
       });
   };
 };

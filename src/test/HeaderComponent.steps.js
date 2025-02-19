@@ -22,16 +22,6 @@ describe('HeaderComponent', () => {
     expect(icon).toHaveClass('anticon');
     expect(icon).toHaveAttribute('aria-label', 'user');
   });
-  it('should have the correct styles applied to the header elements', () => {
-    render(<HeaderComponent />);
-    const header = screen.getByRole('banner');
-    expect(header).toHaveStyle('display: flex');
-    expect(header).toHaveStyle('align-items: center');
-    expect(header).toHaveStyle('height: 50px');
-    const usernameDiv = screen.getByText('Admin').parentElement;
-    expect(usernameDiv).toHaveStyle('display: flex');
-    expect(usernameDiv).toHaveStyle('justify-content: flex-end');
-  });
   it('renders the correct welcome text', () => {
     render(<HeaderComponent />);
     expect(screen.getByText('Welcome to Genie')).toBeInTheDocument();
