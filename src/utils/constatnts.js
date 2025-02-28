@@ -1,9 +1,54 @@
-export const sidebarTextSamples = {
-    BILVANTIS_TEXT : 'BILVANTIS.IO',
-};
+export const sweetalert = {
+    SUCCESS_TITLE: 'SUCCESS',
+    SUCCESS_ICON: 'success',
+    OK_CONFIRMED_TEXT: 'OK',
+    ERROR_TITLE: 'Error',
+    ERROR_ICON: 'error',
+    ERROR_CONFIRMED_TEXT: 'Error',
+    LOGOUT_CONFIRM_TEXT: 'Are you sure you want to logout?',
+    WARNING_TITLE:'Warning',
+    WARNING_ICON:'warning',
+    CONFIRM_BUTTON_TEXT:'Yes, Logout',
+    CANCEL_BUTTON_TEXT:'Cancel'
+}
+export const XAXISKEYS = {
+    SEVERITY: 'severity',
+    ASSISTANCE: 'assistant_name',
+    REVIEW: 'review_name',
+    APPLICATION: 'Application',
+    MONTH: 'month',
+    REPO_NAME :'repo_name',
+    WEEK : 'week',
+}
+export const XAXISNAMES = {
+    AVARAGE_QUALITY: 'Avarage quality',
+    AVARAGE_SEVERITY: 'Avarage severity',
+    COUNT: 'Count',
+    PERCENTAGE: 'Percentage',
+   SECRETS_COUNT: 'Secrets Count',
+   DISABLE_FILES_COUNT : 'Disallowed Files Count'
+}
+export const DATAKEY = {
+    COUNT: 'count',
+    PERCENTAGE: 'percentage',
+    AVARAGE_QUALITY: 'average_quality',
+    AVARAGE_SEVERITY: 'average_severity',
+    SECRETS_COUNT : 'secrets_count',
+    DISABLE_FILES_COUNT:"disallowed_files_count",
+    PROJECT:'project'
+}
+export const TITLE = {
+    AVARAGE_CODE_QUALITY: 'Average Code Quality',
+    AVARAGE_CODE_SEVERITY: 'Average Code Severity',
+    COMMIT_ISSUES_SEVERITY:"Commit Issue severity distribution by User",
+    COMMIT_VIOLATE :"Commit violation metrics"
+}
+export const CANVASKEY = {
+    ASSISTANCE : 'Assistant',
+    REVIEW : 'Review',
+    SEVERITY: 'severity',
 
-export const  baseURL =  'http://3.139.66.49:9000/'
-
+}
 export const homePageTextSamples = {
     VIEW_SIMILARITY : 'View PDF - Similairty',
     VIEW_REVELANT : 'View PDF - Relevant',
@@ -11,19 +56,22 @@ export const homePageTextSamples = {
     OPEN_GRAPHS : 'Open Graphs',
     DOWNLOAD_IMAGES : 'Download Images',
     SUBMIT_BUTTON : 'Submit',
+    EXPLAIN:'Explain',
+    GET_CODE : 'Get Code',
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };
-
+export const  baseURL =  'http://34.134.148.250/'
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",
     FILES_REQUIRED: "At least one file is required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
-    ONLY_FILE : 'Please select only 1 file.'
+    ONLY_FILE : 'Please select only 1 file.',
+    TOKEN:'Enter Pat',
+    BRANCH_NAME:'Branch Name'
 };
-
 export const homePage3TextSamples = {
     LINE_GRAPH_DATA : [1, 7, 8, 9, 5, 3, 4, 10, 11, 5, 6, 7],
     LINE_GRAPH_X_AXIS_DATA : ['Jan','Feb', 'Mar', 'Apr','May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov','Dec'],
@@ -42,7 +90,7 @@ export const homePage3TextSamples = {
 }
 
 export const headerTextSamples = {
-    SOLAR_WINDS : 'Welcome  to Solarwinds'
+    SOLAR_WINDS : 'Welcome  to Genie'
 }
 
 export const footerTextSamples = {
@@ -62,3 +110,27 @@ export const adminDashboardTextSamples = {
     API_ERROR : 'API call failed:'
 }
 
+export const Retrive_repo_data={
+    THIS_FIELD_CANT_NOT_BE_EMPTY :'This field cannot be empty',
+    FAILED_TO_RETRIVE_DATA : 'Failed to retrieve data. Please try again.',
+    NO_DATA_AVAILABLE : 'No data available'
+}
+export const repo_Ingestion ={
+    URL_REQUIRED : 'URL is required',
+    INGESTION_INITIATED_SUCCEEFULLY :"Ingestion initiated successfully!",
+    ERROR_OCCURED_REPO_INGESTION :"An error occurred while repo ingestion!"
+}
+export const GRAPHKEYS ={
+COMMIT_AVARAGE_CODE_QUALITY :'commit_avg_code_quality',
+COMMIT_VIOLATE:'commit_violation_metrics',
+COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT :'commit_issue_severity_by_user_and_project',
+COMMIT_ORG_COMMIT_METRICS : 'org_commit_metrics',
+ISSUSE_SEVERITY_FREQUESCY_PROJECT : 'issue_severity_frequency_by_project',
+MONTH_USAGE:'monthly_usage',
+ISSUE_SEVERITY_DISTRIBUTION : 'issue_severity_distribution',
+AVARAGE_CODE_QUALITY :'avg_code_quality',
+AVARAGE_CODE_SEVERITY:'avg_code_severity',
+REVIEW_USAGE_DATA : 'review_usage_data',
+ASSIANCE_USAGE_DTA : 'assistant_usage_data'
+}
+export const API_BASE_AI = 'http://34.134.148.250:7000';
