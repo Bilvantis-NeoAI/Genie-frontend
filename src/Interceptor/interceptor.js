@@ -4,7 +4,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { URL } from "../utils/config";
 export const Api = axios.create({
-  baseURL:URL.Api,
+  baseURL:URL.GIT_GRAPH_DATA,
 });
 export const ApiInject = axios.create({
   baseURL: URL.ApiInject
@@ -19,8 +19,12 @@ export const GitIngestion = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// Interceptor for adding dynamic Authorization header for GitIngestion
+export const ApiNewService = axios.create({
+  baseURL: URL.TEST_AI,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 GitIngestion.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("access_token");
@@ -35,7 +39,6 @@ export const DeployedURL = axios.create({
   baseURL: URL.DeployedURL
 });
 
-// Interceptor for adding dynamic Authorization header for Metric
 DeployedURL.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("access_token");
@@ -77,6 +80,7 @@ export function Loader() {
   addInterceptors(Api, setLoading);
   addInterceptors(ApiInject, setLoading);
   addInterceptors(ApiAnswer, setLoading);
+  addInterceptors(ApiNewService, setLoading); 
 
   return (
     <>

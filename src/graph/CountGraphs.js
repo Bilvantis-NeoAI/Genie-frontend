@@ -58,7 +58,7 @@ const CountGraph = ({ data, title }) => {
                         <YAxis fontSize={10} />
                         <Tooltip cursor={{ fill: "transparent" }} />
                         <Legend />
-                        <Bar dataKey="count" fill="#1DB9EF" barSize={30} name="Count" />
+                        <Bar dataKey="count" fill="#1DB9EF" barSize={20} name="Count" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

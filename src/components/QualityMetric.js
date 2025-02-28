@@ -161,7 +161,9 @@ export default function QualityMetric() {
                                 />
                             )}
                         </div>
+                        
                     );
+                    
                 })}
             </div>
             <OffCanvas

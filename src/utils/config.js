@@ -1,3 +1,4 @@
+const IP ='http://34.55.15.61/'
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
@@ -11,11 +12,22 @@ export const apis = {
     retriveRepoData :'/explain',
     GET_CODE : '/get_code',
     LOGIN : 'auth/login',
-    REGISTER : 'auth/register'}
+    REGISTER : 'auth/register',
+    TEST_AI:'/workflow1',
+    TEST_AI2 :'/workflow2'
+}
     export const URL ={
-        Api : 'http://3.139.66.49:9002/',
-        ApiInject : 'http://3.139.66.49:9001/',
-        ApiAnswer:'http://3.139.66.49:9000/',
-        GitIngestion: 'http://34.46.36.105:3001',//'http://localhost:3001/app', //'http://34.66.193.112/'
-        DeployedURL:'http://34.123.3.28:3000'//'https://genie.bilvantis.in/fastapi//' ,//http://localhost:3000/app/' //'http://34.57.32.181',
+        Api : 'http://34.55.15.61/',
+        ApiInject :`${IP}kbmsapi`, //Upload Documnet and upload URL
+        ApiAnswer:`${IP}kbmsapi`,
+
+
+        GitIngestion: `${IP}gitkbapi`,  //Ingestion repo
+        DeployedURL:`${IP}genieapi/`,  // Login and Genie metrics
+        GIT_GRAPH_DATA:`${IP}kbmsapi`, //git metrics
+
+
+        API_BASE_AI :'http://34.134.148.250:7000',
+        TEST_AI :`${IP}crewapi` //Test Ai
+
     }

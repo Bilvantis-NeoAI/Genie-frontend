@@ -31,7 +31,7 @@ const CustomTick = ({ x, y, payload }) => {
     );
 };
 
-const MuilBarGraph = ({ data, title, handleFilter, key }) => {
+const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
     const chartWidth = Math.max(data.length * 60, 800);
 
     return (
@@ -53,7 +53,7 @@ const MuilBarGraph = ({ data, title, handleFilter, key }) => {
                         <button
                             type="button"
                             className="btn btn-light"
-                            onClick={() => handleFilter(data, title, key)}
+                            onClick={() => handleFilter(data, title, keys)}
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
@@ -72,9 +72,9 @@ const MuilBarGraph = ({ data, title, handleFilter, key }) => {
                         barGap={10}
                     >
                         <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} />
+                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} fontSize={10} />
                         <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }} />
+                        <Tooltip cursor={{ fill: "transparent" }}/>
                         <Legend />
                         <Bar dataKey="critical" fill="#1DB9EF" barSize={30} name="Critical"/>
                         <Bar dataKey="major" fill="#1DEF81" barSize={30} name="Major" />

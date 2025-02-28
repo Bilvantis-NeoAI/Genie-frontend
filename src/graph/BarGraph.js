@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
 
-const BarGraph = ({ data, title, handleFilter, from, key }) => {
+const BarGraph = ({ data, title, handleFilter, from, keys }) => {
     if (from === "Assistant") {
         data = data?.map((item) => ({
             ...item,
@@ -74,7 +74,7 @@ const BarGraph = ({ data, title, handleFilter, from, key }) => {
                             <button
                                 type="button"
                                 className="btn btn-light"
-                                onClick={() => handleFilter(data, title, key)}
+                                onClick={() => handleFilter(data, title, keys)}
                                 data-bs-toggle="offcanvas"
                                 data-bs-target="#addPriority"
                                 aria-controls="offcanvasRight"
@@ -110,7 +110,7 @@ const BarGraph = ({ data, title, handleFilter, from, key }) => {
                         <button
                             type="button"
                             className="btn btn-light"
-                            onClick={() => handleFilter(data, title, key)}
+                            onClick={() => handleFilter(data, title, keys)}
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"

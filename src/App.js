@@ -13,6 +13,8 @@ import IngestionRepo from './components/IngesitonRepo';
 import RedirectRoute from './RedirectRoute';
 import ProtectRoute from './ProtectRoute';
 import Register from './components/Register';
+import GitMetrics from './components/GitMetrics';
+import { TestCaseAi } from './components/TestCaseAi';
 function App() {
   return (
     <Router>
@@ -78,6 +80,22 @@ function App() {
           element={
             <ProtectRoute>
               <AdminDashboard />
+            </ProtectRoute>
+          }
+        />
+         <Route
+          path="/gitmetrics"
+          element={
+            <ProtectRoute>
+              <GitMetrics/>
+            </ProtectRoute>
+          }
+        />
+         <Route
+          path="/testcases"
+          element={
+            <ProtectRoute>
+              <TestCaseAi/>
             </ProtectRoute>
           }
         />

@@ -9,6 +9,8 @@ import retriveRepoDataReducer from './retriveRepoDataReducer';
 import loginReducer from './loginReducer';
 import registrationReducer from './registrationReducer';
 import getCodeReducer from './getCodeReducer';
+import gitGraphReducers from './gitGraphReducers'
+import aiTestCaseData from './testCaseReducers'
 const rootReducer = combineReducers({
     answersData: answersReducer,
     documentData: documentReducer,
@@ -19,7 +21,9 @@ const rootReducer = combineReducers({
     repoData: retriveRepoDataReducer,
     loginData: loginReducer,
     registrationData: registrationReducer,
-    getCode: getCodeReducer
+    getCode: getCodeReducer,
+    gitGraph :gitGraphReducers,
+    aiTestCaseData:aiTestCaseData
 });
 
 export default rootReducer;

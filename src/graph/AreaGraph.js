@@ -12,7 +12,7 @@ import {
 import { FilterOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 
-const AreaGraph = ({ data, title, handleFilter,key }) => {
+const AreaGraph = ({ data, title, handleFilter,keys }) => {
     const severityColors = {
         critical: "#FF0000",
         major: "#FFA500",
@@ -38,7 +38,7 @@ const AreaGraph = ({ data, title, handleFilter,key }) => {
                     <button
                         type="button"
                         className="btn btn-light"
-                        onClick={() => handleFilter(data, title,key)} 
+                        onClick={() => handleFilter(data, title,keys)} 
                         data-bs-toggle="offcanvas"
                         data-bs-target="#addPriority"
                         aria-controls="offcanvasRight"

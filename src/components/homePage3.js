@@ -6,7 +6,6 @@ import { HeaderComponent } from "./header";
 import { useState } from "react";
 import { BootstrapSidebar } from "./sideNav";
 import CommitReviewMetric from "./CommitReviewMetric";
-// export default function homePage3() {
 export function HomePage3() {
 
     const [activeTab, setActiveTab] = useState("Severity");
@@ -16,9 +15,6 @@ export function HomePage3() {
     return (
         <>
             <Container fluid className="w-100" >
-                {/* <Row style={{ height: '10vh' }}>
-                    <HeaderComponent />
-                </Row> */}
                 <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
           <HeaderComponent />
         </Row>

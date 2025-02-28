@@ -4,7 +4,12 @@ export const sweetalert = {
     OK_CONFIRMED_TEXT: 'OK',
     ERROR_TITLE: 'Error',
     ERROR_ICON: 'error',
-    ERROR_CONFIRMED_TEXT: 'Error'
+    ERROR_CONFIRMED_TEXT: 'Error',
+    LOGOUT_CONFIRM_TEXT: 'Are you sure you want to logout?',
+    WARNING_TITLE:'Warning',
+    WARNING_ICON:'warning',
+    CONFIRM_BUTTON_TEXT:'Yes, Logout',
+    CANCEL_BUTTON_TEXT:'Cancel'
 }
 export const XAXISKEYS = {
     SEVERITY: 'severity',
@@ -56,7 +61,7 @@ export const homePageTextSamples = {
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };
-export const  baseURL =  'http://3.139.66.49:9000/'
+export const  baseURL =  'http://34.134.148.250/'
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",
@@ -127,7 +132,5 @@ AVARAGE_CODE_QUALITY :'avg_code_quality',
 AVARAGE_CODE_SEVERITY:'avg_code_severity',
 REVIEW_USAGE_DATA : 'review_usage_data',
 ASSIANCE_USAGE_DTA : 'assistant_usage_data'
-
-
-
 }
+export const API_BASE_AI = 'http://34.134.148.250:7000';

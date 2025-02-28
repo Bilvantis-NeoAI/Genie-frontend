@@ -60,7 +60,7 @@ export function HeaderComponent() {
           fontSize: "16px",
         }}
       >
-      <h4> Welcome to Genie</h4>
+      <div> Welcome to Genie</div>
       </Title>
  
       {/* Right Section: Profile Icon and Username */}

@@ -1,20 +1,16 @@
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import {Container, Form, Row, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BootstrapSidebar } from "./sideNav";
 import { HeaderComponent } from "./header";
 import { useState, useEffect } from "react";
-import { cleanAndFormatResponse, response, TextDisplay } from "../Utils";
-import { fetchData } from "../Services/homePageService";
+import {TextDisplay } from "../Utils";
 import { PdfModal } from "./modalBox";
-import { PDFmaker } from "./pdfMaker";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Snackbar } from "@mui/material";
 import { downloadImageService } from "../Services/homePageService";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementCounter } from "../actions/questionActions";
 import { fetchAnswersList } from "../actions/questionActions";
-import { homePageTextSamples, footerTextSamples } from "../utils/constatnts";
+import { homePageTextSamples } from "../utils/constatnts";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,7 +27,7 @@ export function HomePage() {
 
   const [selectedSearchOption, setSelectedSearchOption] = useState("All");
 
-  const searchOptions = ["Chroma", "Best", "Milvus","Neo4j", "Elastic Search", "All"];
+  const searchOptions = ["Chroma", "Best", "Milvus", "Neo4j", "Elastic Search", "All"];
 
   const answerData = useSelector((state) => state.answersData);
 
@@ -56,9 +52,9 @@ export function HomePage() {
     { label: "Context xlsx", value: "context_xlsx" },
   ];
 
-  const handleIncrementCounter = () => {
-    dispatch(incrementCounter());
-  };
+  // const handleIncrementCounter = () => {
+  //   dispatch(incrementCounter());
+  // };
 
   const [filterQueries, setFilterQueries] = useState({});
 
@@ -69,16 +65,13 @@ export function HomePage() {
     }));
   };
 
-  const [textFlag, setTextflag] = useState(false);
-  const [imagesList, setImages] = useState([]);
-  const [index, setIndex] = useState(null);
-  const [vertical, setVertical] = useState("bottom");
-  const [horizontal, setHorizontal] = useState("right");
+  const index= null;
+  const vertical ="bottom";
+  const horizontal = "right";
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState("text");
+  const type = "text";
   const [showModal, setShowModal] = useState(false);
-  const [responseText, setresponseText] = useState("");
-  const [color, setColor] = useState("green");
+  const color = "green";
   const [inputField, setInputField] = useState();
 
   const handleInputChange = (index, event) => {
@@ -87,12 +80,12 @@ export function HomePage() {
     setFormFields(values);
     setInputField(values);
   };
-  const handleAddField = () => {
-    setFormFields([...formFields, { text: "" }]);
-  };
+  // const handleAddField = () => {
+  //   setFormFields([...formFields, { text: "" }]);
+  // };
 
   const [response, setResponse] = useState([]);
-  const [tableHtml, setTableHtml] = useState("");
+  // const [tableHtml, setTableHtml] = useState("");
   useEffect(() => {
     if (answerData.answers && answerData.answers.length > 0) {
       const newFormFields = answerData.answers.map((answer) => ({
@@ -118,12 +111,12 @@ export function HomePage() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleOpen = () => {
-    setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-    }, 5000);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  //   setTimeout(() => {
+  //     setOpen(false);
+  //   }, 5000);
+  // };
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -148,7 +141,7 @@ export function HomePage() {
 
   const [isImagesModalOpen, setIsImagesModalOpen] = useState(false);
   const [relevantPdfIndex, setRelevantPdfIndex] = useState(0);
-  const [similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
+  // const [similarityPdfIndex, setSimilarityPdfIndex] = useState(0);
   const [isGraphsModalOpen, setIsGraphsModalOpen] = useState(false);
 
   const openImagesModal = () => {
@@ -167,9 +160,9 @@ export function HomePage() {
     setIsGraphsModalOpen(false);
   };
 
-  const test = () => {
-    setIndex("");
-  };
+  // const test = () => {
+  //   setIndex("");
+  // };
 
   const downloadImages = (index) => {
     response[index]?.images?.forEach((element) => {
@@ -187,7 +180,7 @@ export function HomePage() {
 
   const handleSearchChange = (event) => {
 
-    setSelectedSearchOption(event.target.value); 
+    setSelectedSearchOption(event.target.value);
   };
 
   return (
@@ -209,9 +202,9 @@ export function HomePage() {
           type={type}
         ></PdfModal>
       )}
-     <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderComponent />
-        </Row>
+      <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+        <HeaderComponent />
+      </Row>
 
       <Form>
         <div className="w-100 mt-3" style={{ height: "82vh" }}>
@@ -245,7 +238,7 @@ export function HomePage() {
 
          
 
-            {response[relevantPdfIndex]?.[selectContextOption] ? ( 
+            {response[relevantPdfIndex]?.[selectContextOption] ? (
               <iframe
                 src={
                   response[relevantPdfIndex]?.storage === "local"
@@ -290,12 +283,12 @@ export function HomePage() {
             </button>
 
 
-            { response[relevantPdfIndex]?.[selectRelevantOption]? (
+            {response[relevantPdfIndex]?.[selectRelevantOption] ? (
               <iframe
                 src={
                   response[relevantPdfIndex]?.storage === "local"
                     ? baseURL + response[relevantPdfIndex]?.[selectRelevantOption]
-                    : 
+                    :
                     // response[relevantPdfIndex]?.[selectRelevantOption]
                     `https://docs.google.com/viewer?url=${encodeURIComponent(response[relevantPdfIndex]?.[selectRelevantOption])}&embedded=true`
                 }
@@ -304,8 +297,8 @@ export function HomePage() {
                 title="PDF Viewer"
               />
             ) : (
-              <Typography variant="h6" className = "text-center mt-5" color="error">
-                 {homePageTextSamples.NO_SELECTED_FILE} 
+              <Typography variant="h6" className="text-center mt-5" color="error">
+                {homePageTextSamples.NO_SELECTED_FILE}
               </Typography>
             )}
           </Modal>
@@ -330,7 +323,7 @@ export function HomePage() {
               Close
             </button>
             <div className="modal-content p-3 d-flex">
-              {response[relevantPdfIndex]?.images?.length == 0 && (
+              {response[relevantPdfIndex]?.images?.length === 0 && (
                 <span
                   className="w-100 d-flex justify-content-center"
                   style={{ fontWeight: "bolder", fontSize: "16px" }}
@@ -374,7 +367,7 @@ export function HomePage() {
             </button>
             <div className="modal-content w-100 p-3 d-flex justify-content-center">
               {!response[relevantPdfIndex]?.full_graph &&
-              !response[relevantPdfIndex]?.semi_graph ? (
+                !response[relevantPdfIndex]?.semi_graph ? (
                 <span
                   className="w-100 d-flex justify-content-center"
                   style={{ fontWeight: "bolder", fontSize: "16px" }}
@@ -429,7 +422,7 @@ export function HomePage() {
             >
               {formFields.map((field, index) => (
                 <>
-                  <div class="form-group w-75 d-flex mt-4 ms-5">
+                  <div className="form-group w-75 d-flex mt-4 ms-5">
                     <input
                       type="text"
                       className="form-control question-box"
@@ -565,7 +558,7 @@ export function HomePage() {
                             </Select>
                           </FormControl>
                         </Box>
-                     
+
 
                         <Box className="select-input-box ms-3">
                           <FormControl fullWidth>
@@ -585,9 +578,9 @@ export function HomePage() {
                                   key={indexed}
                                   value={option.value}
                                   onClick={() => {
-                                    setSelectRelevantOption(option.value); 
-                                    setRelevantPdfIndex(index); 
-                                    openSimilarityModal(); 
+                                    setSelectRelevantOption(option.value);
+                                    setRelevantPdfIndex(index);
+                                    openSimilarityModal();
                                   }}
                                 >
                                   {option.label}
