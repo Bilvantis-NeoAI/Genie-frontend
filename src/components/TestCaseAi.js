@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addAiDocument, addAiCsvData } from '../actions/aiTestCasesActions';
 import Papa from 'papaparse';
-
+import {IP} from '../utils/config'
 export function TestCaseAi() {
     const [firstDropzoneState, setFirstDropzoneState] = useState({
         file: [],
@@ -116,7 +116,7 @@ export function TestCaseAi() {
     useEffect(() => {
         if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
             const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
-            const fullUrl = `http://34.55.15.61/${filePath}`;
+            const fullUrl = `${IP}${filePath}`;
 
 
             fetch(fullUrl)

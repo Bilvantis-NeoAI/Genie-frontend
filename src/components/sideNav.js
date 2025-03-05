@@ -55,13 +55,13 @@ export const BootstrapSidebar = () => {
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitmetrics')}>
           <img src={gitMetric} alt="" className="imagestyles" />
-          <span className="tooltip">GIT Metrics</span>
+          <span className="tooltip">KBMS Metrics</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => {
           handleNavigation('/metrics')
         }}>
           <img src={metricsIcon} alt="" className="imagestyles" />
-          <span className="tooltip">Metrics</span>
+          <span className="tooltip"> GIT Metrics</span>
         </li>
         
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/homepage')}>

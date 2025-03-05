@@ -1,4 +1,4 @@
-const IP ='http://34.55.15.61/'
+ export const IP ='http://34.31.29.216/'
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
@@ -17,7 +17,7 @@ export const apis = {
     TEST_AI2 :'/workflow2'
 }
     export const URL ={
-        Api : 'http://34.55.15.61/',
+        Api : `${IP}`,
         ApiInject :`${IP}kbmsapi`, //Upload Documnet and upload URL
         ApiAnswer:`${IP}kbmsapi`,
 
@@ -27,7 +27,7 @@ export const apis = {
         GIT_GRAPH_DATA:`${IP}kbmsapi`, //git metrics
 
 
-        API_BASE_AI :'http://34.134.148.250:7000',
+        API_BASE_AI :`${IP}:7000`,
         TEST_AI :`${IP}crewapi` //Test Ai
 
     }
