@@ -1,4 +1,4 @@
-const IP ='http://34.58.219.249/'
+export const IP ='http://34.58.219.249/'
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
