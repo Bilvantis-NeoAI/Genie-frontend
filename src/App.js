@@ -105,6 +105,14 @@ function App() {
             <Register />
           }
         />
+        <Route
+          path="/adminDashBoard"
+          element={
+            <ProtectRoute>
+              <AdminDashboard />
+            </ProtectRoute>
+          }
+        />
       </Routes>
     </Router>
   );

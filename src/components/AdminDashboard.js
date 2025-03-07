@@ -1,172 +1,182 @@
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Col, Container, Form, Row, Table, Button, Card } from "react-bootstrap";
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { footerTextSamples, adminDashboardTextSamples } from "../utils/constatnts";
-import { flushDB, containerRestart, neo4jStatus, reloadData } from "../actions/adminActions";
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { flushDB, containerRestart, neo4jStatus, reloadData, changeStorage } from "../actions/adminActions";
+import { toast, ToastContainer } from 'react-toastify';
 import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 export function AdminDashboard() {
+    let users = [{
+        name: "santhosh", role: "Super Super"
+    }, { name: "kiran", role: "Finance" }, { name: "sai", role: "HR" }]
     const dispatch = useDispatch();
+    const [activeTab, setActiveTab] = useState("users");
 
     const neo4jStatusOptions = [
         { label: "Include All", value: 'False' },
         { label: "Include Texts", value: 'True' },
     ];
 
-    const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
+    const storageStatusOptions = [
+        { label: "Local", value: 'local' },
+        { label: "S3", value: 's3' },
+        { label: "Blob", value: 'blob' },
+        { label: "Google Storage Bucket", value: 'google storage bucket' },
+    ];
 
+    const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
+    const [storageOption, setStorageOption] = useState('local');
+    const [isActive, setIsActive] = useState(false);
 
     const handleFlushDB = () => {
         dispatch(flushDB())
-            .then((response) => {
-                if (response) {
-                    toast.success(response.data);
-                }
-            })
-            .catch((error) => {
-                toast.error(adminDashboardTextSamples.FLUSH_ERROR);
-            });
+            .then(response => response && toast.success(response.data))
+            .catch(() => toast.error("Failed to flush database"));
     };
-
 
     const handleContainerRestart = () => {
         dispatch(containerRestart())
-        .then((response) => {
-            if (response) {
-                toast.success(adminDashboardTextSamples.APP_RESATRT_MSG);
-            }
-        })
-        .catch((error) => {
-            toast.error(adminDashboardTextSamples.RESTART_ERROR);
-        });
-    }
+            .then(response => response && toast.success("Application restarted successfully"))
+            .catch(() => toast.error("Failed to restart application"));
+    };
 
-    const handleReaload = () => {
+    const handleReload = () => {
         dispatch(reloadData())
-        .then((response) => {
-            if (response) {
-                toast.success(response.data.message);
-            }
-        })
-        .catch((error) => {
-            toast.error(adminDashboardTextSamples.RELOAD_ERROR);
-        });
-    }
+            .then(response => response && toast.success(response.data.message))
+            .catch(() => toast.error("Failed to reload data"));
+    };
 
-    const [isActive, setIsActive] = useState(false);
-
-    const handleToggle = async (event) => {
+    const handleToggle = (event) => {
         const newValue = event.target.checked;
         setIsActive(newValue);
+        const formData = new FormData();
+        formData.append('status', newValue ? 'True' : 'False');
+        formData.append('texts', selectedNeo4jOption);
 
-        try {
-            if (newValue) {
-                console.log("activated");
-                let formData = new FormData();
-                formData.append('status', 'True');
-                formData.append('texts', selectedNeo4jOption);
-
-                dispatch(neo4jStatus(formData))
-                    .then((response) => {
-                        if (response) {
-                            toast.success(response.message);
-                        }
-                    })
-                    .catch((error) => {
-                        toast.error(adminDashboardTextSamples.CHANDE_STATUS_ERROR);
-                    });
-            } else {
-                let formData = new FormData();
-                formData.append('status', 'False');
-                formData.append('texts', selectedNeo4jOption);
-
-                dispatch(neo4jStatus(formData))
-                    .then((response) => {
-                        if (response) {
-                            toast.success(response.message);
-                        }
-                    })
-                    .catch((error) => {
-                        toast.error(adminDashboardTextSamples.CHANDE_STATUS_ERROR);
-                    });
-            }
-        } catch (error) {
-            console.error(adminDashboardTextSamples.API_ERROR, error);
-        }
+        dispatch(neo4jStatus(formData))
+            .then(response => response && toast.success(response.message))
+            .catch(() => toast.error("Failed to update status"));
     };
 
-    const handleNeo4jChange = (event) => {
-        setSelectedNeo4jOption(event.target.value);
+    const handleStorageChange = (event) => {
+        setStorageOption(event.target.value);
     };
 
+    const handleStorageClick = () => {
+        const formData = new FormData();
+        formData.append('storage', storageOption);
+
+        dispatch(changeStorage(formData))
+            .then(response => response && toast.success("Storage updated successfully"))
+            .catch(() => toast.error("Failed to update storage"));
+    };
 
     return (
-        <Container className=' w-100' fluid style={{ height: '100vh' }}>
-            <Row style={{ height: '10vh' }} >
-                <HeaderComponent></HeaderComponent>
+        <Container fluid className="w-100">
+            <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+                <HeaderComponent />
             </Row>
-            <div className="w-100 mt-3" style={{ height: '82vh' }} >
-                <div style={{ width: '10%' }}>
-                    <BootstrapSidebar></BootstrapSidebar>
-                </div>
-                <div className='col-11   h-100 ms-5 mb-5 pb-4' >
-                    <div className='card d-flex h-100 align-items-center question-card ms-4' style={{ overflowY: 'scroll' }} >
-                        <div className="d-flex justify-content-center mt-3">
-                            <button className="btn btn-primary buttons-colour" onClick={handleFlushDB} > {adminDashboardTextSamples.FLUSH_DB}</button>
-                            <button className="btn btn-primary buttons-colour ms-3" onClick={handleContainerRestart} > {adminDashboardTextSamples.CONATAINER_RESTART}</button>
-                            <button className="btn btn-primary buttons-colour ms-3" onClick={handleReaload} > {adminDashboardTextSamples.RELOAD}</button>
-
-                        </div>
-                        <div className="card w-25 mt-5">
-                            <div className="d-flex flex-column justify-content-center align-items-center p-4">
-                                <h5>{adminDashboardTextSamples.NEO_FOURJ}</h5>
-                                <div className="d-flex mt-4">
-                                    <Box className="select-input-box">
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Select</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={selectedNeo4jOption}
-                                                label="Options"
-                                                onChange={handleNeo4jChange}
-                                                style={{ height: '38px' }}
-                                            >
-                                                {neo4jStatusOptions.map((option, index) => (
-                                                    <MenuItem key={index} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                    <Switch checked={isActive} size="large" className="ms-4 mb-2" onChange={handleToggle} />
-
-                                </div>
-
-                            </div>
-                        </div>
-
+            <div
+                className="flex-grow-1 w-100v"
+                style={{ marginTop: "20px", marginLeft: "5%" }}
+            >
+                <BootstrapSidebar /></div>
+            <div className="row">
+                <div className='col-5 card' style={{ marginLeft: '6%' }}>
+                    <div className='d-flex gap-2 m-3 mt-5 mb-4'>
+                        <Button variant='primary' onClick={handleFlushDB}>Flush DB</Button>
+                        <Button variant='primary' onClick={handleContainerRestart}>Restart Container</Button>
+                        <Button variant='primary' onClick={handleReload}>Reload Data</Button>
                     </div>
+                    <Row className=' flex-column justify-content-center m-3'>
+                        <Col className='d-flex  align-items-center p-4 border rounded'>
+                            <h5>Neo4j Status</h5>
+                            <FormControl fullWidth className='mt-5 p-2 flex-column'>
+                                <InputLabel>Select Option</InputLabel>
+                                <Select value={selectedNeo4jOption} onChange={e => setSelectedNeo4jOption(e.target.value)}>
+                                    {neo4jStatusOptions.map((option, index) => (
+                                        <MenuItem key={index} value={option.value}>{option.label}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <Switch checked={isActive} size='large' className='mt-3 p-2' onChange={handleToggle} />
+                        </Col>
+                        <Col className='d-flex align-items-center p-4 border rounded mt-3'>
+                            <h5>Storage Location</h5>
+                            <FormControl fullWidth className='mt-3 p-2'>
+                                <InputLabel>Select Storage</InputLabel>
+                                <Select value={storageOption} onChange={handleStorageChange}>
+                                    {storageStatusOptions.map((option, index) => (
+                                        <MenuItem key={index} value={option.value}>{option.label}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <Button className='mt-3' onClick={handleStorageClick}>Submit</Button>
+                        </Col>
+                    </Row>
                 </div>
-                <ToastContainer />
-            </div>
-            <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
-                <span style={{
-                    color: "white"
-                }}>{footerTextSamples.BILVANTIS} </span>
-            </div>
-        </Container >
-    )
+                <div className="col-6 card ms-3 p-3">
+                    <ul className="nav gap-5">
+                        <li className="nav-item mt-2">
+                            <a
+                                className={`nav-link ${activeTab === "users" ? "active-tab" : ""}`}
+                                href="#"
+                                onClick={() => setActiveTab("users")}
+                            >
+                                Users
+                            </a>
+                        </li>
+                        <li className="nav-item mt-2">
+                            <a
+                                className={`nav-link ${activeTab === "roles" ? "active-tab" : ""}`}
+                                href="#"
+                                onClick={() => setActiveTab("roles")}
+                            >
+                                Roles
+                            </a>
+                        </li>
+                    </ul>
+                    <hr className="navBarAdmin"></hr>
+                    <div className="content mt-3">
+                        {activeTab === "users" && (
+                            <div className="table-responsive">
+                                <table className="table table-bordered  table-hover mt-3 align-itmes-center" style={{ fontSize: 10 }}>
+                                    <thead className="table-secondary">
+                                        <tr >
+                                            <th style={{ width: "10%" }}>Sl.N</th>
+                                            <th style={{ width: "30%" }}>Name</th>
+                                            <th style={{ width: "30%" }}>Role</th>
+                                            <th style={{ width: "30%" }}>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="">
+                                        {users.map((user, index) => (
+                                            <tr key={user.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{user.name}</td>
+                                                <td>{user.role}</td>
+                                                <td>
+                                                    <button className="statusButtons btn btn-light me-2">Accept</button>
+                                                    <button className="statusButtons btn btn-light">Reject</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        {activeTab === "roles" && <h4>List of Roles</h4>}
+                    </div>
 
+
+                </div>
+            </div>
+            <ToastContainer />
+
+        </Container >
+
+    );
 }

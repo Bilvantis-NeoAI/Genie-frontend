@@ -45,6 +45,29 @@
     transform: rotate(360deg);
   }
 }
+/***Admin **/
+.navBarAdmin {
+  border-bottom: 2px solid rgb(102, 125, 218);
+  margin-top: -2%;
+}
+.active-tab {
+  text-decoration: underline;
+  font-weight: bold;
+  color: rgb(7, 7, 52);
+}
+.acceptButtons{
+  border: none;
+}
+.statusButtons{
+  width: 40%;
+  height: 25px;
+  font-size: 10px;
+  align-content: center;
+}
+.content{
+}
+
+/****Admin end*********/
 .loader-overlay {
   position: fixed;
   top: 0;

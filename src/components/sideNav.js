@@ -5,6 +5,7 @@ import sideBarIcon2 from "../Assets/Sidenavimg2.svg";
 import audiIcon from "../Assets/Sidenavimgaudio.svg";
 import logoutIcon from "../Assets/logout.svg";
 import metricsIcon from "../Assets/Sidenavimgmetrics.svg";
+import admin from "../Assets/admin.svg"
 import { useNavigate } from "react-router-dom";
 import retriveData from '../Assets/retriveData.svg';
 import injectingRepo from '../Assets/injectingRepo.svg';
@@ -83,6 +84,10 @@ export const BootstrapSidebar = () => {
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/testcases')}>
           <img src={testai} alt="" className="imagestyles" />
           <span className="tooltip">Test Cases</span>
+        </li>
+        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/adminDashBoard')}>
+          <img src={admin} alt="" className="imagestyles" />
+          <span className="tooltip">Admin</span>
         </li>
         <li
           className={`d-flex justify-content-center align-items-center ${activeTab === "logout" ? "active-tab" : ""
