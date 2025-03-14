@@ -41,7 +41,7 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
             ? { overflowX: "auto", scrollbarWidth: "none" }
             : {};
     const containerWidth =
-        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH ? "150%" : "100%";
+        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH ? "200%" : "100%";
 
     return (
         <div className="card g-4">
@@ -63,6 +63,9 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
                     </div>
                 </div>
             </div>
+            {data.length === 0 ? (
+                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
+                ) : (
             <div style={scrollStyle}>
                 <ResponsiveContainer width={containerWidth} height={240}>
                     <BarChart
@@ -90,6 +93,7 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+                )}
         </div>
     );
 };

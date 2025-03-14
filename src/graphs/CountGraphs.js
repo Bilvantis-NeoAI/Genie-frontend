@@ -48,8 +48,11 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
-
+            {data.length === 0 ? (
+                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
+                ) : (
             <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
+
                 <ResponsiveContainer width={chartWidth} height={240}>
                     <BarChart
                         data={data}
@@ -65,6 +68,7 @@ const CountGraph = ({ data, title }) => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+                )}
         </div>
     );
 };

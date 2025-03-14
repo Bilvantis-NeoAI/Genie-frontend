@@ -163,7 +163,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
             <div>
                 <div className="graph-title">
                     <div>{title}</div>
-                    <div >
+                    <div>
                         <button
                             type="button"
                             className="btn btn-light"
@@ -185,9 +185,14 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     width: "100%",
                     height: "240px",
                     scrollbarWidth: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
-                {data.length !== 0 &&
+                {data.length === 0 ? (
+                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
+                ) : (
                     <ResponsiveContainer width="150%">
                         <BarChart
                             data={formattedData}
@@ -195,8 +200,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                             barGap={3}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="repo_name" fontSize={10}
-                            />
+                            <XAxis dataKey="repo_name" fontSize={10} />
                             <YAxis fontSize={10} />
                             <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
                             {issueKeys.map((key, index) => (
@@ -216,9 +220,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                                     barSize={20}
                                     stackId="stack2"
                                     fill={getColor(index + issueKeys.length)}
-                                    name={key
-                                        .replace("recent_commit_issues_", "")
-                                        .replace("_count", "")}
+                                    name={key.replace("recent_commit_issues_", "").replace("_count", "")}
                                 />
                             ))}
                             {commitKeys.map((key, index) => (
@@ -233,7 +235,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                             ))}
                         </BarChart>
                     </ResponsiveContainer>
-                }
+                )}
             </div>
         </div>
     );

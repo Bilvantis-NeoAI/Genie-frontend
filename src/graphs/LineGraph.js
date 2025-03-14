@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
     ResponsiveContainer,
@@ -12,6 +11,7 @@ import {
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, XAXISNAMES, TITLE, DATAKEY } from "../utils/constatnts";
+
 const LineGraph = ({ data, title, handleFilter, from, keys }) => {
     const xAxisKeyMapping = {
         AverageQuality: XAXISKEYS.MONTH,
@@ -31,7 +31,7 @@ const LineGraph = ({ data, title, handleFilter, from, keys }) => {
             <div>
                 <div className='graph-title'>
                     <div>{title}</div>
-                    <div >
+                    <div>
                         <button
                             type="button"
                             className="btn btn-light"
@@ -47,48 +47,58 @@ const LineGraph = ({ data, title, handleFilter, from, keys }) => {
                 </div>
             </div>
             <div style={scrollStyle}>
-                <ResponsiveContainer width={containerWidth} height={240}>
-                    <LineChart
-                        data={data}
-                        margin={{ top: 20, right: 30 }}
-                    >
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
-                        <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Legend />
-                        {xAxisDataKey === XAXISKEYS.WEEK && (
-                            <Line
-                                type="monotone"
-                                dataKey={DATAKEY.AVARAGE_QUALITY}
-                                stroke="#1DB9EF"
-                                name={XAXISNAMES.AVARAGE_QUALITY}
-                                strokeWidth={2}
-                                activeDot={{ r: 8 }}
-                            />
-                        )}
-                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
-                            <Line
-                                type="monotone"
-                                dataKey={DATAKEY.AVARAGE_QUALITY}
-                                stroke="#1DB9EF"
-                                name={XAXISNAMES.AVARAGE_QUALITY}
-                                strokeWidth={2}
-                                activeDot={{ r: 8 }}
-                            />
-                        )}
-                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
-                            <Line
-                                type="monotone"
-                                dataKey={DATAKEY.AVARAGE_SEVERITY}
-                                stroke="#1DB9EF"
-                                name={XAXISNAMES.AVARAGE_SEVERITY}
-                                strokeWidth={2}
-                                activeDot={{ r: 8 }}
-                            />
-                        )}
-                    </LineChart>
-                </ResponsiveContainer>
+                {data.length === 0 ? (
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "240px",
+                        color: "#999",
+                        fontSize: "14px"
+                    }}>
+                        No Data Found
+                    </div>
+                ) : (
+                    <ResponsiveContainer width={containerWidth} height={240}>
+                        <LineChart data={data} margin={{ top: 20, right: 30 }}>
+                            <CartesianGrid strokeDasharray="2 2" />
+                            <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
+                            <YAxis fontSize={10} />
+                            <Tooltip cursor={{ fill: "transparent" }} />
+                            <Legend />
+                            {xAxisDataKey === XAXISKEYS.WEEK && (
+                                <Line
+                                    type="monotone"
+                                    dataKey={DATAKEY.AVARAGE_QUALITY}
+                                    stroke="#1DB9EF"
+                                    name={XAXISNAMES.AVARAGE_QUALITY}
+                                    strokeWidth={2}
+                                    activeDot={{ r: 8 }}
+                                />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
+                                <Line
+                                    type="monotone"
+                                    dataKey={DATAKEY.AVARAGE_QUALITY}
+                                    stroke="#1DB9EF"
+                                    name={XAXISNAMES.AVARAGE_QUALITY}
+                                    strokeWidth={2}
+                                    activeDot={{ r: 8 }}
+                                />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
+                                <Line
+                                    type="monotone"
+                                    dataKey={DATAKEY.AVARAGE_SEVERITY}
+                                    stroke="#1DB9EF"
+                                    name={XAXISNAMES.AVARAGE_SEVERITY}
+                                    strokeWidth={2}
+                                    activeDot={{ r: 8 }}
+                                />
+                            )}
+                        </LineChart>
+                    </ResponsiveContainer>
+                )}
             </div>
         </div>
     );
