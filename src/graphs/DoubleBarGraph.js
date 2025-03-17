@@ -96,7 +96,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey={xAxisKey} tick={<CustomTick />} interval={0} />
                                     <YAxis fontSize={10} />
-                                    <Tooltip content={<CustomTooltip />} />
+                                    <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
                                     <Legend />
                                     {bars.map((bar, index) => (
                                         <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} />

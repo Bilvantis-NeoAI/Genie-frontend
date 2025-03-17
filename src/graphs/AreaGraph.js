@@ -49,7 +49,7 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
                             top: 20,
                             right: 20,
                             left: 20,
-                            bottom: 20,
+                            // bottom: 20,
                         }}
                     >
                         <CartesianGrid strokeDasharray="2 2" />

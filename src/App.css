@@ -6,7 +6,14 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100vw;
+}
 
+body {
+  position: relative; /* Prevent unwanted movements */
+}
 * {
   margin: 0;
   padding: 0;

@@ -165,12 +165,12 @@ const OffCanvas = ({
                                     </label>
                                     <DatePicker
                                         selectsRange
-                                        startDate={selectedFilter.start_date ? new Date(selectedFilter.start_date) : null}
-                                        endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : null}
+                                        startDate={selectedFilter.start_date ? new Date(selectedFilter.start_date) : ''}
+                                        endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : ''}
                                         onChange={(dates) => {
                                             const [start, end] = dates;
-                                            const formattedStartDate = start ? start.toISOString().split("T")[0] : "";
-                                            const formattedEndDate = end ? end.toISOString().split("T")[0] : "";
+                                            const formattedStartDate = start ? start.toLocaleDateString("en-CA") : "";
+                                            const formattedEndDate = end ? end.toLocaleDateString("en-CA") : "";
                                             onChange({ target: { name: "start_date", value: formattedStartDate } });
                                             onChange({ target: { name: "end_date", value: formattedEndDate } });
                                         }}

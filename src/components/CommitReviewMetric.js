@@ -85,6 +85,17 @@ export default function CommitReviewMetric() {
             filters: filtersString,
         };
         dispatch(fetchGraphList(params, moduleType));
+        setSelectedFilter((prevState) => {
+            const updatedState = {
+                ...prevState,
+                project_name: "",
+                user_id: '',
+                _id: "",
+                start_date: '',
+                end_date: ''
+            };
+            return updatedState;
+        });
         setOffCanvas(false);
     };
     const handleCloseCanvas = () => {
