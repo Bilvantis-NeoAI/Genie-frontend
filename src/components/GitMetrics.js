@@ -187,11 +187,6 @@ export default function GitMetrics(){
                         </div>
                     </div>
                 </div>
-                <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
-                    <span style={{
-                        color: "white"
-                    }}>{footerTextSamples.BILVANTIS_COPYRIGHT} </span>
-                </div>
             </Container >
         )
     

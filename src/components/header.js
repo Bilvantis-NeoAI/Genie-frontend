@@ -1,17 +1,7 @@
-// import { headerTextSamples } from "../utils/constatnts"
-
-// export function HeaderComponent() {
-//     return (<>
-//         <div className="w-100 h-100 d-flex justify-content-center align-items-center header-style">
-//             <span className="header-text">{headerTextSamples.SOLAR_WINDS}</span>
-//         </div>
-//     </>
-//     )
-// }
 import React from "react";
 import { Layout, Typography } from "antd";
 import { UserOutlined } from '@ant-design/icons'; // Import User icon from Ant Design
- 
+ import BilvantisLogo from '../Assets/Bilvantis_logo.png'
 const { Header } = Layout;
 const { Title } = Typography;
  
@@ -31,25 +21,14 @@ export function HeaderComponent() {
         padding: "0 10px",
       }}
     >
-      {/* Left Section: Logo */}
       <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
-        <a
-          href="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginRight: "10px",
-          }}
-        >
           <img
-            src="https://bilvantis.io/wp-content/uploads/2022/12/Bilvantis-logo-png.jpg"
+            src={BilvantisLogo}
             alt="Bilvantis Logo"
             style={{ height: "30px" }} // Adjust logo height if needed
           />
-        </a>
       </div>
  
-      {/* Center Section: Title */}
       <Title
         // level={5}
         style={{

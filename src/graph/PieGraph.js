@@ -1,46 +1,46 @@
 import React from "react";
+import { DATAKEY, XAXISKEYS } from "../utils/constatnts";
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell, Legend } from "recharts";
 import {
     FilterOutlined
 } from "@ant-design/icons";
 const COLORS = ["#1DB9EF", "#A91DEF", "#1DEF81", "#EF8F1D"];
-
-
 const PieGraph = ({ data, title, handleFilter, keys }) => (
     <div className="card g-4">
-        <div
-            className="flex"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-                marginTop: "2%",
-                padding: "10px",
-            }}
-        >
-            <div style={{ display: "flex",  justifyContent: "space-between", width: "100%", marginTop:"-2%" }}>
+        <div>
+            <div className='graph-title'>
                 <div>{title}</div>
                 <div >
                     <button
                         type="button"
                         className="btn btn-light"
-                        onClick={() => handleFilter(data, title,keys)} 
+                        onClick={() => handleFilter(data, title, keys)}
                         data-bs-toggle="offcanvas"
                         data-bs-target="#addPriority"
                         aria-controls="offcanvasRight"
+                        data-testid="filter-button"
                     >
                         <FilterOutlined />
                     </button>
                 </div>
             </div>
-            </div>
+        </div>
+        <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+        {data.length === 0 ? (
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                        fontSize: "16px",
+                    }}>No Data Found</div>
+                ) : (
         <ResponsiveContainer width="100%" height={240}>
             <PieChart>
                 <Pie
                     data={data}
-                    dataKey="percentage"
-                    nameKey="severity"
+                    dataKey={DATAKEY.PERCENTAGE}
+                    nameKey={XAXISKEYS.SEVERITY}
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
@@ -50,10 +50,12 @@ const PieGraph = ({ data, title, handleFilter, keys }) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
-                <Tooltip/>
+                <Tooltip />
                 <Legend />
             </PieChart>
         </ResponsiveContainer>
+                )}
+                </div>
     </div>
 );
 

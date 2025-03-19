@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <!-- Upward Refresh Arrow -->
+  <!-- <path d="M30 25 A30 30 0 0 1 80 15" stroke="#00bdd0" stroke-width="3" fill="none" marker-end="url(#arrowhead-up)"/> -->
+    <marker id="arrowhead-up" markerWidth="25" markerHeight="25" refX="5" refY="2" orient="auto">
+    <polygon points="0 0, 6 3, 0 6" fill="#00bdd0"/>
+  </marker>
+
+  <!-- Downward Refresh Arrow -->
+  <path d="M70 75 A30 30 10 0 1 30 10" stroke="#00bdd0" stroke-width="3" fill="none" marker-end="url(#arrowhead-down)"/>
+  <marker id="arrowhead-down" markerWidth="25" markerHeight="25" refX="5" refY="2" orient="auto">
+    <polygon points="0 0, 6 3, 0 6" fill="#00bdd0" />
+  </marker>
+
+  <!-- Lock Body -->
+  <rect x="35" y="40" width="30" height="25" rx="5" ry="5" stroke="#00bdd0" stroke-width="3" fill="none"/>
+
+  <!-- Lock Shackle -->
+  <path d="M42 45V35a8 8 0 0 1 16 0v10" stroke="#00bdd0" stroke-width="4" fill="none"/>
+
+  <!-- Keyhole (Circle + Rectangle for key slot) -->
+  <circle cx="50" cy="55" r="3" fill="#00bdd0"/>
+  <rect x="48.5" y="58" width="3" height="7" fill="#00bdd0"/>
+</svg>

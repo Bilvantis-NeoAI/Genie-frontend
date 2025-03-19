@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { repoIngestion } from "../actions/IngestionAction";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { repo_Ingestion, sweetalert, footerTextSamples } from "../utils/constatnts";
+import { repo_Ingestion, sweetalert } from "../utils/constatnts";
 import Swal from "sweetalert2";
 export default function IngestionRepo() {
   const [error, setError] = useState({ url: "" });
@@ -50,7 +50,7 @@ export default function IngestionRepo() {
       .then((d) => {
         setLoading(false)
         setIsDisable(false)
-        if (d.status == 200) {
+        if (d.status === 200) {
           Swal.fire({
             title: sweetalert.SUCCESS_TITLE,
             text: repo_Ingestion.INGESTION_INITIATED_SUCCEEFULLY,
@@ -82,9 +82,9 @@ export default function IngestionRepo() {
             <BootstrapSidebar />
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="col-11 h-100 ms-5 mb-5 pb-4">
+            <div className="col-8 h-100 ms-5 mb-5 pb-4">
               <div
-                className="card d-flex h-100 question-card ms-4"
+                className="card d-flex h-100 question-card ms-5"
               >
                 <div className="form-group d-flex flex-column align-items-center mt-5 ms-5">
                   <div className="mt-4">

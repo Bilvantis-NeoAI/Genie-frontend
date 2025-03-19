@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import MultiStackedGraph from "../graph/MultiStackedGraph";
 import DoubleBarGraph from "../graph/DoubleBarGraph";
-import { GRAPHKEYS, CANVASKEY } from '../utils/constatnts'
-
+import { CANVASKEY } from '../utils/constatnts'
+import React from "react";
 export default function CommitReviewMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState({});
@@ -17,29 +17,12 @@ export default function CommitReviewMetric() {
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
-            .finally(() => {
-            });
     }, [dispatch, moduleType]);
-    const onClear = () => {
+    const handleReset = () => {     
         setSelectedFilter((prevState) => {
             const updatedState = {
                 ...prevState,
-                project_name: "",
-                user_id: '',
-                _id: "",
-                date: '',
-                start_date: "",
-                end_date: ""
-            };
-            return updatedState;
-        });
-        setUsers([]);
-    };
-    const handleReset = () => {
-        setSelectedFilter((prevState) => {
-            const updatedState = {
-                ...prevState,
-                project_name: "",
+                reponame: "",
                 user_id: '',
                 _id: "",
                 start_date: '',
@@ -52,11 +35,7 @@ export default function CommitReviewMetric() {
         filters.start_date = ""
         filters.end_date = ""
         filters.user_id = ""
-        if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
-            filters.project_name = ""
-        } else {
-            filters.reponame = ""
-        }
+        filters.reponame = ""
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -88,12 +67,12 @@ export default function CommitReviewMetric() {
         filters.start_date = selectedFilter.start_date
         filters.end_date = selectedFilter.end_date
         filters.user_id = selectedFilter.user_id
-        if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
-            filters.project_name = selectedFilter.project_name
-        }
-        else {
+        // if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
+        //     filters.reponame = selectedFilter.project_name
+        // }
+        // else {
             filters.reponame = selectedFilter.project_name;
-        }
+        // }
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -102,6 +81,17 @@ export default function CommitReviewMetric() {
             filters: filtersString,
         };
         dispatch(fetchGraphList(params, moduleType));
+        setSelectedFilter((prevState) => {
+            const updatedState = {
+                ...prevState,
+                reponame: "",
+                user_id: '',
+                _id: "",
+                start_date: '',
+                end_date: ''
+            };
+            return updatedState;
+        });
         setOffCanvas(false);
     };
     const handleCloseCanvas = () => {
@@ -186,7 +176,6 @@ export default function CommitReviewMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                onClear={onClear}
                 handleReset={handleReset}
             />
         </>
