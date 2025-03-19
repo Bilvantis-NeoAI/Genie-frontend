@@ -72,14 +72,14 @@ export const BootstrapSidebar = () => {
           <img src={testai} alt="" className="imagestyles" />
           <span className="tooltip">Test Cases</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
+        {/* <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
           <img src={deadSpace} alt="" className="imagestyles" />
           <span className="tooltip">GIT Release Note</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/deadCode')}>
           <img src={deadSpace} alt="" className="imagestyles" />
           <span className="tooltip">Dead Code</span>
-        </li>
+        </li> */}
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/adminDashBoard')}>
           <img src={admin} alt="" className="imagestyles" />
           <span className="tooltip">Admin</span>
