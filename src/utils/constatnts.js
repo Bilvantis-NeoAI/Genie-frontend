@@ -107,7 +107,8 @@ export const adminDashboardTextSamples = {
     RESTART_ERROR : 'An Error occured while restarting',
     RELOAD_ERROR : 'An error occurred while Reloading.',
     CHANDE_STATUS_ERROR : 'An error occurred while changing status.',
-    API_ERROR : 'API call failed:'
+    API_ERROR : 'API call failed:',
+    STORAGE_LOCATION : 'Storage Location',
 }
 
 export const Retrive_repo_data={

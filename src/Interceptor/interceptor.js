@@ -25,6 +25,22 @@ export const ApiNewService = axios.create({
     'Content-Type': 'multipart/form-data',
   },
 });
+export const AdminUsers = axios.create({
+  baseURL: URL.ADMIN_USERS,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+AdminUsers.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 GitIngestion.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("access_token");

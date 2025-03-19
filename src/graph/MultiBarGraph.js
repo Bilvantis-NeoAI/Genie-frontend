@@ -36,18 +36,8 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
 
     return (
         <div className="card g-4">
-            <div
-                className="flex"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    marginTop: "2%",
-                    padding: "10px",
-                }}
-            >
-                <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "-2%" }}>
+            <div>
+                <div className='graph-title'>
                     <div>{title}</div>
                     <div >
                         <button
@@ -57,6 +47,7 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
@@ -64,24 +55,34 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                 </div>
             </div>
 
-            <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
-                <ResponsiveContainer width={chartWidth} height={240}>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            {data.length === 0 ? (
+                    <div  style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                        fontSize: "16px",
+                    }}>No Data Found</div>
+                ) : (
+                <ResponsiveContainer width={chartWidth} height={245}>
                     <BarChart
                         data={data}
                         barCategoryGap="25%"
                         barGap={10}
                     >
                         <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} fontSize={10} />
+                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} />
                         <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }}/>
+                        <Tooltip cursor={{ fill: "transparent" }} />
                         <Legend />
-                        <Bar dataKey="critical" fill="#1DB9EF" barSize={30} name="Critical"/>
-                        <Bar dataKey="major" fill="#1DEF81" barSize={30} name="Major" />
-                        <Bar dataKey="minor" fill="#FFD700" barSize={30} name="Minor" />
-                        <Bar dataKey="cosmetic" fill="#FF69B4" barSize={30} name="Consmetic" />
+                        <Bar dataKey="critical" fill="#1DB9EF" barSize={20} name="Critical" />
+                        <Bar dataKey="major" fill="#EF8F1D" barSize={20} name="Major" />
+                        <Bar dataKey="minor" fill="#1DEF81" barSize={20} name="Minor" />
+                        <Bar dataKey="cosmetic" fill="#A91DEF" barSize={20} name="Consmetic" />
                     </BarChart>
                 </ResponsiveContainer>
+                )}
             </div>
         </div>
     );

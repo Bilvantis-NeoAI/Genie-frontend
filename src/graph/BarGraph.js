@@ -1,4 +1,5 @@
 import React from "react";
+import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES, CANVASKEY } from '../utils/constatnts'
 import {
     ResponsiveContainer,
     BarChart,
@@ -10,103 +11,44 @@ import {
     Legend,
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
+const BarGraph = ({ data, title, keys, handleFilter, from }) => {
+    const formatName = (name) =>
+        name
+            ? name
+                .split('_')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')
+            : '';
 
-const BarGraph = ({ data, title, handleFilter, from, keys }) => {
-    if (from === "Assistant") {
+    if (from === CANVASKEY.ASSISTANCE || from === CANVASKEY.REVIEW) {
+        const nameKey = from === CANVASKEY.ASSISTANCE ? XAXISKEYS.ASSISTANCE : XAXISKEYS.REVIEW;
         data = data?.map((item) => ({
             ...item,
-            assistant_name: item.assistant_name
-                ? item.assistant_name
-                    .split('_')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ')
-                : '',
+            [nameKey]: formatName(item[nameKey]),
         }));
     }
-    if (from === "Review") {
-        data = data?.map((item) => ({
-            ...item,
-            review_name: item.review_name
-                ? item.review_name
-                    .split('_')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ')
-                : '',
-        }));
-    }
-
-    // Define the key mappings for x-axis based on 'from'
     const xAxisKeyMapping = {
-        Review: "review_name",
-        Assistant: "assistant_name",
-        severity: "severity",
-        Application: "review",
-        AverageQuality: "month",
-        AverageSeverity: "month",
+        Review: XAXISKEYS.REVIEW,
+        Assistant: XAXISKEYS.ASSISTANCE,
+        severity: XAXISKEYS.SEVERITY,
+        Application: XAXISKEYS.APPLICATION,
+        AverageQuality: XAXISKEYS.MONTH,
+        AverageSeverity: XAXISKEYS.MONTH,
     };
-
     const xAxisDataKey = xAxisKeyMapping[from];
     const scrollStyle =
-        xAxisDataKey !== "severity" && xAxisDataKey !== "month"
+        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH
             ? { overflowX: "auto", scrollbarWidth: "none" }
             : {};
     const containerWidth =
-        xAxisDataKey !== "severity" && xAxisDataKey !== "month" ? "150%" : "100%";
-
-    // Check if data exists, otherwise show "No Data Found"
-    if (!data || data.length === 0) {
-        return (
-            <div className="card g-4">
-                <div
-                    className="flex"
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        width: "100%",
-                        marginTop: "2%",
-                        padding: "10px",
-                    }}
-                >
-                    <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "-2%" }}>
-                        <div>{title}</div>
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-light"
-                                onClick={() => handleFilter(data, title, keys)}
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#addPriority"
-                                aria-controls="offcanvasRight"
-                            >
-                                <FilterOutlined />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div style={{ textAlign: "center", padding: "20px"}}>
-                    <h4>No Data Found</h4>
-                </div>
-            </div>
-        );
-    }
+        xAxisDataKey !== XAXISKEYS.SEVERITY && xAxisDataKey !== XAXISKEYS.MONTH ? "200%" : "100%";
 
     return (
         <div className="card g-4">
-            <div
-                className="flex"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    marginTop: "2%",
-                    padding: "10px",
-                }}
-            >
-                <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "-2%" }}>
+            <div>
+                <div className='graph-title'>
                     <div>{title}</div>
-                    <div>
+                    <div >
                         <button
                             type="button"
                             className="btn btn-light"
@@ -114,37 +56,53 @@ const BarGraph = ({ data, title, handleFilter, from, keys }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
+                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
                     </div>
                 </div>
             </div>
-            <div style={scrollStyle}>
-                <ResponsiveContainer width={containerWidth} height={240}>
-                    <BarChart data={data} margin={{ top: 20, right: 30 }} barCategoryGap="20%">
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey={xAxisDataKey} fontSize={9} tick={{ angle: 0 }} interval={0} />
-                        <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Legend />
-                        {xAxisDataKey !== "month" && (
-                            <Bar dataKey="count" fill="#1DB9EF" barSize={20} name="Count" />
-                        )}
-                        {from === "severity" && (
-                            <Bar dataKey="percentage" fill="#1DEF81" barSize={20} name="Percentage" />
-                        )}
-                        {xAxisDataKey === "month" && title === "Average Code Quality" && (
-                            <Bar dataKey="average_quality" fill="#1DEF81" name="Average quality" barSize={20} />
-                        )}
-                        {xAxisDataKey === "month" && title === "Average Code Severity" && (
-                            <Bar dataKey="average_severity" fill="#1DEF81" name="Average severity" barSize={20} />
-                        )}
-                    </BarChart>
-                </ResponsiveContainer>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            {data.length === 0 ? (
+                <div  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: "16px",
+                }}>No Data Found</div>
+            ) : (
+                <div style={scrollStyle}>
+                    <ResponsiveContainer width={containerWidth} height={240}>
+                        <BarChart
+                            data={data}
+                            margin={{ top: 20, right: 30 }}
+                            barCategoryGap="20%"
+                        >
+                            <CartesianGrid strokeDasharray="2 2" />
+                            <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
+                            <YAxis fontSize={10} />
+                            <Tooltip cursor={{ fill: "transparent" }} />
+                            <Legend />
+                            {xAxisDataKey !== XAXISKEYS.MONTH && (
+                                <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
+                            )}
+                            {from === XAXISKEYS.SEVERITY && (
+                                <Bar dataKey={DATAKEY.PERCENTAGE} fill="#1DEF81" barSize={20} name={XAXISNAMES.PERCENTAGE} />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
+                                <Bar dataKey={DATAKEY.AVARAGE_QUALITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_QUALITY} barSize={20} />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
+                                <Bar dataKey={DATAKEY.AVARAGE_SEVERITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_SEVERITY} barSize={20} />
+                            )}
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            )}
             </div>
         </div>
     );
 };
-
 export default BarGraph;

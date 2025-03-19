@@ -15,6 +15,8 @@ import ProtectRoute from './ProtectRoute';
 import Register from './components/Register';
 import GitMetrics from './components/GitMetrics';
 import { TestCaseAi } from './components/TestCaseAi';
+import { DeadCode } from './components/DeadCode';
+import { GitReleaseNote } from './components/GitReleaseNote';
 function App() {
   return (
     <Router>
@@ -103,6 +105,30 @@ function App() {
           path="/register"
           element={
             <Register />
+          }
+        />
+        <Route
+          path="/gitReleaseNote"
+          element={
+            <ProtectRoute>
+              <GitReleaseNote />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/adminDashBoard"
+          element={
+            <ProtectRoute>
+              <AdminDashboard />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/deadCode"
+          element={
+            <ProtectRoute>
+              <DeadCode />
+            </ProtectRoute>
           }
         />
       </Routes>

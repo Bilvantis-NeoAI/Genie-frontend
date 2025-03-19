@@ -105,7 +105,16 @@ export default function SeverityMetric() {
             filters: filtersString
         };
         dispatch(fetchGraphList(params, moduleType));
+        
         setOffCanvas(false);
+        setSelectedFilter((prevState) => ({
+            ...prevState,
+            project_name: "",
+            user_id: "",
+            _id: "",
+            date: ""
+        }));
+        setUsers([])
     };
 
     const handleCloseCanvas = () => {

@@ -16,8 +16,8 @@ export function HomePage3() {
         <>
             <Container fluid className="w-100" >
                 <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderComponent />
-        </Row>
+                    <HeaderComponent />
+                </Row>
 
                 <div className="w-100">
                     <div style={{ width: '10%' }}>
@@ -29,7 +29,6 @@ export function HomePage3() {
                                 borderBottom: "1px solid #dcdcdc",
                                 position: 'sticky',
                                 marginLeft: '5%',
-                                // marginTop: '1%',
                                 fontSize: '15px'
                             }}
                         >
@@ -63,7 +62,7 @@ export function HomePage3() {
                             <Tab.Pane eventKey="Usage"><UsageMetric type='usage' />
                             </Tab.Pane>
                             <Tab.Pane eventKey="Commit" type='commit'>
-                                <CommitReviewMetric/>
+                                <CommitReviewMetric />
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>

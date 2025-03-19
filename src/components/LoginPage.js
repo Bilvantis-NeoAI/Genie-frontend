@@ -25,6 +25,13 @@ const LoginPage = () => {
     });
     return Payload;
   };
+  const handleForgot=()=>{
+    Swal.fire({
+
+      text: 'Please Contact Admin',
+      confirmButtonText:'ok'
+    });
+  }
   // const handleSSO = () => {
   //   const clientId = 'YOUR_CLIENT_ID';
   //   const tenantId = 'YOUR_TENANT_ID';
@@ -120,6 +127,10 @@ const LoginPage = () => {
         <p className="register-redirect">
           Don't have an account?
           <span className="register-link" onClick={handleRegister}>Register</span>
+        </p>
+        <p className="register-redirect">
+          Forgot Password ?
+          <span className="register-link" onClick={handleForgot}>Click</span>
         </p>
       </form>
     </div>

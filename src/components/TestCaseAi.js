@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addAiDocument, addAiCsvData } from '../actions/aiTestCasesActions';
 import Papa from 'papaparse';
-import {IP} from '../utils/config'
+import { IP } from '../utils/config'
 export function TestCaseAi() {
     const [firstDropzoneState, setFirstDropzoneState] = useState({
         file: [],
@@ -20,17 +20,16 @@ export function TestCaseAi() {
     const [secondDropzoneState, setSecondDropzoneState] = useState({
         file: [],
     });
+    const [selectedType, setSelectedType] = useState("collection");
+    const dataTypes = ["collection", "python", "curl"];
+
     const [firstDropzoneErrors, setFirstDropzoneErrors] = useState("");
     const [secondDropzoneErrors, setSecondDropzoneErrors] = useState("");
     const [headers, setHeaders] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
-    console.log("===firstDropzoneErrorsfirstDropzoneErrors", firstDropzoneState, secondDropzoneState);
-
     const dispatch = useDispatch();
     const aiTestCaseData = useSelector((state) => state.aiTestCaseData);
-    console.log("===aiTestCaseDataaiTestCaseData", aiTestCaseData);
-
     const updateFiles = (incomingFiles, dropzone) => {
         if (dropzone === "first") {
             setFirstDropzoneState((prevState) => ({
@@ -93,10 +92,8 @@ export function TestCaseAi() {
                     console.error("File is undefined in second dropzone", fileObj);
                 }
             });
+            combinedFormData.append("output_type", selectedType);
 
-            for (var pair of combinedFormData.entries()) {
-                console.log("jjjjjjjjjjjjjjjjjj" + pair[0] + ', ' + pair[1]);
-            }
             const response = await dispatch(addAiDocument(combinedFormData));
 
             if (response?.status === 200) {
@@ -247,99 +244,114 @@ export function TestCaseAi() {
                 <div style={{ width: '10%' }}>
                     <BootstrapSidebar />
                 </div>
-                <div className='h-100 ms-5 mb-5 pb-4 align-items-center'>
-                    <div className='card pb-3 h-100 question-card ms-4 align-items-center' style={{ overflowY: 'scroll' }}>
-                        <div className="d-flex justify-content-center gap-4">
-                            <DropzoneSection
-                                title="Upload Documentation Files"
-                                dropzoneState={firstDropzoneState}
-                                updateFiles={(files) => updateFiles(files, "first")}
-                                removeFile={(index) => removeFile(index, "first")}
-                                errors={firstDropzoneErrors}
-                                required={true}
-                            />
-
-                            <DropzoneSection
-                                title="Upload Backend Files"
-                                dropzoneState={secondDropzoneState}
-                                updateFiles={(files) => updateFiles(files, "second")}
-                                removeFile={(index) => removeFile(index, "second")}
-                                errors={secondDropzoneErrors}
-                                required={true}
-                            />
+                <div className='card pb-3 h-100 align-items-center ' style={{ overflowY: 'scroll', marginLeft: '15%', fontSize: '15px' }}>
+                    <div className="col-12 d-flex">
+                        <div className='col-4'>
+                        <DropzoneSection
+                            title={<span className="dropzone-title">Upload Feature Files</span>}
+                            dropzoneState={firstDropzoneState}
+                            updateFiles={(files) => updateFiles(files, "first")}
+                            removeFile={(index) => removeFile(index, "first")}
+                            errors={firstDropzoneErrors}
+                            required={true}
+                        />
+                        </div>
+                        <div className='col-4'>
+                        <DropzoneSection
+                            title= {<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
+                            dropzoneState={secondDropzoneState}
+                            updateFiles={(files) => updateFiles(files, "second")}
+                            removeFile={(index) => removeFile(index, "second")}
+                            errors={secondDropzoneErrors}
+                            required={true} />
                         </div>
 
-                        <Button
-                            onClick={handleCombinedSubmit}
-                            className="mt-5 primary text-white "
-                            style={{ width: '15%' }}
-                        >
-                            Submit
-                        </Button>
-                        {headers.length > 0 && tableData.length > 0 ? (
-                            <>
-                                <div className="mt-4 p-4" style={{marginRight : '50%'}}>
-                                    <table className="table table-bordered w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>
+                        <div className='col-4'>
+                            <label className='labelDatatype'>Select Data Type:</label>
+                            <select
+                                className="border p-2 rounded-md w-full"
+                                value={selectedType}
+                                onChange={(e) => setSelectedType(e.target.value)}
+                            >
+                                {dataTypes.map((type) => (
+                                    <option key={type} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <Button
+                        onClick={handleCombinedSubmit}
+                        className="mt-5 primary text-white "
+                        style={{ width: '15%' }}
+                    >
+                        Submit
+                    </Button>
+                    {headers.length > 0 && tableData.length > 0 ? (
+                        <>
+                            <div className="mt-4 p-4" style={{ marginRight: '50%' }}>
+                                <table className="table table-bordered w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectAll}
+                                                    onChange={(e) => handleSelectAll(e.target.checked)}
+                                                />
+                                            </th>
+                                            {headers.map((header) => (
+                                                <th key={header}>
+                                                    {header}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tableData.map((row, rowIndex) => (
+                                            <tr key={row.id}>
+                                                <td>
                                                     <input
                                                         type="checkbox"
-                                                        checked={selectAll}
-                                                        onChange={(e) => handleSelectAll(e.target.checked)}
+                                                        checked={row.isSelected}
+                                                        onChange={(e) => handleSelectRow(rowIndex, e.target.checked)}
                                                     />
-                                                </th>
+                                                </td>
                                                 {headers.map((header) => (
-                                                    <th key={header}>
-                                                        {header}
-                                                    </th>
-                                                ))}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {tableData.map((row, rowIndex) => (
-                                                <tr key={row.id}>
-                                                    <td>
+                                                    <td key={header}>
                                                         <input
-                                                            type="checkbox"
-                                                            checked={row.isSelected}
-                                                            onChange={(e) => handleSelectRow(rowIndex, e.target.checked)}
+                                                            type="text"
+                                                            value={row[header]}
+                                                            onChange={(e) => handleCellEdit(rowIndex, header, e.target.value)}
+                                                            className="form-control"
                                                         />
                                                     </td>
-                                                    {headers.map((header) => (
-                                                        <td key={header}>
-                                                            <input
-                                                                type="text"
-                                                                value={row[header]}
-                                                                onChange={(e) => handleCellEdit(rowIndex, header, e.target.value)}
-                                                                className="form-control"
-                                                            />
-                                                        </td>
-                                                    ))}
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div className="d-flex justify-content-between mt-4">
-                                    <Button
-                                        onClick={handleExport}
-                                        className="btn-primary"
-                                    >
-                                        Export Selected CSV
-                                    </Button>
-                                    <Button
-                                        onClick={handleSendToBackend}
-                                        className="btn-success"
-                                    >
-                                        Send Selected Data to Backend
-                                    </Button>
-                                </div>
-                            </>
-                        ) : (
-                            <p className="text-center mt-4">No data available</p>
-                        )}
-                    </div>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="d-flex justify-content-between mt-4">
+                                <Button
+                                    onClick={handleExport}
+                                    className="btn-primary"
+                                >
+                                    Export Selected CSV
+                                </Button>
+                                <Button
+                                    onClick={handleSendToBackend}
+                                    className="btn-success"
+                                >
+                                    Send Selected Data to Backend
+                                </Button>
+                            </div>
+                        </>
+                    ) : (
+                        <p className="text-center mt-4">No data available</p>
+                    )}
                 </div>
             </div>
             <ToastContainer />

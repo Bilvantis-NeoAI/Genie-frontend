@@ -9,7 +9,7 @@ import {
     Legend,
     CartesianGrid,
 } from "recharts";
-
+import { DATAKEY,XAXISNAMES } from "../utils/constatnts";
 const CustomTick = ({ x, y, payload }) => {
     const fixedWidth = 30;
     return (
@@ -29,8 +29,10 @@ const CustomTick = ({ x, y, payload }) => {
         </foreignObject>
     );
 };
+
 const CountGraph = ({ data, title }) => {
     const chartWidth = Math.max(data.length * 60, 800);
+
     return (
         <div className="card g-4">
             <div
@@ -46,7 +48,18 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            {data.length === 0 ? (
+                    <div  style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                        fontSize: "16px",
+                    }}>No Data Found</div>
+                ) : (
             <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
+
                 <ResponsiveContainer width={chartWidth} height={240}>
                     <BarChart
                         data={data}
@@ -54,16 +67,17 @@ const CountGraph = ({ data, title }) => {
                         barGap={10}
                     >
                         <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey="project" tick={<CustomTick />} interval={0} />
+                        <XAxis dataKey={DATAKEY.PROJECT} tick={<CustomTick />} interval={0} />
                         <YAxis fontSize={10} />
                         <Tooltip cursor={{ fill: "transparent" }} />
                         <Legend />
-                        <Bar dataKey="count" fill="#1DB9EF" barSize={20} name="Count" />
+                        <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+                )}
+                </div>
         </div>
     );
 };
-
 export default CountGraph;
