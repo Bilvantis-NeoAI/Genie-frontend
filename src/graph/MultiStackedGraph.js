@@ -193,7 +193,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     scrollbarWidth: "none",
                 }}
             >
-                {data.length!==0 &&
+                {data.length!==0 ?(
                 <ResponsiveContainer width="150%">
                     <BarChart
                         data={formattedData}
@@ -238,6 +238,13 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                         ))}
                     </BarChart>
                 </ResponsiveContainer>
+                ):(<div  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: "16px",
+                }}>No Data Found</div>)
             }
             </div>
         </div>

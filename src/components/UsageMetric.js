@@ -112,6 +112,15 @@ export default function UsageMetric() {
         };
         dispatch(fetchGraphList(params, moduleType));
         setOffCanvas(false);
+        setSelectedFilter((prevState) => ({
+            ...prevState,
+            project_name: "",
+            user_id: "",
+            _id: "",
+            date: ""
+        }));
+        setUsers([])
+    
 
     };
 
