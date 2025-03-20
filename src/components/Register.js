@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/Register.css'
-import { red } from "@mui/material/colors";
 import { useDispatch } from "react-redux";
 import { userRegistration } from "../actions/LoginActions";
 import Swal from "sweetalert2";
@@ -44,7 +43,7 @@ const Register = () => {
         };
         dispatch(userRegistration(payload))
             .then((response) => {
-                if (response?.status == 200) {
+                if (response?.status === 200) {
                     dispatch(pendingUserList())
                     Swal.fire({
                         title: sweetalert.SUCCESS_TITLE,

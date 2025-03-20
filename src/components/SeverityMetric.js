@@ -19,7 +19,7 @@ export default function SeverityMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({ project_name: "" });
-    const [moduleType, setModuleType] = useState("severity");
+    const moduleType ="severity"
     const [loading, setLoading] = useState(false);
     const data = useSelector((state) => state.graphs[moduleType]?.data);
     const dispatch = useDispatch();

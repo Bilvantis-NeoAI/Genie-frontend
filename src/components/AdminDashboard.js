@@ -12,7 +12,6 @@ import deleteicon from '../Assets/delete.svg'
 import userApproveIcon from '../Assets/userApprove.svg'
 import rejectIcon from '../Assets/rejectUser.svg'
 import resetPass from '../Assets/resetPass.svg'
-import filter from '../Assets/filter.svg'
 import { userList, pendingUserList, userApprove, userDelete, userReject, userRoleEdit, userResetPassword } from "../actions/userActions";
 import Swal from "sweetalert2";
 export function AdminDashboard() {
@@ -32,7 +31,7 @@ export function AdminDashboard() {
     useEffect(() => {
         dispatch(userList())
         dispatch(pendingUserList())
-    }, []);
+    },[]);
     const neo4jStatusOptions = [{ label: "Include All", value: 'False' }, { label: "Include Texts", value: 'True' }];
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
@@ -155,7 +154,7 @@ export function AdminDashboard() {
     const resetPassWord = (user) => {
         dispatch(userResetPassword(newPassword, selectedUser))
             .then((response) => {
-                if (response?.status == 200) {
+                if (response?.status === 200) {
                     setShowModal(false);
                     Swal.fire({
                         title: 'Reset Password',
@@ -202,15 +201,6 @@ export function AdminDashboard() {
         setShowModal(false);
 
     };
-    const handleResetFilter = () => {
-        setFormValues({
-            email: "",
-            role: "",
-            company_name: ""
-        })
-        setShowModal(false);
-
-    }
     const handleFlushDB = () => {
         dispatch(flushDB())
             .then(response => response && toast.success(response.data))

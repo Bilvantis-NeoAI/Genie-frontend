@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import barsimage from "../Assets/bars.svg";
 import sideBarIcon1 from "../Assets/Sidenavimg1.svg";
 import sideBarIcon2 from "../Assets/Sidenavimg2.svg";
 import logoutIcon from "../Assets/logout.svg";
@@ -39,9 +38,6 @@ export const BootstrapSidebar = () => {
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
-        {/* <li className="d-flex justify-content-center align-items-center barli">
-          <img src={barsimage} alt="" className="imagestyles" />
-        </li> */}
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitmetrics')}>
           <img src={gitMetric} alt="" className="imagestyles" />
           <span className="tooltip">KBMS Metrics</span>
@@ -72,14 +68,14 @@ export const BootstrapSidebar = () => {
           <img src={testai} alt="" className="imagestyles" />
           <span className="tooltip">Test Cases</span>
         </li>
-        {/* <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
-          <img src={deadSpace} alt="" className="imagestyles" />
+        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
+          <img src={gitreleaseIcon} alt="" className="imagestyles" />
           <span className="tooltip">GIT Release Note</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/deadCode')}>
           <img src={deadSpace} alt="" className="imagestyles" />
           <span className="tooltip">Dead Code</span>
-        </li> */}
+        </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/adminDashBoard')}>
           <img src={admin} alt="" className="imagestyles" />
           <span className="tooltip">Admin</span>

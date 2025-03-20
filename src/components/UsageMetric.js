@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { DatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import "antd/dist/reset.css";
@@ -8,12 +7,11 @@ import StackedBarGraph from "../graph/StackedBarGraph";
 import OffCanvas from "./OffCanvas";
 export default function UsageMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
-    const [filters, setFilters] = useState([]);
     const [users, setUsers] = useState([]);
 
     const [selectedFilter, setSelectedFilter] = useState({});
     const dispatch = useDispatch();
-    const [moduleType, setModuleType] = useState("usage");
+    const moduleType = "usage"
     const data = useSelector((state) => state.graphs[moduleType]?.data);
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
@@ -38,7 +36,6 @@ export default function UsageMetric() {
     };
     const handleCloseCanvas = () => {
         setOffCanvas(false);
-        setFilters([]);
     };
     const handleDateChange = (date) => {
         if (date) {
