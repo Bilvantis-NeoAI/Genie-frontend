@@ -1,4 +1,4 @@
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Container,  Row, Table } from "react-bootstrap";
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
 import { useState, useEffect } from 'react';
@@ -6,7 +6,6 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { homePage3TextSamples } from '../utils/constatnts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGitGraphList } from '../actions/gitGraphDataActions';
-import { footerTextSamples } from "../utils/constatnts";
 export default function GitMetrics(){
         const dispatch = useDispatch();
         const graphsData = useSelector((state) => state.gitGraph);
@@ -16,13 +15,9 @@ export default function GitMetrics(){
         const [barGraphData, setBarGraphData] = useState([]);
         const [retrivalGraphData, setRetrivalGraphData] = useState([]);
         const [retrivalGraphXAxisData, setRetrivalGraphXAxisData] = useState([]);
-    
-    
-    
-    
         useEffect(() => {
             dispatch(fetchGitGraphList())
-        }, []);
+        },[]);
     
         useEffect(() => {
             if (graphsData && graphsData.graphData && graphsData.graphData[1]?.length > 0) {
@@ -44,13 +39,14 @@ export default function GitMetrics(){
         }, [graphsData])
     
         return (
-            <Container className=' w-100' fluid style={{ height: '100vh' }}>
-               <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderComponent />
-        </Row>
-                <div className="w-100 mt-3" style={{ height: '82vh' }} >
+            <Container fluid className="w-100" >
+                <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+                    <HeaderComponent />
+                </Row>
+
+                <div className="w-100">
                     <div style={{ width: '10%' }}>
-                        <BootstrapSidebar></BootstrapSidebar>
+                        <BootstrapSidebar />
                     </div>
                     <div className='h-100 ms-5 mb-5 pb-4' >
                         <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }} >
@@ -98,7 +94,7 @@ export default function GitMetrics(){
                                 >
                                     <thead className=" w-100 table-heading">
                                         <tr className="table-header w-100 ">
-                                            <th className="table-header" >
+                                            <th className="table-header" style={{width:'10%'}} >
                                                 {homePage3TextSamples.DOCUMENT_NAME}
                                             </th>
                                             <th className="table-header">
