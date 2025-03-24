@@ -1,4 +1,4 @@
-export const IP ='http://34.72.75.193/' //'http://34.46.36.105:3000/'
+export const IP = 'http://34.46.36.105:3000/' //'http://34.72.75.193/' 
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -22,7 +22,10 @@ export const apis = {
     DELETE_USER:'/delete-user',
     REJECT_USER:'/reject-user',
     EDIT_USER_ROLE:'/users',
-    RESET_PASSWORD:'/reset-password'
+    RESET_PASSWORD:'/reset-password',
+    GIT_RELEASE_NOTE :'generate_release_notes',
+    GIT_RELEASE_FEEDBACK :'rephrase_release_notes',
+    GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary'
 }
     export const URL ={
         Api : `${IP}`,
