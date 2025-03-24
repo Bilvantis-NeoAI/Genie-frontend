@@ -14,7 +14,7 @@ import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts';
 
 const CustomTick = ({ x, y, payload }) => { 
     const valueStr = String(payload?.value || "");
-    const truncatedValue = valueStr.substring(0, 2);
+    const truncatedValue = valueStr.substring(0, 5);
     return (
         <text x={x} y={y + 10} textAnchor="middle" fontSize={10} fill="#666">
             {truncatedValue}
