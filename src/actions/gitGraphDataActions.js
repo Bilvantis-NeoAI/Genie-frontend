@@ -25,9 +25,7 @@ import {
       dispatch(fetchGraphRequest());
       return Api
         .get(apis.GRAPHS_DATA)
-        .then((response) => {
-          console.log("====response",response);
-          
+        .then((response) => {          
           const graphData = response.data;
           dispatch(fetchGraphSuccess(graphData));
           return response;

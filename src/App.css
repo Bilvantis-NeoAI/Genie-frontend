@@ -77,6 +77,10 @@ html, body {
     transform: rotate(360deg);
   }
 }
+.custom-textarea {
+  resize: none;
+  line-height: 1.4;
+}
 /***Admin **/
 .table tbody tr td {
   padding: 4px 6px; /* Reduce padding */

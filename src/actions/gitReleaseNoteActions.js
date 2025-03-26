@@ -89,3 +89,15 @@ export const gitCommitFeedback = (payload) => {
             })
     }
 }
+export const deleteTempDir = () => {
+    return (dispatch) => {
+        return DeployedURL
+            .get(apis.DEL_TEM_DIR)
+            .then((respose) => {
+                return respose
+            })
+            .catch((error) => {
+                // dispatch(gitCommitFeedbackFailure(error))
+            })
+    }
+}

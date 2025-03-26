@@ -17,6 +17,7 @@ import GitMetrics from './components/GitMetrics';
 import { TestCaseAi } from './components/TestCaseAi';
 import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
+import { GitOperations } from './components/GitOperations';
 function App() {
   return (
     <Router>
@@ -90,6 +91,14 @@ function App() {
           element={
             <ProtectRoute>
               <GitMetrics/>
+            </ProtectRoute>
+          }
+        />
+         <Route
+          path="/gitoprations"
+          element={
+            <ProtectRoute>
+              <GitOperations/>
             </ProtectRoute>
           }
         />

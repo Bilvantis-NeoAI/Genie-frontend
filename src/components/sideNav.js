@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { sweetalert } from "../utils/constatnts";
 import deadSpace from '../Assets/deadSpace.svg'
 import gitreleaseIcon from '../Assets/gitRelease.svg'
+import gitIcon from '../Assets/git.svg'
 export const BootstrapSidebar = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("metrics");
@@ -56,26 +57,30 @@ export const BootstrapSidebar = () => {
           <img src={sideBarIcon2} alt="" className="imagestyles" />
           <span className="tooltip">Upload Document</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/repoingestion')}>
+        {/* <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/repoingestion')}>
           <img src={injectingRepo} alt="" className="imagestyles" />
           <span className="tooltip">GIT Ingestion</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/retrivingData')}>
           <img src={retriveData} alt="" className="imagestyles" />
           <span className="tooltip">GIT Q&A</span>
+        </li> */}
+        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitoprations')}>
+          <img src={gitIcon} alt="" className="imagestyles" />
+          <span className="tooltip">GIT Operations</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/testcases')}>
           <img src={testai} alt="" className="imagestyles" />
           <span className="tooltip">Test Cases</span>
         </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
+        {/* <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitReleaseNote')}>
           <img src={gitreleaseIcon} alt="" className="imagestyles" />
           <span className="tooltip">GIT Release Note</span>
         </li>
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/deadCode')}>
           <img src={deadSpace} alt="" className="imagestyles" />
           <span className="tooltip">Dead Code</span>
-        </li>
+        </li> */}
         <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/adminDashBoard')}>
           <img src={admin} alt="" className="imagestyles" />
           <span className="tooltip">Admin</span>

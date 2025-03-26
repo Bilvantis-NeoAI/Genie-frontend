@@ -39,7 +39,7 @@ export function HeaderComponent() {
           fontSize: "16px",
         }}
       >
-      <div> Welcome to Genie</div>
+      <div> Welcome to NeoAI</div>
       </Title>
  
       {/* Right Section: Profile Icon and Username */}

@@ -4,7 +4,7 @@ import { HeaderComponent } from "./header";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback } from '../actions/gitReleaseNoteActions';
+import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback, deleteTempDir } from '../actions/gitReleaseNoteActions';
 import { useEffect, useState } from 'react';
 import Papa from "papaparse";
 import Swal from "sweetalert2";
@@ -97,17 +97,21 @@ export function GitReleaseNote() {
         const csvString = Papa.unparse(csvData);
         const blob = new Blob([csvString], { type: "text/csv" });
         const updatedFile = new File([blob], file.name, { type: "text/csv" });
-        dispatch(gitReleaseNote(formData)).then((response)=>{
-        setLoading(false)
-        if(response.status!==200){
-             Swal.fire({
-                      title: "error",
-                      text: response,
-                      icon: 'error',
-                      confirmButtonText:'OK'
-                    });
-        }
-    })
+        dispatch(deleteTempDir()).then((response) => {
+            if (response.status === 200) {
+                dispatch(gitReleaseNote(formData)).then((response) => {
+                    setLoading(false)
+                    if (!response) {
+                        Swal.fire({
+                            title: "error",
+                            text: "Something went wrong!",
+                            icon: "error",
+                            confirmButtonText: "OK",
+                        });
+                    }
+                })
+            }
+        })
     };
     const handleDownload = (data, filename) => {
         const extension = filename.split('.').pop();
@@ -126,31 +130,46 @@ export function GitReleaseNote() {
             return;
         }
         const formData = new FormData();
+        setLoading(true)
         formData.append("user_input", releaseNotesFeedback);
-        dispatch(gitRealseFeedback(formData))
+        dispatch(gitRealseFeedback(formData)).then((response) => {
+            if (response.status===200) {setLoading(false)}
+            if (!response) {
+                // setLoading(false)
+                Swal.fire({
+                    title: "error",
+                    text: "Something went wrong!",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            }
+        })
     }
     const handleRephraseCommitLogs = async () => {
         if (!commitLogsFeedback.trim()) {
-            toast.error("Please provide Feedback!");
             return;
         }
         const formData = new FormData();
         formData.append("user_input", commitLogsFeedback);
-        dispatch(gitCommitFeedback(formData))
+        dispatch(gitCommitFeedback(formData)).then((response) => {
+            if (!response) {
+                Swal.fire({
+                    title: "error",
+                    text: "Something went wrong!",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            }
+        })
     };
     return (
         <Container fluid className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-            <Row className="vh-10"><HeaderComponent /></Row>
-            <ToastContainer />
-
             <div className="w-100 d-flex flex-grow-1 mt-3" style={{ height: "82vh" }}>
-                <div className="w-10"><BootstrapSidebar /></div>
-
                 <div className="flex-grow-1 ms-5 mb-5 pb-4">
-                    <Card className="h-100 p-4 ms-5 shadow-sm rounded release-form-card overflow-auto">
+                    <Card className="h-100 p-4 ms-5 shadow-sm rounded release-form-card">
                         <h2 className="h5 fw-semibold mb-4">Upload Git Release Note</h2>
                         {loading && <FullScreenLoader />}
-                        <Row className="g-4 mb-4">
+                        <Row className="g-4 mb-2">
                             <Col md={6} lg={4}>
                                 <Form.Group controlId="repoName">
                                     <Form.Label>Repository URL <span className="text-danger">*</span></Form.Label>

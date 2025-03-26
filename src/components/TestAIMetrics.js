@@ -1,29 +1,28 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
-import BarGraph from "../graph/BarGraph";
-import PieGraph from "../graph/PieGraph";
-import AreaGraph from "../graph/AreaGraph";
-import MuilBarGraph from "../graph/MultiBarGraph";
-import CountGraph from "../graph/CountGraphs";
+import { testAIGraph } from "../actions/testAIGraphActions";
+import TestStackedBarGraph from "../graph/TestStackedGraphs";
 import "react-datepicker/dist/react-datepicker.css";
 import OffCanvas from "./OffCanvas";
-const FullScreenLoader = () => (
-    <div className="loader-overlay">
-        <div className="spinner-border text-white" role="status">
-            <span className="visually-hidden">Loading...</span>
+export default function TestAIMetrics() {
+    const FullScreenLoader = () => (
+        <div className="loader-overlay">
+            <div className="spinner-border text-white" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
         </div>
-    </div>
-);
-export default function SeverityMetric() {
+    );
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({ project_name: "" });
-    const moduleType ="severity"
+    const moduleType = "testai"
     const [loading, setLoading] = useState(false);
-    const data = useSelector((state) => state.graphs[moduleType]?.data);
+    const data = useSelector((state) => state.testAiData?.TestAiMetrics?.payload?.data?.metrics);
+    console.log("===datadatadata",data);
+    
     const dispatch = useDispatch();
-
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
             ...prevFilter,
@@ -105,7 +104,7 @@ export default function SeverityMetric() {
             filters: filtersString
         };
         dispatch(fetchGraphList(params, moduleType));
-        
+
         setOffCanvas(false);
         setSelectedFilter((prevState) => ({
             ...prevState,
@@ -142,15 +141,12 @@ export default function SeverityMetric() {
     };
 
     const graphComponents = {
-        double_bar_graph: BarGraph,
-        pie: PieGraph,
-        area_chart: AreaGraph,
-        bar: MuilBarGraph,
-        bar_graph: CountGraph
+        'stacked bar graph': TestStackedBarGraph
     };
+console.log("===graphComponentsgrsafdsdfaphComntsgraphCompodsadsnents",graphComponents);
 
     let metrics = [];
-    if (data) {        
+    if (data) {
         for (let key in data) {
             let innerObject = data[key];
             if (innerObject && typeof innerObject === "object") {
@@ -159,18 +155,22 @@ export default function SeverityMetric() {
         }
         metrics = Object.values(data);
     }
-
-    useEffect(() => {
-        setLoading(true);
-        const params = { type: moduleType, filter: false };
-        dispatch(fetchGraphList(params, moduleType)).finally(() => {
-            setLoading(false); // End loading
-        });
-    }, [dispatch, moduleType]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         setLoading(true);
+    //         await dispatch(testAIGraph());
+    //         setLoading(false);
+    //     };
+    //     fetchData();
+    // }, [dispatch, moduleType]);
+        useEffect(() => {
+            const params = { type: moduleType, filter: false };
+            dispatch(testAIGraph());
+        }, [dispatch, moduleType]);
 
     return (
         <>
-            {loading && <FullScreenLoader />} {/* Display the loader while loading */}
+            {/* {loading && <FullScreenLoader />} */}
             <div className="row g-2">
                 {!loading ? (
                     metrics?.map((metric, index) => {

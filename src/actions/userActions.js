@@ -94,27 +94,7 @@ export const userResetPasswordFailure=(error)=>({
     type:USER_RESET_PASSWORD_FAILURE,
     payload:error
 })
-// export const userList = (payload) => {
-//     console.log("===payloadpayload",payload);
-    
-//     return (dispatch) => {
-//         dispatch(userListRequest());
-//         const params = payload ? { params: payload } : {};
-
-//         return AdminUsers
-//             .get(apis.USERS_LIST, params) // Pass params only if payload exists
-//             .then((response) => {
-//                 dispatch(userListSuccess(response));
-//                 return response;
-//             })
-//             .catch((error) => {
-//                 dispatch(userListFailure(error.message));
-//             });
-//     };
-// };
 export const userList = (payload) => {
-    console.log("===payloadpayload", payload);
-
     return (dispatch) => {
         dispatch(userListRequest());
 
