@@ -28,7 +28,11 @@ export function TestCaseAi() {
     const [headers, setHeaders] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
+    const [fileContent, setFileContent] = useState("");
+    const [fileName, setFileName] = useState("");
+    const [feedback, setFeedback] = useState("");
     const dispatch = useDispatch();
+
     const aiTestCaseData = useSelector((state) => state.aiTestCaseData);
     const updateFiles = (incomingFiles, dropzone) => {
         if (dropzone === "first") {
@@ -113,7 +117,7 @@ export function TestCaseAi() {
     useEffect(() => {
         if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
             const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
-            const fullUrl = `${IP}${filePath}`;
+            const fullUrl = `${IP}test_ai/${filePath}`;
 
 
             fetch(fullUrl)
@@ -121,7 +125,6 @@ export function TestCaseAi() {
                     if (!res.ok) {
                         throw new Error(`HTTP error! status: ${res.status}`);
                     }
-                    console.log("===fullUrlfullUrl", fullUrl, res);
                     return res.text();
                 })
                 .then((text) => {
@@ -171,7 +174,14 @@ export function TestCaseAi() {
         link.click();
         document.body.removeChild(link);
     };
-
+    const handleCellEdit = (index, field, value) => {
+        const newData = [...tableData];
+        newData[index] = {
+            ...newData[index],
+            [field]: value
+        };
+        setTableData(newData);
+    };
     const handleSendToBackend = async () => {
         try {
             const selectedData = tableData.filter(row => row.isSelected);
@@ -184,57 +194,89 @@ export function TestCaseAi() {
             ].join('\n');
 
             const blob = new Blob([csvContent], { type: 'text/csv' });
-
             const file = new File([blob], "selected_data.csv", { type: 'text/csv' });
 
             const formData = new FormData();
-            formData.append("test_case_file", file);
+            formData.append("test_cases_file", file);
+
             const response = await dispatch(addAiCsvData(formData));
+            console.log("Response>>>", response);
 
             if (response?.data) {
-                console.log("aiTestCaseData?.aiCsv?.data222", aiTestCaseData?.aiCsv?.data);
+                console.log("AI Test Case Data:", response?.data);
 
-                const { collection_file, data_file } = response.data;
+                const { output_file_path } = response?.data;
 
-                const downloadFile = async (url, filename) => {
+                const fetchFileContent = async (url) => {
                     const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch file from ${url}`);
-                    }
-                    const blob = await response.blob();
-                    const link = document.createElement("a");
-                    link.href = URL.createObjectURL(blob);
-                    link.download = filename;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    if (!response.ok) throw new Error(`Failed to fetch file from ${url}`);
+                    return await response.text();
                 };
 
-                if (collection_file) {
-                    await downloadFile(collection_file, "collection.json");
-                }
-                if (data_file) {
-                    await downloadFile(data_file, "data.json");
+                if (output_file_path) {
+                    const fileUrl = `${IP}test_ai/${output_file_path}`;
+                    const content = await fetchFileContent(fileUrl);
+                    setFileContent(content);
+                    setFileName(output_file_path);
                 }
             } else {
                 console.error("No data available in Redux.");
             }
-
         } catch (error) {
             console.error("Error sending data to backend:", error);
         }
     };
+    const handleSubmit = async () => {
+        try {
+            const token = sessionStorage.getItem("access_token");
+            const formData = new FormData();
+            formData.append("test_file", new Blob([fileContent], { type: 'text/plain' }));
+            formData.append("modification_text", feedback);
 
+            const response = await fetch(`${IP}test_ai/modify_test_file`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData
+            });
 
-    const handleCellEdit = (index, field, value) => {
-        const newData = [...tableData];
-        newData[index] = {
-            ...newData[index],
-            [field]: value
-        };
-        setTableData(newData);
+            const data = await response.json();
+            console.log("AI Test Case Data:", data);
+
+            if (data?.output_file_path) {
+                const fetchFileContent = async (url) => {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`Failed to fetch file from ${url}`);
+                    return await response.text();
+                };
+
+                const fileUrl = `${IP}test_ai/${data.output_file_path}`;
+                const content = await fetchFileContent(fileUrl);
+
+                console.log("content>>>", content);
+                setFeedback("")
+
+                setFileContent(content);
+                setFileName(data.output_file_path);
+            } else {
+                console.error("No data available from backend.");
+            }
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+        }
     };
 
+
+    const handleDownload = () => {
+        const blob = new Blob([fileContent], { type: 'text/plain' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName || "downloaded_file.txt";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <Container fluid className='w-100' style={{ height: '100vh' }}>
             <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
@@ -247,23 +289,23 @@ export function TestCaseAi() {
                 <div className='card pb-3 h-100 align-items-center ' style={{ overflowY: 'scroll', marginLeft: '15%', fontSize: '15px' }}>
                     <div className="col-12 d-flex">
                         <div className='col-4'>
-                        <DropzoneSection
-                            title={<span className="dropzone-title">Upload Feature Files</span>}
-                            dropzoneState={firstDropzoneState}
-                            updateFiles={(files) => updateFiles(files, "first")}
-                            removeFile={(index) => removeFile(index, "first")}
-                            errors={firstDropzoneErrors}
-                            required={true}
-                        />
+                            <DropzoneSection
+                                title={<span className="dropzone-title">Upload Feature Files</span>}
+                                dropzoneState={firstDropzoneState}
+                                updateFiles={(files) => updateFiles(files, "first")}
+                                removeFile={(index) => removeFile(index, "first")}
+                                errors={firstDropzoneErrors}
+                                required={true}
+                            />
                         </div>
                         <div className='col-4'>
-                        <DropzoneSection
-                            title= {<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
-                            dropzoneState={secondDropzoneState}
-                            updateFiles={(files) => updateFiles(files, "second")}
-                            removeFile={(index) => removeFile(index, "second")}
-                            errors={secondDropzoneErrors}
-                            required={true} />
+                            <DropzoneSection
+                                title={<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
+                                dropzoneState={secondDropzoneState}
+                                updateFiles={(files) => updateFiles(files, "second")}
+                                removeFile={(index) => removeFile(index, "second")}
+                                errors={secondDropzoneErrors}
+                                required={true} />
                         </div>
 
                         <div className='col-4'>
@@ -352,6 +394,49 @@ export function TestCaseAi() {
                     ) : (
                         <p className="text-center mt-4">No data available</p>
                     )}
+                    <div className="container">
+                        {fileContent && (
+                            <div className="row g-4 mt-3">
+                                <div className="col-md-6">
+                                    <div className="p-4 bg-dark text-white rounded shadow" style={{ minHeight: '50%' }}>
+                                        <h5 className="mb-3">Processed File</h5>
+                                        <textarea
+                                            value={fileContent}
+                                            readOnly
+                                            className="form-control bg-black text-white font-monospace resize-none custom-textarea"
+                                            style={{ height: '350px' }}
+                                        />
+                                        <button
+                                            onClick={handleDownload}
+                                            className="btn btn-success mt-3"
+                                        >
+                                            Download File
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="p-4 bg-white text-dark rounded shadow" style={{ minHeight: '50%' }}>
+                                        <h5 className="mb-3">Feedback</h5>
+                                        <textarea
+                                            value={feedback}
+                                            onChange={(e) => setFeedback(e.target.value)}
+                                            placeholder="Write your feedback here..."
+                                            className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
+                                            style={{ height: '30%' }}
+                                        />
+                                        <button
+                                            onClick={handleSubmit}
+                                            className="btn btn-primary mt-3"
+                                        >
+                                            Submit Feedback
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
+
                 </div>
             </div>
             <ToastContainer />

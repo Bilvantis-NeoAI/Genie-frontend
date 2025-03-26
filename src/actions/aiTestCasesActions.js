@@ -25,20 +25,12 @@ export const addAiDocumentRequest = () => ({
   
   export const addAiDocument = (payload) => {
     return (dispatch) => {
-      dispatch(addAiDocumentRequest());
-
-      for (var pair of payload.entries()) {
-        console.log("inside payyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+pair[0]+ ', ' + pair[1]); 
-    }
-      console.log("payloadikkk1" ,payload);
+      dispatch(addAiDocumentRequest())
       
       return ApiNewService
         .post(apis.TEST_AI, payload)
         .then((response) => {
-          const addedAiDocument = response.data;
-          console.log("response>>", response);  
-          console.log("addedAiDocument>>", addedAiDocument);
-          
+          const addedAiDocument = response.data;          
           dispatch(addAiDocumentSuccess(addedAiDocument));
           return response;
         })
@@ -67,8 +59,6 @@ export const addAiCsvFailure = (error) => ({
 export const addAiCsvData = (payload) => {
   return (dispatch) => {
     dispatch(addAiCsvRequest());
-    console.log("payload for CSV:", payload);
-
     return ApiNewService
       .post(apis.TEST_AI2, payload)
       .then((response) => {

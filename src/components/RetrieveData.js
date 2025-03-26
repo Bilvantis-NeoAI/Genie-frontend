@@ -31,31 +31,16 @@ export default function RetrieveData() {
   const answerData = useSelector((state) => state.repoData);
   const getCodeResponse = useSelector((state) => state.getCode);
   const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   if (answerData?.repoData?.action?.data?.explanation) {     
-       
-  //       answerData.repoData.action.data.explanation.forEach((exp) => {
-  //         const overview = exp.overview;
-  //         const detailedExplanation = exp.detailedExplanation;
-  //         addChatMessage("system", overview , "explain");
-  //         addChatMessage("system", detailedExplanation , "explain");
-
-  //       })
-  //       }
-  // }, [answerData]);
   useEffect(() => {
-    if (answerData?.repoData?.action?.data?.explanation) {     
+    if (answerData?.repoData?.action?.data?.explanation) {
       answerData.repoData.action.data.explanation.forEach((exp) => {
         const overview = exp.overview;
         const detailedExplanation = exp.detailedExplanation;
-  
-        // Check if message already exists before adding
         setChatMessages((prev) => {
           const exists = prev.some(msg => msg.message === overview && msg.type === "explain");
           return exists ? prev : [...prev, { sender: "system", message: overview, type: "explain" }];
         });
-  
+
         setChatMessages((prev) => {
           const exists = prev.some(msg => msg.message === detailedExplanation && msg.type === "explain");
           return exists ? prev : [...prev, { sender: "system", message: detailedExplanation, type: "explain" }];
@@ -71,13 +56,6 @@ export default function RetrieveData() {
       });
     }
   }, [getCodeResponse]);
-  
-  // useEffect(() => {
-  //   if (getCodeResponse?.getCode?.action?.code) {
-  //     addChatMessage("system", getCodeResponse.getCode.action.code, "code");
-  //   }
-  // }, [getCodeResponse]);
-
   const addChatMessage = useCallback(
     (sender, message, actionType) => {
       setChatMessages((prev) => {
@@ -130,10 +108,7 @@ export default function RetrieveData() {
     [inputField, dispatch, addChatMessage]
   );
   const renderExplanation = (explanation) => {
-    console.log("Explanation received for rendering:", explanation);
-  
     const formatMarkdown = (value) => {
-      console.log("Processing value:", value);
       if (typeof value === "string") {
         return value.replace(/\\n/g, "\n").trim();
       }
@@ -143,14 +118,14 @@ export default function RetrieveData() {
       }
       return String(value);
     };
-  
+
     const explanationArray = Array.isArray(explanation) ? explanation : [explanation];
-  
+
     return explanationArray.map((exp, index) => {
       const { overview, detailedExplanation } = exp || {};
       const processedOverview = formatMarkdown(overview || "No overview provided.");
       const processedDetailedExplanation = formatMarkdown(detailedExplanation || "No detailed explanation provided.");
-  
+
       return (
         <div key={index} style={{ marginBottom: "20px", padding: "15px", border: "1px solid #ddd", borderRadius: "5px" }}>
           <div style={{ marginBottom: "10px" }}>
@@ -165,23 +140,19 @@ export default function RetrieveData() {
       );
     });
   };
-  
+
 
   return (
     <Container fluid className="w-100">
-      <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderComponent />
-      </Row>
       <div
         className="flex-grow-1 w-100v"
         style={{ marginTop: "20px", marginLeft: "5%" }}
       >
-        <BootstrapSidebar />
         <div className="flex-grow-1 ms-4">
           <div
             className="border rounded p-3"
             style={{
-              maxHeight: "70vh",
+              maxHeight: "60vh",
               maxWidth: "90%",
               overflowX: "auto",
               overflowY: "auto",
@@ -203,8 +174,8 @@ export default function RetrieveData() {
                 <div
                   className={`d-inline-block p-2 text-black bg-light
                     ${chat.sender === "user"
-                    ? "text-light"
-                    : "bg-light"
+                      ? "text-light"
+                      : "bg-light"
                     } rounded`
                   }
                 >
@@ -220,10 +191,10 @@ export default function RetrieveData() {
 
               </div>
             ))}
-            <div style={{padding:'10px'}}
-                  className={'d-inline-block p-2 text-black bg-light'}
-                >
-            {renderExplanation(data)}
+            <div style={{ padding: '10px' }}
+              className={'d-inline-block p-2 text-black bg-light'}
+            >
+              {renderExplanation(data)}
             </div>
 
           </div>

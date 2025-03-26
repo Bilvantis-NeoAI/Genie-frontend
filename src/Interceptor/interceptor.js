@@ -4,7 +4,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { URL } from "../utils/config";
 export const Api = axios.create({
-  baseURL:URL.GIT_GRAPH_DATA,
+  baseURL: URL.GIT_GRAPH_DATA,
 });
 export const ApiInject = axios.create({
   baseURL: URL.ApiInject
@@ -25,12 +25,38 @@ export const ApiNewService = axios.create({
     'Content-Type': 'multipart/form-data',
   },
 });
+ApiNewService.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+export const TestAIMetrics = axios.create({
+  baseURL: URL.TEST_AI_METRICS,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 export const AdminUsers = axios.create({
   baseURL: URL.ADMIN_USERS,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+TestAIMetrics.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 AdminUsers.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("access_token");
@@ -96,7 +122,7 @@ export function Loader() {
   addInterceptors(Api, setLoading);
   addInterceptors(ApiInject, setLoading);
   addInterceptors(ApiAnswer, setLoading);
-  addInterceptors(ApiNewService, setLoading); 
+  addInterceptors(ApiNewService, setLoading);
 
   return (
     <>

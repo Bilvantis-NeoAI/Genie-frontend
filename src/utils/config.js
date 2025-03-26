@@ -1,4 +1,4 @@
-export const IP = 'http://34.41.233.205/' //'http://34.72.75.193/' 
+export const IP = 'http://35.222.224.243/' // 'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -14,8 +14,8 @@ export const apis = {
     GET_CODE : '/get_code',
     LOGIN : 'auth/login',
     REGISTER : 'auth/register',
-    TEST_AI:'/workflow1',
-    TEST_AI2 :'/workflow2',
+    TEST_AI:'/generate_test_cases_file',
+    TEST_AI2 :'/generate_output',
     USERS_LIST :'/users',
     PENDING_LIST :'/pending-registrations',
     APPROVE_USER :'/approve-user',
@@ -25,7 +25,9 @@ export const apis = {
     RESET_PASSWORD:'/reset-password',
     GIT_RELEASE_NOTE :'generate_release_notes',
     GIT_RELEASE_FEEDBACK :'rephrase_release_notes',
-    GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary'
+    GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary',
+    DEL_TEM_DIR:'temp_dir_delete',
+    TEST_AI_METRICS:'/metrics'
 }
     export const URL ={
         Api : `${IP}`,
@@ -36,10 +38,11 @@ export const apis = {
         GitIngestion: `${IP}gitkbapi`,  //Ingestion repo
         DeployedURL:`${IP}genieapi/`,  // Login and Genie metrics
         GIT_GRAPH_DATA:`${IP}kbmsapi`, //git metrics
-
+        TEST_AI_METRICS :`${IP}test_ai`,
 
         API_BASE_AI :`${IP}:7000`,
-        TEST_AI :`${IP}crewapi`, //Test Ai
+        TEST_AI :`${IP}test_ai`, //Test Ai
+        
 
         ADMIN_USERS :`${IP}genieapi/admin`, //admin 
     }

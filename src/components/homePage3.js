@@ -6,6 +6,7 @@ import { HeaderComponent } from "./header";
 import { useState } from "react";
 import { BootstrapSidebar } from "./sideNav";
 import CommitReviewMetric from "./CommitReviewMetric";
+import TestAIMetrics from "./TestAIMetrics";
 export function HomePage3() {
 
     const [activeTab, setActiveTab] = useState("Severity");
@@ -44,6 +45,9 @@ export function HomePage3() {
                             <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
                                 Commit Review Metrics
                             </Nav.Link>
+                            <Nav.Link eventKey="Test" style={tabStyle("Test")}>
+                                Test AI Metrics
+                            </Nav.Link>
                         </Nav>
                         <Tab.Content
                             style={{
@@ -63,6 +67,9 @@ export function HomePage3() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="Commit" type='commit'>
                                 <CommitReviewMetric />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="Test" type='test'>
+                                <TestAIMetrics />
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>

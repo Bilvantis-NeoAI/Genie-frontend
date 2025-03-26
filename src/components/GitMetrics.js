@@ -8,9 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGitGraphList } from '../actions/gitGraphDataActions';
 export default function GitMetrics(){
         const dispatch = useDispatch();
-        const graphsData = useSelector((state) => state.gitGraph);
-        console.log("===graphsData",graphsData);
-        
+        const graphsData = useSelector((state) => state.gitGraph);        
         const [barGraphXAxisData, setBarGraphXAxisData] = useState([]);
         const [barGraphData, setBarGraphData] = useState([]);
         const [retrivalGraphData, setRetrivalGraphData] = useState([]);

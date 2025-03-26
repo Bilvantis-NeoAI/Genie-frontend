@@ -13,6 +13,7 @@ import gitGraphReducers from './gitGraphReducers'
 import aiTestCaseData from './testCaseReducers'
 import userListData from './adminUsersReducer';
 import gitNoteReducer from './gitReleaseNoteReducer';
+import testAiReducer from './testAiReducer';
 const rootReducer = combineReducers({
     answersData: answersReducer,
     documentData: documentReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     gitGraph: gitGraphReducers,
     aiTestCaseData: aiTestCaseData,
     usersList: userListData,
-    gitNoteResponse:gitNoteReducer
+    gitNoteResponse:gitNoteReducer,
+    testAiData:testAiReducer
 });
 
 export default rootReducer;

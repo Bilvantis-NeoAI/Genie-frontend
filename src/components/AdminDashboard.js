@@ -27,7 +27,6 @@ export function AdminDashboard() {
     const dispatch = useDispatch();
     let users = useSelector((state) => state.usersList?.userListData?.payload?.data?.users);
     const pendingUsers = useSelector((state) => state.usersList?.pendingUsers?.payload?.data?.pending_users);
-    console.log("=====pendingUserspendingUserspendingUsers", pendingUsers);
     useEffect(() => {
         dispatch(userList())
         dispatch(pendingUserList())

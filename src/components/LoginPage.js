@@ -68,7 +68,6 @@ const LoginPage = () => {
   const handleRegister = () => {
     navigate("/register");
   };
-console.log("====loadingloadingloading",loading);
 
   return (
     
