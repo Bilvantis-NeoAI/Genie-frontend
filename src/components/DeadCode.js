@@ -87,9 +87,10 @@ export function DeadCode() {
                                 <Form.Label className="fw-bold">Branch Name:</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter branch name"
-                                    value={oldBranch}
-                                    onChange={(e) => setOldBranch(e.target.value)}
+                                    name="Branch"
+                                    placeholder="Enter old branch name"
+                                    value={formState.oldBranch}
+                                    onChange={handleChange}
                                 />
                             </Form.Group>
 

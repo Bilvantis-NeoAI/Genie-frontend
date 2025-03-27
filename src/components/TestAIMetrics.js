@@ -38,6 +38,7 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
             ...prevState,
             user_id: "",
             _id: "",
+            time_unit:"",
             date: ""
         }));
         setUsers([]);
@@ -49,6 +50,7 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
             project_name: "",
             user_id: "",
             _id: "",
+            time_unit:"",
             date: ""
         }));
         setUsers([]);
@@ -80,6 +82,12 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
     const handleSubmit = (e) => {
         e.preventDefault();
         const filters = {};
+        filters.start_date = selectedFilter.start_date
+        filters.end_date = selectedFilter.end_date
+        filters.user_id = selectedFilter.user_id
+        filters.project_name = selectedFilter.project_name;
+        filters.time_unit = selectedFilter.time_unit;
+
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -96,6 +104,10 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
             ...prevState,
             project_name: "",
             user_id: "",
+            start_date:"",
+            time_unit:"",
+            end_date:"",
+            time_unit:"",
             _id: "",
             date: ""
         }));
