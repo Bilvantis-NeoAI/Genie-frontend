@@ -16,6 +16,8 @@ const OffCanvas = ({
     handleSubmit,
     handleDateChange,
 }) => {
+    console.log("===selectedFilter.keyselectedFilter.key",selectedFilter.key);
+    
     const [dateError, setDateError] = useState("");
     const [disable, setDesable] = useState(false)
     const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
@@ -33,6 +35,7 @@ const OffCanvas = ({
             }}
         />
     ));
+
     const validateDateRange = (dates) => {
 
         const [start, end] = dates;
@@ -172,8 +175,39 @@ const OffCanvas = ({
                                     </select>
                                 </div>
                             )}
+                        {(selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS) || (selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS) && (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                <label
+                                    htmlFor="filterSelect"
+                                    style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
+                                >
+                                    Select Filter
+                                </label>
+                                <select
+                                    id="filterSelect"
+                                    name="time_unit"
+                                    onChange={onChange}
+                                    style={{
+                                        height: "40px",
+                                        width: "100%",
+                                        borderRadius: "5px",
+                                        border: "1px solid #ccc",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                    }}
+                                >
+                                    <option value="" hidden>
+                                        Select a Filter
+                                    </option>
+                                    <option value="day">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="month">Month</option>
+                                </select>
+                            </div>
+                        )}
                         {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) ||
-                            (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key === GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
+                            (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key === GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS) ||
+                            (selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS) || (selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS)) && (
                                 <div style={{
                                     display: "flex", flexDirection: "column", gap: "5px", fontSize: "14px", fontWeight: "bold", height: "40px",
                                     width: "100%"
@@ -201,6 +235,7 @@ const OffCanvas = ({
 
                                 </div>
                             )}
+
                         {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA
                             || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
                                 <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
@@ -229,6 +264,7 @@ const OffCanvas = ({
 
                                 </div>
                             )}
+
                         <div
                             className="offcanvas-footer"
                             style={{

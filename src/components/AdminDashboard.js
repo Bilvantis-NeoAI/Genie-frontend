@@ -30,18 +30,14 @@ export function AdminDashboard() {
     useEffect(() => {
         dispatch(userList())
         dispatch(pendingUserList())
-    },[]);
+    }, []);
     const neo4jStatusOptions = [{ label: "Include All", value: 'False' }, { label: "Include Texts", value: 'True' }];
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
     const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
     const [storageOption, setStorageOption] = useState('local');
     const [isActive, setIsActive] = useState(false);
-    const [formValues, setFormValues] = useState({
-        email: "",
-        role: "",
-        company_name: ""
-    });
+    const [formValues, setFormValues] = useState({email: "", role: "", company_name: "" });
     const onRoleChange = (e, user) => {
         let selectedProject = roles.find(
             (role) => role.id === e.target.value
@@ -80,18 +76,15 @@ export function AdminDashboard() {
                 setShowModal(false)
                 dispatch(userRoleEdit(user))
                     .then((response) => {
-                        // toast.success("User Edited successfully!");
                         dispatch(userList());
                     })
                     .catch((error) => {
-                        // toast.error("Failed to Edit user");
                     });
             } else {
                 Swal.close();
             }
         });
     }
-
     const deleteUser = (user) => {
         Swal.fire({
             title: 'Delete',
@@ -105,11 +98,9 @@ export function AdminDashboard() {
             if (result.isConfirmed) {
                 dispatch(userDelete(user.id))
                     .then((response) => {
-                        // toast.success("User deleted successfully!");
                         dispatch(userList());
                     })
                     .catch((error) => {
-                        // toast.error("Failed to delete user");
                     });
             } else {
                 Swal.close();
@@ -129,12 +120,10 @@ export function AdminDashboard() {
             if (result.isConfirmed) {
                 dispatch(userReject(user.id))
                     .then((response) => {
-                        // toast.success("User Reject successfully!");
                         dispatch(userList());
                         dispatch(pendingUserList())
                     })
                     .catch((error) => {
-                        // toast.error("Failed to Reject user");
                     });
             } else {
                 Swal.close();
@@ -235,7 +224,6 @@ export function AdminDashboard() {
             .then(response => response && toast.success("Storage updated successfully"))
             .catch(() => toast.error("Failed to update storage"));
     };
-
     return (
         <Container fluid className="w-90">
             <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
@@ -283,7 +271,6 @@ export function AdminDashboard() {
                                     Pending Users
                                 </button>
                             </li>
-
                             {activeTab === "users" && (
                                 <button
                                     className="btn btn-outline-dark btn-sm position-absolute"
@@ -295,10 +282,6 @@ export function AdminDashboard() {
                                 </button>
                             )}
                         </ul>
-
-
-
-
                         <hr className="navBarAdmin"></hr>
                         <div className="content">
                             {activeTab === "users" && (
@@ -413,7 +396,6 @@ export function AdminDashboard() {
                                 <Modal.Title>{modelHead}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-
                                 {modelFrom === "Reset" ? (
                                     <>
                                         <p>User name : {selectedUser?.full_name}</p>
@@ -491,7 +473,6 @@ export function AdminDashboard() {
 
                                         </div>
                                     </form>
-
                                 ) : ''}
                             </Modal.Body>
                             <Modal.Footer>
@@ -501,9 +482,7 @@ export function AdminDashboard() {
                                     style={{
                                         backgroundColor: '#135ae8',
                                         borderColor: '#6c757d',
-                                        color: '#fff',
-                                    }}
-                                >
+                                        color: '#fff',}}>
                                     Reset
                                 </Button>) :
                                     modelFrom === "User" ? (
@@ -514,8 +493,7 @@ export function AdminDashboard() {
                                                 backgroundColor: '#135ae8',
                                                 borderColor: '#6c757d',
                                                 color: '#fff',
-                                            }}
-                                        >
+                                            }}>
                                             Submit
                                         </Button>
                                     ) : ''}
@@ -526,15 +504,11 @@ export function AdminDashboard() {
                                         style={{
                                             backgroundColor: '#6c757d',
                                             borderColor: '#6c757d',
-                                            color: '#fff',
-                                        }}
-                                    >
+                                            color: '#fff',}}>
                                         Close
                                     </Button>) : ''}
                             </Modal.Footer>
                         </Modal>
-
-
                     </>)
                     : (<><div className='col-7 card' style={{ marginLeft: '16%' }}>
                         <div className='d-flex gap-2 ms-5 mt-3'>

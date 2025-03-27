@@ -17,9 +17,9 @@ export default function TestAIMetrics() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({ project_name: "" });
-    const moduleType = "testai"
+    const moduleType = "test"
     const [loading, setLoading] = useState(false);
-    const data = useSelector((state) => state.testAiData?.TestAiMetrics?.payload?.data?.metrics);
+    const data = useSelector((state) => state.testAiData?.test?.data)
     console.log("===datadatadata",data);
     
     const dispatch = useDispatch();
@@ -31,11 +31,11 @@ export default function TestAIMetrics() {
         }));
         setOffCanvas(true);
     };
+console.log("===selectedFilterselectedFilter",selectedFilter);
 
     const onClear = () => {
         setSelectedFilter((prevState) => ({
             ...prevState,
-            project_name: "",
             user_id: "",
             _id: "",
             date: ""
@@ -53,14 +53,6 @@ export default function TestAIMetrics() {
         }));
         setUsers([]);
         const filters = {};
-        if (selectedFilter.key === "issue_severity_distribution") {
-            filters.project_name = "";
-        } else if (selectedFilter.key === "issue_severity_frequency_by_project") {
-            filters.month = "";
-        } else {
-            filters.project_name = "";
-            filters.user_id = "";
-        }
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -68,7 +60,7 @@ export default function TestAIMetrics() {
             metric_name: selectedFilter.key,
             filters: filtersString
         };
-        dispatch(fetchGraphList(params, moduleType));
+        dispatch(testAIGraph(params, moduleType));
         setOffCanvas(false);
     };
 
@@ -88,14 +80,6 @@ export default function TestAIMetrics() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const filters = {};
-        if (selectedFilter.key === "issue_severity_distribution") {
-            filters.project_name = selectedFilter.project_name;
-        } else if (selectedFilter.key === "issue_severity_frequency_by_project") {
-            filters.month = selectedFilter.date;
-        } else {
-            filters.project_name = selectedFilter.project_name;
-            filters.user_id = selectedFilter.user_id;
-        }
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -103,7 +87,9 @@ export default function TestAIMetrics() {
             metric_name: selectedFilter.key,
             filters: filtersString
         };
-        dispatch(fetchGraphList(params, moduleType));
+        console.log("==paramsparamsparams",params);
+        
+        dispatch(testAIGraph(params ,moduleType));
 
         setOffCanvas(false);
         setSelectedFilter((prevState) => ({
@@ -143,7 +129,6 @@ export default function TestAIMetrics() {
     const graphComponents = {
         'stacked bar graph': TestStackedBarGraph
     };
-console.log("===graphComponentsgrsafdsdfaphComntsgraphCompodsadsnents",graphComponents);
 
     let metrics = [];
     if (data) {
@@ -155,17 +140,11 @@ console.log("===graphComponentsgrsafdsdfaphComntsgraphCompodsadsnents",graphComp
         }
         metrics = Object.values(data);
     }
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         setLoading(true);
-    //         await dispatch(testAIGraph());
-    //         setLoading(false);
-    //     };
-    //     fetchData();
-    // }, [dispatch, moduleType]);
+    console.log("===metricsmetrics",metrics);
+    
         useEffect(() => {
             const params = { type: moduleType, filter: false };
-            dispatch(testAIGraph());
+            dispatch(testAIGraph(params,moduleType));
         }, [dispatch, moduleType]);
 
     return (

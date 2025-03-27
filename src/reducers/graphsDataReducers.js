@@ -44,7 +44,14 @@ const initialState = {
       commit_avg_code_quality:null,
       org_commit_metrics:null,
       commit_violation_metrics:null
-    }
+    },
+    releasenotes_commitlogs:{
+      loading :false,
+      data:{
+        releasenotes_commitlogs:null,
+        rephrase_releasenotes:null,
+        rephrase_commit_logs:null,
+      },}
   }
 };
 export const graphReducer = (state = initialState, action) => {
@@ -110,7 +117,14 @@ export const graphReducer = (state = initialState, action) => {
                 state[action.graphType].data.commit_violation_metrics,
 
                 org_commit_metrics : metricsData.org_commit_metrics ??
-                state[action.graphType].data.org_commit_metrics
+                state[action.graphType].data.org_commit_metrics,
+
+                releasenotes_commitlogs : metricsData.releasenotes_commitlogs ??
+                state[action.graphType].data.releasenotes_commitlogs,
+                rephrase_releasenotes: metricsData.rephrase_releasenotes ??
+                state[action.graphType].data.rephrase_releasenotes,
+                rephrase_commit_logs: metricsData.rephrase_commit_logs ??
+                state[action.graphType].data.rephrase_commit_logs
             },
             error: null,
           },
