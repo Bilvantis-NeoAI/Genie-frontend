@@ -3,64 +3,50 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import * as XLSX from "xlsx";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { deadCode } from "../actions/deadCodeAction";
 export function DeadCode() {
-    const [repoName, setRepoName] = useState("");
-    const [oldBranch, setOldBranch] = useState("");
-    const [newBranch, setNewBranch] = useState("");
-    const [token, setToken] = useState("");
-    const [file, setFile] = useState(null);
-    const [dataFrames, setDataFrames] = useState({}); // holds the 4 dataframes
+    const [dataFrames, setDataFrames] = useState({});
 
+    const [formState, setFormState] = useState({
+        repoName: "",
+        Branch: "",
+        token: ""
+    });
+    const dispatch = useDispatch();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormState((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
     const handleSubmit = async () => {
-        if (!repoName.trim() || !oldBranch.trim() || !token.trim()) {
+        const { repoName, Branch, token } = formState;
+
+        if (!repoName.trim() || !Branch.trim() || !token.trim()) {
             toast.error("All fields are required!");
             return;
         }
-
-        const formData = new FormData();
-        formData.append("repo_url", repoName);
-        formData.append("old_branch", oldBranch);
-        formData.append("token", token);
-
+        dispatch(deadCode(formState))
         try {
-            const response = await fetch("http://0.0.0.0:8000/generate_release_notes", {
-                method: "POST",
-                body: formData,
-                redirect: "follow",
-            });
+            const simulatedResponse = {
+                "Deadcode Data Identified": "[{\"S_no\":1,\"Depth\":0,\"No. of Nodes\":1,\"Root Function\":\"extract_text\",\"Root File\":\"Temp\\/Repository\\/extract_text.py\",\"File Path\":\"Temp\\/Repository\\/extract_text.py\",\"Line Number\":5,\"Function Name\":\"extract_text\"},{\"S_no\":2,\"Depth\":0,\"No. of Nodes\":1,\"Root Function\":\"extract_text\",\"Root File\":\"Temp\\/Repository\\/extract_text.py\",\"File Path\":\"Temp\\/Repository\\/extract_text.py\",\"Line Number\":5,\"Function Name\":\"extract_text\"}]",
+                "Unused Content Identified": "[{\"File Path\":\"Temp\\/Repository\\/auth_system.py\",\"Line\":13,\"Column\":1,\"Error Code\":\"E302\",\"Description\":\"expected 2 blank lines, found 1\"}]",
+                "Summary of Issues": "[{\"Issue Type\":\"E302\",\"Count\":4},{\"Issue Type\":\"Total\",\"Count\":13}]",
+                "Git Secrets": "[]"
+            };
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            const parsedDataFrames = {
+                deadCode: JSON.parse(simulatedResponse["Deadcode Data Identified"]),
+                unusedContent: JSON.parse(simulatedResponse["Unused Content Identified"]),
+                summary: JSON.parse(simulatedResponse["Summary of Issues"]),
+                secrets: JSON.parse(simulatedResponse["Git Secrets"])
+            };
 
-            const result = await response.json();
-
-            if (!result || !result.dataframe1 || !result.dataframe2 || !result.dataframe3 || !result.dataframe4) {
-                throw new Error("Incomplete dataframe response from server.");
-            }
-
-            setDataFrames({
-                df1: [
-                    { id: 1, name: "FunctionA", status: "Dead" },
-                    { id: 2, name: "FunctionB", status: "Alive" }
-                ],
-                df2: [
-                    { file: "main.py", lines_removed: 10 },
-                    { file: "utils.py", lines_removed: 4 }
-                ],
-                df3: [
-                    { author: "Alice", commits: 3 },
-                    { author: "Bob", commits: 5 }
-                ],
-                df4: [
-                    { date: "2024-01-01", changes: "Refactored codebase" },
-                    { date: "2024-01-05", changes: "Removed unused imports" }
-                ]
-            });
-
-
-            toast.success("Dataframes received successfully!");
+            setDataFrames(parsedDataFrames);
+            toast.success("Dataframes received and parsed successfully!");
         } catch (error) {
             toast.error(error.message || "Error processing files!");
             console.error("Submission error:", error);
@@ -68,6 +54,11 @@ export function DeadCode() {
     };
 
     const downloadAsExcel = (data, fileName) => {
+        if (!data || data.length === 0) {
+            toast.warn(`No data available for ${fileName}`);
+            return;
+        }
+
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
@@ -75,8 +66,8 @@ export function DeadCode() {
     };
 
     return (
-        <Container fluid className="justify-content-center align-items-center mt-4">
-            <Row className="w-100 justify-content-center">
+        <Container fluid className="justify-content-center align-items-center" style={{marginLeft:'20%'}}>
+            <Row className="w-50">
                 <Col>
                     <Card className="shadow-lg p-4">
                         <h2 className="text-center mb-4">Dead Code Analysis</h2>
@@ -85,9 +76,10 @@ export function DeadCode() {
                                 <Form.Label className="fw-bold">Repository Name (URL):</Form.Label>
                                 <Form.Control
                                     type="text"
+                                    name="repoName"
                                     placeholder="Enter repo URL"
-                                    value={repoName}
-                                    onChange={(e) => setRepoName(e.target.value)}
+                                    value={formState.repoName}
+                                    onChange={handleChange}
                                 />
                             </Form.Group>
 
@@ -95,18 +87,21 @@ export function DeadCode() {
                                 <Form.Label className="fw-bold">Branch Name:</Form.Label>
                                 <Form.Control
                                     type="text"
+                                    name="Branch"
                                     placeholder="Enter old branch name"
-                                    value={oldBranch}
-                                    onChange={(e) => setOldBranch(e.target.value)}
+                                    value={formState.oldBranch}
+                                    onChange={handleChange}
                                 />
                             </Form.Group>
+
                             <Form.Group className="mb-4">
                                 <Form.Label className="fw-bold">Personal Access Token (PAT):</Form.Label>
                                 <Form.Control
                                     type="password"
+                                    name="token"
                                     placeholder="Enter PAT token"
-                                    value={token}
-                                    onChange={(e) => setToken(e.target.value)}
+                                    value={formState.token}
+                                    onChange={handleChange}
                                 />
                             </Form.Group>
 
@@ -118,29 +113,24 @@ export function DeadCode() {
                         </Form>
 
                         {Object.keys(dataFrames).length > 0 && (
-                            <>
-                            <div className="d-flex mt-5">
-                                <Button variant="success" className="me-2 mb-2" onClick={() => downloadAsExcel(dataFrames.df1, "DataFrame1")}>
-                                    Download DF1
+                            <div className="d-flex flex-wrap gap-2 mt-5" style={{ fontSize: '10px' }}>
+                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
+                                    Download Deadcode Data
                                 </Button>
-                                <Button variant="success" className="me-2 mb-2" onClick={() => downloadAsExcel(dataFrames.df2, "DataFrame2")}>
-                                    Download DF2
+                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
+                                    Download Unused Content
                                 </Button>
-                                </div>
-                                <div className="d-flex">
-                                <Button variant="success" className="me-2 mb-2" onClick={() => downloadAsExcel(dataFrames.df3, "DataFrame3")}>
-                                    Download DF3
+                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
+                                    Download Summary
                                 </Button>
-                                <Button variant="success" className="mb-2" onClick={() => downloadAsExcel(dataFrames.df4, "DataFrame4")}>
-                                    Download DF4
+                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
+                                    Download Git Secrets
                                 </Button>
                             </div>
-                            </>
                         )}
                     </Card>
                 </Col>
             </Row>
-
             <ToastContainer />
         </Container>
     );

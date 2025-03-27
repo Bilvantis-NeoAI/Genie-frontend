@@ -45,7 +45,7 @@ const TestStackedBarGraph = ({ data, title, keys, handleFilter, from }) => {
             <div>
                 <div className='graph-title'>
                     <div>{title}</div>
-                    {/* <div >
+                    <div >
                         <button
                             type="button"
                             className="btn btn-light"
@@ -57,7 +57,7 @@ const TestStackedBarGraph = ({ data, title, keys, handleFilter, from }) => {
                         >
                             <FilterOutlined />
                         </button>
-                    </div> */}
+                    </div>
                 </div>
             </div>
             <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
@@ -78,10 +78,10 @@ const TestStackedBarGraph = ({ data, title, keys, handleFilter, from }) => {
                                 barSize={20}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="date" />
-                                <YAxis allowDecimals={false} />
-                                <Tooltip />
-                                <Legend />
+                                <XAxis dataKey="date" fontSize={10} />
+                                <YAxis allowDecimals={false} fontSize={10} />
+                                <Tooltip cursor={{ fill: "transparent" }} fontSize={10}/>
+                                <Legend wrapperStyle={{ fontSize: 12 }}/>
                                 {barKeys.map((key, index) => (
                                     <Bar key={key} dataKey={key} stackId="a" fill={getBarColor(index)} />
                                 ))}

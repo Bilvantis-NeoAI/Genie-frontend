@@ -1,4 +1,4 @@
-export const IP = 'http://35.222.224.243/' // 'http://34.46.36.105:3000/'
+export const IP = 'http://34.170.119.109/' // 'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',

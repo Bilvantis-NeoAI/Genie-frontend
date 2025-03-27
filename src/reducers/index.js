@@ -14,6 +14,7 @@ import aiTestCaseData from './testCaseReducers'
 import userListData from './adminUsersReducer';
 import gitNoteReducer from './gitReleaseNoteReducer';
 import testAiReducer from './testAiReducer';
+import deadCodeReducer from './deadCodeReducer';
 const rootReducer = combineReducers({
     answersData: answersReducer,
     documentData: documentReducer,
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
     aiTestCaseData: aiTestCaseData,
     usersList: userListData,
     gitNoteResponse:gitNoteReducer,
-    testAiData:testAiReducer
+    testAiData:testAiReducer,
+    deadCode:deadCodeReducer
 });
 
 export default rootReducer;

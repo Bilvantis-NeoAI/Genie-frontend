@@ -1,30 +1,28 @@
 import OffCanvas from "./OffCanvas";
-import LineGraph from "../graph/LineGraph";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
-import MultiStackedGraph from "../graph/MultiStackedGraph";
-import DoubleBarGraph from "../graph/DoubleBarGraph";
 import { CANVASKEY } from '../utils/constatnts'
+import BarGraph from "../graph/ReleaseBarGraph";
 import React from "react";
-export default function CommitReviewMetric() {
+export default function GitReleaseMetrics() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState({});
-    const moduleType = "commit"
+    const moduleType = "releasenotes_commitlogs"
     const [users, setUsers] = useState([]);
     const data = useSelector((state) => state.graphs[moduleType]?.data);
-    console.log("==datadatadata metrics",data);
-    
+    console.log("==datadatadata metrics1212", data);
+
     const dispatch = useDispatch();
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType))
     }, [dispatch, moduleType]);
-    const handleReset = () => {     
+    const handleReset = () => {
         setSelectedFilter((prevState) => {
             const updatedState = {
                 ...prevState,
-                reponame: "",
+                project_name: "",
                 user_id: '',
                 _id: "",
                 start_date: '',
@@ -37,7 +35,7 @@ export default function CommitReviewMetric() {
         filters.start_date = ""
         filters.end_date = ""
         filters.user_id = ""
-        filters.reponame = ""
+        filters.project_name = ""
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -69,11 +67,12 @@ export default function CommitReviewMetric() {
         filters.start_date = selectedFilter.start_date
         filters.end_date = selectedFilter.end_date
         filters.user_id = selectedFilter.user_id
+        // filters.project_name = selectedFilter.project_name;
         // if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
         //     filters.reponame = selectedFilter.project_name
         // }
         // else {
-            filters.reponame = selectedFilter.project_name;
+        // filters.reponame = selectedFilter.project_name;
         // }
         const filtersString = JSON.stringify(filters);
         const params = {
@@ -86,7 +85,7 @@ export default function CommitReviewMetric() {
         setSelectedFilter((prevState) => {
             const updatedState = {
                 ...prevState,
-                reponame: "",
+                project_name: "",
                 user_id: '',
                 _id: "",
                 start_date: '',
@@ -133,9 +132,8 @@ export default function CommitReviewMetric() {
         }
     }
     const graphComponents = {
-        line: LineGraph,
-        stacked_bar_graph: MultiStackedGraph,
-        double_bar_graph: DoubleBarGraph
+        bar_graph: BarGraph,
+
     };
 
     const handleFilter = (filterValues, graphTitle, graphKey) => {
