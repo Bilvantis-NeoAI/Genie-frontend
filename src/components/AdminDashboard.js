@@ -14,6 +14,7 @@ import rejectIcon from '../Assets/rejectUser.svg'
 import resetPass from '../Assets/resetPass.svg'
 import { userList, pendingUserList, userApprove, userDelete, userReject, userRoleEdit, userResetPassword } from "../actions/userActions";
 import Swal from "sweetalert2";
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from "../utils/config";
 export function AdminDashboard() {
     const [activeadminTab, setadminActiveTab] = useState("adminUsers");
     const [userData, setUserData] = useState()
@@ -58,78 +59,83 @@ export function AdminDashboard() {
     const approveUser = (e, user) => {
         dispatch(userApprove(user.id))
             .then((response) => {
-                dispatch(userList())
-                dispatch(pendingUserList())
+                if (response?.status === 200) {
+                    showSuccessAlert('Success', 'User approved successfully!');
+                    dispatch(userList());
+                    dispatch(pendingUserList());
+                } else {
+                    showErrorAlert('Error', 'Failed to approve user.');
+                }
             })
-    }
+            .catch(() => {
+                showErrorAlert('Error', 'Something went wrong.');
+            });
+    };
     const submitEditedRole = (user) => {
-        Swal.fire({
-            title: 'Edit',
-            text: "Do you want to Edit this user?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, Edited it!',
-            cancelButtonText: 'Cancel',
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                setShowModal(false)
-                dispatch(userRoleEdit(user))
-                    .then((response) => {
-                        dispatch(userList());
-                    })
-                    .catch((error) => {
-                    });
-            } else {
-                Swal.close();
-            }
-        });
-    }
+        showConfirmAlert("Edit", "Do you want to edit this user's role?", "Yes, Edit it!")
+            .then((result) => {
+                if (result.isConfirmed) {
+                    setShowModal(false);
+                    dispatch(userRoleEdit(user))
+                        .then((response) => {
+                            if (response?.status === 200) {
+                                showSuccessAlert('Success', 'User role has been edited successfully!');
+                                dispatch(userList());
+                            } else {
+                                showErrorAlert('Error', 'Failed to edit user role.');
+                            }
+                        })
+                        .catch(() => {
+                            showErrorAlert('Error', 'Something went wrong while editing the user role.');
+                        });
+                } else {
+                    Swal.close();
+                }
+            });
+    };
     const deleteUser = (user) => {
-        Swal.fire({
-            title: 'Delete',
-            text: "Do you want to delete this user?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel',
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(userDelete(user.id))
-                    .then((response) => {
-                        dispatch(userList());
-                    })
-                    .catch((error) => {
-                    });
-            } else {
-                Swal.close();
-            }
-        });
+        showConfirmAlert('Delete', 'Do you want to delete this user?', 'Yes, delete it!')
+            .then((result) => {
+                if (result.isConfirmed) {
+                    dispatch(userDelete(user.id))
+                        .then((response) => {
+                            if (response?.status === 200) {
+                                showSuccessAlert('Deleted!', 'User has been deleted.');
+                                dispatch(userList());
+                            } else {
+                                showErrorAlert('Error', 'Failed to delete user.');
+                            }
+                        })
+                        .catch(() => {
+                            showErrorAlert();
+                        });
+                } else {
+                    Swal.close();
+                }
+            });
     };
     const rejectUser = (user) => {
-        Swal.fire({
-            title: 'Reject',
-            text: "Do you want to Reject user?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes !',
-            cancelButtonText: 'Cancel',
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(userReject(user.id))
-                    .then((response) => {
-                        dispatch(userList());
-                        dispatch(pendingUserList())
-                    })
-                    .catch((error) => {
-                    });
-            } else {
-                Swal.close();
-            }
-        });
-    }
+        showConfirmAlert('Reject', 'Do you want to reject this user?', 'Yes!')
+            .then((result) => {
+                if (result.isConfirmed) {
+                    dispatch(userReject(user.id))
+                        .then((response) => {
+                            if (response?.status === 200) {
+                                showSuccessAlert('Rejected!', 'User has been rejected successfully.');
+                                dispatch(userList());
+                                dispatch(pendingUserList());
+                            } else {
+                                showErrorAlert('Error', 'Failed to reject user.');
+                            }
+                        })
+                        .catch(() => {
+                            showErrorAlert('Error', 'Something went wrong while rejecting the user.');
+                        });
+                } else {
+                    Swal.close();
+                }
+            });
+    };
     const onResetPass = (user) => {
         setSelectedUser(user);
         setModelFrom("Reset")
@@ -142,52 +148,31 @@ export function AdminDashboard() {
     const resetPassWord = (user) => {
         dispatch(userResetPassword(newPassword, selectedUser))
             .then((response) => {
+                setShowModal(false);
                 if (response?.status === 200) {
-                    setShowModal(false);
-                    Swal.fire({
-                        title: 'Reset Password',
-                        text: 'Password reset',
-                        icon: 'success',
-                        confirmButtonText: 'Ok',
-                        didOpen: function () {
-                            Swal.showLoading()
-                            setTimeout(function () {
-                                Swal.close()
-                            }, 1000)
-                        }
-                    });
+                    showSuccessAlert('Reset Password', 'Password has been reset successfully!');
                 } else {
-                    setShowModal(false);
-                    Swal.fire({
-                        title: 'Reset Password',
-                        text: 'Password reset',
-                        icon: 'error',
-                        confirmButtonText: 'Ok',
-                        didOpen: function () {
-                            Swal.showLoading()
-                            setTimeout(function () {
-                                Swal.close()
-                            }, 2000)
-                        }
-                    });
+                    showErrorAlert('Error', 'Failed to reset password.');
                 }
             })
-    }
+            .catch(() => {
+                setShowModal(false);
+                showErrorAlert();
+            });
+    };
     const onFilter = (e) => {
         setShowModal(true);
         setModelFrom("Filter")
         setModelHead("Filter")
     }
-
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(userList(formValues))
+        setFormValues({ email: "", role: "", company_name: "" })
         setShowModal(false);
-
     };
     const handleFlushDB = () => {
         dispatch(flushDB())
@@ -217,6 +202,12 @@ export function AdminDashboard() {
     const handleStorageChange = (event) => {
         setStorageOption(event.target.value);
     };
+    const handleReset = (e) => {
+        setFormValues({ email: "", role: "", company_name: "" })
+        dispatch(userList())
+        setShowModal(false);
+
+    }
     const handleStorageClick = () => {
         const formData = new FormData();
         formData.append('storage', storageOption);
@@ -470,6 +461,9 @@ export function AdminDashboard() {
                                             <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)} style={{ color: "#fff", width: '30%' }}>
                                                 Close
                                             </button>
+                                            <button type="button" className="btn btn-secondary" onClick={handleReset}>
+                                                Reset
+                                            </button>
 
                                         </div>
                                     </form>
@@ -482,7 +476,8 @@ export function AdminDashboard() {
                                     style={{
                                         backgroundColor: '#135ae8',
                                         borderColor: '#6c757d',
-                                        color: '#fff',}}>
+                                        color: '#fff',
+                                    }}>
                                     Reset
                                 </Button>) :
                                     modelFrom === "User" ? (
@@ -504,7 +499,8 @@ export function AdminDashboard() {
                                         style={{
                                             backgroundColor: '#6c757d',
                                             borderColor: '#6c757d',
-                                            color: '#fff',}}>
+                                            color: '#fff',
+                                        }}>
                                         Close
                                     </Button>) : ''}
                             </Modal.Footer>

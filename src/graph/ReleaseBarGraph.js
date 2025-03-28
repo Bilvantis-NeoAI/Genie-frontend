@@ -16,7 +16,7 @@ const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
        
         <div className="card g-4">
             <div>
-                {/* <div className='graph-title'>
+                <div className='graph-title'>
                     <div>{title}</div>
                     <div >
                         <button
@@ -31,7 +31,7 @@ const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
                             <FilterOutlined />
                         </button>
                     </div>
-                </div> */}
+                </div>
             </div>
             <div style={{ overflowX: "auto", height: "240px", position: "relative" }}>
     {data.length === 0 ? (

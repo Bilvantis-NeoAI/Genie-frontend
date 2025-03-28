@@ -159,11 +159,6 @@ export function HomePage() {
   const closeGraphsModal = () => {
     setIsGraphsModalOpen(false);
   };
-
-  // const test = () => {
-  //   setIndex("");
-  // };
-
   const downloadImages = (index) => {
     response[index]?.images?.forEach((element) => {
       downloadImageService(element, response[relevantPdfIndex]?.storage);
@@ -202,15 +197,8 @@ export function HomePage() {
           type={type}
         ></PdfModal>
       )}
-      <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderComponent />
-      </Row>
-
       <Form>
         <div className="w-100 mt-3" style={{ height: "82vh" }}>
-          <div style={{ width: "10%" }}>
-            <BootstrapSidebar></BootstrapSidebar>
-          </div>
           <Modal
             isOpen={isModalOpen}
             onRequestClose={closeModal}
@@ -244,7 +232,6 @@ export function HomePage() {
                   response[relevantPdfIndex]?.storage === "local"
                     ? baseURL + response[relevantPdfIndex]?.[selectContextOption]
                     : 
-                    // response[relevantPdfIndex]?.[selectContextOption]
                     `https://docs.google.com/viewer?url=${encodeURIComponent(response[relevantPdfIndex]?.[selectContextOption])}&embedded=true`
 
                 }

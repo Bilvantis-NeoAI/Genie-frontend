@@ -134,6 +134,10 @@ AVARAGE_CODE_SEVERITY:'avg_code_severity',
 REVIEW_USAGE_DATA : 'review_usage_data',
 ASSIANCE_USAGE_DTA : 'assistant_usage_data',
 TEST_CASES_METRICS :'test_cases_metrics',
-HTTP_METHOD_METRICS:'http_methods_metrics'
+HTTP_METHOD_METRICS:'http_methods_metrics',
+RELEASENOTE_COMMIT:'releasenotes_commitlogs',
+REPHASE_RELEASENOTE:'rephrase_releasenotes',
+REPHASE_COMMITLOGS:'rephrase_commit_logs'
+
 }
 export const API_BASE_AI = 'http://34.134.148.250:7000';

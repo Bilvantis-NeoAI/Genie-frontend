@@ -114,13 +114,7 @@ const updateFiles = (incomingFiles) => {
 
   return (
     <Container className='w-100' fluid style={{ height: '100vh' }}>
-      <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderComponent />
-        </Row>
       <div className="w-100 mt-3" style={{ height: '82vh' }}>
-        <div style={{ width: '10%' }}>
-          <BootstrapSidebar />
-        </div>
         <div className='h-100 ms-5 mb-5 pb-4'>
           <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
             <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-3 ms-5">
@@ -184,9 +178,6 @@ const updateFiles = (incomingFiles) => {
           </div>
         </div>
       </div>
-      {/* <div className='position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded'>
-        <span style={{ color: "white" }}>{footerTextSamples.BILVANTIS_COPYRIGHT}</span>
-      </div> */}
       <ToastContainer />
     </Container>
   );

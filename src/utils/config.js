@@ -1,4 +1,6 @@
-export const IP = 'http://34.170.119.109/' // 'http://34.46.36.105:3000/'
+import Swal from "sweetalert2";
+
+export const IP = 'http://34.31.69.53/' // 'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -27,7 +29,8 @@ export const apis = {
     GIT_RELEASE_FEEDBACK :'rephrase_release_notes',
     GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary',
     DEL_TEM_DIR:'temp_dir_delete',
-    TEST_AI_METRICS:'/metrics'
+    TEST_AI_METRICS:'/metrics',
+    DEAD_CODE:'deadcode_data_identification'
 }
     export const URL ={
         Api : `${IP}`,
@@ -46,3 +49,37 @@ export const apis = {
 
         ADMIN_USERS :`${IP}genieapi/admin`, //admin 
     }
+    export const showSuccessAlert = (title = 'Success', text = 'Operation completed successfully!') => {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+    };
+    
+    export const showErrorAlert = (title = 'Error', text = 'Something went wrong.') => {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+    };
+    
+    export const showConfirmAlert = (
+        title = 'Are you sure?',
+        text = 'Do you want to proceed?',
+        confirmButtonText = 'Yes',
+        cancelButtonText = 'Cancel'
+    ) => {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText,
+            cancelButtonText,
+            reverseButtons: true,
+        });
+    };

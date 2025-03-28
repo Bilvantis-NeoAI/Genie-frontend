@@ -16,7 +16,6 @@ const OffCanvas = ({
     handleSubmit,
     handleDateChange,
 }) => {
-    console.log("===selectedFilter.keyselectedFilter.key",selectedFilter.key);
     
     const [dateError, setDateError] = useState("");
     const [disable, setDesable] = useState(false)
@@ -175,7 +174,10 @@ const OffCanvas = ({
                                     </select>
                                 </div>
                             )}
-                        {(selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS) || (selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS) && (
+                        {(selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS || selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS ||
+                          selectedFilter.key === GRAPHKEYS.RELEASENOTE_COMMIT || selectedFilter.key === GRAPHKEYS.REPHASE_RELEASENOTE ||
+                          selectedFilter.key === GRAPHKEYS.REPHASE_COMMITLOGS
+                        ) && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <label
                                     htmlFor="filterSelect"
@@ -199,15 +201,17 @@ const OffCanvas = ({
                                     <option value="" hidden>
                                         Select a Filter
                                     </option>
-                                    <option value="day">Day</option>
-                                    <option value="week">Week</option>
-                                    <option value="month">Month</option>
+                                    <option value="day">day</option>
+                                    <option value="week">week</option>
+                                    <option value="month">month</option>
                                 </select>
                             </div>
                         )}
                         {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) ||
                             (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key === GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS) ||
-                            (selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS) || (selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS)) && (
+                            (selectedFilter.key === GRAPHKEYS.TEST_CASES_METRICS) || (selectedFilter.key === GRAPHKEYS.HTTP_METHOD_METRICS) ||
+                            selectedFilter.key === GRAPHKEYS.RELEASENOTE_COMMIT || selectedFilter.key === GRAPHKEYS.REPHASE_RELEASENOTE ||
+                            selectedFilter.key === GRAPHKEYS.REPHASE_COMMITLOGS) && (
                                 <div style={{
                                     display: "flex", flexDirection: "column", gap: "5px", fontSize: "14px", fontWeight: "bold", height: "40px",
                                     width: "100%"

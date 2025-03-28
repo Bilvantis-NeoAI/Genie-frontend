@@ -1,16 +1,16 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from 'react-redux';
 import { deadCode } from "../actions/deadCodeAction";
 export function DeadCode() {
     const [dataFrames, setDataFrames] = useState({});
-
+    const response = useSelector((state) => state.deadCode?.deadCoderesponse?.payload);
     const [formState, setFormState] = useState({
-        repoName: "",
-        Branch: "",
+        repo_url: "",
+        branch: "",
         token: ""
     });
     const dispatch = useDispatch();
@@ -23,36 +23,30 @@ export function DeadCode() {
         }));
     };
     const handleSubmit = async () => {
-        const { repoName, Branch, token } = formState;
+        const { repo_url, branch, token } = formState;
 
-        if (!repoName.trim() || !Branch.trim() || !token.trim()) {
+        if (!repo_url.trim() || !branch.trim() || !token.trim()) {
             toast.error("All fields are required!");
             return;
         }
-        dispatch(deadCode(formState))
-        try {
-            const simulatedResponse = {
-                "Deadcode Data Identified": "[{\"S_no\":1,\"Depth\":0,\"No. of Nodes\":1,\"Root Function\":\"extract_text\",\"Root File\":\"Temp\\/Repository\\/extract_text.py\",\"File Path\":\"Temp\\/Repository\\/extract_text.py\",\"Line Number\":5,\"Function Name\":\"extract_text\"},{\"S_no\":2,\"Depth\":0,\"No. of Nodes\":1,\"Root Function\":\"extract_text\",\"Root File\":\"Temp\\/Repository\\/extract_text.py\",\"File Path\":\"Temp\\/Repository\\/extract_text.py\",\"Line Number\":5,\"Function Name\":\"extract_text\"}]",
-                "Unused Content Identified": "[{\"File Path\":\"Temp\\/Repository\\/auth_system.py\",\"Line\":13,\"Column\":1,\"Error Code\":\"E302\",\"Description\":\"expected 2 blank lines, found 1\"}]",
-                "Summary of Issues": "[{\"Issue Type\":\"E302\",\"Count\":4},{\"Issue Type\":\"Total\",\"Count\":13}]",
-                "Git Secrets": "[]"
-            };
+        const formData = new FormData();
+        formData.append("repo_url", repo_url);
+        formData.append("branch", branch);
+        formData.append("token", token);
+        dispatch(deadCode(formData))
 
-            const parsedDataFrames = {
-                deadCode: JSON.parse(simulatedResponse["Deadcode Data Identified"]),
-                unusedContent: JSON.parse(simulatedResponse["Unused Content Identified"]),
-                summary: JSON.parse(simulatedResponse["Summary of Issues"]),
-                secrets: JSON.parse(simulatedResponse["Git Secrets"])
-            };
-
-            setDataFrames(parsedDataFrames);
-            toast.success("Dataframes received and parsed successfully!");
-        } catch (error) {
-            toast.error(error.message || "Error processing files!");
-            console.error("Submission error:", error);
-        }
     };
-
+    useEffect(() => {
+        if (response && typeof response === 'object') {
+            const parsedDataFrames = {
+                deadCode: JSON.parse(response["Deadcode Data Identified"] || "[]"),
+                unusedContent: JSON.parse(response["Unused Content Identified"] || "[]"),
+                summary: JSON.parse(response["Summary of Issues"] || "[]"),
+                secrets: JSON.parse(response["Git Secrets"] || "[]")
+            };
+            setDataFrames(parsedDataFrames);
+        }
+    }, [response]);
     const downloadAsExcel = (data, fileName) => {
         if (!data || data.length === 0) {
             toast.warn(`No data available for ${fileName}`);
@@ -66,17 +60,17 @@ export function DeadCode() {
     };
 
     return (
-        <Container fluid className="justify-content-center align-items-center" style={{marginLeft:'20%'}}>
+        <Container fluid className="justify-content-center align-items-center" style={{ marginLeft: '20%' }}>
             <Row className="w-50">
                 <Col>
                     <Card className="shadow-lg p-4">
-                        <h2 className="text-center mb-4">Dead Code Analysis</h2>
+                        <h3 className="text-center mb-4">Code Hygiene Analysis</h3>
                         <Form>
                             <Form.Group className="mb-3">
                                 <Form.Label className="fw-bold">Repository Name (URL):</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    name="repoName"
+                                    name="repo_url"
                                     placeholder="Enter repo URL"
                                     value={formState.repoName}
                                     onChange={handleChange}
@@ -84,12 +78,12 @@ export function DeadCode() {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">Branch Name:</Form.Label>
+                                <Form.Label className="fw-bold">branch Name:</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    name="Branch"
+                                    name="branch"
                                     placeholder="Enter old branch name"
-                                    value={formState.oldBranch}
+                                    value={formState.branch}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
@@ -113,20 +107,24 @@ export function DeadCode() {
                         </Form>
 
                         {Object.keys(dataFrames).length > 0 && (
-                            <div className="d-flex flex-wrap gap-2 mt-5" style={{ fontSize: '10px' }}>
-                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
-                                    Download Deadcode Data
-                                </Button>
-                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
-                                    Download Unused Content
-                                </Button>
-                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
-                                    Download Summary
-                                </Button>
-                                <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
-                                    Download Git Secrets
-                                </Button>
-                            </div>
+                            <>
+                                <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>Available files to Download:</div>
+                                <div className="d-flex flex-wrap gap-2 mt-3">
+
+                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
+                                        Deadcode Code
+                                    </Button>
+                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
+                                        Unused Content
+                                    </Button>
+                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
+                                        Unused Summary
+                                    </Button>
+                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
+                                        Git leats
+                                    </Button>
+                                </div>
+                            </>
                         )}
                     </Card>
                 </Col>

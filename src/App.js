@@ -18,6 +18,7 @@ import { TestCaseAi } from './components/TestCaseAi';
 import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
 import { GitOperations } from './components/GitOperations';
+import { KbmsOperations } from './components/KbmsOperations';
 function App() {
   return (
     <Router>
@@ -90,7 +91,7 @@ function App() {
           path="/gitmetrics"
           element={
             <ProtectRoute>
-              <GitMetrics/>
+              <KbmsOperations/>
             </ProtectRoute>
           }
         />

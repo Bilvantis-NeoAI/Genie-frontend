@@ -18,8 +18,8 @@ export const deadCode =(payload)=>{
         return DeployedURL
         .post(apis.DEAD_CODE,payload)
         .then((response)=>{
-            dispatch(deadCodeSuccess(response))
-            return response
+            dispatch(deadCodeSuccess(response.data))
+            return response.data
         })
         .catch((error)=>{
             dispatch(deadCodeFailure(error.message))

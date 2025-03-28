@@ -1,3 +1,9 @@
-<svg class="w-[37px] h-[37px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-  <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- User -->
+  <circle cx="12" cy="8" r="3" stroke="white" stroke-width="3"/>
+  <path d="M5 20c0-3 4-5 7-5s7 2 7 5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Gear -->
+  <circle cx="18" cy="6" r="2" stroke="white" stroke-width="3"/>
+  <path d="M18 3v1M18 9v1M21 6h1M15 6h-1M19.5 3.5l.7.7M16.8 8.3l-.7.7M16.8 3.7l-.7-.7M19.5 8.5l.7-.7" stroke="#f39c12" stroke-width="1.2"/>
 </svg>

@@ -11,9 +11,14 @@ import IngestionRepo from "./IngesitonRepo";
 import { DeadCode } from "./DeadCode";
 import RetrieveData from "./RetrieveData";
 import { GitReleaseNote } from "./GitReleaseNote";
-export function GitOperations() {
 
-    const [activeTab, setActiveTab] = useState("repoingestion");
+import { HomePage1 } from "./homePage1";
+import GitMetrics from "./GitMetrics";
+import { HomePage } from "./homePage";
+
+export function KbmsOperations() {
+
+    const [activeTab, setActiveTab] = useState("gitmetrics");
     const tabStyle = (tabName) => ({
         color: activeTab === tabName ? "#07439C" : "#666666",
     });
@@ -37,17 +42,14 @@ export function GitOperations() {
                                 fontSize: '15px'
                             }}
                         >
-                            <Nav.Link eventKey="repoingestion" style={tabStyle("repoingestion")}>
-                                Repo Ingestion
+                            <Nav.Link eventKey="gitmetrics" style={tabStyle("gitmetrics")}>
+                              Metrics
                             </Nav.Link>
-                            <Nav.Link eventKey="gitqa" style={tabStyle("gitqa")}>
+                            <Nav.Link eventKey="qa" style={tabStyle("qa")}>
                                 Q&A
                             </Nav.Link>
-                            <Nav.Link eventKey="deadcode" style={tabStyle("deadcode")}>
-                                 Code Hygiene
-                            </Nav.Link>
-                            <Nav.Link eventKey="gitrealse" style={tabStyle("gitrealse")}>
-                                Release Note & Commit logs
+                            <Nav.Link eventKey="document" style={tabStyle("document")}>
+                                 Upload Document
                             </Nav.Link>
                         </Nav>
                         <Tab.Content
@@ -57,16 +59,13 @@ export function GitOperations() {
                                 padding: "0 2px",
                             }}
                         >
-                            <Tab.Pane eventKey="repoingestion" type='repoingestion'>
-                                <IngestionRepo />
+                            <Tab.Pane eventKey="gitmetrics" type='gitmetrics'>
+                                <GitMetrics />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="gitqa" type='gitqa'>
-                                <RetrieveData />
+                            <Tab.Pane eventKey="qa" type='qa'>
+                                <HomePage1 />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="deadcode"><DeadCode type='deadcode' />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="gitrealse" type='gitrealse'>
-                                <GitReleaseNote />
+                            <Tab.Pane eventKey="document"><HomePage type='document' />
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
