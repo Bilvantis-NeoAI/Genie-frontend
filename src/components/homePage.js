@@ -1,7 +1,5 @@
 import {Container, Form, Row, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { BootstrapSidebar } from "./sideNav";
-import { HeaderComponent } from "./header";
 import { useState, useEffect } from "react";
 import {TextDisplay } from "../Utils";
 import { PdfModal } from "./modalBox";
@@ -51,11 +49,6 @@ export function HomePage() {
     { label: "Context csv", value: "context_csv" },
     { label: "Context xlsx", value: "context_xlsx" },
   ];
-
-  // const handleIncrementCounter = () => {
-  //   dispatch(incrementCounter());
-  // };
-
   const [filterQueries, setFilterQueries] = useState({});
 
   const handleSearchInputChange = (index, event) => {
@@ -80,12 +73,7 @@ export function HomePage() {
     setFormFields(values);
     setInputField(values);
   };
-  // const handleAddField = () => {
-  //   setFormFields([...formFields, { text: "" }]);
-  // };
-
   const [response, setResponse] = useState([]);
-  // const [tableHtml, setTableHtml] = useState("");
   useEffect(() => {
     if (answerData.answers && answerData.answers.length > 0) {
       const newFormFields = answerData.answers.map((answer) => ({
