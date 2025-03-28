@@ -63,9 +63,9 @@ export function KbmsOperations() {
                                 <GitMetrics />
                             </Tab.Pane>
                             <Tab.Pane eventKey="qa" type='qa'>
-                                <HomePage1 />
+                                <HomePage />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="document"><HomePage type='document' />
+                            <Tab.Pane eventKey="document"><HomePage1 type='document' />
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
