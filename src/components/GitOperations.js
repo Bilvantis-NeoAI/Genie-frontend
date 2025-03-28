@@ -11,6 +11,7 @@ import IngestionRepo from "./IngesitonRepo";
 import { DeadCode } from "./DeadCode";
 import RetrieveData from "./RetrieveData";
 import { GitReleaseNote } from "./GitReleaseNote";
+import Fixit from "./Fixit";
 export function GitOperations() {
 
     const [activeTab, setActiveTab] = useState("repoingestion");
@@ -49,6 +50,9 @@ export function GitOperations() {
                             <Nav.Link eventKey="gitrealse" style={tabStyle("gitrealse")}>
                                 Release Note & Commit logs
                             </Nav.Link>
+                            {/* <Nav.Link eventKey="fixit" style={tabStyle("fixit")}>
+                               Fix It
+                            </Nav.Link> */}
                         </Nav>
                         <Tab.Content
                             style={{
@@ -68,6 +72,9 @@ export function GitOperations() {
                             <Tab.Pane eventKey="gitrealse" type='gitrealse'>
                                 <GitReleaseNote />
                             </Tab.Pane>
+                            {/* <Tab.Pane eventKey="fixit" type='fixit'>
+                                <Fixit/>
+                            </Tab.Pane> */}
                         </Tab.Content>
                     </Tab.Container>
                 </div>

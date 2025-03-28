@@ -172,6 +172,29 @@ html, body {
 }
 
 /****Admin end*********/
+/*******Fix It*********/
+.form-field-title {
+  font-weight: 500;
+  color: #333;
+}
+
+.required-styling {
+  color: red;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.buttons-colour {
+  background-color: #07439C;
+  color: white;
+  border: none;
+}
+
+.buttons-colour:hover {
+  background-color: #05367d;
+}
 
 /********Dead************/
 

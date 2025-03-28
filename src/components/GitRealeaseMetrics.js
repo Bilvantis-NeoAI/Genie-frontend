@@ -25,6 +25,7 @@ export default function GitReleaseMetrics() {
                 project_name: "",
                 user_id: '',
                 _id: "",
+                time_unit:'',
                 start_date: '',
                 end_date: ''
             };
@@ -35,7 +36,7 @@ export default function GitReleaseMetrics() {
         filters.start_date = ""
         filters.end_date = ""
         filters.user_id = ""
-        filters.project_name = ""
+        filters.repo_name = ""
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -66,14 +67,9 @@ export default function GitReleaseMetrics() {
         const filters = {};
         filters.start_date = selectedFilter.start_date
         filters.end_date = selectedFilter.end_date
-        filters.user_id = selectedFilter.user_id
-        // filters.project_name = selectedFilter.project_name;
-        // if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
-        //     filters.reponame = selectedFilter.project_name
-        // }
-        // else {
-        // filters.reponame = selectedFilter.project_name;
-        // }
+        // filters.user_id = selectedFilter.user_id
+        filters.time_unit=selectedFilter.time_unit
+        filters.repo_name=selectedFilter.project_name
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
@@ -88,6 +84,7 @@ export default function GitReleaseMetrics() {
                 project_name: "",
                 user_id: '',
                 _id: "",
+                time_unit:'',
                 start_date: '',
                 end_date: ''
             };

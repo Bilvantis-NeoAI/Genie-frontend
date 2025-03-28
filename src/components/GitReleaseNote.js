@@ -97,8 +97,6 @@ export function GitReleaseNote() {
         const csvString = Papa.unparse(csvData);
         const blob = new Blob([csvString], { type: "text/csv" });
         const updatedFile = new File([blob], file.name, { type: "text/csv" });
-        dispatch(deleteTempDir()).then((response) => {
-            if (response.status === 200) {
                 dispatch(gitReleaseNote(formData)).then((response) => {
                     setLoading(false)
                     if (!response) {
@@ -110,8 +108,6 @@ export function GitReleaseNote() {
                         });
                     }
                 })
-            }
-        })
     };
     const handleDownload = (data, filename) => {
         const extension = filename.split('.').pop();

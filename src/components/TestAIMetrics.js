@@ -17,7 +17,7 @@ export default function TestAIMetrics() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({ project_name: "" });
-    const moduleType = "test"
+    const moduleType = "test_cases_metrics"
     const [loading, setLoading] = useState(false);
     const data = useSelector((state) => state.testAiData?.test?.data)
     console.log("===datadatadata",data);
@@ -31,8 +31,6 @@ export default function TestAIMetrics() {
         }));
         setOffCanvas(true);
     };
-console.log("===selectedFilterselectedFilter",selectedFilter);
-
     const onClear = () => {
         setSelectedFilter((prevState) => ({
             ...prevState,
@@ -80,6 +78,8 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
     };
 
     const handleSubmit = (e) => {
+        console.log("===asfdsafdsadf");
+        
         e.preventDefault();
         const filters = {};
         filters.start_date = selectedFilter.start_date
@@ -90,14 +90,10 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
 
         const filtersString = JSON.stringify(filters);
         const params = {
-            type: moduleType,
-            filter: true,
-            metric_name: selectedFilter.key,
-            filters: filtersString
         };
         console.log("==paramsparamsparams",params);
         
-        dispatch(testAIGraph(params ,moduleType));
+        dispatch(testAIGraph(filters ,moduleType));
 
         setOffCanvas(false);
         setSelectedFilter((prevState) => ({
@@ -154,14 +150,13 @@ console.log("===selectedFilterselectedFilter",selectedFilter);
     }
     console.log("===metricsmetrics",metrics);
     
-        useEffect(() => {
+        useEffect(() => {            
             const params = { type: moduleType, filter: false };
             dispatch(testAIGraph(params,moduleType));
         }, [dispatch, moduleType]);
 
     return (
         <>
-            {/* {loading && <FullScreenLoader />} */}
             <div className="row g-2">
                 {!loading ? (
                     metrics?.map((metric, index) => {
