@@ -1,18 +1,22 @@
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from 'react-redux';
 import { deadCode } from "../actions/deadCodeAction";
+
 export function DeadCode() {
     const [dataFrames, setDataFrames] = useState({});
+    const [loading, setLoading] = useState(false);
     const response = useSelector((state) => state.deadCode?.deadCoderesponse?.payload);
+
     const [formState, setFormState] = useState({
         repo_url: "",
         branch: "",
         token: ""
     });
+
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
@@ -22,6 +26,7 @@ export function DeadCode() {
             [name]: value
         }));
     };
+
     const handleSubmit = async () => {
         const { repo_url, branch, token } = formState;
 
@@ -29,13 +34,23 @@ export function DeadCode() {
             toast.error("All fields are required!");
             return;
         }
+
+        setLoading(true);
         const formData = new FormData();
         formData.append("repo_url", repo_url);
         formData.append("branch", branch);
         formData.append("token", token);
-        dispatch(deadCode(formData))
 
+        dispatch(deadCode(formData)).finally(() => {
+            setFormState({
+                repo_url: "",
+                branch: "",
+                token: ""
+            })
+            setLoading(false);
+        });
     };
+
     useEffect(() => {
         if (response && typeof response === 'object') {
             const parsedDataFrames = {
@@ -47,6 +62,7 @@ export function DeadCode() {
             setDataFrames(parsedDataFrames);
         }
     }, [response]);
+
     const downloadAsExcel = (data, fileName) => {
         if (!data || data.length === 0) {
             toast.warn(`No data available for ${fileName}`);
@@ -60,76 +76,102 @@ export function DeadCode() {
     };
 
     return (
-        <Container fluid className="justify-content-center align-items-center" style={{ marginLeft: '20%' }}>
-            <Row className="w-50">
-                <Col>
-                    <Card className="shadow-lg p-4">
-                        <h3 className="text-center mb-4">Code Hygiene Analysis</h3>
-                        <Form>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">Repository Name (URL):</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="repo_url"
-                                    placeholder="Enter repo URL"
-                                    value={formState.repoName}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
+        <>
+            {loading && (
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(255,255,255,0.7)",
+                    zIndex: 9999,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <Spinner animation="border" role="status" style={{ width: "4rem", height: "4rem" }}>
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
+            )}
 
-                            <Form.Group className="mb-3">
-                                <Form.Label className="fw-bold">branch Name:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="branch"
-                                    placeholder="Enter old branch name"
-                                    value={formState.branch}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
+            <Container fluid className="justify-content-center align-items-center" style={{ marginLeft: '20%' }}>
+                <Row className="w-50">
+                    <Col>
+                        <Card className="shadow-lg p-4">
+                            <h3 className="text-center mb-4">Code Hygiene Analysis</h3>
+                            <Form>
+                                <Form.Group className="mb-3">
+                                    <Form.Label className="fw-bold">Repository Name (URL):</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="repo_url"
+                                        placeholder="Enter repo URL"
+                                        value={formState.repo_url}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
 
-                            <Form.Group className="mb-4">
-                                <Form.Label className="fw-bold">Personal Access Token (PAT):</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="token"
-                                    placeholder="Enter PAT token"
-                                    value={formState.token}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label className="fw-bold">Branch Name:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="branch"
+                                        placeholder="Enter branch name"
+                                        value={formState.branch}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
 
-                            <div className="text-center">
-                                <Button variant="primary" onClick={handleSubmit} className="px-5">
-                                    Submit
-                                </Button>
-                            </div>
-                        </Form>
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="fw-bold">Personal Access Token (PAT):</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        name="token"
+                                        placeholder="Enter PAT token"
+                                        value={formState.token}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
 
-                        {Object.keys(dataFrames).length > 0 && (
-                            <>
-                                <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>Available files to Download:</div>
-                                <div className="d-flex flex-wrap gap-2 mt-3">
-
-                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
-                                        Deadcode Code
-                                    </Button>
-                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
-                                        Unused Content
-                                    </Button>
-                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
-                                        Unused Summary
-                                    </Button>
-                                    <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
-                                        Git leats
+                                <div className="text-center">
+                                    <Button
+                                        variant="primary"
+                                        onClick={handleSubmit}
+                                        className="px-5"
+                                        disabled={loading}
+                                    >
+                                        Submit
                                     </Button>
                                 </div>
-                            </>
-                        )}
-                    </Card>
-                </Col>
-            </Row>
-            <ToastContainer />
-        </Container>
+                            </Form>
+
+                            {Object.keys(dataFrames).length > 0 && (
+                                <>
+                                    <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>Available files to Download:</div>
+                                    <div className="d-flex flex-wrap gap-2 mt-3">
+                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
+                                            Deadcode Code
+                                        </Button>
+                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
+                                            Unused Content
+                                        </Button>
+                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
+                                            Unused Summary
+                                        </Button>
+                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
+                                            Git Leaks
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
+                        </Card>
+                    </Col>
+                </Row>
+                <ToastContainer />
+            </Container>
+        </>
     );
 }
+
