@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const IP = 'http://34.31.69.53/' // 'http://34.46.36.105:3000/'
+export const IP = 'http://34.31.115.100/' // 'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',

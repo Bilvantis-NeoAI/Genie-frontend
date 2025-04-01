@@ -468,13 +468,13 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                                 <p className="text-muted text-truncate" style={{ maxWidth: '120px' }}>
                                     {file.name}
                                 </p>
-                                <button
+                                {/* <button
                                     type="button"
-                                    className="text-danger"
+                                    className="text-danger" 
                                     onClick={() => removeFile(index)}
                                 >
                                     <FolderDeleteIcon fontSize="small" />
-                                </button>
+                                </button> */}
                             </div>
                         ))}
                     </Dropzone>

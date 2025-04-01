@@ -1,9 +1,11 @@
-import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+import {
+    Container, Row, Col, Form, Button, Card, Spinner
+} from "react-bootstrap";
+import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { deadCode } from "../actions/deadCodeAction";
 
 export function DeadCode() {
@@ -17,6 +19,8 @@ export function DeadCode() {
         token: ""
     });
 
+    const [errors, setErrors] = useState({});
+
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
@@ -25,17 +29,28 @@ export function DeadCode() {
             ...prev,
             [name]: value
         }));
+
+        setErrors((prev) => ({
+            ...prev,
+            [name]: value.trim() ? "" : `This field is required`
+        }));
     };
 
     const handleSubmit = async () => {
         const { repo_url, branch, token } = formState;
+        const newErrors = {};
 
-        if (!repo_url.trim() || !branch.trim() || !token.trim()) {
-            toast.error("All fields are required!");
+        if (!repo_url.trim()) newErrors.repo_url = "Repository URL is required";
+        if (!branch.trim()) newErrors.branch = "Branch name is required";
+        if (!token.trim()) newErrors.token = "Token is required";
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length < 0) {
+            setLoading(true);
             return;
         }
 
-        setLoading(true);
         const formData = new FormData();
         formData.append("repo_url", repo_url);
         formData.append("branch", branch);
@@ -46,13 +61,13 @@ export function DeadCode() {
                 repo_url: "",
                 branch: "",
                 token: ""
-            })
+            });
             setLoading(false);
         });
     };
 
     useEffect(() => {
-        if (response && typeof response === 'object') {
+        if (response && typeof response === "object") {
             const parsedDataFrames = {
                 deadCode: JSON.parse(response["Deadcode Data Identified"] || "[]"),
                 unusedContent: JSON.parse(response["Unused Content Identified"] || "[]"),
@@ -65,7 +80,6 @@ export function DeadCode() {
 
     const downloadAsExcel = (data, fileName) => {
         if (!data || data.length === 0) {
-            toast.warn(`No data available for ${fileName}`);
             return;
         }
 
@@ -101,38 +115,50 @@ export function DeadCode() {
                     <Col>
                         <Card className="shadow-lg p-4">
                             <h3 className="text-center mb-4">Code Hygiene Analysis</h3>
-                            <Form>
+                            <Form noValidate>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">Repository Name (URL):</Form.Label>
+                                    <Form.Label className="fw-bold">
+                                        Repository Name (URL): <span className="text-danger">*</span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="repo_url"
                                         placeholder="Enter repo URL"
                                         value={formState.repo_url}
                                         onChange={handleChange}
+                                        isInvalid={!!errors.repo_url}
                                     />
+                                    <Form.Control.Feedback type="invalid">{errors.repo_url}</Form.Control.Feedback>
                                 </Form.Group>
 
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">Branch Name:</Form.Label>
+                                    <Form.Label className="fw-bold">
+                                        Branch Name: <span className="text-danger">*</span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="branch"
                                         placeholder="Enter branch name"
                                         value={formState.branch}
                                         onChange={handleChange}
+                                        isInvalid={!!errors.branch}
                                     />
+                                    <Form.Control.Feedback type="invalid">{errors.branch}</Form.Control.Feedback>
                                 </Form.Group>
 
                                 <Form.Group className="mb-4">
-                                    <Form.Label className="fw-bold">Personal Access Token (PAT):</Form.Label>
+                                    <Form.Label className="fw-bold">
+                                        Personal Access Token (PAT): <span className="text-danger">*</span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="password"
                                         name="token"
                                         placeholder="Enter PAT token"
                                         value={formState.token}
                                         onChange={handleChange}
+                                        isInvalid={!!errors.token}
                                     />
+                                    <Form.Control.Feedback type="invalid">{errors.token}</Form.Control.Feedback>
                                 </Form.Group>
 
                                 <div className="text-center">
@@ -149,7 +175,9 @@ export function DeadCode() {
 
                             {Object.keys(dataFrames).length > 0 && (
                                 <>
-                                    <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>Available files to Download:</div>
+                                    <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>
+                                        Available files to Download:
+                                    </div>
                                     <div className="d-flex flex-wrap gap-2 mt-3">
                                         <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
                                             Deadcode Code
@@ -174,4 +202,3 @@ export function DeadCode() {
         </>
     );
 }
-
