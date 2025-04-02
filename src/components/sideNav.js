@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import logoutIcon from "../Assets/logout.svg";
-import admin from "../Assets/admin.svg"
-import { useNavigate } from "react-router-dom";
+import React, { useState} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import logoutIcon from "../Assets/logout.svg";
+import admin from "../Assets/admin.svg";
+import gitIcon from "../Assets/git.svg";
+import ragIcon from "../Assets/rag.svg";
+import testai from "../Assets/testgen.svg";
+import metrics from "../Assets/metrics.svg";
 import { sweetalert } from "../utils/constatnts";
-import gitIcon from '../Assets/git.svg'
-import ragIcon from '../Assets/rag.svg'
-import testai from '../Assets/testgen.svg'
-import metrics from '../Assets/metrics.svg'
+
 export const BootstrapSidebar = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("metrics");
-  const handleNavigation = (path, tabName, state = {}) => {
+  const location = useLocation();
+  
+  const [activeTab, setActiveTab] = useState(location.state?.activeTab || "metrics");
+
+  const handleNavigation = (path, tabName) => {
     setActiveTab(tabName);
-    navigate(path, { state });
+    navigate(path, { state: { activeTab: tabName } });
   };
+
   const handleLogout = () => {
     Swal.fire({
       title: sweetalert.WARNING_TITLE,
@@ -30,38 +35,43 @@ export const BootstrapSidebar = () => {
       }
     });
   };
+
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitmetrics')}>
-          <img src={ragIcon} alt="" className="imagestyles"  style={{height:'40px' , width:'30px', marginTop:'20px'}}/>
-          <span className="tooltip">RAG</span>
-        </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => {
-          handleNavigation('/metrics')
-        }}>
-          <img src={metrics} alt="" className="imagestyles" />
-          <span className="tooltip"> Metrics</span>
-        </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/gitoprations')}>
-          <img src={gitIcon} alt="" className="imagestyles" />
-          <span className="tooltip">Repo Operations</span>
-        </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/testcases')}>
-          <img src={testai} alt="" className="imagestyles" />
-          <span className="tooltip">Test Gen</span>
-        </li>
-        <li className="d-flex justify-content-center align-items-center" onClick={() => handleNavigation('/adminDashBoard')}>
-          <img src={admin} alt="" className="imagestyles" />
-          <span className="tooltip">Admin</span>
-        </li>
+        {[
+          { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+          { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+          { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+          { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+          { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
+        ].map(({ path, icon, label, name }) => (
+          <li
+            key={name}
+            className="d-flex justify-content-center align-items-center"
+            onClick={() => handleNavigation(path, name)}
+            style={{
+              backgroundColor: activeTab === name ? "#00BDD0" : "transparent",
+              color: activeTab === name ? "white" : "black",
+              cursor: "pointer"
+            }}
+          >
+            <img src={icon} alt="" className="imagestyles" />
+            <span className="tooltip" style={{ marginLeft: "10px" }}>{label}</span>
+          </li>
+        ))}
+
         <li
-          className={`d-flex justify-content-center align-items-center ${activeTab === "logout" ? "active-tab" : ""
-            }`}
+          className="d-flex justify-content-center align-items-center"
           onClick={handleLogout}
+          style={{
+            backgroundColor: activeTab === "logout" ? "#00BDD0" : "transparent",
+            color: activeTab === "logout" ? "white" : "black",
+            cursor: "pointer"
+          }}
         >
           <img src={logoutIcon} alt="" className="imagestyles" />
-          <span className="tooltip">Logout</span>
+          <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
         </li>
       </ul>
     </div>

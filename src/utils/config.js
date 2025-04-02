@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const IP = 'https://neoai.bilvantis.com/' // 'http://34.46.36.105:3000/'
+export const IP = process.env.REACT_APP_IP //'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',

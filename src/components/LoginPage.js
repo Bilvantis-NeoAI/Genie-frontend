@@ -52,7 +52,7 @@ const LoginPage = () => {
 
           const data = await response;
           sessionStorage.setItem("access_token", data.data.access_token);
-          navigate("/gitmetrics");
+          navigate("/metrics");
         } else {
           setLoading(false)
           setIsDisavled(false)

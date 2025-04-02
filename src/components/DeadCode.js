@@ -39,31 +39,29 @@ export function DeadCode() {
     const handleSubmit = async () => {
         const { repo_url, branch, token } = formState;
         const newErrors = {};
-
         if (!repo_url.trim()) newErrors.repo_url = "Repository URL is required";
         if (!branch.trim()) newErrors.branch = "Branch name is required";
         if (!token.trim()) newErrors.token = "Token is required";
 
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length < 0) {
-            setLoading(true);
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
             return;
         }
-
+        setLoading(true);
         const formData = new FormData();
         formData.append("repo_url", repo_url);
         formData.append("branch", branch);
         formData.append("token", token);
 
-        dispatch(deadCode(formData)).finally(() => {
-            setFormState({
-                repo_url: "",
-                branch: "",
-                token: ""
+        dispatch(deadCode(formData))
+            .finally(() => {
+                setFormState({
+                    repo_url: "",
+                    branch: "",
+                    token: ""
+                });
+                setLoading(false);
             });
-            setLoading(false);
-        });
     };
 
     useEffect(() => {

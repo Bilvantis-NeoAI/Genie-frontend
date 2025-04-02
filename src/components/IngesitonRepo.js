@@ -73,20 +73,13 @@ export default function IngestionRepo() {
   return (
     <div>
       <Container fluid className="w-100">
-      {/* <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderComponent />
-        </Row> */}
-
         <div >
-          {/* <div>
-            <BootstrapSidebar />
-          </div> */}
           <form onSubmit={handleSubmit}>
             <div className="col-8 h-100 ms-5 mb-5 pb-4">
               <div
-                className="card d-flex h-100 question-card ms-5"
+                className="card d-flex h-100 shadow-lg question-card ms-5"
               >
-                <div className="form-group d-flex flex-column align-items-center mt-5 ms-5">
+                <div className="form-group d-flex flex-column align-items-center mt-3 ms-5">
                   <div className="mt-2">
                     <div>
                       <span className="form-field-title">
@@ -152,7 +145,7 @@ export default function IngestionRepo() {
                       />
                     </div>
                   </div>
-                  <div className="w-100 d-flex justify-content-center">
+                  <div className="w-100 d-flex justify-content-center pb-4">
                     <Button className="mt-3 buttons-colour" type="submit" disabled={isDisable}>
                       {homePage1TextSamples.SUBMIT}
                     </Button>

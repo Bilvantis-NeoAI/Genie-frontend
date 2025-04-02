@@ -23,15 +23,29 @@ export function AdminDashboard() {
     const [showModal, setShowModal] = useState(false);
     const [newPassword, setNewPassword] = useState('')
     const [selectedUser, setSelectedUser] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("users");
     let roles = [{ id: '1', rolename: "super_user" }, { id: '2', rolename: "admin" }, { id: '3', rolename: "user" }]
     const dispatch = useDispatch();
     let users = useSelector((state) => state.usersList?.userListData?.payload?.data?.users);
     const pendingUsers = useSelector((state) => state.usersList?.pendingUsers?.payload?.data?.pending_users);
     useEffect(() => {
-        dispatch(userList())
-        dispatch(pendingUserList())
+        setLoading(true)
+        dispatch(userList()).finally(() => {
+            setLoading(false);
+        });
+        dispatch(pendingUserList()).finally(() => {
+            setLoading(false);
+        });
+
     }, []);
+    const FullScreenLoader = () => (
+        <div className="loader-overlay">
+            <div className="spinner-border text-white" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    );
     const neo4jStatusOptions = [{ label: "Include All", value: 'False' }, { label: "Include Texts", value: 'True' }];
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
@@ -39,6 +53,7 @@ export function AdminDashboard() {
     const [storageOption, setStorageOption] = useState('local');
     const [isActive, setIsActive] = useState(false);
     const [formValues, setFormValues] = useState({email: "", role: "", company_name: "" });
+    
     const onRoleChange = (e, user) => {
         let selectedProject = roles.find(
             (role) => role.id === e.target.value
@@ -226,6 +241,7 @@ export function AdminDashboard() {
             >
                 <BootstrapSidebar /></div>
             <div className="row">
+            {loading && <FullScreenLoader />}
                 <ul className="nav">
                     <li className="nav-item" style={{ marginLeft: '10%' }}>
                         <button
@@ -265,7 +281,7 @@ export function AdminDashboard() {
                             {activeTab === "users" && (
                                 <button
                                     className="btn btn-outline-dark btn-sm position-absolute"
-                                    style={{ right: "3%" }} // Move it slightly to the left
+                                    style={{ right: "5%" }} // Move it slightly to the left
                                     title="Edit Role"
                                     onClick={(e) => onFilter(e)}
                                 >

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Button, Container, Row, Form } from "react-bootstrap";
-import { HeaderComponent } from "./header";
-import { BootstrapSidebar } from "./sideNav";
 import { homePageTextSamples } from "../utils/constatnts";
 import { retriveRepoData, getRepoCodeData } from "../actions/RetriveDataAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -148,9 +146,9 @@ export default function RetrieveData() {
         className="flex-grow-1 w-100v"
         style={{ marginTop: "20px", marginLeft: "5%" }}
       >
-        <div className="flex-grow-1 ms-4">
+        <div className="flex-grow-1 ms-4 ">
           <div
-            className="border rounded p-3"
+            className="border rounded p-3 shadow-lg"
             style={{
               maxHeight: "60vh",
               maxWidth: "90%",
@@ -161,7 +159,7 @@ export default function RetrieveData() {
             }}
           >
             {chatMessages.length === 0 && (
-              <div className="text-center text-muted">
+              <div className="text-center text-muted ">
                 Start by asking a question.
               </div>
             )}
@@ -198,7 +196,7 @@ export default function RetrieveData() {
             </div>
 
           </div>
-          <div className="mt-3">
+          <div className=" d-flex mt-3 shadow-lg">
             <Form.Control
               type="text"
               placeholder="Ask a question..."
@@ -211,7 +209,7 @@ export default function RetrieveData() {
               {error}
             </Form.Control.Feedback>
 
-            <div className="d-flex mt-2">
+            <div className="d-flex ms-3">
               <Button
                 onClick={() => handleSubmit("explain")}
                 className="me-3"
