@@ -412,7 +412,16 @@ height: 5vh;
   color: red;
 }
 
-
+.multicoustomtool{
+  background-color:white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius:5px;
+  max-height:150px;
+  overflow-y: auto;
+  font-size: 12px;
+  pointer-events:auto
+}
 .empty-dropzone {
   background-image: url('../src/Assets/pdfIcon.jpeg'); /* Replace with your image URL */
   background-repeat: no-repeat;
