@@ -4,5 +4,5 @@ export const apis = {
     REGISTER: 'auth/register'
 }
 export const URL = {
-    DeployedURL: 'https://genie.bilvantis.in/fastapi/'
+    DeployedURL: process.env.REACT_APP_IP //'https://genie.bilvantis.in/fastapi/'
 }

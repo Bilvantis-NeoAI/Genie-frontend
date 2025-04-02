@@ -31,7 +31,7 @@ const CustomTick = ({ x, y, payload }) => {
 };
 
 const CountGraph = ({ data, title }) => {
-    const chartWidth = Math.max(data.length * 60, 800);
+    const chartWidth = Math.max(data.length * 60);
 
     return (
         <div className="card g-4">
@@ -48,12 +48,15 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none",position: "relative" }}>
             {data.length === 0 ? (
-                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
+                    <div  className="classnodata"
+                    >No Data Found</div>
                 ) : (
             <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
 
-                <ResponsiveContainer width={chartWidth} height={240}>
+                <ResponsiveContainer width={chartWidth} height={230}>
+
                     <BarChart
                         data={data}
                         barCategoryGap="25%"
@@ -69,6 +72,7 @@ const CountGraph = ({ data, title }) => {
                 </ResponsiveContainer>
             </div>
                 )}
+                </div>
         </div>
     );
 };

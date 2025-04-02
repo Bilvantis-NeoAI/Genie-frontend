@@ -1,8 +1,7 @@
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Layout } from "antd";
 import { UserOutlined } from '@ant-design/icons';
 const { Header } = Layout;
-const { Title } = Typography;
 export function HeaderComponent() {
     const username = localStorage.getItem("username") || "Admin";
     return (

@@ -9,7 +9,14 @@ import {
     Tooltip
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
-
+const CustomTick = ({ x, y, payload }) => {
+    const truncatedValue = payload.value.substring(0, 5);
+    return (
+        <text x={x} y={y + 10} textAnchor="middle" fontSize={10} fill="#666">
+            {truncatedValue}
+        </text>
+    );
+};
 const handleMissingData = (value) => (value === null ? 0 : value);
 const formatRepoName = (name) => {
     if (!name) return "";
@@ -128,17 +135,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
 
             return (
                 <div
-                    style={{
-                        backgroundColor: "white",
-                        border: "1px solid #ccc",
-                        padding: "10px",
-                        borderRadius: "5px",
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        fontSize: "12px",
-                        pointerEvents: "auto",
-                    }}
-                >
+                    className="multicoustomtool">
                     <p style={{ marginBottom: "10px", color: "#1DB9EF" }}>{`Repo Name: ${label}`}</p>
                     {Object.keys(groupedData).map((category) => (
                         <div key={category} style={{ marginBottom: "10px" }}>
@@ -163,7 +160,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
             <div>
                 <div className="graph-title">
                     <div>{title}</div>
-                    <div>
+                    <div >
                         <button
                             type="button"
                             className="btn btn-light"
@@ -171,7 +168,6 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#addPriority"
                             aria-controls="offcanvasRight"
-                            data-testid="filter-button"
                         >
                             <FilterOutlined />
                         </button>
@@ -185,22 +181,17 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     width: "100%",
                     height: "240px",
                     scrollbarWidth: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                 }}
             >
-                {data.length === 0 ? (
-                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
-                ) : (
-                    <ResponsiveContainer width="150%">
+                {data.length !== 0 &&
+                    <ResponsiveContainer width={Math.max(90 + formattedData.length * 10) + "%"} height="100%">
                         <BarChart
                             data={formattedData}
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                             barGap={3}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="repo_name" fontSize={10} />
+                            <XAxis dataKey="repo_name" fontSize={10} tick={<CustomTick />} />
                             <YAxis fontSize={10} />
                             <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
                             {issueKeys.map((key, index) => (
@@ -220,7 +211,9 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                                     barSize={20}
                                     stackId="stack2"
                                     fill={getColor(index + issueKeys.length)}
-                                    name={key.replace("recent_commit_issues_", "").replace("_count", "")}
+                                    name={key
+                                        .replace("recent_commit_issues_", "")
+                                        .replace("_count", "")}
                                 />
                             ))}
                             {commitKeys.map((key, index) => (
@@ -235,7 +228,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                             ))}
                         </BarChart>
                     </ResponsiveContainer>
-                )}
+                }
             </div>
         </div>
     );

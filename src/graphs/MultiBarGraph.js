@@ -32,9 +32,8 @@ const CustomTick = ({ x, y, payload }) => {
 };
 
 const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
-    const chartWidth = Math.max(data.length * 60, 800);
-
     return (
+
         <div className="card g-4">
             <div>
                 <div className='graph-title'>
@@ -55,8 +54,13 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                 </div>
             </div>
 
-            <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
-                <ResponsiveContainer width={chartWidth} height={245}>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            {data.length === 0 ? (
+                    <div  className="classnodata">
+                        No Data Found
+                    </div>
+                ) : (
+                <ResponsiveContainer width={Math.max(90 + data.length *4) + "%"} height="100%">
                     <BarChart
                         data={data}
                         barCategoryGap="25%"
@@ -73,6 +77,7 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                         <Bar dataKey="cosmetic" fill="#A91DEF" barSize={20} name="Consmetic" />
                     </BarChart>
                 </ResponsiveContainer>
+                )}
             </div>
         </div>
     );

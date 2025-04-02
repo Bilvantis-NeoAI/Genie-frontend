@@ -63,37 +63,39 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
                     </div>
                 </div>
             </div>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "100%", position: "relative" }}>
             {data.length === 0 ? (
-                    <p style={{ color: "#999", fontSize: "14px" }}>No Data Found</p>
-                ) : (
-            <div style={scrollStyle}>
-                <ResponsiveContainer width={containerWidth} height={240}>
-                    <BarChart
-                        data={data}
-                        margin={{ top: 20, right: 30 }}
-                        barCategoryGap="20%"
-                    >
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
-                        <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Legend />
-                        {xAxisDataKey !== XAXISKEYS.MONTH && (
-                            <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
-                        )}
-                        {from === XAXISKEYS.SEVERITY && (
-                            <Bar dataKey={DATAKEY.PERCENTAGE} fill="#1DEF81" barSize={20} name={XAXISNAMES.PERCENTAGE} />
-                        )}
-                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
-                            <Bar dataKey={DATAKEY.AVARAGE_QUALITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_QUALITY} barSize={20} />
-                        )}
-                        {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
-                            <Bar dataKey={DATAKEY.AVARAGE_SEVERITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_SEVERITY} barSize={20} />
-                        )}
-                    </BarChart>
-                </ResponsiveContainer>
+                <div className="classnodata">No Data Found</div>
+            ) : (
+                <div style={scrollStyle}>
+                    <ResponsiveContainer width={containerWidth} height={240}>
+                        <BarChart
+                            data={data}
+                            margin={{ top: 20, right: 30 }}
+                            barCategoryGap="20%"
+                        >
+                            <CartesianGrid strokeDasharray="2 2" />
+                            <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
+                            <YAxis fontSize={10} />
+                            <Tooltip cursor={{ fill: "transparent" }} />
+                            <Legend />
+                            {xAxisDataKey !== XAXISKEYS.MONTH && (
+                                <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
+                            )}
+                            {from === XAXISKEYS.SEVERITY && (
+                                <Bar dataKey={DATAKEY.PERCENTAGE} fill="#1DEF81" barSize={20} name={XAXISNAMES.PERCENTAGE} />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY && (
+                                <Bar dataKey={DATAKEY.AVARAGE_QUALITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_QUALITY} barSize={20} />
+                            )}
+                            {xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY && (
+                                <Bar dataKey={DATAKEY.AVARAGE_SEVERITY} fill="#1DEF81" name={XAXISNAMES.AVARAGE_SEVERITY} barSize={20} />
+                            )}
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            )}
             </div>
-                )}
         </div>
     );
 };

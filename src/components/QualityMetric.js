@@ -10,7 +10,7 @@ export default function QualityMetric() {
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({});
     const dispatch = useDispatch();
-    const moduleType = "quality"
+    const moduleType ="quality"
     const data = useSelector((state) => state.graphs[moduleType]?.data);
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
@@ -20,8 +20,22 @@ export default function QualityMetric() {
         }));
         setOffCanvas(true);
     };
+
     const handleCloseCanvas = () => {
         setOffCanvas(false);
+    };
+    const onClear = () => {
+        setSelectedFilter((prevState) => {
+            const updatedState = {
+                ...prevState,
+                project_name: "",
+                user_id: "",
+                date: "",
+            };
+            return updatedState;
+        });
+    
+        setUsers([]);
     };
     const handleReset = () => {
         setSelectedFilter((prevState) => {
@@ -71,7 +85,7 @@ export default function QualityMetric() {
 
         const filters = {
             project_name: selectedFilter.project_name,
-            user_id: selectedFilter.user_id,
+            user_id:selectedFilter.user_id,
             month: selectedFilter.date
         };
         const filtersString = JSON.stringify(filters);
@@ -101,27 +115,31 @@ export default function QualityMetric() {
             setSelectedFilter((prevFilter) => ({ ...prevFilter, [name]: value }));
         }
     };
+
     const graphComponents = {
-        line: LineGraph
+        line:LineGraph
     };
     let metrics = [];
     if (data) {
         for (let key in data) {
             let innerObject = data[key];
+            // Ensure the innerObject is not null and is an object
             if (innerObject && typeof innerObject === "object") {
                 innerObject["key"] = key;
-                metrics.push(innerObject);
+                metrics.push(innerObject); // Add to metrics only if it's valid
             }
         }
     }
+
     useEffect(() => {
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType));
     }, [dispatch, moduleType]);
+
     return (
         <>
             <div className="row g-2">
-                {metrics?.map((metric, index) => {
+                {metrics.map((metric, index) => {
                     const titleToFromMapping = {
                         "Average Code Quality": "AverageQuality",
                         "Average Code Severity": "AverageSeverity",
@@ -136,13 +154,14 @@ export default function QualityMetric() {
                                     title={metric.title}
                                     from={from}
                                     key={metric.key}
-                                    handleFilter={() => handleFilter(metric?.filters, metric?.title, metric?.key)}
+                                    handleFilter={() => handleFilter(metric?.filters ,metric?.title, metric?.key)}
                                 />
                             )}
                         </div>
-                    )
-                })
-                }
+                        
+                    );
+                    
+                })}
             </div>
             <OffCanvas
                 isVisible={offCanvas}
@@ -154,7 +173,8 @@ export default function QualityMetric() {
                 onChange={onChange}
                 handleSubmit={handleSubmit}
                 handleDateChange={handleDateChange}
-                handleReset={handleReset}
+                onClear={onClear} 
+                handleReset={handleReset} 
             />
         </>
     );

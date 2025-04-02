@@ -23,9 +23,9 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
     return (
         <div className="card g-4">
             <div>
-                <div className='graph-title'>
+                <div className="graph-title">
                     <div>{title}</div>
-                    <div >
+                    <div>
                         <button
                             type="button"
                             className="btn btn-light"
@@ -40,46 +40,51 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
                     </div>
                 </div>
             </div>
-            <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
 
-                <ResponsiveContainer width="150%" height={240}>
-                    <AreaChart
-                        data={data}
-                        margin={{
-                            top: 20,
-                            right: 20,
-                            left: 20,
-                            // bottom: 20,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis
-                            dataKey="date"
-                            tickFormatter={(tick) => dayjs(tick).format("D'MMM YY")}
-                            fontSize={10}
-                        />
-                        <YAxis fontSize={10} />
-                        <Tooltip
-                            formatter={(value, name) => {
-                                return name === "issue_count"
-                                    ? [`${value} issues`, "Issue Count"]
-                                    : value;
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+                {data.length === 0 ? (
+                    <div className="classnodata">
+                        No Data Found
+                    </div>
+                ) : (
+                    <ResponsiveContainer width={Math.max(90 + data.length * 4) + "%"} height="100%">
+
+                        <AreaChart
+                            data={data}
+                            margin={{
+                                top: 20,
+                                right: 20,
+                                left: 20,
                             }}
-
-                        />
-                        <Legend />
-                        {Object.keys(severityColors).map((severity) => (
-                            <Area
-                                key={severity}
-                                type="monotone"
-                                dataKey={severity}
-                                stroke={severityColors[severity]}
-                                fill={severityColors[severity]}
-                                name={severity.charAt(0).toUpperCase() + severity.slice(1)}
+                        >
+                            <CartesianGrid strokeDasharray="2 2" />
+                            <XAxis
+                                dataKey="date"
+                                tickFormatter={(tick) => dayjs(tick).format("D'MMM YY")}
+                                fontSize={10}
                             />
-                        ))}
-                    </AreaChart>
-                </ResponsiveContainer>
+                            <YAxis fontSize={10} />
+                            <Tooltip
+                                formatter={(value, name) => {
+                                    return name === "issue_count"
+                                        ? [`${value} issues`, "Issue Count"]
+                                        : value;
+                                }}
+                            />
+                            <Legend />
+                            {Object.keys(severityColors).map((severity) => (
+                                <Area
+                                    key={severity}
+                                    type="monotone"
+                                    dataKey={severity}
+                                    stroke={severityColors[severity]}
+                                    fill={severityColors[severity]}
+                                    name={severity.charAt(0).toUpperCase() + severity.slice(1)}
+                                />
+                            ))}
+                        </AreaChart>
+                    </ResponsiveContainer>
+                )}
             </div>
         </div>
     );

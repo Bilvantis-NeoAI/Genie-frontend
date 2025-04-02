@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
     ResponsiveContainer,
     BarChart,
@@ -11,15 +11,16 @@ import {
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts';
-
-const CustomTick = ({ x, y, payload }) => {    
-    const truncatedValue = payload.value.substring(0, 3);
+const CustomTick = ({ x, y, payload }) => {
+    const valueStr = String(payload?.value || "");
+    const truncatedValue = valueStr.substring(0, 5);
     return (
         <text x={x} y={y + 10} textAnchor="middle" fontSize={10} fill="#666">
             {truncatedValue}
         </text>
     );
 };
+
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
@@ -35,7 +36,32 @@ const CustomTooltip = ({ active, payload, label }) => {
     }
     return null;
 };
+
 const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
+    const scrollContainerRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e) => {
+        if (scrollContainerRef.current) {
+            setIsDragging(true);
+            setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 2;
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseLeave = () => setIsDragging(false);
+
     let xAxisKey = "";
     let bars = [];
     let containerStyle = { width: "100%", height: 240, overflow: "hidden" };
@@ -77,19 +103,24 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
 
             <div style={containerStyle}>
                 {data.length === 0 ? (
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        width: "100%",
-                        color: "#999",
-                        fontSize: "14px"
-                    }}>
+                    <div className="classnodata">
                         No Data Found
                     </div>
                 ) : (
-                    <div style={{ width: "100%", overflowX: "auto" }}>
+                    <div
+                        ref={scrollContainerRef}
+                        className="mouseevent"
+                        style={{
+                            width: "100%",
+                            overflowX: "auto",
+                            cursor: isDragging ? "grabbing" : "grab",
+                            userSelect: "none"
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseLeave}
+                    >
                         <div style={{ width: `${graphWidth}px` }}>
                             <ResponsiveContainer width="100%" height={240}>
                                 <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }} barGap={3}>
@@ -99,7 +130,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
                                     <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
                                     <Legend />
                                     {bars.map((bar, index) => (
-                                        <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} />
+                                        <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} style={{ cursor: "pointer" }} />
                                     ))}
                                 </BarChart>
                             </ResponsiveContainer>
@@ -112,4 +143,3 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
 };
 
 export default DynamicBarGraph;
-

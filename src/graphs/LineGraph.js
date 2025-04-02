@@ -48,14 +48,7 @@ const LineGraph = ({ data, title, handleFilter, from, keys }) => {
             </div>
             <div style={scrollStyle}>
                 {data.length === 0 ? (
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "240px",
-                        color: "#999",
-                        fontSize: "14px"
-                    }}>
+                    <div className="classnodata">
                         No Data Found
                     </div>
                 ) : (

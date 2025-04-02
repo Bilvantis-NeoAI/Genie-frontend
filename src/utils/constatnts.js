@@ -40,8 +40,8 @@ export const DATAKEY = {
 export const TITLE = {
     AVARAGE_CODE_QUALITY: 'Average Code Quality',
     AVARAGE_CODE_SEVERITY: 'Average Code Severity',
-    COMMIT_ISSUES_SEVERITY:"Commit Issue severity distribution by User",
-    COMMIT_VIOLATE :"Commit violation metrics"
+    COMMIT_ISSUES_SEVERITY:"Commit Issue Severity Distribution By User",
+    COMMIT_VIOLATE :"Commit Violation Metrics"
 }
 export const CANVASKEY = {
     ASSISTANCE : 'Assistant',

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { GRAPHKEYS } from '../utils/constatnts'
-
+import { useState } from "react";
 const OffCanvas = ({
     isVisible,
     onClose,
@@ -16,23 +16,30 @@ const OffCanvas = ({
     handleSubmit,
     handleDateChange,
 }) => {
+    const [dateError, setDateError] = useState("");
+    const [disable, setDesable] = useState(false)
     const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
         <input
             ref={ref}
             value={value}
             onClick={onClick}
-            style={{
-                height: "40px",
-                width: "100%",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                padding: "5px 10px",
-                fontSize: "14px",
-            }}
-        />
+            className="classlable" />
     ));
+    const validateDateRange = (dates) => {
+
+        const [start, end] = dates;
+        if ((start && !end) || (!start && end)) {
+            setDesable(true)
+            setDateError("Both start and end dates are required.");
+        } else {
+            setDesable(false)
+            setDateError("");
+        }
+    };
     const handleClear = () => {
         handleReset();
+        setDesable(false)
+        setDateError("");
         onClose();
     };
     return (
@@ -40,61 +47,27 @@ const OffCanvas = ({
             <div
                 className="offcanvas offcanvas-end show"
                 tabIndex="-1"
-                style={{ zIndex: 1050, maxWidth: "400px" }}
             >
-                <div
-                    className="offcanvas-header"
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "15px",
-                        marginTop: "19px",
-                    }}
-                >
-                    <div
-                        style={{
-                            margin: 0,
-                            fontSize: "15px",
-                            fontWeight: "bold",
-                            flex: 1,
-                            textAlign: "left",
-                            wordBreak: "break-word",
-                            paddingBottom: "8px",
-                            borderBottom: "1px solid #dcdcdc",
-                        }}
-                    >
+                <div className="offcanvas-header">
+                    <div className="title-header">
                         {selectedFilter && selectedFilter.initiatedBy}
                     </div>
                     <button
                         type="button"
                         onClick={onClose}
-                        style={{
-                            background: "none",
-                            border: "none",
-                            fontSize: "20px",
-                            color: "#333",
-                            cursor: "pointer",
-                            position: "absolute",
-                            top: "25px",
-                            right: "15px",
-                        }}
                         aria-label="Close"
-                    >
+                        className="closebutton">
                         &times;
                     </button>
                 </div>
-                <div className="offcanvas-body" style={{ padding: "20px" }}>
-                    <form
-                        onSubmit={handleSubmit}
-                        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-                    >
+                <div className="offcanvas-body">
+                    <form onSubmit={handleSubmit}
+                        className="classform">
                         {selectedFilter.key !== GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT && selectedFilter.key !== GRAPHKEYS.MONTH_USAGE && (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                            <div>
                                 <label
                                     htmlFor="filterSelect"
-                                    style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
-                                >
+                                    className="formlabels">
                                     Project Name
                                 </label>
                                 <select
@@ -104,15 +77,7 @@ const OffCanvas = ({
                                         onChange(e);
                                         handleProjectChange(e.target.value);
                                     }}
-                                    style={{
-                                        height: "40px",
-                                        width: "100%",
-                                        borderRadius: "5px",
-                                        border: "1px solid #ccc",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                    }}
-                                >
+                                    className="classlable">
                                     <option value="" hidden>
                                         Select a Project
                                     </option>
@@ -126,26 +91,17 @@ const OffCanvas = ({
                         )}
                         {selectedFilter?.key !== GRAPHKEYS.ISSUE_SEVERITY_DISTRIBUTION &&
                             selectedFilter?.key !== GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT && selectedFilter.key !== GRAPHKEYS.MONTH_USAGE && selectedFilter.key !== GRAPHKEYS.AVARAGE_CODE_QUALITY && selectedFilter.key !== GRAPHKEYS.AVARAGE_CODE_SEVERITY && (
-                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                <div>
                                     <label
                                         htmlFor="userSelect"
-                                        style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
-                                    >
+                                        className="formlabels">
                                         Developer
                                     </label>
                                     <select
                                         id="userSelect"
                                         name="user_id"
                                         onChange={onChange}
-                                        style={{
-                                            height: "40px",
-                                            width: "100%",
-                                            borderRadius: "5px",
-                                            border: "1px solid #ccc",
-                                            padding: "5px 10px",
-                                            fontSize: "14px",
-                                        }}
-                                    >
+                                        className="classlable">
                                         <option value="" hidden>
                                             Select a Developer
                                         </option>
@@ -159,8 +115,8 @@ const OffCanvas = ({
                             )}
                         {((selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) || (selectedFilter.key === GRAPHKEYS.COMMIT_VIOLATE) ||
                             (selectedFilter.key === GRAPHKEYS.COMMIT_ISSUE_SEVERITY_BY_USER_PROJECT || selectedFilter.key === GRAPHKEYS.COMMIT_ORG_COMMIT_METRICS)) && (
-                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                    <label htmlFor="dateRange" className="form-label" data-testid="date-picker">
+                                <div className="daterange">
+                                    <label htmlFor="dateRange" data-testid="date-picker">
                                         Select Date Range:
                                     </label>
                                     <DatePicker
@@ -169,6 +125,7 @@ const OffCanvas = ({
                                         endDate={selectedFilter.end_date ? new Date(selectedFilter.end_date) : ''}
                                         onChange={(dates) => {
                                             const [start, end] = dates;
+                                            validateDateRange(dates);
                                             const formattedStartDate = start ? start.toLocaleDateString("en-CA") : "";
                                             const formattedEndDate = end ? end.toLocaleDateString("en-CA") : "";
                                             onChange({ target: { name: "start_date", value: formattedStartDate } });
@@ -178,15 +135,14 @@ const OffCanvas = ({
                                         placeholderText="Select date range"
                                         customInput={<CustomInput />}
                                     />
+                                    {dateError && <span className="errormessage">{dateError}</span>}
+
                                 </div>
                             )}
                         {(selectedFilter.key === GRAPHKEYS.ISSUSE_SEVERITY_FREQUESCY_PROJECT || selectedFilter.key === GRAPHKEYS.REVIEW_USAGE_DATA || selectedFilter.key === GRAPHKEYS.ASSIANCE_USAGE_DTA
                             || selectedFilter.key === GRAPHKEYS.MONTH_USAGE) && (
-                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                    <label
-                                        htmlFor="date"
-                                        style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
-                                    >
+                                <div className="monthlabel">
+                                    <label htmlFor="date" className="formlabels">
                                         Select Month
                                     </label>
                                     <DatePicker
@@ -202,39 +158,15 @@ const OffCanvas = ({
                                         name="date"
                                         dateFormat="yyyy-MM"
                                         showMonthYearPicker
-                                        customInput={<CustomInput />}
-                                    />
-
-
+                                        customInput={<CustomInput />} />
                                 </div>
                             )}
-                        <div
-                            className="offcanvas-footer"
-                            style={{
-                                position: "absolute",
-                                bottom: 0,
-                                left: 0,
-                                width: "100%",
-                                padding: "10px 20px",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                backgroundColor: "#fff",
-                                boxShadow: "0 -1px 5px rgba(0, 0, 0, 0.1)",
-                            }}
-                        >
+                        <div className="offcanvas-footer">
                             <button
                                 type="submit"
                                 data-testid="submit-button"
-                                style={{
-                                    padding: "10px 20px",
-                                    fontSize: "14px",
-                                    borderRadius: "5px",
-                                    backgroundColor: "#007bff",
-                                    borderColor: "#007bff",
-                                    color: "#fff",
-                                    width: "35%",
-                                    cursor: "pointer",
-                                }}
+                                disabled={disable}
+                                className="subresbutton"
                             >
                                 Submit
                             </button>
@@ -242,16 +174,7 @@ const OffCanvas = ({
                                 type="button"
                                 data-testid="reset-button"
                                 onClick={handleClear}
-                                style={{
-                                    padding: "10px 20px",
-                                    fontSize: "14px",
-                                    borderRadius: "5px",
-                                    backgroundColor: "#007bff",
-                                    borderColor: "#007bff",
-                                    color: "#fff",
-                                    width: "35%",
-                                    cursor: "pointer",
-                                }}
+                                className="subresbutton"
                             >
                                 Reset
                             </button>
@@ -262,7 +185,6 @@ const OffCanvas = ({
         )
     );
 };
-
 OffCanvas.propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -274,5 +196,4 @@ OffCanvas.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     handleDateChange: PropTypes.func.isRequired,
 };
-
 export default OffCanvas;
