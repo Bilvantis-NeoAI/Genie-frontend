@@ -80,7 +80,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
         ];
     }
 
-    const graphWidth = Math.max(data.length * 50, 580);
+    const graphWidth = Math.max(data.length * 50, 800);
 
     return (
         <div className="card g-4">
