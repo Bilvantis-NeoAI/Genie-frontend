@@ -81,7 +81,7 @@ const BarGraph = ({ data, title, keys, handleFilter, from }) => {
                                 barCategoryGap="20%"
                             >
                                 <CartesianGrid strokeDasharray="2 2" />
-                                <XAxis dataKey={xAxisDataKey} fontSize={10} tick={{ angle: 0 }} interval={0} />
+                                <XAxis dataKey={xAxisDataKey} fontSize={9} tick={{ angle: 0 }} interval={0} />
                                 <YAxis fontSize={10} />
                                 <Tooltip cursor={{ fill: "transparent" }} />
                                 <Legend />

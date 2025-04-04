@@ -38,7 +38,7 @@ const StackedBarGraph = ({ data, title, handleFilter }) => {
                     <div>{title}</div>
                 </div>
             </div>
-        <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>  {data.length === 0 ? (
+        <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "250px", position: "relative" }}>  {data.length === 0 ? (
                     <div  style={{
                         display: "flex",
                         justifyContent: "center",

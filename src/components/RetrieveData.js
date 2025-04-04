@@ -196,7 +196,7 @@ export default function RetrieveData() {
             </div>
 
           </div>
-          <div className=" d-flex mt-3 shadow-lg">
+          <div className=" d-flex mt-3 ">
             <Form.Control
               type="text"
               placeholder="Ask a question..."
