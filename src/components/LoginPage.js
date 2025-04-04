@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { userLogin } from "../actions/LoginActions";
 import Swal from "sweetalert2";
 import { sweetalert } from "../utils/constatnts";
-import Neo from '../Assets/neoAI.jpg'
+import Neo from '../Assets/neoAI.png'
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -79,7 +79,7 @@ const LoginPage = () => {
             src={Neo}
             alt="Bilvantis Logo"
             style={{ height: "30px", width:'35px' }} // Adjust logo height if needed
-          /><div style={{fontSize:'8px'}}>Engineering with AI</div>
+          /><div style={{fontSize:'5px'}}>Engineering with AI</div>
         <h4>Login</h4>
         <label>Email:</label>
         <input

@@ -48,7 +48,7 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
-            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "25%", position: "relative" }}>
             {data.length === 0 ? (
                     <div  style={{
                         display: "flex",
@@ -60,7 +60,7 @@ const CountGraph = ({ data, title }) => {
                 ) : (
             <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
 
-                <ResponsiveContainer width={chartWidth} height={240}>
+                <ResponsiveContainer width={chartWidth} height={233}>
                     <BarChart
                         data={data}
                         barCategoryGap="25%"

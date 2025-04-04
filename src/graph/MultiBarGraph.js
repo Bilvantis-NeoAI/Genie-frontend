@@ -65,7 +65,7 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                         fontSize: "16px",
                     }}>No Data Found</div>
                 ) : (
-                <ResponsiveContainer width={chartWidth} height={245}>
+                <ResponsiveContainer width={chartWidth} height={240}>
                     <BarChart
                         data={data}
                         barCategoryGap="25%"

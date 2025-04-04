@@ -2,7 +2,8 @@ import React from "react";
 import { Layout, Typography } from "antd";
 import { UserOutlined } from '@ant-design/icons'; // Import User icon from Ant Design
  import BilvantisLogo from '../Assets/Bilvantis_logo.png'
- import Neo from '../Assets/neoAI.jpg'
+ import Neo from '../Assets/neoAI.png'
+ 
 const { Header } = Layout;
 const { Title } = Typography;
  
@@ -43,7 +44,7 @@ export function HeaderComponent() {
       <div> Welcome to  <img
             src={Neo}
             alt="Bilvantis Logo"
-            style={{ height: "40px" }} // Adjust logo height if needed
+            style={{ height: "35px" }} // Adjust logo height if needed
           /></div>
       
       </Title>
