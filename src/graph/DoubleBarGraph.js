@@ -9,6 +9,7 @@ import {
     Tooltip,
     Legend,
 } from "recharts";
+import { Spin } from 'antd'; 
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts';
 const CustomTick = ({ x, y, payload }) => {
@@ -37,7 +38,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
+const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
     const scrollContainerRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -102,7 +103,16 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
             </div>
 
             <div style={containerStyle}>
-                {data.length === 0 ? (
+            {isLoading ? (
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                    }}>
+                        <Spin size="large" />
+                    </div>
+                ) :data.length === 0 ? (
                     <div className="classnodata">
                         No Data Found
                     </div>

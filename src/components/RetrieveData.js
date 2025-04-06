@@ -198,7 +198,8 @@ export default function RetrieveData() {
           </div>
           <div className=" d-flex mt-3 ">
             <Form.Control
-              type="text"
+              // type="text"
+              as="textarea"
               placeholder="Ask a question..."
               value={inputField}
               onChange={handleInputChange}

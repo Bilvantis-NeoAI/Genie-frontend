@@ -45,6 +45,7 @@ const initialState = {
       org_commit_metrics:null,
       commit_violation_metrics:null
     },
+  },
     releasenotes_commitlogs:{
       loading :false,
       data:{
@@ -53,7 +54,7 @@ const initialState = {
         rephrase_commit_logs:null,
       },}
   }
-};
+
 export const graphReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_GRAPH_DATA:
