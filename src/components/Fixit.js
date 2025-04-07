@@ -45,10 +45,10 @@ export default function Fixit() {
         }
     };
     const handleFileChange = (e) => {
-        const { name, files } = e.target;
+        const { name, value } = e.target;
         setFiles((prev) => ({
             ...prev,
-            [name]: files[0],
+            [name]: value,
         }));
     };
 
@@ -178,16 +178,16 @@ export default function Fixit() {
                   </Button>
                 </div>
               </div> */}
-                            <Row className="justify-content-center mt-5">
+                            <Row className="justify-content-center mt-2">
                                 <Col md={5}>
-                                    <div className="card shadow-sm p-4">
-                                        <h5 className="mb-4 text-primary">Repository Details</h5>
+                                    <div className="card shadow-lg p-3">
+                                        <h5 className="mb-3 text-primary">Repository Details</h5>
 
                                         <div className="form-group mb-3">
-                                            <label className="form-field-title">
+                                            <label >
                                                 {homePage1TextSamples.URL_INPUT} <span className="required-styling">*</span>
                                             </label>
-                                            <div className="input-container d-flex align-items-center mt-2">
+                                            <div className="input-container-flex d-flex align-items-center mt-2">
                                                 <div className="icon-container me-2"><LanguageIcon /></div>
                                                 <input
                                                     type="url"
@@ -195,73 +195,55 @@ export default function Fixit() {
                                                     name="url"
                                                     value={inputFields.url}
                                                     placeholder="Enter the URL"
-                                                    className="form-control"
+                                                    className=""
+                                                    style={{ border: 'none' }}
                                                 />
                                             </div>
                                             {loading && <div className="loader mt-2"><span>Loading...</span></div>}
                                             {error.url && <div className="text-danger mt-1">{error.url}</div>}
                                         </div>
 
-                                        <div className="form-group mb-3">
-                                            <label className="form-field-title">{homePage1TextSamples.TOKEN}</label>
+                                        <div className="form-group mb-3 ">
+                                            <label>{homePage1TextSamples.TOKEN}<span className="required-styling">*</span></label>
                                             <input
                                                 type="text"
                                                 name="pat"
                                                 value={inputFields.pat}
                                                 onChange={handleChange}
                                                 placeholder="Enter the Token"
-                                                className="form-control"
+                                                className="input-container-flex"
                                             />
                                         </div>
 
                                         <div className="form-group mb-3">
-                                            <label className="form-field-title">{homePage1TextSamples.BRANCH_NAME}</label>
+                                            <label>{homePage1TextSamples.BRANCH_NAME}<span className="required-styling">*</span></label>
                                             <input
                                                 type="text"
                                                 name="branch"
-                                                className="form-control"
                                                 placeholder="Enter Branches (comma separated)"
+                                                className="input-container-flex"
                                                 value={inputFields.branch}
                                                 onChange={handleChange}
                                             />
                                         </div>
-                                    </div>
-                                </Col>
+                                {/* </Col>
 
-                                <Col md={5}>
-                                    <div className="card shadow-sm p-4">
-                                        <h5 className="mb-4 text-primary">Upload Files</h5>
+                                <Col md={5}> */}
+                                    {/* <div className="card shadow-lg p-3"> */}
+                                        <h5 className="mb-3 text-primary">Description</h5>
 
-                                        <div className="form-group mb-3">
-                                            <input
-                                                type="file"
-                                                name="file1"
-                                                onChange={handleFileChange}
-                                                className="form-control"
-                                            />
-                                        </div>
-                                        <div className="form-group mb-3">
-                                            <input
-                                                type="file"
-                                                name="file2"
-                                                onChange={handleFileChange}
-                                                className="form-control"
-                                            />
-                                        </div>
-                                        <div className="form-group mb-3">
-                                            <input
-                                                type="file"
-                                                name="file3"
-                                                onChange={handleFileChange}
-                                                className="form-control"
-                                            />
-                                        </div>
+                                        <textarea
+                                            name="file1"
+                                            onChange={handleFileChange}
+                                            rows={7}
+                                            cols={4}
+                                        />
                                     </div>
                                 </Col>
                             </Row>
 
-                            <div className="d-flex justify-content-center mb-5">
-                                <Button className="mt-4 px-5 buttons-colour" type="submit" disabled={isDisable}>
+                            <div className="d-flex justify-content-center mb-2">
+                                <Button className="mt-4 buttons-colour" type="submit" disabled={isDisable}>
                                     {homePage1TextSamples.SUBMIT}
                                 </Button>
                             </div>

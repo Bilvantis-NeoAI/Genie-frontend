@@ -50,9 +50,9 @@ export function GitOperations() {
                             <Nav.Link eventKey="gitrealse" style={tabStyle("gitrealse")}>
                                 Release Note & Commit logs
                             </Nav.Link>
-                            {/* <Nav.Link eventKey="fixit" style={tabStyle("fixit")}>
+                            <Nav.Link eventKey="fixit" style={tabStyle("fixit")}>
                                Fix It
-                            </Nav.Link> */}
+                            </Nav.Link>
                         </Nav>
                         <Tab.Content
                             style={{
@@ -72,9 +72,9 @@ export function GitOperations() {
                             <Tab.Pane eventKey="gitrealse" type='gitrealse'>
                                 <GitReleaseNote />
                             </Tab.Pane>
-                            {/* <Tab.Pane eventKey="fixit" type='fixit'>
+                            <Tab.Pane eventKey="fixit" type='fixit'>
                                 <Fixit/>
-                            </Tab.Pane> */}
+                            </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
                 </div>
