@@ -24,6 +24,7 @@ export function AdminDashboard() {
     const [newPassword, setNewPassword] = useState('')
     const [selectedUser, setSelectedUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [selectedLLM, setSelectedLLM] = useState('');
     const [activeTab, setActiveTab] = useState("users");
     let roles = [{ id: '1', rolename: "super_user" }, { id: '2', rolename: "admin" }, { id: '3', rolename: "user" }]
     const dispatch = useDispatch();
@@ -47,13 +48,54 @@ export function AdminDashboard() {
         </div>
     );
     const neo4jStatusOptions = [{ label: "Include All", value: 'False' }, { label: "Include Texts", value: 'True' }];
+    const llmConfig = [
+        { label: 'OpenAI', value: 'openai' },
+        { label: 'Gemini', value: 'gemini' }
+    ];
+    const handleSelect = (value) => {
+        setSelectedLLM(value);
+    }; 
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
     const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
     const [storageOption, setStorageOption] = useState('local');
     const [isActive, setIsActive] = useState(false);
-    const [formValues, setFormValues] = useState({email: "", role: "", company_name: "" });
+    const [formValues, setFormValues] = useState({ email: "", role: "", company_name: "" });
+
+    const handleLLMSubmit = () => {
+      const token = sessionStorage.getItem("access_token");
     
+      const formData = new FormData();
+      formData.append("new_llm_config", selectedLLM);
+    
+      fetch(process.env.REACT_APP_IP + 'genieapi/update-llm-config', {
+        method: 'POST',
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          // DO NOT set Content-Type manually
+        },
+        body: formData
+      })
+        .then(data => {
+          console.log('LLM selection saved:', data);
+          setSelectedLLM('')
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'LLM configuration updated successfully!',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        })
+        .catch(err => {
+          console.error('Error sending LLM to backend:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to update LLM configuration. Please try again.',
+          });
+        });
+    };
     const onRoleChange = (e, user) => {
         let selectedProject = roles.find(
             (role) => role.id === e.target.value
@@ -241,7 +283,7 @@ export function AdminDashboard() {
             >
                 <BootstrapSidebar /></div>
             <div className="row">
-            {loading && <FullScreenLoader />}
+                {loading && <FullScreenLoader />}
                 <ul className="nav">
                     <li className="nav-item" style={{ marginLeft: '10%' }}>
                         <button
@@ -529,6 +571,27 @@ export function AdminDashboard() {
                             <Button className="btn btn-primary btn-sm" onClick={handleReload}>Reload Data</Button>
                         </div>
                         <Row className="flex-column m-3 h-100">
+                            <Col className="d-flex flex-column align-items-center p-4 border rounded mb-3">
+                                <h5>NeoAI LLM Config</h5>
+                                <div className="d-flex align-items-start mt-4 w-100">
+                                    <FormControl fullWidth className="p-2">
+                                        <InputLabel>Select Option</InputLabel>
+                                        <Select
+                                            value={selectedLLM}
+                                            onChange={e => handleSelect(e.target.value)}
+                                            style={{ height: '35px' }}
+                                        >
+                                            {llmConfig.map((option, index) => (
+                                                <MenuItem key={index} value={option.value}>
+                                                    {option.label}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                     <Button className="btn btn-primary btn-sm mt-2" onClick={handleLLMSubmit}>Submit</Button>
+                                </div>
+                            </Col>
+
                             <Col className="d-flex flex-column align-items-center p-4 border rounded">
                                 <h5>Neo4j Status</h5>
                                 <div className="d-flex align-items-start mt-4 w-100">
