@@ -199,10 +199,10 @@ export function GitReleaseNote() {
                             </Col>
                             <Col md={6} lg={4}>
                                 <Form.Group controlId="newBranch">
-                                    <Form.Label>new Branch <span className="text-danger">*</span></Form.Label>
+                                    <Form.Label>New Branch <span className="text-danger">*</span></Form.Label>
                                     <Form.Control
                                         type="text"
-                                        placeholder="new Branch"
+                                        placeholder="New Branch"
                                         value={newBranch}
                                         onChange={(e) => setNewBranch(e.target.value)}
                                         isInvalid={!!errors.newBranch}
@@ -230,14 +230,14 @@ export function GitReleaseNote() {
 
                         </Row>
 
-                        <div className="mb-4">
+                        <div className="mb-5">
                             <Form.Label>Upload Features (CSV) <span className="text-danger">*</span></Form.Label>
                             <Form.Control type="file" accept=".csv" onChange={handleFileChange} isInvalid={!!errors.file} />
                             {errors.file && <div className="text-danger mt-1">{errors.file}</div>}
                         </div>
 
                         {csvData.length > 0 && (
-                            <div className="mb-5 border rounded p-3">
+                            <div className="mb-5 border rounded p-3 mt-5">
                                 <h5 className="mb-3">Edit CSV Data</h5>
                                 <div className="table-responsive">
                                     <table className="table table-bordered table-sm">
@@ -253,7 +253,8 @@ export function GitReleaseNote() {
                                                                 type="text"
                                                                 value={value}
                                                                 onChange={(e) => handleCsvDataChange(index, field, e.target.value)}
-                                                                className="form-control form-control-sm"
+                                                                className="form-control-sm"
+                                                                style={{border:'none' , width:'90%'}}
                                                             />
                                                         </td>
                                                     ))}

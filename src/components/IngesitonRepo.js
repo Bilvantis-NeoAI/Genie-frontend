@@ -1,26 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { homePage1TextSamples } from "../utils/constatnts";
-import LanguageIcon from "@mui/icons-material/Language";
 import Button from "react-bootstrap/Button";
-import { BootstrapSidebar } from "./sideNav";
-import { HeaderComponent } from "./header";
-import { Container, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { repoIngestion } from "../actions/IngestionAction";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { repo_Ingestion, sweetalert } from "../utils/constatnts";
 import Swal from "sweetalert2";
+import { ingestedRepoList } from "../actions/IngestionAction";
 export default function IngestionRepo() {
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
-  const [isDisable, setIsDisable] = useState(false)
+  const [isDisable, setIsDisable] = useState(false);
   const [inputFields, setInputFields] = useState({
     branch: "",
     url: "",
     pat: "",
   });
+  const FullScreenLoader = () => (
+    <div className="loader-overlay">
+      <div className="spinner-border text-white" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
   const dispatch = useDispatch();
+  const repoData = useSelector((state) => state.ingestedRepo?.ingestionRepos?.action?.data);
+  useEffect(() => {
+    dispatch(ingestedRepoList())
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputFields((prevState) => ({
@@ -44,127 +53,123 @@ export default function IngestionRepo() {
       ...inputFields,
       branch: branchNames,
     };
-    setLoading(true)
-    setIsDisable(true)
+    setLoading(true);
+    setIsDisable(true);
+
     dispatch(repoIngestion(submissionData))
       .then((d) => {
-        setLoading(false)
-        setIsDisable(false)
+        setLoading(false);
+        setIsDisable(false);
         if (d.status === 200) {
           Swal.fire({
             title: sweetalert.SUCCESS_TITLE,
             text: repo_Ingestion.INGESTION_INITIATED_SUCCEEFULLY,
             icon: sweetalert.SUCCESS_ICON,
             confirmButtonText: sweetalert.OK_CONFIRMED_TEXT,
-          })
+          });
         }
       })
-      .catch((e) => {
-        setLoading(false)
-        setIsDisable(false)
+      .catch(() => {
+        setLoading(false);
+        setIsDisable(false);
         Swal.fire({
           title: sweetalert.ERROR_CONFIRMED_TEXT,
           text: repo_Ingestion.ERROR_OCCURED_REPO_INGESTION,
           icon: sweetalert.ERROR_ICON,
-          confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT
+          confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
         });
       });
   };
   return (
-    <div>
-      <Container fluid className="w-100">
-        <div >
-          <form onSubmit={handleSubmit}>
-            <div className="col-8 h-100 ms-5 mb-5 pb-4">
-              <div
-                className="card d-flex h-100 shadow-lg question-card ms-5"
-              >
-                <div className="form-group d-flex flex-column align-items-center mt-3 ms-5">
-                  <div className="mt-2">
-                    <div>
-                      <span className="form-field-title">
-                        {homePage1TextSamples.URL_INPUT}
-                      </span>
-                      <span className="required-styling">*</span>
-                    </div>
-                    <div className="input-container mt-2 d-flex align-items-center">
-                      <div className="icon-container">
-                        <LanguageIcon />
-                      </div>
-                      <input
-                        type="url"
-                        onChange={handleChange}
-                        name="url"
-                        value={inputFields.url}
-                        placeholder="Enter the URL"
-                        className="form-control input-box"
-                      />
-                    </div>
-                    {loading && (
-                      <div className="loader">
-                        <span>Loading...</span>
-                      </div>
-                    )}
-                    {error.url && (
-                      <div className='errorMessage' style={{ color: 'red' }}>
-                        {error.url}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 w-30">
-                    <div>
-                      <span className="form-field-title">
-                        {homePage1TextSamples.TOKEN}
-                      </span>
-                    </div>
-                    <div className="input-container mt-2 d-flex align-items-center">
-                      <input
-                        type="text"
-                        name="pat"
-                        value={inputFields.token}
-                        onChange={handleChange}
-                        placeholder="Enter the Token"
-                        className="form-control input-box"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-4 w-30">
-                    <div>
-                      <span className="form-field-title">
-                        {homePage1TextSamples.BRANCH_NAME}
-                      </span>
-                    </div>
-                    <div className="input-container mt-2 d-flex align-items-center">
-                      <input
-                        type="text"
-                        name="branch"
-                        className="form-control input-box"
-                        placeholder="Enter Branches (comma separated)"
-                        value={inputFields.branch}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-100 d-flex justify-content-center pb-4">
-                    <Button className="mt-3 buttons-colour" type="submit" disabled={isDisable}>
-                      {homePage1TextSamples.SUBMIT}
-                    </Button>
-                  </div>
-                </div>
+    <div className="bg-light min-vh-100 py-5">
+      <Container>
+        <form onSubmit={handleSubmit}>
+          <div className="mx-auto card shadow-lg p-4" style={{ maxWidth: "600px" }}>
+            <div className="form-group">
+              <div className="mb-4">
+                <label className="form-label fw-bold">
+                  {homePage1TextSamples.URL_INPUT}
+                  <span className="text-danger ms-1">*</span>
+                </label>
+                <input
+                  type="url"
+                  name="url"
+                  className="form-control"
+                  placeholder="Enter the URL"
+                  value={inputFields.url}
+                  onChange={handleChange}
+                />
+                {loading && <FullScreenLoader />}
+                {error.url && <div className="text-danger mt-1 small">{error.url}</div>}
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label fw-bold">{homePage1TextSamples.TOKEN}</label>
+                <input
+                  type="text"
+                  name="pat"
+                  className="form-control"
+                  placeholder="Enter the Token"
+                  value={inputFields.pat}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label fw-bold">{homePage1TextSamples.BRANCH_NAME}</label>
+                <input
+                  type="text"
+                  name="branch"
+                  className="form-control"
+                  placeholder="Enter Branches (comma separated)"
+                  value={inputFields.branch}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="text-center">
+                <Button type="submit" className="btn btn-primary px-4" disabled={isDisable}>
+                  {homePage1TextSamples.SUBMIT}
+                </Button>
               </div>
             </div>
-          </form>
+          </div>
+        </form>
+
+        <div className="table-responsive mt-5 mx-auto" style={{ maxWidth: "800px" }}>
+          <h4>Ingested Repositoris</h4>
+
+          <table className="table table-bordered table-striped">
+            <thead className="table-secondary">
+              <tr>
+                <th style={{ width: "10%" }}>Sl</th>
+                <th style={{ width: "45%" }}>Repo</th>
+                <th style={{ width: "45%" }}>Branch</th>
+              </tr>
+            </thead>
+            <tbody>
+              {repoData && repoData.repos.length > 0 ? (
+                repoData.repos.map((repo, index) =>
+                  repo.branches.map((branch, idx) => (
+                    <tr key={`${index}-${idx}`}>
+                      <td>{index + 1}</td>
+                      <td>{repo.repo_name}</td>
+                      <td>{branch}</td>
+                    </tr>
+                  ))
+                )
+              ) : (
+                <tr>
+                  <td colSpan="3" className="text-center">
+                    No data found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
+
         <ToastContainer />
-        {/* <div className="position-sticky bottom-0 d-flex justify-content-center align-items-center footer-style ms-5 me-1 rounded">
-          <span
-            style={{
-              color: "white",
-            }}
-          >
-            {footerTextSamples.BILVANTIS}
-          </span>
-        </div> */}
       </Container>
     </div>
   );

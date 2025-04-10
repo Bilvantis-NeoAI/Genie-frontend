@@ -148,7 +148,7 @@ html, body {
 
 .navBarAdmin {
   border-bottom: 10px black;
-  margin-top: -1px;
+  margin-top: -11px;
   width: 90%;
   margin-left: 7%;
 }
@@ -172,6 +172,35 @@ html, body {
 }
 
 /****Admin end*********/
+.form-label {
+  font-size: 1rem;
+  color: #333;
+}
+
+input.form-control {
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+}
+
+.card {
+  border-radius: 1rem;
+  background-color: #fefefe;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+}
+
+.text-danger {
+  font-size: 0.9rem;
+}
+
 /*******Fix It*********/
 .form-field-title {
   font-weight: 500;

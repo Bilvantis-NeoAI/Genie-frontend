@@ -12,6 +12,7 @@ export const apis = {
     NEO4J_STATUS : '/neo4j_status',
     RELOAD_API : '/reload-docs',
     ingetion :'/process_multibranch_repo',
+    INGESTED_LIST :'/get_repos',
     retriveRepoData :'/explain',
     GET_CODE : '/get_code',
     LOGIN : 'auth/login',
