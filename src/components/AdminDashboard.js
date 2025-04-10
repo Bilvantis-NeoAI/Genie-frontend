@@ -304,7 +304,7 @@ export function AdminDashboard() {
                 <hr className="navBarAdmin"></hr>
                 {activeadminTab === "adminUsers" ?
                     (<>
-                        <ul className="nav gap-5 d-flex align-items-center w-100 position-relative">
+                        <ul className="nav gap-5 d-flex w-100 position-relative">
                             <li className="nav-item" style={{ marginLeft: '10%' }}>
                                 <button
                                     className={`nav-link ${activeTab === "users" ? "active-tab" : ""}`}

@@ -33,7 +33,7 @@ const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
                     </div>
                 </div>
             </div>
-            <div style={{ overflowX: "auto", height: "240px", position: "relative" }}>
+            <div style={{ overflowX: "auto", scrollbarWidth: "none",height: "240px", position: "relative"}}>
     {data.length === 0 ? (
         <div style={{
             display: "flex",
