@@ -193,7 +193,7 @@ export function HomePage() {
             contentLabel="PDF Viewer"
             style={{
               content: {
-                width: "80%",
+                width: "90%",
                 height: "80%",
                 margin: "auto",
                 zIndex: 1402,
@@ -390,7 +390,7 @@ export function HomePage() {
               )}
             </div>
           </Modal>
-          <div className="h-100 ms-5 mb-5 pb-4">
+          <div className="h-100 mb-5 pb-4">
             <div
               className="card d-flex h-100 question-card ms-4"
               style={{ overflowY: "scroll" }}

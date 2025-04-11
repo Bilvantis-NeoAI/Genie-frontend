@@ -39,7 +39,7 @@ export default function GitMetrics(){
         return (
             <Container fluid className="w-100" >
                 <div className="w-100">
-                    <div className='h-100 ms-5 mb-5 pb-4' >
+                    <div className='h-100  mb-5 pb-4' >
                         <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }} >
                             <div className='dasboard-container mt-3 container-fluid'>
                                 <div className='top-charts-container row'>

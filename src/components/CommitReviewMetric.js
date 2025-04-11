@@ -13,8 +13,9 @@ export default function CommitReviewMetric() {
     const moduleType = "commit"
     const [users, setUsers] = useState([]);
     const data = useSelector((state) => state.graphs[moduleType]?.data);
-    console.log("==datadatadata metrics",data);
-    
+
+    const loadingStates = useSelector((state) => state.graphs[moduleType]?.loading || {});
+
     const dispatch = useDispatch();
     useEffect(() => {
         const params = { type: moduleType, filter: false };
@@ -149,7 +150,7 @@ export default function CommitReviewMetric() {
     return (
         <>
             <div className="row g-2 ">
-                {
+                {/* {
                     metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;
                         return (
@@ -166,7 +167,28 @@ export default function CommitReviewMetric() {
                             </div>
                         );
                     })
-                }
+                } */}
+                {metrics?.map((metric, index) => {
+  const GraphComponent = graphComponents[metric?.graph_type] || null;
+  const isLoading = loadingStates[metric?.key];
+
+  return (
+    <div className="col-lg-6 col-md-12" key={index}>
+      {GraphComponent && (
+        <GraphComponent
+          data={metric.data}
+          title={metric.title}
+          metricKey={metric.key}
+          from={CANVASKEY.SEVERITY}
+          handleFilter={(filterValues) => handleFilter(filterValues, metric.title, metric?.key)}
+          isLoading={isLoading}
+        />
+      )}
+    </div>
+  );
+})
+}
+
             </div>
             <OffCanvas
                 isVisible={offCanvas}
