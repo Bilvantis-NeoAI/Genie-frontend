@@ -196,29 +196,28 @@ export default function RetrieveData() {
             </div>
 
           </div>
-          <div className=" d-flex mt-3 ">
+          <div className=" d-flex mt-5 ">
             <Form.Control
-              // type="text"
               as="textarea"
               placeholder="Ask a question..."
               value={inputField}
               onChange={handleInputChange}
               isInvalid={!!error}
-              className="form-control"
             />
             <Form.Control.Feedback type="invalid">
               {error}
             </Form.Control.Feedback>
 
-            <div className="d-flex ms-3">
+            <div className="d-flex ms-3 mt-3">
               <Button
                 onClick={() => handleSubmit("explain")}
-                className="me-3"
+                className="me-4"
+                style={{height:'70%'}}
                 disabled={loading}
               >
                 {loading ? "Loading..." : homePageTextSamples.EXPLAIN}
               </Button>
-              <Button onClick={() => handleSubmit("code")} disabled={loading}>
+              <Button onClick={() => handleSubmit("code")} disabled={loading} style={{height:'70%'}}>
                 {loading ? "Loading..." : homePageTextSamples.GET_CODE}
               </Button>
             </div>

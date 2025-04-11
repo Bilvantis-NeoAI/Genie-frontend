@@ -286,9 +286,9 @@ export function TestCaseAi() {
                 <div style={{ width: '10%' }}>
                     <BootstrapSidebar />
                 </div>
-                <div className='card pb-3 h-100 align-items-center ' style={{ overflowY: 'scroll', marginLeft: '15%', fontSize: '15px' }}>
+                <div className='card pb-3 h-100 ' style={{ overflowY: 'scroll', marginLeft: '8%', marginRight: '2%', fontSize: '15px' }}>
                     <div className="col-12 d-flex">
-                        <div className='col-4'>
+                        <div className='col-6'>
                             <DropzoneSection
                                 title={<span className="dropzone-title">Upload Feature Files</span>}
                                 dropzoneState={firstDropzoneState}
@@ -298,7 +298,7 @@ export function TestCaseAi() {
                                 required={true}
                             />
                         </div>
-                        <div className='col-4'>
+                        <div className='col-5'>
                             <DropzoneSection
                                 title={<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
                                 dropzoneState={secondDropzoneState}
@@ -307,33 +307,37 @@ export function TestCaseAi() {
                                 errors={secondDropzoneErrors}
                                 required={true} />
                         </div>
+                    </div>
+                    <div className="col-md-8 ms-4 mt-5 d-flex align-items-center gap-3">
+                        <label className="mb-0" style={{  }}>
+                            Select Data Type:
+                        </label>
 
-                        <div className='col-4'>
-                            <label className='labelDatatype'>Select Data Type:</label>
-                            <select
-                                className="border p-2 rounded-md w-full"
-                                value={selectedType}
-                                onChange={(e) => setSelectedType(e.target.value)}
-                            >
-                                {dataTypes.map((type) => (
-                                    <option key={type} value={type}>
-                                        {type}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        <select
+                            className="form-select form-select-sm"
+                            style={{ flex: 1 }}
+                            value={selectedType}
+                            onChange={(e) => setSelectedType(e.target.value)}
+                        >
+                            {dataTypes.map((type) => (
+                                <option key={type} value={type}>
+                                    {type}
+                                </option>
+                            ))}
+                        </select>
+
+                        <Button
+                            onClick={handleCombinedSubmit}
+                            className="btn btn-primary text-white"
+                            style={{ width: "15%" }}
+                        >
+                            Submit
+                        </Button>
                     </div>
 
-                    <Button
-                        onClick={handleCombinedSubmit}
-                        className="mt-5 primary text-white "
-                        style={{ width: '15%' }}
-                    >
-                        Submit
-                    </Button>
                     {headers.length > 0 && tableData.length > 0 ? (
                         <>
-                            <div className="mt-4 p-4" style={{ marginRight: '50%' }}>
+                            <div className="mt-4 p-4" style={{ width: '100%' }}>
                                 <table className="table table-bordered w-100">
                                     <thead>
                                         <tr>
@@ -351,14 +355,15 @@ export function TestCaseAi() {
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody style={{ width: "100%", fontSize: "12px" }}>
                                         {tableData.map((row, rowIndex) => (
-                                            <tr key={row.id}>
-                                                <td>
+                                            <tr key={row.id} className={row.isSelected ? "table-active" : ""}>
+                                                <td style={{ verticalAlign: "middle", textAlign: "center" }}>
                                                     <input
                                                         type="checkbox"
                                                         checked={row.isSelected}
                                                         onChange={(e) => handleSelectRow(rowIndex, e.target.checked)}
+                                                        style={{ cursor: "pointer" }}
                                                     />
                                                 </td>
                                                 {headers.map((header) => (
@@ -367,16 +372,17 @@ export function TestCaseAi() {
                                                             type="text"
                                                             value={row[header]}
                                                             onChange={(e) => handleCellEdit(rowIndex, header, e.target.value)}
-                                                            className="form-control"
+                                                            className="table-cell-input"
                                                         />
                                                     </td>
                                                 ))}
                                             </tr>
                                         ))}
                                     </tbody>
+
                                 </table>
                             </div>
-                            <div className="d-flex justify-content-between mt-4">
+                            <div className="d-flex justify-content-between mt-4 gap-3 ms-4" >
                                 <Button
                                     onClick={handleExport}
                                     className="btn-primary"
@@ -392,29 +398,46 @@ export function TestCaseAi() {
                             </div>
                         </>
                     ) : (
-                        <p className="text-center mt-4">No data available</p>
+                        <p className="text-center mt-4" style={{marginLeft:'20%'}}>No data available</p>
                     )}
                     <div className="container">
                         {fileContent && (
-                            <div className="row g-4 mt-3">
-                                <div className="col-md-6">
-                                    <div className="p-4 bg-dark text-white rounded shadow" style={{ minHeight: '50%' }}>
+                            <div className="row g-4 mt-3 ms-1">
+                                <div className="">
+                                    <div className="p-4 bg-dark text-white rounded shadow" style={{}}>
                                         <h5 className="mb-3">Processed File</h5>
                                         <textarea
                                             value={fileContent}
                                             readOnly
-                                            className="form-control bg-black text-white font-monospace resize-none custom-textarea"
-                                            style={{ height: '350px' }}
+                                            className="form-control bg-black text-white font-monospace"
+                                            style={{ height: '350px', marginLeft: '12%' }}
                                         />
                                         <button
                                             onClick={handleDownload}
                                             className="btn btn-success mt-3"
+                                            style={{ marginLeft: '12%' }}
                                         >
                                             Download File
                                         </button>
+                                        <h5 className="mb-3 mt-5" style={{ marginLeft: '12%' }}>Feedback</h5>
+                                        <textarea
+                                            value={feedback}
+                                            onChange={(e) => setFeedback(e.target.value)}
+                                            placeholder="Write your feedback here..."
+                                            className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
+                                            style={{ height: '30%', marginLeft: '12%' }}
+                                        />
+                                        <button
+                                            onClick={handleSubmit}
+                                            className="btn btn-primary mt-3"
+                                            style={{ marginLeft: '12%' }}
+                                        >
+                                            Submit Feedback
+                                        </button>
+
                                     </div>
                                 </div>
-                                <div className="col-md-6">
+                                {/* <div className="col-md-6">
                                     <div className="p-4 bg-white text-dark rounded shadow" style={{ minHeight: '50%' }}>
                                         <h5 className="mb-3">Feedback</h5>
                                         <textarea
@@ -431,7 +454,7 @@ export function TestCaseAi() {
                                             Submit Feedback
                                         </button>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         )}
 
@@ -446,7 +469,7 @@ export function TestCaseAi() {
 
 function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors, required }) {
     return (
-        <div className="d-flex flex-column align-items-center mt-2 px-2 w-100">
+        <div className="d-flex flex-column align-items-center mt-2 px-2 w-100 ms-3">
             <div className="max-w-xs bg-white shadow-sm rounded-md p-3 border border-gray-200">
                 <div className="mb-3">
                     <div className="d-flex justify-content-between">
@@ -468,13 +491,6 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                                 <p className="text-muted text-truncate" style={{ maxWidth: '120px' }}>
                                     {file.name}
                                 </p>
-                                {/* <button
-                                    type="button"
-                                    className="text-danger" 
-                                    onClick={() => removeFile(index)}
-                                >
-                                    <FolderDeleteIcon fontSize="small" />
-                                </button> */}
                             </div>
                         ))}
                     </Dropzone>

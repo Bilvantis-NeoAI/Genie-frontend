@@ -181,6 +181,13 @@ input.form-control {
   border-radius: 0.5rem;
   padding: 0.6rem 1rem;
 }
+.table-cell-input {
+  width: 100%;
+  font-size: 12px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0.25rem;
+}
 
 .card {
   border-radius: 1rem;

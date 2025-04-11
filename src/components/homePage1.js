@@ -115,7 +115,7 @@ const updateFiles = (incomingFiles) => {
   return (
     <Container className='w-100' fluid style={{ height: '100vh' }}>
       <div className="w-100 mt-3" style={{ height: '82vh' }}>
-        <div className='h-100 ms-5 mb-5 pb-4'>
+        <div className='h-100 mb-5 pb-4'>
           <div className='card d-flex h-100 question-card ms-4' style={{ overflowY: 'scroll' }}>
             <div className="form-group d-flex flex-column align-items-center w-100 d-flex mt-3 ms-5">
 

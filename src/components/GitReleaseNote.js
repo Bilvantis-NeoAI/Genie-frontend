@@ -1,10 +1,7 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import { BootstrapSidebar } from "./sideNav";
-import { HeaderComponent } from "./header";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback, deleteTempDir } from '../actions/gitReleaseNoteActions';
+import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback} from '../actions/gitReleaseNoteActions';
 import { useEffect, useState } from 'react';
 import Papa from "papaparse";
 import Swal from "sweetalert2";
@@ -161,8 +158,8 @@ export function GitReleaseNote() {
     return (
         <Container fluid className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
             <div className="w-100 d-flex flex-grow-1 mt-3" style={{ height: "82vh" }}>
-                <div className="flex-grow-1 ms-5 mb-5 pb-4">
-                    <Card className="h-100 p-4 ms-5 shadow-sm rounded release-form-card">
+                <div className="flex-grow-1 mb-5 pb-4">
+                    <Card className="h-100 p-4 shadow-sm rounded release-form-card ms-3">
                         <h2 className="h5 fw-semibold mb-4">Upload Git Release Note</h2>
                         {loading && <FullScreenLoader />}
                         <Row className="g-4 mb-2">
