@@ -61,7 +61,7 @@ export const homePageTextSamples = {
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };
-export const  baseURL =  'http://34.134.148.250/'
+export const  baseURL =  'https://neoai.bilvantis.com/'
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",

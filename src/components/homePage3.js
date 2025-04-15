@@ -55,10 +55,10 @@ export function HomePage3() {
                         </Nav>
                         <Tab.Content
                             style={{
-                                marginTop: "26px",
-                                marginLeft: '5%',
-                                backgroundColor: "rgb(248, 248, 248)",
-                                padding: "0 2px",
+                                marginTop: "12px",
+                                marginLeft: '5.5%',
+                                // backgroundColor: "rgb(248, 248, 248)",
+                                // padding: "0 2px",
                             }}
                         >
                             <Tab.Pane eventKey="Severity" type='severity'>

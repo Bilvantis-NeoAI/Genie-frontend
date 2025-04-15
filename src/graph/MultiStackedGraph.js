@@ -179,7 +179,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     overflowX: "auto",
                     overflowY: "hidden",
                     width: "100%",
-                    height: "240px",
+                    height: "234px",
                     scrollbarWidth: "none",
                 }}
             >

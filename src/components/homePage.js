@@ -215,10 +215,11 @@ export function HomePage() {
          
 
             {response[relevantPdfIndex]?.[selectContextOption] ? (
+              
               <iframe
                 src={
                   response[relevantPdfIndex]?.storage === "local"
-                    ? baseURL + response[relevantPdfIndex]?.[selectContextOption]
+                    ? baseURL+'/kbmsapi/' + response[relevantPdfIndex]?.[selectContextOption]
                     : 
                     `https://docs.google.com/viewer?url=${encodeURIComponent(response[relevantPdfIndex]?.[selectContextOption])}&embedded=true`
 
@@ -262,7 +263,7 @@ export function HomePage() {
               <iframe
                 src={
                   response[relevantPdfIndex]?.storage === "local"
-                    ? baseURL + response[relevantPdfIndex]?.[selectRelevantOption]
+                    ? baseURL+'/kbmsapi/' + response[relevantPdfIndex]?.[selectRelevantOption]
                     :
                     // response[relevantPdfIndex]?.[selectRelevantOption]
                     `https://docs.google.com/viewer?url=${encodeURIComponent(response[relevantPdfIndex]?.[selectRelevantOption])}&embedded=true`
@@ -308,10 +309,10 @@ export function HomePage() {
               )}
               {response[relevantPdfIndex]?.images?.map((image, index) => (
                 <img
-                  key={baseURL + image}
+                  key={baseURL+'/kbmsapi/' + image}
                   src={
                     response[relevantPdfIndex]?.storage === "local"
-                      ? baseURL + image
+                      ? baseURL+'kbmsapi/' + image
                       : image
                   }
                   alt={`Image ${index}`}
@@ -355,7 +356,7 @@ export function HomePage() {
                     <iframe
                       src={
                         response[relevantPdfIndex]?.storage === "local"
-                          ? baseURL + response[relevantPdfIndex]?.full_graph
+                          ? baseURL+'/kbmsapi/' + response[relevantPdfIndex]?.full_graph
                           : response[relevantPdfIndex]?.full_graph
                       }
                       style={{
@@ -373,7 +374,7 @@ export function HomePage() {
                     <iframe
                       src={
                         response[relevantPdfIndex]?.storage === "local"
-                          ? baseURL + response[relevantPdfIndex]?.semi_graph
+                          ? baseURL+'/kbmsapi/' + response[relevantPdfIndex]?.semi_graph
                           : response[relevantPdfIndex]?.semi_graph
                       }
                       style={{

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
     ResponsiveContainer,
     BarChart,
@@ -9,7 +9,8 @@ import {
     Legend,
     CartesianGrid,
 } from "recharts";
-import { DATAKEY,XAXISNAMES } from "../utils/constatnts";
+import { DATAKEY, XAXISNAMES } from "../utils/constatnts";
+
 const CustomTick = ({ x, y, payload }) => {
     const fixedWidth = 30;
     return (
@@ -32,6 +33,37 @@ const CustomTick = ({ x, y, payload }) => {
 
 const CountGraph = ({ data, title }) => {
     const chartWidth = Math.max(data.length * 60, 800);
+    const scrollContainerRef = useRef(null);
+
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+        setStartX(e.clientX);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        const moveX = e.clientX - startX;
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollLeft = scrollLeft - moveX;
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        setScrollLeft(scrollContainerRef.current.scrollLeft);
+    };
+
+    const handleMouseLeave = () => {
+        if (isDragging) {
+            setIsDragging(false);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
 
     return (
         <div className="card g-4">
@@ -48,36 +80,54 @@ const CountGraph = ({ data, title }) => {
             >
                 <div>{title}</div>
             </div>
-            <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "25%", position: "relative" }}>
-            {data.length === 0 ? (
-                    <div  style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        fontSize: "16px",
-                    }}>No Data Found</div>
-                ) : (
-            <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
 
-                <ResponsiveContainer width={chartWidth} height={233}>
-                    <BarChart
-                        data={data}
-                        barCategoryGap="25%"
-                        barGap={10}
+            <div
+                ref={scrollContainerRef}
+                style={{
+                    overflowX: "auto",
+                    scrollbarWidth: "none",
+                    height: "25%",
+                    position: "relative",
+                    cursor: isDragging ? "grabbing" : "grab", // Change cursor when dragging
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+            >
+                {data.length === 0 ? (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "100%",
+                            fontSize: "16px",
+                        }}
                     >
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis dataKey={DATAKEY.PROJECT} tick={<CustomTick />} interval={0} />
-                        <YAxis fontSize={10} />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Legend />
-                        <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
+                        No Data Found
+                    </div>
+                ) : (
+                    <ResponsiveContainer width={chartWidth} height={225}>
+                        <BarChart
+                            data={data}
+                            barCategoryGap="25%"
+                            barGap={10}
+                        >
+                            <CartesianGrid strokeDasharray="2 2" />
+                            <XAxis dataKey={DATAKEY.PROJECT} tick={<CustomTick />} interval={0} />
+                            <YAxis fontSize={10} />
+                            <Tooltip cursor={{ fill: "transparent" }} />
+                            <Legend />
+                            <Bar dataKey={DATAKEY.COUNT} fill="#1DB9EF" barSize={20} name={XAXISNAMES.COUNT} />
+                        </BarChart>
+                    </ResponsiveContainer>
                 )}
-                </div>
+            </div>
         </div>
     );
 };
+
 export default CountGraph;
+
+

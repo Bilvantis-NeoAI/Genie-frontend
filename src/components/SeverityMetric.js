@@ -172,7 +172,8 @@ export default function SeverityMetric() {
         <>
             {loading && <FullScreenLoader />} {/* Display the loader while loading */}
             <div className="row g-2">
-                {!loading ? (
+                {
+                // !loading ? (
                     metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;
                         return (
@@ -189,9 +190,10 @@ export default function SeverityMetric() {
                             </div>
                         );
                     })
-                ) : (
-                    <div className="col-12 text-center">Loading...</div>
-                )}
+                // ) : (
+                //     <div className="col-12 text-center">Loading...</div>
+                // )
+                }
             </div>
             <OffCanvas
                 isVisible={offCanvas}

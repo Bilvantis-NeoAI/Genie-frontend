@@ -50,8 +50,8 @@ const PieGraph = ({ data, title, handleFilter, keys }) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip   contentStyle={{ fontSize: "12px" }}/>
+                <Legend wrapperStyle={{ fontSize: "12px" }}/>
             </PieChart>
         </ResponsiveContainer>
                 )}
