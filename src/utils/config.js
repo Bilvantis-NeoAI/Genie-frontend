@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const IP = process.env.REACT_APP_IP //'http://34.46.36.105:3000/'
+export const IP = process.env.REACT_APP_IP 
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
