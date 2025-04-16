@@ -279,7 +279,7 @@ export function AdminDashboard() {
             </Row>
             <div
                 className="flex-grow-1"
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "10px" }}
             >
                 <BootstrapSidebar /></div>
             <div className="row">
@@ -321,14 +321,31 @@ export function AdminDashboard() {
                                 </button>
                             </li>
                             {activeTab === "users" && (
-                                <button
-                                    className="btn btn-outline-dark btn-sm position-absolute"
-                                    style={{ right: "5%" }} // Move it slightly to the left
-                                    title="Edit Role"
-                                    onClick={(e) => onFilter(e)}
-                                >
-                                    Filter
-                                </button>
+                              <button
+                              className="btn btn-outline-primary btn-sm position-absolute"
+                              style={{
+                                  right: "5%",
+                                  bottom: "15px",
+                                  
+                                  padding: "6px 16px",
+                                  fontWeight: "500",
+                                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                                  transition: "all 0.3s ease-in-out",
+                              }}
+                              title="Filter"
+                              onClick={(e) => onFilter(e)}
+                              onMouseEnter={(e) => {
+                                  e.target.style.backgroundColor = "#0d6efd";
+                                  e.target.style.color = "#fff";
+                              }}
+                              onMouseLeave={(e) => {
+                                  e.target.style.backgroundColor = "transparent";
+                                  e.target.style.color = "#0d6efd";
+                              }}
+                          >
+                              <i className="bi bi-funnel-fill me-1"></i> Filter
+                          </button>
+                          
                             )}
                         </ul>
                         <hr className="navBarAdmin"></hr>

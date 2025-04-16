@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import logoutIcon from "../Assets/logout.svg";
@@ -36,6 +36,11 @@ export const BootstrapSidebar = () => {
     });
   };
 
+  const iconStyle = {
+    width: "25px",
+    height: "25px",
+  };
+
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
@@ -56,7 +61,7 @@ export const BootstrapSidebar = () => {
               cursor: "pointer"
             }}
           >
-            <img src={icon} alt="" className="imagestyles" />
+            <img src={icon} alt="" style={iconStyle} />
             <span className="tooltip" style={{ marginLeft: "10px" }}>{label}</span>
           </li>
         ))}
@@ -70,7 +75,7 @@ export const BootstrapSidebar = () => {
             cursor: "pointer"
           }}
         >
-          <img src={logoutIcon} alt="" className="imagestyles" />
+          <img src={logoutIcon} alt="" style={iconStyle} />
           <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
         </li>
       </ul>

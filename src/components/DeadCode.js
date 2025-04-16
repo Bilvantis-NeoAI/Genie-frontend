@@ -108,95 +108,130 @@ export function DeadCode() {
                 </div>
             )}
 
-            <Container fluid className="justify-content-center align-items-center" style={{ marginLeft: '20%' }}>
-                <Row className="w-50">
-                    <Col>
-                        <Card className="shadow-lg p-4">
-                            <h3 className="text-center mb-4">Code Hygiene Analysis</h3>
-                            <Form noValidate>
-                                <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">
-                                        Repository Name (URL): <span className="text-danger">*</span>
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="repo_url"
-                                        placeholder="Enter repo URL"
-                                        value={formState.repo_url}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.repo_url}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.repo_url}</Form.Control.Feedback>
-                                </Form.Group>
+<Container
+    fluid
+    className="d-flex justify-content-center align-items-center mt-3"
+>
+    <Row className="w-50"> {/* Adjusted width here */}
+        <Col>
+            <Card className="shadow-lg p-4 rounded" style={{ maxWidth: '500px' }}> {/* Set max width for the card */}
+                <h3 className="text-center mb-4" style={{ fontSize: '24px', fontWeight: 'bold' }}>Code Hygiene Analysis</h3>
+                <Form noValidate>
+                    {/* Repository URL */}
+                    <Form.Group className="mb-4">
+                        <Form.Label className="fw-bold">
+                            Repository Name (URL): <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="repo_url"
+                            placeholder="Enter repo URL"
+                            value={formState.repo_url}
+                            onChange={handleChange}
+                            isInvalid={!!errors.repo_url}
+                            style={{ borderRadius: '10px' }}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.repo_url}</Form.Control.Feedback>
+                    </Form.Group>
 
-                                <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">
-                                        Branch Name: <span className="text-danger">*</span>
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="branch"
-                                        placeholder="Enter branch name"
-                                        value={formState.branch}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.branch}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.branch}</Form.Control.Feedback>
-                                </Form.Group>
+                    {/* Branch Name */}
+                    <Form.Group className="mb-4">
+                        <Form.Label className="fw-bold">
+                            Branch Name: <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="branch"
+                            placeholder="Enter branch name"
+                            value={formState.branch}
+                            onChange={handleChange}
+                            isInvalid={!!errors.branch}
+                            style={{ borderRadius: '10px' }}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.branch}</Form.Control.Feedback>
+                    </Form.Group>
 
-                                <Form.Group className="mb-4">
-                                    <Form.Label className="fw-bold">
-                                        Personal Access Token (PAT): <span className="text-danger">*</span>
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="token"
-                                        placeholder="Enter PAT token"
-                                        value={formState.token}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.token}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.token}</Form.Control.Feedback>
-                                </Form.Group>
+                    {/* Personal Access Token */}
+                    <Form.Group className="mb-4">
+                        <Form.Label className="fw-bold">
+                            Personal Access Token (PAT): <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="token"
+                            placeholder="Enter PAT token"
+                            value={formState.token}
+                            onChange={handleChange}
+                            isInvalid={!!errors.token}
+                            style={{ borderRadius: '10px' }}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.token}</Form.Control.Feedback>
+                    </Form.Group>
 
-                                <div className="text-center">
-                                    <Button
-                                        variant="primary"
-                                        onClick={handleSubmit}
-                                        className="px-5"
-                                        disabled={loading}
-                                    >
-                                        Submit
-                                    </Button>
-                                </div>
-                            </Form>
+                    {/* Submit Button */}
+                    <div className="text-center">
+                        <Button
+                            variant="primary"
+                            onClick={handleSubmit}
+                            className="px-5 py-2"
+                            disabled={loading}
+                            style={{
+                                backgroundColor: '#007bff',
+                                borderRadius: '10px',
+                                transition: 'all 0.3s',
+                            }}
+                            onMouseEnter={(e) => (e.target.style.backgroundColor = '#0056b3')}
+                            onMouseLeave={(e) => (e.target.style.backgroundColor = '#007bff')}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </Form>
 
-                            {Object.keys(dataFrames).length > 0 && (
-                                <>
-                                    <div className="d-flex gap-2 mt-5" style={{ fontSize: '15px' }}>
-                                        Available files to Download:
-                                    </div>
-                                    <div className="d-flex flex-wrap gap-2 mt-3">
-                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}>
-                                            Deadcode Code
-                                        </Button>
-                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}>
-                                            Unused Content
-                                        </Button>
-                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}>
-                                            Unused Summary
-                                        </Button>
-                                        <Button style={{ fontSize: '14px' }} variant="success" onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}>
-                                            Git Leaks
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
-                        </Card>
-                    </Col>
-                </Row>
-                <ToastContainer />
-            </Container>
+                {/* Files Download Section */}
+                {Object.keys(dataFrames).length > 0 && (
+                    <>
+                        <div className="d-flex gap-2 mt-5" style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                            Available files to Download:
+                        </div>
+                        <div className="d-flex flex-wrap gap-2 mt-3">
+                            <Button
+                                style={{ fontSize: '14px' }}
+                                variant="success"
+                                onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}
+                            >
+                                Deadcode Code
+                            </Button>
+                            <Button
+                                style={{ fontSize: '14px' }}
+                                variant="success"
+                                onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}
+                            >
+                                Unused Content
+                            </Button>
+                            <Button
+                                style={{ fontSize: '14px' }}
+                                variant="success"
+                                onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}
+                            >
+                                Unused Summary
+                            </Button>
+                            <Button
+                                style={{ fontSize: '14px' }}
+                                variant="success"
+                                onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}
+                            >
+                                Git Leaks
+                            </Button>
+                        </div>
+                    </>
+                )}
+            </Card>
+        </Col>
+    </Row>
+    <ToastContainer />
+</Container>
+
         </>
     );
 }

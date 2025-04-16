@@ -393,7 +393,7 @@ export function TestCaseAi() {
                                     onClick={handleSendToBackend}
                                     className="btn-success"
                                 >
-                                    Send Selected Data to Backend
+                                    Generate Test Cases
                                 </Button>
                             </div>
                         </>
