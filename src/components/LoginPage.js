@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../actions/LoginActions";
+import { userLogin,userDetails } from "../actions/LoginActions";
 import Swal from "sweetalert2";
 import { sweetalert } from "../utils/constatnts";
 import Neo from '../Assets/neoAI.png'
@@ -40,31 +40,49 @@ const LoginPage = () => {
     });
   }
   const Payload = createFormData();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true)
-    setIsDisavled(true)
-    dispatch(userLogin(Payload))
-      .then(async (response) => {
-        if (response?.status === 200) {
-          setIsDisavled(false)
-          setLoading(false)
 
-          const data = await response;
-          sessionStorage.setItem("access_token", data.data.access_token);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setIsDisavled(true);
+
+  dispatch(userLogin(Payload)).then(async (response) => {
+    setLoading(false);
+    setIsDisavled(false);
+
+    if (response?.status === 200) {
+      const data = await response;
+      const token = data.data.access_token;
+
+      sessionStorage.setItem("access_token", token);
+
+      // Dispatch the second GET API call
+      dispatch(userDetails(token))
+        .then((metricsResponse) => {
+          // Optionally handle metricsResponse
+          console.log("Metrics data:", metricsResponse);
           navigate("/metrics");
-        } else {
-          setLoading(false)
-          setIsDisavled(false)
+        })
+        .catch((err) => {
+          console.error("Error fetching metrics:", err);
           Swal.fire({
             title: sweetalert.ERROR_CONFIRMED_TEXT,
-            text: response,
+            text: "Failed to load metrics.",
             icon: sweetalert.ERROR_ICON,
-            confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT
+            confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
           });
-        }
-      })
-  };
+        });
+    } else {
+      Swal.fire({
+        title: sweetalert.ERROR_CONFIRMED_TEXT,
+        text: response,
+        icon: sweetalert.ERROR_ICON,
+        confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
+      });
+    }
+  });
+};
+
 
   const handleRegister = () => {
     navigate("/register");

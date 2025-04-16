@@ -137,7 +137,7 @@ export default function IngestionRepo() {
         </form>
 
         <div className="table-responsive mt-5 mx-auto" style={{ maxWidth: "800px" }}>
-          <h4>Ingested Repositoris</h4>
+          <h4>Ingested Repositories</h4>
 
           <table className="table table-bordered table-striped">
             <thead className="table-secondary">

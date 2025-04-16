@@ -31,6 +31,7 @@ export const apis = {
     GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary',
     DEL_TEM_DIR:'temp_dir_delete',
     TEST_AI_METRICS:'/metrics',
+     USER_DETAILS :'auth/users/me',
     DEAD_CODE:'deadcode_data_identification'
 }
     export const URL ={
