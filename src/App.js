@@ -22,7 +22,7 @@ import { GitOperations } from './components/GitOperations';
 import { KbmsOperations } from './components/KbmsOperations';
 
 function App() {
-  const isSpecialEnv = process.env.REACT_APP_AWS === "http://a48f8a29f2e4441469a8147c8de86d76-1360985584.ap-south-1.elb.amazonaws.com/";
+  const isSpecialEnv = process.env.REACT_APP_AWS === "http://a3d912cc045fb44fb9a8936bc02adc3a-1147441363.ap-south-1.elb.amazonaws.com/";
 
   return (
     <Router>
