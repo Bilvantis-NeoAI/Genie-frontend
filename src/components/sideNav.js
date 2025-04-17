@@ -47,7 +47,7 @@ export const BootstrapSidebar = () => {
   };
  
   let sidebarItems;
-  if (appGcp === "https://neoai.bilvantis.com/") {
+  if (appGcp === "http://34.60.74.140/") {
     sidebarItems = [
       { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },

@@ -209,11 +209,6 @@ input.form-control {
 }
 
 /*******Fix It*********/
-.form-field-title {
-  font-weight: 500;
-  color: #333;
-}
-
 .required-styling {
   color: red;
 }
@@ -436,10 +431,6 @@ height: 5vh;
   height: 1200px;
 }
 
-.form-field-title{
-  font-size: 18px;
-}
-
 .required-styling{
   color: red;
 }
@@ -619,6 +610,7 @@ p {
 }
 .form-field-title {
   font-weight: bold;
+  font-size: 18px;
 }
 .input-container {
   display: flex;
