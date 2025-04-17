@@ -12,9 +12,10 @@ import { sweetalert } from "../utils/constatnts";
 export const BootstrapSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [activeTab, setActiveTab] = useState(location.state?.activeTab || "metrics");
 
+  const [activeTab, setActiveTab] = useState(location.state?.activeTab || "metrics");
+  const appGcp = process.env.REACT_APP_IP;
+  const appAws = process.env.REACT_APP_AWS;
   const handleNavigation = (path, tabName) => {
     setActiveTab(tabName);
     navigate(path, { state: { activeTab: tabName } });
@@ -41,6 +42,29 @@ export const BootstrapSidebar = () => {
     height: "25px",
   };
 
+  let sidebarItems;
+  if (appGcp === "http://34.60.74.140/") {
+    sidebarItems = [
+      { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+      { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+      { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+      { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+      { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
+    ];
+  } else if (appAws === "http://a3d912cc045fb44fb9a8936bc02adc3a-1147441363.ap-south-1.elb.amazonaws.com/") {
+    sidebarItems = [
+      { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+    ];
+  } else {
+    sidebarItems = [
+      { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+      { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+      { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+      { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+      { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
+    ];
+  }
+
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
@@ -66,18 +90,20 @@ export const BootstrapSidebar = () => {
           </li>
         ))}
 
-        <li
-          className="d-flex justify-content-center align-items-center"
-          onClick={handleLogout}
-          style={{
-            backgroundColor: activeTab === "logout" ? "#00BDD0" : "transparent",
-            color: activeTab === "logout" ? "white" : "black",
-            cursor: "pointer"
-          }}
-        >
-          <img src={logoutIcon} alt="" style={iconStyle} />
-          <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
-        </li>
+        {appGcp === "http://34.60.74.140/" && (
+          <li
+            className="d-flex justify-content-center align-items-center"
+            onClick={handleLogout}
+            style={{
+              backgroundColor: activeTab === "logout" ? "#00BDD0" : "transparent",
+              color: activeTab === "logout" ? "white" : "black",
+              cursor: "pointer"
+            }}
+          >
+            <img src={logoutIcon} alt="" style={iconStyle} />
+            <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
+          </li>
+        )}
       </ul>
     </div>
   );
