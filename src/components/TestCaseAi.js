@@ -26,9 +26,11 @@ export function TestCaseAi() {
     const [firstDropzoneErrors, setFirstDropzoneErrors] = useState("");
     const [secondDropzoneErrors, setSecondDropzoneErrors] = useState("");
     const [headers, setHeaders] = useState([]);
+    const [selectedRows, setSelectedRows] = useState(new Set());
     const [tableData, setTableData] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [fileContent, setFileContent] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [fileName, setFileName] = useState("");
     const [feedback, setFeedback] = useState("");
     const dispatch = useDispatch();
@@ -141,30 +143,34 @@ export function TestCaseAi() {
                 );
         }
     }, [aiTestCaseData]);
-
-
+    
     const handleSelectAll = (checked) => {
         setSelectAll(checked);
-        setTableData(tableData.map(row => ({
-            ...row,
-            isSelected: checked
-        })));
+        if (checked) {
+            setSelectedRows(new Set(tableData.map((_, idx) => idx)));
+        } else {
+            setSelectedRows(new Set());
+        }
     };
-
     const handleSelectRow = (index, checked) => {
-        const newData = [...tableData];
-        newData[index].isSelected = checked;
-        setTableData(newData);
-        setSelectAll(newData.every(row => row.isSelected));
+        const updated = new Set(selectedRows);
+        if (checked) {
+            updated.add(index);
+        } else {
+            updated.delete(index);
+        }
+        setSelectedRows(updated);
+        setSelectAll(updated.size === tableData.length);
     };
 
     const handleExport = () => {
-        const selectedData = tableData.filter(row => row.isSelected);
+        const selectedData = tableData.filter((_, idx) => selectedRows.has(idx));
+        console.log("selectedData handleExport",selectedData);
         const csvContent = [
             headers.join(','),
             ...selectedData.map(row => Object.values(row).slice(0, headers.length).join(','))
         ].join('\n');
-
+ 
         const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -184,13 +190,17 @@ export function TestCaseAi() {
     };
     const handleSendToBackend = async () => {
         try {
-            const selectedData = tableData.filter(row => row.isSelected);
+            const selectedData = tableData.filter((_, idx) => selectedRows.has(idx));
+            console.log("selectedData",selectedData);
+            
+            if (selectedData.length === 0) {
+                console.warn("No rows selected.");
+                return;
+            }
 
             const csvContent = [
                 headers.join(','),
-                ...selectedData.map(row =>
-                    Object.values(row).slice(0, headers.length).join(',')
-                ),
+                ...selectedData.map(row => headers.map(h => row[h] ?? '').join(','))
             ].join('\n');
 
             const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -200,39 +210,28 @@ export function TestCaseAi() {
             formData.append("test_cases_file", file);
 
             const response = await dispatch(addAiCsvData(formData));
-            console.log("Response>>>", response);
-
-            if (response?.data) {
-                console.log("AI Test Case Data:", response?.data);
-
-                const { output_file_path } = response?.data;
-
-                const fetchFileContent = async (url) => {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`Failed to fetch file from ${url}`);
-                    return await response.text();
-                };
-
-                if (output_file_path) {
-                    const fileUrl = `${IP}test_ai/${output_file_path}`;
-                    const content = await fetchFileContent(fileUrl);
-                    setFileContent(content);
-                    setFileName(output_file_path);
-                }
-            } else {
-                console.error("No data available in Redux.");
+            if (response?.data?.output_file_path) {
+                const fileUrl = `${IP}test_ai/${response.data.output_file_path}`;
+                const fileResponse = await fetch(fileUrl);
+                const content = await fileResponse.text();
+                setFileContent(content);
+                setFileName(response.data.output_file_path);
             }
-        } catch (error) {
-            console.error("Error sending data to backend:", error);
+
+        } catch (err) {
+            console.error("Error sending to backend:", err);
         }
     };
+
+    
     const handleSubmit = async () => {
+        setIsLoading(true); // Start loader
         try {
             const token = sessionStorage.getItem("access_token");
             const formData = new FormData();
             formData.append("test_file", new Blob([fileContent], { type: 'text/plain' }));
             formData.append("modification_text", feedback);
-
+    
             const response = await fetch(`${IP}test_ai/modify_test_file`, {
                 method: "POST",
                 headers: {
@@ -240,23 +239,22 @@ export function TestCaseAi() {
                 },
                 body: formData
             });
-
+    
             const data = await response.json();
             console.log("AI Test Case Data:", data);
-
+    
             if (data?.output_file_path) {
                 const fetchFileContent = async (url) => {
                     const response = await fetch(url);
                     if (!response.ok) throw new Error(`Failed to fetch file from ${url}`);
                     return await response.text();
                 };
-
+    
                 const fileUrl = `${IP}test_ai/${data.output_file_path}`;
                 const content = await fetchFileContent(fileUrl);
-
+    
                 console.log("content>>>", content);
-                setFeedback("")
-
+                setFeedback(""); // clear feedback
                 setFileContent(content);
                 setFileName(data.output_file_path);
             } else {
@@ -264,9 +262,11 @@ export function TestCaseAi() {
             }
         } catch (error) {
             console.error("Error submitting feedback:", error);
+        } finally {
+            setIsLoading(false); // Stop loader
         }
     };
-
+    
 
     const handleDownload = () => {
         const blob = new Blob([fileContent], { type: 'text/plain' });
@@ -336,129 +336,122 @@ export function TestCaseAi() {
                     </div>
 
                     {headers.length > 0 && tableData.length > 0 ? (
-                        <>
-                            <div className="mt-4 p-4" style={{ width: '100%' }}>
-                                <table className="table table-bordered w-100">
-                                    <thead>
-                                        <tr>
-                                            <th>
+                <>
+                    <div className="mt-4 p-4" style={{ width: '100%' }}>
+                        <table className="table table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={(e) => handleSelectAll(e.target.checked)}
+                                        />
+                                    </th>
+                                    {headers.map(header => (
+                                        <th key={header}>{header}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody style={{ width: "100%", fontSize: "12px" }}>
+                                {tableData.map((row, rowIndex) => (
+                                    <tr key={row.id || rowIndex} className={selectedRows.has(rowIndex) ? "table-active" : ""}>
+                                        <td style={{ verticalAlign: "middle", textAlign: "center" }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRows.has(rowIndex)}
+                                                onChange={(e) => handleSelectRow(rowIndex, e.target.checked)}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                        </td>
+                                        {headers.map(header => (
+                                            <td key={header}>
                                                 <input
-                                                    type="checkbox"
-                                                    checked={selectAll}
-                                                    onChange={(e) => handleSelectAll(e.target.checked)}
+                                                    type="text"
+                                                    value={row[header]}
+                                                    onChange={(e) => handleCellEdit(rowIndex, header, e.target.value)}
+                                                    className="table-cell-input"
                                                 />
-                                            </th>
-                                            {headers.map((header) => (
-                                                <th key={header}>
-                                                    {header}
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody style={{ width: "100%", fontSize: "12px" }}>
-                                        {tableData.map((row, rowIndex) => (
-                                            <tr key={row.id} className={row.isSelected ? "table-active" : ""}>
-                                                <td style={{ verticalAlign: "middle", textAlign: "center" }}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={row.isSelected}
-                                                        onChange={(e) => handleSelectRow(rowIndex, e.target.checked)}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                </td>
-                                                {headers.map((header) => (
-                                                    <td key={header}>
-                                                        <input
-                                                            type="text"
-                                                            value={row[header]}
-                                                            onChange={(e) => handleCellEdit(rowIndex, header, e.target.value)}
-                                                            className="table-cell-input"
-                                                        />
-                                                    </td>
-                                                ))}
-                                            </tr>
+                                            </td>
                                         ))}
-                                    </tbody>
-
-                                </table>
-                            </div>
-                            <div className="d-flex justify-content-between mt-4 gap-3 ms-4" >
-                                <Button
-                                    onClick={handleExport}
-                                    className="btn-primary"
-                                >
-                                    Export Selected CSV
-                                </Button>
-                                <Button
-                                    onClick={handleSendToBackend}
-                                    className="btn-success"
-                                >
-                                    Generate Test Cases
-                                </Button>
-                            </div>
-                        </>
-                    ) : (
-                        <p className="text-center mt-4" style={{marginLeft:'20%'}}>No data available</p>
-                    )}
-                    <div className="container">
-                        {fileContent && (
-                            <div className="row g-4 mt-3 ms-1">
-                                <div className="">
-                                    <div className="p-4 bg-dark text-white rounded shadow" style={{}}>
-                                        <h5 className="mb-3">Processed File</h5>
-                                        <textarea
-                                            value={fileContent}
-                                            readOnly
-                                            className="form-control bg-black text-white font-monospace"
-                                            style={{ height: '350px', marginLeft: '12%' }}
-                                        />
-                                        <button
-                                            onClick={handleDownload}
-                                            className="btn btn-success mt-3"
-                                            style={{ marginLeft: '12%' }}
-                                        >
-                                            Download File
-                                        </button>
-                                        <h5 className="mb-3 mt-5" style={{ marginLeft: '12%' }}>Feedback</h5>
-                                        <textarea
-                                            value={feedback}
-                                            onChange={(e) => setFeedback(e.target.value)}
-                                            placeholder="Write your feedback here..."
-                                            className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
-                                            style={{ height: '30%', marginLeft: '12%' }}
-                                        />
-                                        <button
-                                            onClick={handleSubmit}
-                                            className="btn btn-primary mt-3"
-                                            style={{ marginLeft: '12%' }}
-                                        >
-                                            Submit Feedback
-                                        </button>
-
-                                    </div>
-                                </div>
-                                {/* <div className="col-md-6">
-                                    <div className="p-4 bg-white text-dark rounded shadow" style={{ minHeight: '50%' }}>
-                                        <h5 className="mb-3">Feedback</h5>
-                                        <textarea
-                                            value={feedback}
-                                            onChange={(e) => setFeedback(e.target.value)}
-                                            placeholder="Write your feedback here..."
-                                            className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
-                                            style={{ height: '30%' }}
-                                        />
-                                        <button
-                                            onClick={handleSubmit}
-                                            className="btn btn-primary mt-3"
-                                        >
-                                            Submit Feedback
-                                        </button>
-                                    </div>
-                                </div> */}
-                            </div>
-                        )}
-
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
+                    <div className="d-flex justify-content-between mt-4 gap-3 ms-4">
+                        <Button onClick={handleExport} className="btn-primary">
+                            Export Selected CSV
+                        </Button>
+                        <Button onClick={handleSendToBackend} className="btn-success">
+                            Generate Test Cases
+                        </Button>
+                    </div>
+                </>
+            ) : (
+                <p className="text-center mt-4" style={{ marginLeft: '20%' }}>
+                    No data available
+                </p>
+            )}
+    
+                   <div className="position-relative container">
+    {isLoading && (
+        <div
+            className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+           
+        >
+            <div className="spinner-border text-light" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    )}
+
+    {fileContent && (
+        <div className="row g-4 mt-3 ms-1">
+            <div className="">
+                <div className="p-4 bg-dark text-white rounded shadow">
+                    <h5 className="mb-3">Processed File</h5>
+                    <textarea
+    value={fileContent}
+    readOnly
+    className="form-control bg-black text-white font-monospace"
+    style={{
+        height: '350px',
+        marginLeft: '12%',
+        resize: 'none',           // 🔒 disables manual resizing
+        overflowY: 'auto'         // enables scrolling if content overflows
+    }}
+/>
+
+                    <button
+                        onClick={handleDownload}
+                        className="btn btn-success mt-3"
+                        style={{ marginLeft: '12%' }}
+                    >
+                        Download File
+                    </button>
+                    <h5 className="mb-3 mt-5" style={{ marginLeft: '12%' }}>Feedback</h5>
+                    <textarea
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                        placeholder="Write your feedback here..."
+                        className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
+                        style={{ height: '30%', marginLeft: '12%' }}
+                    />
+                    <button
+                        onClick={handleSubmit}
+                        className="btn btn-primary mt-3"
+                        style={{ marginLeft: '12%' }}
+                        disabled={isLoading}
+                    >
+                        Submit Feedback
+                    </button>
+                </div>
+            </div>
+        </div>
+    )}
+</div>
+
 
                 </div>
             </div>
