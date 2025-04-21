@@ -473,8 +473,9 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
             <div className="max-w-xs bg-white shadow-sm rounded-md p-3 border border-gray-200">
                 <div className="mb-3">
                     <div className="d-flex justify-content-between">
-                        <h3 className="text-sm font-weight-bold">{title}</h3>
-                        {required && <span className="text-danger">*</span>}
+                        <h3 className="text-sm font-weight-bold">
+                            {title} {required && <span className="text-danger">*</span>}
+                        </h3>
                     </div>
 
                     <Dropzone

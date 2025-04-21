@@ -43,7 +43,7 @@ export const BootstrapSidebar = () => {
   };
 
   let sidebarItems;
-  if (appGcp === "http://34.60.74.140/") {
+  if (appGcp === "https://neoai.bilvantis.com/") {
     sidebarItems = [
       { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
@@ -90,7 +90,7 @@ export const BootstrapSidebar = () => {
           </li>
         ))}
 
-        {appGcp === "http://34.60.74.140/" && (
+        {appGcp === "https://neoai.bilvantis.com/" && (
           <li
             className="d-flex justify-content-center align-items-center"
             onClick={handleLogout}
