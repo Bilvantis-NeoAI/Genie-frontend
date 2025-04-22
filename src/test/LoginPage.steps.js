@@ -65,6 +65,6 @@ describe('LoginPage', () => {
     render(<LoginPage />);
     const registerLink = screen.getByText('Register');
     fireEvent.click(registerLink);
-    expect(mockNavigate).toHaveBeenCalledWith('/genie/register');
+    expect(mockNavigate).toHaveBeenCalledWith('/register');
   });
 });

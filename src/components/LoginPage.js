@@ -6,14 +6,22 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 
 import { sweetalert } from "../utils/constatnts";
 const LoginPage = () => {  
+
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading]=useState(false)
   const navigate = useNavigate();
   let dispatch = useDispatch()
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const FullScreenLoader = () => (
+    <div className="loader-overlay">
+      <div className="spinner-border text-white" role="status">
+      </div>
+    </div>
+  );
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -26,14 +34,17 @@ const LoginPage = () => {
   };
   const Payload = createFormData();
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     dispatch(userLogin(Payload))
       .then(async (response) => {
         if (response?.status === 200) {
+          setLoading(false)
           const data = await response;
           sessionStorage.setItem("access_token", data.data.access_token);
-          navigate("/genie/metrics");
+          navigate("/metrics");
         } else {
+          setLoading(false)
           Swal.fire({
             title: sweetalert.ERROR_CONFIRMED_TEXT,
             text: response,
@@ -45,11 +56,12 @@ const LoginPage = () => {
   };
 
   const handleRegister = () => {
-    navigate("/genie/register");
+    navigate("/register");
   };
 
   return (
     <div className="login-container">
+        {loading && <FullScreenLoader />}
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <label id="email-label">Email:</label>

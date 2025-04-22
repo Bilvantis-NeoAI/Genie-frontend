@@ -1,4 +1,3 @@
-import React from "react";
 import {
     ResponsiveContainer,
     BarChart,
@@ -7,19 +6,22 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
 } from "recharts";
+import React from "react";
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts';
+import MouseEventsHandler from "../utils/MouseEvents";
 
-const CustomTick = ({ x, y, payload }) => {    
-    const truncatedValue = payload.value.substring(0, 3);
+const CustomTick = ({ x, y, payload }) => {
+    const valueStr = String(payload?.value || "");
+    const truncatedValue = valueStr.substring(0, 5);
     return (
         <text x={x} y={y + 10} textAnchor="middle" fontSize={10} fill="#666">
             {truncatedValue}
         </text>
     );
 };
+
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
@@ -35,11 +37,21 @@ const CustomTooltip = ({ active, payload, label }) => {
     }
     return null;
 };
+
+const StickyLegend = ({ items }) => (
+    <div className="legend-labels">
+        {items.map((item, index) => (
+            <div key={index} className="legend-box">
+                <div style={{ width: 12, height: 12, backgroundColor: item.color }} />
+                <span>{item.name}</span>
+            </div>
+        ))}
+    </div>
+);
+
 const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
     let xAxisKey = "";
     let bars = [];
-    let containerStyle = { width: "100%", height: 240, overflow: "hidden" };
-
     if (title === TITLE.COMMIT_ISSUES_SEVERITY) {
         xAxisKey = XAXISKEYS.SEVERITY;
         bars = [
@@ -54,11 +66,11 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
         ];
     }
 
-    const graphWidth = Math.max(data.length * 50, 580);
+    const graphWidth = Math.max(data.length * 50, 700);
 
     return (
         <div className="card g-4">
-            <div className="graph-title">
+            <div className="graph-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>{title}</div>
                 <div>
                     <button
@@ -75,41 +87,53 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter }) => {
                 </div>
             </div>
 
-            <div style={containerStyle}>
-                {data.length === 0 ? (
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        width: "100%",
-                        color: "#999",
-                        fontSize: "14px"
-                    }}>
-                        No Data Found
-                    </div>
-                ) : (
-                    <div style={{ width: "100%", overflowX: "auto" }}>
-                        <div style={{ width: `${graphWidth}px` }}>
-                            <ResponsiveContainer width="100%" height={240}>
-                                <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }} barGap={3}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey={xAxisKey} tick={<CustomTick />} interval={0} />
-                                    <YAxis fontSize={10} />
-                                    <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
-                                    <Legend />
-                                    {bars.map((bar, index) => (
-                                        <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} />
-                                    ))}
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
+            <MouseEventsHandler>
+                {({
+                    scrollContainerRef,
+                    handleMouseDown,
+                    handleMouseMove,
+                    handleMouseUp,
+                    isDragging,
+                }) => (
+                    <div
+                        ref={scrollContainerRef}
+                        className="mouseevent"
+                        style={{
+                            width: "100%",
+                            overflowX: "auto",
+                            cursor: isDragging ? "grabbing" : "grab",
+                            userSelect: "none",
+                            scrollbarWidth: 'none'
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                    >
+                        {data.length === 0 ? (
+                            <div className="classnodata">No Data Found</div>
+                        ) : (
+                            <div style={{ width: `${graphWidth}px` }}>
+                                <ResponsiveContainer width="100%" height={200}>
+                                    <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }} barGap={3}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey={xAxisKey} tick={<CustomTick />} interval={0} />
+                                        <YAxis fontSize={10} />
+                                        <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
+                                        {bars.map((bar, index) => (
+                                            <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} style={{ cursor: "pointer" }} />
+                                        ))}
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
                     </div>
                 )}
-            </div>
+            </MouseEventsHandler>
+
+            <StickyLegend items={bars} />
         </div>
     );
 };
 
 export default DynamicBarGraph;
-

@@ -81,7 +81,7 @@ describe('Register Component', () => {
       confirmButtonText: "SUCCESS",
       didOpen: expect.any(Function),
     });
-    expect(mockNavigate).toHaveBeenCalledWith('/genie');
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
   it('displays an error alert on failed registration', async () => {
@@ -101,6 +101,6 @@ describe('Register Component', () => {
     render(<Register />);
     const loginLink = screen.getByText('Login');
     fireEvent.click(loginLink);
-    expect(mockNavigate).toHaveBeenCalledWith('/genie');
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });

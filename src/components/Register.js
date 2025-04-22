@@ -58,7 +58,7 @@ const Register = () => {
                         setTimeout(Swal.close, 1000);
                     },
                 });
-                navigate("/genie");
+                navigate("/");
             } else {
                 throw new Error(response?.data?.message || "Registration failed");
             }
@@ -73,7 +73,7 @@ const Register = () => {
     };
 
     const redirectToLogin = () => {
-        navigate("/genie");
+        navigate("/");
     };
 
     return (

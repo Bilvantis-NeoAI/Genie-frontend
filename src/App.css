@@ -32,7 +32,7 @@ body {
   top: 0;
   height: 100vh;
   width: 58px;
-  background: #07439C;
+  background:#07439C;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -107,6 +107,142 @@ ul {
 .tooltip {
   display: inline-block;
   margin-left: 5px;
+}
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(117, 115, 115, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+/********OffCanvas***********/
+.offcanvas{
+  z-index: 1050; 
+  max-width: 400px
+}
+.errormessage{
+  color: red;
+  font-size:12px 
+}
+.offcanvas-header{
+  display: "flex";
+  justify-content: "space-between";
+  align-items: "center";
+  padding: 15px;
+}
+.closebutton{
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: "pointer";
+  position: "absolute";
+  right: 15px,
+}
+.title-header {
+  margin: 0;
+  font-size: 15px;
+  font-weight: bold;
+  flex: 1;
+  text-align: left;
+  word-break: break-word;
+  padding-bottom: 8px;
+  border-bottom: 1px solid black;
+}
+.classlable{
+  height: 40px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-size: 14px
+}
+.formlabels{
+  font-weight: bold;
+  font-size:14px;
+  color: #333
+}
+.monthlabel{
+  display: flex;
+ flex-direction:column;
+  gap:5px
+}
+.subresbutton{
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  width: 35%;
+  cursor: pointer,
+}
+.daterange{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 40px;
+  width: 100%
+}
+.offcanvas-footer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+.classform{
+  display: flex; 
+  flex-direction: column;
+  gap: 15px
+}
+/*****Graphs*******/
+.multicoustomtool{
+  background-color:white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius:5px;
+  max-height:150px;
+  overflow-y: auto;
+  font-size: 12px;
+  pointer-events:auto
+}
+.classnodata{
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  height: 100%;
+  width: 100%;
+  color: #999;
+  margin-top:15%;
+  margin-left: 30%;
+  font-size: 14px;
+}
+.legend-labels{
+  position: sticky;
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  z-index:  2;
+  padding: 5px;
+  margin-left: 40%;
+  margin-right: 10%
+}
+.legend-box{
+  display: flex;
+   align-items: center;
+    gap: 6px 
 }
 /******Header Component***/
 .header{
@@ -398,5 +534,4 @@ input[type="password"] {
   margin-top: 7px;
   margin-left: 4%;
   padding: .5%;
-  background-color: rgb(248, 248, 248);
 }

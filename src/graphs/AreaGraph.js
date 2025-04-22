@@ -6,11 +6,11 @@ import {
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip,
-    Legend,
+    Tooltip
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import MouseEventsHandler from "../utils/MouseEvents";
 
 const AreaGraph = ({ data, title, handleFilter, keys }) => {
     const severityColors = {
@@ -23,9 +23,9 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
     return (
         <div className="card g-4">
             <div>
-                <div className='graph-title'>
+                <div className="graph-title">
                     <div>{title}</div>
-                    <div >
+                    <div>
                         <button
                             type="button"
                             className="btn btn-light"
@@ -40,47 +40,85 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
                     </div>
                 </div>
             </div>
-            <div style={{ overflowX: "auto", scrollbarWidth: "none" }}>
 
-                <ResponsiveContainer width="150%" height={240}>
-                    <AreaChart
-                        data={data}
-                        margin={{
-                            top: 20,
-                            right: 20,
-                            left: 20,
-                            // bottom: 20,
+            <MouseEventsHandler>
+                {({
+                    scrollContainerRef,
+                    handleMouseDown,
+                    handleMouseMove,
+                    handleMouseUp,
+                    isDragging,
+                }) => (
+                    <div
+                        ref={scrollContainerRef}
+                        style={{
+                            overflowX: "auto",
+                            scrollbarWidth: "none",
+                            height: "212px",
+                            position: "relative",
+                            cursor: isDragging ? "grabbing" : "grab",
                         }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
                     >
-                        <CartesianGrid strokeDasharray="2 2" />
-                        <XAxis
-                            dataKey="date"
-                            tickFormatter={(tick) => dayjs(tick).format("D'MMM YY")}
-                            fontSize={10}
-                        />
-                        <YAxis fontSize={10} />
-                        <Tooltip
-                            formatter={(value, name) => {
-                                return name === "issue_count"
-                                    ? [`${value} issues`, "Issue Count"]
-                                    : value;
-                            }}
+                        {data.length === 0 ? (
+                            <div className="classnodata">No Data Found</div>
+                        ) : (
+                            <ResponsiveContainer width="150%" height="100%">
+                                <AreaChart
+                                    data={data}
+                                    margin={{ top: 20, right: 20, left: 20 }}
+                                >
+                                    <CartesianGrid strokeDasharray="2 2" />
+                                    <XAxis
+                                        dataKey="date"
+                                        tickFormatter={(tick) => dayjs(tick).format("D'MMM YY")}
+                                        fontSize={10}
+                                    />
+                                    <YAxis fontSize={10} />
+                                    <Tooltip
+                                        formatter={(value, name) => {
+                                            return name === "issue_count"
+                                                ? [`${value} issues`, "Issue Count"]
+                                                : value;
+                                        }}
+                                    />
+                                    {Object.keys(severityColors).map((severity) => (
+                                        <Area
+                                            key={severity}
+                                            type="monotone"
+                                            dataKey={severity}
+                                            stroke={severityColors[severity]}
+                                            fill={severityColors[severity]}
+                                            name={severity.charAt(0).toUpperCase() + severity.slice(1)}
+                                        />
+                                    ))}
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        )}
+                    </div>
+                )}
+            </MouseEventsHandler>
 
-                        />
-                        <Legend />
-                        {Object.keys(severityColors).map((severity) => (
-                            <Area
-                                key={severity}
-                                type="monotone"
-                                dataKey={severity}
-                                stroke={severityColors[severity]}
-                                fill={severityColors[severity]}
-                                name={severity.charAt(0).toUpperCase() + severity.slice(1)}
-                            />
-                        ))}
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
+            {data.length > 0 && (
+                <div className="legend-labels">
+                    {Object.entries(severityColors).map(([key, color]) => (
+                        <div key={key} className="legend-box">
+                            <div
+                                style={{
+                                    width: 12,
+                                    height: 12,
+                                    borderRadius: 2,
+                                    backgroundColor: color,
+                                }}
+                            ></div>
+                            <span>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

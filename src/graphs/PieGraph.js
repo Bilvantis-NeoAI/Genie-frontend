@@ -25,25 +25,31 @@ const PieGraph = ({ data, title, handleFilter, keys }) => (
                 </div>
             </div>
         </div>
-        <ResponsiveContainer width="100%" height={240}>
-            <PieChart>
-                <Pie
-                    data={data}
-                    dataKey={DATAKEY.PERCENTAGE}
-                    nameKey={XAXISKEYS.SEVERITY}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    label
-                >
-                    {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-            </PieChart>
-        </ResponsiveContainer>
+        <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
+            {data.length === 0 ? (
+                <div className="classnodata">No Data Found</div>
+            ) : (
+                <ResponsiveContainer width="100%" height={240}>
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            dataKey={DATAKEY.PERCENTAGE}
+                            nameKey={XAXISKEYS.SEVERITY}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            label
+                        >
+                            {data.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip contentStyle={{ fontSize: "12px" }} />
+                        <Legend wrapperStyle={{ fontSize: "12px" }} />
+                    </PieChart>
+                </ResponsiveContainer>
+            )}
+        </div>
     </div>
 );
 

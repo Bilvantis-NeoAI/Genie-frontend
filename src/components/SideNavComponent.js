@@ -23,7 +23,7 @@ export default function SideNav() {
         }).then((result) => {
             if (result.isConfirmed) {
                 setActiveTab("");
-                navigate("/genie");
+                navigate("/");
             }
         });
     };
@@ -34,7 +34,7 @@ export default function SideNav() {
                     <li
                         className={`d-flex justify-content-center align-items-center Iconstyles ${activeTab === "metrics" ? "active-tab" : ""
                             }`}
-                        onClick={() => handleNavigation("/genie/metrics", "metrics")}
+                        onClick={() => handleNavigation("/metrics", "metrics")}
                     >
                         <img src={metricsIcon} alt="" className="imagestyles" />
                         <span className="tooltip">Metrics</span>

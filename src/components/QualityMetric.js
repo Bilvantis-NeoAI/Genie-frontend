@@ -120,7 +120,7 @@ export default function QualityMetric() {
     }, [dispatch, moduleType]);
     return (
         <>
-            <div className="row g-2">
+            <div className="row g-1">
                 {metrics?.map((metric, index) => {
                     const titleToFromMapping = {
                         "Average Code Quality": "AverageQuality",

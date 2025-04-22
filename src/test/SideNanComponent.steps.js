@@ -22,7 +22,7 @@ describe("SideNav", () => {
     );
     const metricsTab = screen.getByText(/Metrics/i);
     fireEvent.click(metricsTab);
-    expect(mockNavigate).toHaveBeenCalledWith("/genie/metrics", expect.any(Object));
+    expect(mockNavigate).toHaveBeenCalledWith("/metrics", expect.any(Object));
   });
   it("should navigate to the root path ('/') when the logout is confirmed", async () => {
     render(
@@ -33,7 +33,7 @@ describe("SideNav", () => {
     const logoutTab = screen.getByText(/Logout/i);
     fireEvent.click(logoutTab);
     await waitFor(() => expect(Swal.fire).toHaveBeenCalled());
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/genie"));
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/"));
   });
 });
 
