@@ -22,7 +22,7 @@ import { GitOperations } from './components/GitOperations';
 import { KbmsOperations } from './components/KbmsOperations';
  
 function App() {
-  const isSpecialEnv = process.env.REACT_APP_AWS === "http://a3d912cc045fb44fb9a8936bc02adc3a-1147441363.ap-south-1.elb.amazonaws.com/";
+  const isSpecialEnv = process.env.REACT_APP_AWS !== undefined;
  
   return (
     <Router>
@@ -30,6 +30,7 @@ function App() {
       {isSpecialEnv ? (
         <Routes>
           <Route path="/" element={<KbmsOperations />} />
+          <Route path="/gitmetrics" element={<KbmsOperations />} />
         </Routes>
       ) : (
         <Routes>
