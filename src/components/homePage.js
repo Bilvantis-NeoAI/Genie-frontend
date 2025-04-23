@@ -17,7 +17,10 @@ import Select from "@mui/material/Select";
 import React from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Typography from "@mui/material/Typography";
-let baseURL =process.env.REACT_APP_IP +'/kbmsapi'
+const ip = process.env.REACT_APP_IP;
+const aws = process.env.REACT_APP_AWS;
+
+ const baseURL = ip !== undefined ? ip+'/kbmsapi' : aws+'/kbmsapi';
 export function HomePage() {
   const [formFields, setFormFields] = useState([{ text: "" }]);
   const dispatch = useDispatch();

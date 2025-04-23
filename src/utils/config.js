@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 const ip = process.env.REACT_APP_IP;
 const aws = process.env.REACT_APP_AWS;
 
-export const IP = ip === "https://neoai.bilvantis.com/" ? ip : (ip || aws);
+export const IP = ip !== undefined ? ip : aws;
 
 // const ip = process.env.REACT_APP_IP;
 // const aws = process.env.REACT_APP_AWS;
