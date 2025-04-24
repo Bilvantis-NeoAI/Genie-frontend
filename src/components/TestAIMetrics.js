@@ -157,7 +157,7 @@ export default function TestAIMetrics() {
 
     return (
         <>
-            <div className="row g-2">
+            <div className="row g-1">
                 {!loading ? (
                     metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;

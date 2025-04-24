@@ -26,13 +26,13 @@ export function HomePage3() {
                         <BootstrapSidebar />
                     </div>
                     <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
-                        <Nav
-                            style={{
-                                borderBottom: "1px solid #dcdcdc",
-                                position: 'sticky',
-                                marginLeft: '5%',
-                                fontSize: '15px'
-                            }}
+                        <Nav className="toptabbar"
+                            // style={{
+                            //     borderBottom: "1px solid #dcdcdc",
+                            //     position: 'sticky',
+                            //     marginLeft: '5%',
+                            //     fontSize: '15px'
+                            // }}
                         >
                             <Nav.Link eventKey="Severity" style={tabStyle("Severity")}>
                                 Issue Severity Distribution

@@ -1,76 +1,3 @@
-// import React from "react";
-// import {
-//     ResponsiveContainer,
-//     BarChart,
-//     Bar,
-//     XAxis,
-//     YAxis,
-//     Tooltip,
-//     CartesianGrid,
-//     Legend,
-// } from "recharts";
-// import { FilterOutlined } from "@ant-design/icons";
-// const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
-//     return (
-//         console.log("wefdasdfsafdfd",data),
-       
-//         <div className="card g-4">
-//             <div>
-//                 <div className='graph-title'>
-//                     <div>{title}</div>
-//                     <div >
-//                         <button
-//                             type="button"
-//                             className="btn btn-light"
-//                             onClick={() => handleFilter(data, title, keys)}
-//                             data-bs-toggle="offcanvas"
-//                             data-bs-target="#addPriority"
-//                             aria-controls="offcanvasRight"
-//                             data-testid="filter-button"
-//                         >
-//                             <FilterOutlined />
-//                         </button>
-//                     </div>
-//                 </div>
-//             </div>
-//             <div style={{ overflowX: "auto", scrollbarWidth: "none",height: "240px", position: "relative"}}>
-//     {data.length === 0 ? (
-//         <div style={{
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             height: "100%",
-//             fontSize: "16px",
-//         }}>No Data Found</div>
-//     ) : (
-//         <div style={{ minWidth: `${data.length * 50}px` }}> {/* width grows with data */}
-//             <ResponsiveContainer width="100%" height={240}>
-//                 <BarChart
-//                     data={data}
-//                     margin={{
-//                         top: 20,
-//                         right: 30,
-//                         left: 20,
-//                         bottom: 5,
-//                     }}
-//                 >
-//                     <CartesianGrid strokeDasharray="3 3" />
-//                     <XAxis dataKey="date" fontSize={10} tickFormatter={(date) => date.slice(5)}/>
-//                     <YAxis fontSize={10}/>
-//                     <Tooltip cursor={{ fill: "transparent" }} />
-//                     <Legend wrapperStyle={{ fontSize: 12 }}/>
-//                     <Bar dataKey="total_count" fill="#1DB9EF" name="Total Count" barSize={20} />
-//                 </BarChart>
-//             </ResponsiveContainer>
-//         </div>
-//     )}
-// </div>
-
-//         </div>
-//     );
-// };
-// export default ReleaseBarGraph;
-
 import React from "react";
 import {
     ResponsiveContainer,
@@ -82,18 +9,19 @@ import {
     CartesianGrid,
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
+import MouseEventsHandler from "../utils/MouseEvents"; // Make sure this path is correct
+
 const StickyLegend = ({ items }) => (
     <div
         style={{
             position: "sticky",
             background: "#fff",
             display: "flex",
-            gap: "16px",
             fontSize: "12px",
             zIndex: 2,
-            padding:'5px',
-            marginLeft:'45%',
-            marginRight:'10%'
+            padding: '5px',
+            marginLeft: '45%',
+            marginRight: '10%'
         }}
     >
         {items.map((item, idx) => (
@@ -111,72 +39,85 @@ const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
     ];
 
     return (
-        <>
-            {console.log("wefdasdfsafdfd", data)}
-            <div className="card g-4">
-                <div className="graph-title">
-                    <div>{title}</div>
-                    <div>
-                        <button
-                            type="button"
-                            className="btn btn-light"
-                            onClick={() => handleFilter(data, title, keys)}
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#addPriority"
-                            aria-controls="offcanvasRight"
-                            data-testid="filter-button"
-                        >
-                            <FilterOutlined />
-                        </button>
-                    </div>
+        <div className="card g-4">
+            <div className="graph-title">
+                <div>{title}</div>
+                <div>
+                    <button
+                        type="button"
+                        className="btn btn-light"
+                        onClick={() => handleFilter(data, title, keys)}
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#addPriority"
+                        aria-controls="offcanvasRight"
+                        data-testid="filter-button"
+                    >
+                        <FilterOutlined />
+                    </button>
                 </div>
-                <div style={{ overflowX: "auto", scrollbarWidth: "none", height: "240px", position: "relative" }}>
-                    {data.length === 0 ? (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                                fontSize: "16px",
-                            }}
-                        >
-                            No Data Found
-                        </div>
-                    ) : (
-                        <div style={{ minWidth: `${data.length * 50}px` }}>
-                            <ResponsiveContainer width="100%" height={240}>
-                                <BarChart
-                                    data={data}
-                                    margin={{
-                                        top: 20,
-                                        right: 30,
-                                        left: 20,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="date"
-                                        fontSize={10}
-                                        tickFormatter={(date) => date.slice(5)}
-                                    />
-                                    <YAxis fontSize={10} />
-                                    <Tooltip cursor={{ fill: "transparent" }} />
-                                    <Bar
-                                        dataKey="total_count"
-                                        fill="#1DB9EF"
-                                        name="Total Count"
-                                        barSize={20}
-                                    />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                    )}
-                </div>
-                <StickyLegend items={legendItems} />
             </div>
-        </>
+
+            <MouseEventsHandler>
+                {({
+                    scrollContainerRef,
+                    handleMouseDown,
+                    handleMouseMove,
+                    handleMouseUp,
+                    isDragging,
+                }) => (
+                    <div
+                        ref={scrollContainerRef}
+                        style={{
+                            overflowX: "auto",
+                            scrollbarWidth: "none",
+                            position: "relative",
+                            cursor: isDragging ? "grabbing" : "grab",
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                    >
+                        {data.length === 0 ? (
+                            <div className="classnodata" style={{height:'133px'}}>
+                                No Data Found
+                            </div>
+                        ) : (
+                            <div style={{ minWidth: `${data.length * 50}px` }}>
+                                <ResponsiveContainer width="100%" height={210}>
+                                    <BarChart
+                                        data={data}
+                                        margin={{
+                                            top: 20,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="date"
+                                            fontSize={10}
+                                            tickFormatter={(date) => date.slice(5)}
+                                        />
+                                        <YAxis fontSize={10} />
+                                        <Tooltip cursor={{ fill: "transparent" }} />
+                                        <Bar
+                                            dataKey="total_count"
+                                            fill="#1DB9EF"
+                                            name="Total Count"
+                                            barSize={20}
+                                        />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </MouseEventsHandler>
+
+            <StickyLegend items={legendItems} />
+        </div>
     );
 };
 

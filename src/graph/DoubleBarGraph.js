@@ -88,7 +88,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter, isLoading }) => {
 
     let xAxisKey = "";
     let bars = [];
-    let containerStyle = { width: "100%", height: 200, overflow: "hidden" };
+    let containerStyle = { width: "100%", height: 195, overflow: "hidden" };
 
     if (title === TITLE.COMMIT_ISSUES_SEVERITY) {
         xAxisKey = XAXISKEYS.SEVERITY;
@@ -107,7 +107,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter, isLoading }) => {
     const graphWidth = Math.max(data.length * 50, 850);
 
     return (
-        <div className="card g-4">
+        <div className="card g-1">
             <div className="graph-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>{title}</div>
                 <div>
@@ -130,7 +130,6 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter, isLoading }) => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        height: "100%",
                     }}>
                         <Spin size="large" />
                     </div>

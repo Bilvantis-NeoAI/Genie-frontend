@@ -171,7 +171,7 @@ export default function SeverityMetric() {
     return (
         <>
             {loading && <FullScreenLoader />} {/* Display the loader while loading */}
-            <div className="row g-2">
+            <div className="row g-1">
                 {
                 // !loading ? (
                     metrics?.map((metric, index) => {

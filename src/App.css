@@ -12,6 +12,35 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+@media (min-width: 1600px) {
+  .toptabbar {
+    border-bottom: 1px solid #dcdcdc;
+    position: sticky;
+    margin-left: 1%;
+    font-size: 15px;
+  }
+
+  .classnodata {
+    display: flex;
+    position: sticky;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100px;
+    /* margin-top:-10%; */
+    color: #999;
+    margin-left: 10%;
+    font-size: 14px;
+  }
+}
+
+.toptabbar {
+  border-bottom: 1px solid #dcdcdc;
+  position: sticky;
+  margin-left:5%;
+  font-size: 15px;
+}
 .noscroll::-webkit-scrollbar {
   display: none;
 }
@@ -61,7 +90,34 @@ body {
 .App-link {
   color: #61dafb;
 }
-
+.classnodata{
+  display: "flex";
+  position: sticky;
+  justify-content: "center";
+  overflow: hidden;
+  align-items: "center";
+  width: 100%;
+  height: 150px;
+  color: #999;
+  margin-top:13%;
+  margin-left: 30%;
+  font-size: 14px;
+}
+.legend-labels{
+  position: sticky;
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  z-index:  2;
+  padding: 5px;
+  margin-left: 40%;
+  margin-right: 10%
+}
+.legend-box{
+  display: flex;
+   align-items: center;
+    gap: 6px 
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -281,7 +337,6 @@ input.form-control {
 .sidebar {
   position: fixed;
   left: 0;
-  top: 8%;
   height: 100vh;
   width: 70px;
   background:#07439C;
