@@ -287,7 +287,6 @@ export function AdminDashboard() {
             </Row>
             <div
                 className="flex-grow-1"
-                style={{ marginTop: "10px" }}
             >
                 <BootstrapSidebar /></div>
             <div className="row">
@@ -312,7 +311,7 @@ export function AdminDashboard() {
                 <hr className="navBarAdmin"></hr>
                 {activeadminTab === "adminUsers" ?
                     (<>
-                        <ul className="nav gap-5 d-flex w-100 position-relative">
+                        <ul className="nav gap-5 d-flex w-100 position-relative" style={{marginTop:'-12px'}}>
                             <li className="nav-item" style={{ marginLeft: '10%' }}>
                                 <button
                                     className="nav-link" style={tabStyle("users")}
@@ -333,8 +332,6 @@ export function AdminDashboard() {
                               className="btn btn-outline-primary btn-sm position-absolute"
                               style={{
                                   right: "5%",
-                                  bottom: "15px",
-                                  
                                   padding: "6px 16px",
                                   fontWeight: "500",
                                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",

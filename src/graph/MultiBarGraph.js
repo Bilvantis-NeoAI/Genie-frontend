@@ -79,7 +79,7 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
                             style={{
                                 overflowX: "auto",
                                 scrollbarWidth: "none",
-                                height:'210px',
+                                height:'203px',
                                 cursor: isDragging ? "grabbing" : "grab",
                             }}
                             onMouseDown={handleMouseDown}
