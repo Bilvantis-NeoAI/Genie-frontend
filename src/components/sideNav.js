@@ -54,7 +54,8 @@ export const BootstrapSidebar = () => {
         { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
       ]
     : [
-        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" }
+        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+        { path: "/adminPage", icon: admin, label: "Admin", name: "admin" }
       ];
 
   return (

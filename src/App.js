@@ -20,7 +20,7 @@ import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
 import { GitOperations } from './components/GitOperations';
 import { KbmsOperations } from './components/KbmsOperations';
- 
+import KbmsAdimnPage from './components/KbmsAdminPage';
 function App() {
   const isSpecialEnv = process.env.REACT_APP_AWS !== undefined;
  
@@ -31,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<KbmsOperations />} />
           <Route path="/gitmetrics" element={<KbmsOperations />} />
+          <Route path ='/adminPage' element={<KbmsAdimnPage/>}/>
         </Routes>
       ) : (
         <Routes>
