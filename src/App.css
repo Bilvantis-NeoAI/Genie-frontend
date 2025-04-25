@@ -118,6 +118,13 @@ body {
    align-items: center;
     gap: 6px 
 }
+.line-legend {
+  width: 11px;
+  height: 11px;
+  background-color: #1DB9EF;
+  margin-right: 6px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -207,8 +214,10 @@ body {
   align-items: end;
 }
 .active-tab {
-  text-decoration: underline;
-  font-weight: bold;
+  color:blue
+}
+.nav-link{
+  color: #333;
 }
 .statusButtons{
   width: 40%;
@@ -258,11 +267,6 @@ input.form-control {
 }
 
 /*******Fix It*********/
-.form-field-title {
-  font-weight: 500;
-  color: #333;
-}
-
 .required-styling {
   color: red;
 }
@@ -312,6 +316,9 @@ input.form-control {
   margin-top: 10%;
   margin-left: 5%;
   margin-right: 5%;
+}
+.dropzone{
+  width: 48%;
 }
 .dropzone-title {
   font-size: 14px; /* Adjust size as needed */
@@ -482,10 +489,6 @@ height: 5vh;
 .modal-graph-image{
   width: 100%;
   height: 1200px;
-}
-
-.form-field-title{
-  font-size: 18px;
 }
 
 .required-styling{
@@ -667,6 +670,7 @@ p {
 }
 .form-field-title {
   font-weight: bold;
+  font-size: 18px;
 }
 .input-container {
   display: flex;

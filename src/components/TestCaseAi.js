@@ -200,11 +200,7 @@ export function TestCaseAi() {
             formData.append("test_cases_file", file);
 
             const response = await dispatch(addAiCsvData(formData));
-            console.log("Response>>>", response);
-
             if (response?.data) {
-                console.log("AI Test Case Data:", response?.data);
-
                 const { output_file_path } = response?.data;
 
                 const fetchFileContent = async (url) => {
@@ -282,13 +278,13 @@ export function TestCaseAi() {
             <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
                 <HeaderComponent />
             </Row>
-            <div className="w-100 mt-3" style={{ height: '82vh' }}>
                 <div style={{ width: '10%' }}>
                     <BootstrapSidebar />
                 </div>
-                <div className='card pb-3 h-100 ' style={{ overflowY: 'scroll', marginLeft: '8%', marginRight: '2%', fontSize: '15px' }}>
-                    <div className="col-12 d-flex">
-                        <div className='col-6'>
+                <div className='card' style={{ overflowY: 'scroll', scrollbarWidth:'none', marginLeft: '6%', fontSize: '10px' }}>
+                    <h4 className='ms-4 mt-2'>Test Gen</h4>
+                    <div className="col-12 d-flex ">
+                        <div className='dropzone'>
                             <DropzoneSection
                                 title={<span className="dropzone-title">Upload Feature Files</span>}
                                 dropzoneState={firstDropzoneState}
@@ -298,7 +294,7 @@ export function TestCaseAi() {
                                 required={true}
                             />
                         </div>
-                        <div className='col-5'>
+                        <div className='dropzone'>
                             <DropzoneSection
                                 title={<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
                                 dropzoneState={secondDropzoneState}
@@ -308,8 +304,8 @@ export function TestCaseAi() {
                                 required={true} />
                         </div>
                     </div>
-                    <div className="col-md-8 ms-4 mt-5 d-flex align-items-center gap-3">
-                        <label className="mb-0" style={{  }}>
+                    <div className="col-md-6 ms-4 mt-3 d-flex align-items-center gap-3">
+                        <label className="mb-0" style={{fontSize:'15px'  }}>
                             Select Data Type:
                         </label>
 
@@ -393,12 +389,12 @@ export function TestCaseAi() {
                                     onClick={handleSendToBackend}
                                     className="btn-success"
                                 >
-                                    Send Selected Data to Backend
+                                    Generate Test Cases
                                 </Button>
                             </div>
                         </>
                     ) : (
-                        <p className="text-center mt-4" style={{marginLeft:'20%'}}>No data available</p>
+                        <p className="text-center mt-4" style={{marginLeft:'20%',fontSize:'15px'}}>No data available</p>
                     )}
                     <div className="container">
                         {fileContent && (
@@ -461,7 +457,6 @@ export function TestCaseAi() {
                     </div>
 
                 </div>
-            </div>
             <ToastContainer />
         </Container>
     );
@@ -473,8 +468,9 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
             <div className="max-w-xs bg-white shadow-sm rounded-md p-3 border border-gray-200">
                 <div className="mb-3">
                     <div className="d-flex justify-content-between">
-                        <h3 className="text-sm font-weight-bold">{title}</h3>
-                        {required && <span className="text-danger">*</span>}
+                        <h3 className="text-sm font-weight-bold">
+                            {title} {required && <span className="text-danger">*</span>}
+                        </h3>
                     </div>
 
                     <Dropzone

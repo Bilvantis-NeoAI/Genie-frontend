@@ -16,6 +16,7 @@ import gitNoteReducer from './gitReleaseNoteReducer';
 import testAiReducer from './testAiReducer';
 import deadCodeReducer from './deadCodeReducer';
 import repoListReducer from './repoListReducer';
+import userReducer from './userReducer';
 const rootReducer = combineReducers({
     answersData: answersReducer,
     documentData: documentReducer,
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
     gitNoteResponse:gitNoteReducer,
     testAiData:testAiReducer,
     deadCode:deadCodeReducer,
-    ingestedRepo:repoListReducer
+    ingestedRepo:repoListReducer,
+    user: userReducer,
 });
 
 export default rootReducer;

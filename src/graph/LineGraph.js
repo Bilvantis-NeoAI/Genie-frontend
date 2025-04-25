@@ -24,28 +24,36 @@ const LineGraph = ({ data, title, handleFilter, from, keys }) => {
     const scrollStyle = data.length > 10
         ? { overflowX: "auto", scrollbarWidth: "none", position: "relative" }
         : {};
-
-    const renderLegend = () => {
+const renderLegend = () => {
         if (
-            (xAxisDataKey === XAXISKEYS.WEEK) ||
+            xAxisDataKey === XAXISKEYS.WEEK ||
             (xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_QUALITY)
         ) {
             return (
-                <span style={{ color: "#1DB9EF", fontSize: "12px", marginRight: "10px" }}>
-                    {XAXISNAMES.AVARAGE_QUALITY}
-                </span>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "12px", marginRight: "10px" }}>
+                    <div className="line-legend"
+                    ></div>
+                    <span style={{ color: "#1DB9EF" }}>
+                        {XAXISNAMES.AVARAGE_QUALITY}
+                    </span>
+                </div>
             );
         }
+    
         if (xAxisDataKey === XAXISKEYS.MONTH && title === TITLE.AVARAGE_CODE_SEVERITY) {
             return (
-                <span style={{ color: "#1DB9EF", fontSize: "12px", marginRight: "10px" }}>
-                    {XAXISNAMES.AVARAGE_SEVERITY}
-                </span>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "12px", marginRight: "10px" }}>
+                    <div className="line-legend"></div>
+                    <span style={{ color: "#1DB9EF" }}>
+                        {XAXISNAMES.AVARAGE_SEVERITY}
+                    </span>
+                </div>
             );
         }
+    
         return null;
     };
-
+    
     return (
         <div className="card g-4">
             <div className='graph-title'>

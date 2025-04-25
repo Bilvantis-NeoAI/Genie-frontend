@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import logoutIcon from "../Assets/logout.svg";
@@ -12,8 +12,11 @@ import { sweetalert } from "../utils/constatnts";
 export const BootstrapSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const [activeTab, setActiveTab] = useState(location.state?.activeTab || "metrics");
+
+  const appGcp = process.env.REACT_APP_IP;
+  const appAws = process.env.REACT_APP_AWS;
 
   const handleNavigation = (path, tabName) => {
     setActiveTab(tabName);
@@ -36,16 +39,28 @@ export const BootstrapSidebar = () => {
     });
   };
 
+  const iconStyle = {
+    width: "25px",
+    height: "25px",
+  };
+
+  // Dynamically assign sidebar items based on environment variable
+  const sidebarItems = appGcp !== undefined
+    ? [
+        { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+        { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+        { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+        { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
+      ]
+    : [
+        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" }
+      ];
+
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">
-        {[
-          { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
-          { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
-          { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
-          { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
-          { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
-        ].map(({ path, icon, label, name }) => (
+        {sidebarItems.map(({ path, icon, label, name }) => (
           <li
             key={name}
             className="d-flex justify-content-center align-items-center"
@@ -56,23 +71,25 @@ export const BootstrapSidebar = () => {
               cursor: "pointer"
             }}
           >
-            <img src={icon} alt="" className="imagestyles" />
+            <img src={icon} alt={label} style={iconStyle} />
             <span className="tooltip" style={{ marginLeft: "10px" }}>{label}</span>
           </li>
         ))}
 
-        <li
-          className="d-flex justify-content-center align-items-center"
-          onClick={handleLogout}
-          style={{
-            backgroundColor: activeTab === "logout" ? "#00BDD0" : "transparent",
-            color: activeTab === "logout" ? "white" : "black",
-            cursor: "pointer"
-          }}
-        >
-          <img src={logoutIcon} alt="" className="imagestyles" />
-          <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
-        </li>
+        {appGcp !== undefined && (
+          <li
+            className="d-flex justify-content-center align-items-center"
+            onClick={handleLogout}
+            style={{
+              backgroundColor: activeTab === "logout" ? "#00BDD0" : "transparent",
+              color: activeTab === "logout" ? "white" : "black",
+              cursor: "pointer"
+            }}
+          >
+            <img src={logoutIcon} alt="Logout" style={iconStyle} />
+            <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
+          </li>
+        )}
       </ul>
     </div>
   );

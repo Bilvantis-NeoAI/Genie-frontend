@@ -1,6 +1,23 @@
 import Swal from "sweetalert2";
+// export const IP = process.env.REACT_APP_IP==="https://neoai.bilvantis.com/"?process.env.REACT_APP_IP:process.env.REACT_APP_AWS
+// let IP
+const ip = process.env.REACT_APP_IP;
+const aws = process.env.REACT_APP_AWS;
 
-export const IP = process.env.REACT_APP_IP //'http://34.46.36.105:3000/'
+export const IP = ip !== undefined ? ip : aws;
+
+// const ip = process.env.REACT_APP_IP;
+// const aws = process.env.REACT_APP_AWS;
+
+// export const IP =
+//   ip && ip === "https://neoai.bilvantis.com/" ? ip : aws || "";
+
+// if(process.env.REACT_APP_IP==="https://neoai.bilvantis.com/"){
+//     IP = process.env.REACT_APP_IP
+// }else {
+//     IP = process.env.REACT_APP_AWS
+// }
+//'http://34.46.36.105:3000/'
 
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -31,24 +48,25 @@ export const apis = {
     GIT_COMMIT_FEEDBACK:'rephrase_commit_logs_summary',
     DEL_TEM_DIR:'temp_dir_delete',
     TEST_AI_METRICS:'/metrics',
+     USER_DETAILS :'auth/users/me',
     DEAD_CODE:'deadcode_data_identification'
 }
     export const URL ={
         Api : `${IP}`,
         ApiInject :`${IP}kbmsapi`, //Upload Documnet and upload URL
         ApiAnswer:`${IP}kbmsapi`,
-
-
+ 
+ 
         GitIngestion: `${IP}gitkbapi`,  //Ingestion repo
         DeployedURL:`${IP}genieapi/`,  // Login and Genie metrics
         GIT_GRAPH_DATA:`${IP}kbmsapi`, //git metrics
         TEST_AI_METRICS :`${IP}test_ai`,
-
+ 
         API_BASE_AI :`${IP}:7000`,
         TEST_AI :`${IP}test_ai`, //Test Ai
-        
-
-        ADMIN_USERS :`${IP}genieapi/admin`, //admin 
+       
+ 
+        ADMIN_USERS :`${IP}genieapi/admin`, //admin
     }
     export const showSuccessAlert = (title = 'Success', text = 'Operation completed successfully!') => {
         return Swal.fire({
@@ -58,7 +76,7 @@ export const apis = {
             confirmButtonText: 'OK',
         });
     };
-    
+   
     export const showErrorAlert = (title = 'Error', text = 'Something went wrong.') => {
         return Swal.fire({
             title,
@@ -67,7 +85,7 @@ export const apis = {
             confirmButtonText: 'OK',
         });
     };
-    
+   
     export const showConfirmAlert = (
         title = 'Are you sure?',
         text = 'Do you want to proceed?',

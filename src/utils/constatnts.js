@@ -65,7 +65,7 @@ export const  baseURL =  'https://neoai.bilvantis.com/'
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",
-    FILES_REQUIRED: "At least one file is required.",
+    FILES_REQUIRED: "File required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
     ONLY_FILE : 'Please select only 1 file.',

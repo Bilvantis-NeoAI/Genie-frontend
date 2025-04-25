@@ -15,10 +15,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import React from "react";
-import { baseURL } from "../utils/constatnts";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Typography from "@mui/material/Typography";
+const ip = process.env.REACT_APP_IP;
+const aws = process.env.REACT_APP_AWS;
 
+ const baseURL = ip !== undefined ? ip+'/kbmsapi' : aws+'/kbmsapi';
 export function HomePage() {
   const [formFields, setFormFields] = useState([{ text: "" }]);
   const dispatch = useDispatch();
