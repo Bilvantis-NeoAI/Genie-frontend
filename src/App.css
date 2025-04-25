@@ -12,6 +12,35 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+@media (min-width: 1600px) {
+  .toptabbar {
+    border-bottom: 1px solid #dcdcdc;
+    position: sticky;
+    margin-left: 1%;
+    font-size: 15px;
+  }
+
+  .classnodata {
+    display: flex;
+    position: sticky;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100px;
+    /* margin-top:-10%; */
+    color: #999;
+    margin-left: 10%;
+    font-size: 14px;
+  }
+}
+
+.toptabbar {
+  border-bottom: 1px solid #dcdcdc;
+  position: sticky;
+  margin-left:5%;
+  font-size: 15px;
+}
 .noscroll::-webkit-scrollbar {
   display: none;
 }
@@ -23,22 +52,15 @@
 html, body {
   overflow-x: hidden; /* Prevent horizontal scrolling */
   width: 100vw;
+  overflow-y: none; 
+  scrollbar-width: none;
   overscroll-behavior-y: contain;
 }
 
 body {
   position: fixed; /* Prevent unwanted movements */
 }
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-html, body {
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  width: 100vw;
-}
+
 * {
   margin: 0;
   padding: 0;
@@ -67,6 +89,40 @@ html, body {
 }
 .App-link {
   color: #61dafb;
+}
+.classnodata{
+  display: "flex";
+  position: sticky;
+  justify-content: "center";
+  overflow: hidden;
+  align-items: "center";
+  width: 100%;
+  height: 150px;
+  color: #999;
+  margin-top:13%;
+  margin-left: 30%;
+  font-size: 14px;
+}
+.legend-labels{
+  position: sticky;
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  z-index:  2;
+  padding: 5px;
+  margin-left: 40%;
+  margin-right: 10%
+}
+.legend-box{
+  display: flex;
+   align-items: center;
+    gap: 6px 
+}
+.line-legend {
+  width: 11px;
+  height: 11px;
+  background-color: #1DB9EF;
+  margin-right: 6px;
 }
 
 @keyframes App-logo-spin {
@@ -148,7 +204,7 @@ html, body {
 
 .navBarAdmin {
   border-bottom: 10px black;
-  margin-top: -11px;
+  /* margin-top: -11px; */
   width: 90%;
   margin-left: 7%;
 }
@@ -158,8 +214,10 @@ html, body {
   align-items: end;
 }
 .active-tab {
-  text-decoration: underline;
-  font-weight: bold;
+  color:blue
+}
+.nav-link{
+  color: #333;
 }
 .statusButtons{
   width: 40%;
@@ -259,6 +317,9 @@ input.form-control {
   margin-left: 5%;
   margin-right: 5%;
 }
+.dropzone{
+  width: 48%;
+}
 .dropzone-title {
   font-size: 14px; /* Adjust size as needed */
 }
@@ -283,7 +344,6 @@ input.form-control {
 .sidebar {
   position: fixed;
   left: 0;
-  top: 8%;
   height: 100vh;
   width: 70px;
   background:#07439C;
@@ -403,9 +463,9 @@ height: 5vh;
   background-color: #07439C !important;
   color: white !important;
 }
-.form-control{
+/* .form-control{
   width: 70% !important;
-}
+} */
 .heading-style{
   color: #07439C;
   font-size: 20px;

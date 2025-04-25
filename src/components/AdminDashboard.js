@@ -30,7 +30,15 @@ export function AdminDashboard() {
     const dispatch = useDispatch();
     let users = useSelector((state) => state.usersList?.userListData?.payload?.data?.users);
     const pendingUsers = useSelector((state) => state.usersList?.pendingUsers?.payload?.data?.pending_users);
+    const tabStyle = (tabName) => ({
+        color: activeTab === tabName ? "#07439C" : "#666666",
+    });
+    const admintabStyle = (tabName) => ({
+        color: activeadminTab === tabName ? "#07439C" : "#666666",
+    });
     useEffect(() => {
+        console.log("===activeadminTabactiveadminTab",activeadminTab ,activeTab);
+        
         setLoading(true)
         dispatch(userList()).finally(() => {
             setLoading(false);
@@ -279,7 +287,6 @@ export function AdminDashboard() {
             </Row>
             <div
                 className="flex-grow-1"
-                style={{ marginTop: "10px" }}
             >
                 <BootstrapSidebar /></div>
             <div className="row">
@@ -287,14 +294,14 @@ export function AdminDashboard() {
                 <ul className="nav">
                     <li className="nav-item" style={{ marginLeft: '10%' }}>
                         <button
-                            className={`nav-link ${activeadminTab === "adminUsers" ? "active-tab" : ""}`}
+                            className="nav-link"  style={admintabStyle("adminUsers")}
                             onClick={() => setadminActiveTab("adminUsers")}>
                             Users
                         </button>
                     </li>
                     <li className="nav-item">
                         <button
-                            className={`nav-link ${activeadminTab === "actions" ? "active-tab" : ""}`}
+                            className= "nav-link" style={admintabStyle("actions")}
                             onClick={() => setadminActiveTab("actions")}
                         >
                             Actions
@@ -304,17 +311,17 @@ export function AdminDashboard() {
                 <hr className="navBarAdmin"></hr>
                 {activeadminTab === "adminUsers" ?
                     (<>
-                        <ul className="nav gap-5 d-flex w-100 position-relative">
+                        <ul className="nav gap-5 d-flex w-100 position-relative" style={{marginTop:'-12px'}}>
                             <li className="nav-item" style={{ marginLeft: '10%' }}>
                                 <button
-                                    className={`nav-link ${activeTab === "users" ? "active-tab" : ""}`}
+                                    className="nav-link" style={tabStyle("users")}
                                     onClick={() => setActiveTab("users")}>
                                     Active Users
                                 </button>
                             </li>
                             <li className="nav-item">
                                 <button
-                                    className={`nav-link ${activeTab === "pendingUsers" ? "active-tab" : ""}`}
+                                    className="nav-link" style={tabStyle("pendingUsers")}
                                     onClick={() => setActiveTab("pendingUsers")}
                                 >
                                     Pending Users
@@ -325,8 +332,6 @@ export function AdminDashboard() {
                               className="btn btn-outline-primary btn-sm position-absolute"
                               style={{
                                   right: "5%",
-                                  bottom: "15px",
-                                  
                                   padding: "6px 16px",
                                   fontWeight: "500",
                                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",

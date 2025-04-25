@@ -21,8 +21,8 @@ export const XAXISKEYS = {
     WEEK : 'week',
 }
 export const XAXISNAMES = {
-    AVARAGE_QUALITY: 'Avarage quality',
-    AVARAGE_SEVERITY: 'Avarage severity',
+    AVARAGE_QUALITY: 'Average quality',
+    AVARAGE_SEVERITY: 'Average severity',
     COUNT: 'Count',
     PERCENTAGE: 'Percentage',
    SECRETS_COUNT: 'Secrets Count',
@@ -61,11 +61,11 @@ export const homePageTextSamples = {
     CLOSE : 'Close',
     HYPERLINKS : 'Hyperlinks'
 };
-export const  baseURL =  'http://34.134.148.250/'
+export const  baseURL =  'https://neoai.bilvantis.com/'
 export const homePage1TextSamples = {
     UPLOAD_FILES: "Upload Files",
     URL_INPUT: "Enter URL",
-    FILES_REQUIRED: "At least one file is required.",
+    FILES_REQUIRED: "File required.",
     URL_REQUIRED: "URL is required.",
     SUBMIT: "Submit",
     ONLY_FILE : 'Please select only 1 file.',

@@ -9,6 +9,7 @@ import {
     Tooltip
 } from "recharts";
 import { FilterOutlined } from "@ant-design/icons";
+import MouseEventsHandler from '../utils/MouseEvents'
 const CustomTick = ({ x, y, payload }) => {
     const truncatedValue = payload.value.substring(0, 5);
     return (
@@ -174,64 +175,79 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                     </div>
                 </div>
             </div>
-            <div
-                style={{
-                    overflowX: "auto",
-                    overflowY: "hidden",
-                    width: "100%",
-                    height: "240px",
-                    scrollbarWidth: "none",
-                }}
-            >
-                {data.length !== 0 &&
-                    <ResponsiveContainer width={Math.max(90 + formattedData.length * 10) + "%"} height="100%">
-                        <BarChart
-                            data={formattedData}
-                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                            barGap={3}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="repo_name" fontSize={10} tick={<CustomTick />} />
-                            <YAxis fontSize={10} />
-                            <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
-                            {issueKeys.map((key, index) => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    barSize={20}
-                                    stackId="stack1"
-                                    fill={getColor(index)}
-                                    name={key.replace("total_issues_", "").replace("_count", "")}
-                                />
-                            ))}
-                            {recentCommitKeys.map((key, index) => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    barSize={20}
-                                    stackId="stack2"
-                                    fill={getColor(index + issueKeys.length)}
-                                    name={key
-                                        .replace("recent_commit_issues_", "")
-                                        .replace("_count", "")}
-                                />
-                            ))}
-                            {commitKeys.map((key, index) => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    barSize={20}
-                                    stackId="stack3"
-                                    fill={getColor(index + issueKeys.length + recentCommitKeys.length)}
-                                    name={key.replace("total_commits_", "").replace("_commits", "")}
-                                />
-                            ))}
-                        </BarChart>
-                    </ResponsiveContainer>
-                }
-            </div>
+            <MouseEventsHandler>
+                {({
+                    scrollContainerRef,
+                    handleMouseDown,
+                    handleMouseMove,
+                    handleMouseUp,
+                    isDragging,
+                }) => (
+                    <div
+                        ref={scrollContainerRef}
+                        style={{
+                            overflowX: "auto",
+                            overflowY: "hidden",
+                            width: "100%",
+                            height: "228px",
+                            scrollbarWidth: "none",
+                            position: "relative",
+                            cursor: isDragging ? "grabbing" : "grab",
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                    >
+                        {data.length !== 0 && (
+                            <ResponsiveContainer width={Math.max(90 + formattedData.length * 10) + "%"} height="100%">
+                                <BarChart
+                                    data={formattedData}
+                                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                    barGap={3}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="repo_name" fontSize={10} tick={<CustomTick />} />
+                                    <YAxis fontSize={10} />
+                                    <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
+                                    {issueKeys.map((key, index) => (
+                                        <Bar
+                                            key={key}
+                                            dataKey={key}
+                                            barSize={20}
+                                            stackId="stack1"
+                                            fill={getColor(index)}
+                                            name={key.replace("total_issues_", "").replace("_count", "")}
+                                        />
+                                    ))}
+                                    {recentCommitKeys.map((key, index) => (
+                                        <Bar
+                                            key={key}
+                                            dataKey={key}
+                                            barSize={20}
+                                            stackId="stack2"
+                                            fill={getColor(index + issueKeys.length)}
+                                            name={key.replace("recent_commit_issues_", "").replace("_count", "")}
+                                        />
+                                    ))}
+                                    {commitKeys.map((key, index) => (
+                                        <Bar
+                                            key={key}
+                                            dataKey={key}
+                                            barSize={20}
+                                            stackId="stack3"
+                                            fill={getColor(index + issueKeys.length + recentCommitKeys.length)}
+                                            name={key.replace("total_commits_", "").replace("_commits", "")}
+                                        />
+                                    ))}
+                                </BarChart>
+                            </ResponsiveContainer>
+                        )}
+                    </div>
+                )}
+            </MouseEventsHandler>
+
         </div>
     );
 };
-
 export default MultiStackedGraph;

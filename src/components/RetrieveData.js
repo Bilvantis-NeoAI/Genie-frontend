@@ -170,12 +170,8 @@ export default function RetrieveData() {
                 style={{ overflowX: "auto" }}
               >
                 <div
-                  className={`d-inline-block p-2 text-black bg-light
-                    ${chat.sender === "user"
-                      ? "text-light"
-                      : "bg-light"
-                    } rounded`
-                  }
+                  className={`d-inline-block p-2 text-black bg-light ${chat.sender === "user" ? "text-light" : "bg-light"
+                    } rounded`}
                 >
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
@@ -186,7 +182,6 @@ export default function RetrieveData() {
                       : chat.message}
                   </ReactMarkdown>
                 </div>
-
               </div>
             ))}
             <div style={{ padding: '10px' }}
@@ -196,28 +191,41 @@ export default function RetrieveData() {
             </div>
 
           </div>
-          <div className=" d-flex mt-5 ">
-            <Form.Control
-              as="textarea"
-              placeholder="Ask a question..."
-              value={inputField}
-              onChange={handleInputChange}
-              isInvalid={!!error}
-            />
-            <Form.Control.Feedback type="invalid">
-              {error}
-            </Form.Control.Feedback>
+          {/* Textarea and Buttons - aligned top & tight spacing */}
+          <div className="d-flex flex-column mt-3 gap-2" style={{ maxWidth: '90%' }}>
+            {/* Textarea with error message below */}
+            <div>
+              <Form.Control
+                as="textarea"
+                placeholder="Ask a question..."
+                value={inputField}
+                onChange={handleInputChange}
+                isInvalid={!!error}
+                style={{ minHeight: '40px', resize: 'none' }}
+              />
+              {error && (
+                <Form.Control.Feedback type="invalid" className="d-block mt-1">
+                  {error}
+                </Form.Control.Feedback>
+              )}
+            </div>
 
-            <div className="d-flex ms-3 mt-3">
+            {/* Buttons below textarea and error */}
+            <div className="d-flex gap-2">
               <Button
                 onClick={() => handleSubmit("explain")}
-                className="me-4"
-                style={{height:'70%'}}
+                className="btn btn-primary px-3"
+                style={{ whiteSpace: 'nowrap', height: '40px' }}
                 disabled={loading}
               >
                 {loading ? "Loading..." : homePageTextSamples.EXPLAIN}
               </Button>
-              <Button onClick={() => handleSubmit("code")} disabled={loading} style={{height:'70%'}}>
+              <Button
+                onClick={() => handleSubmit("code")}
+                className="btn btn-primary px-3"
+                style={{ whiteSpace: 'nowrap', height: '40px' }}
+                disabled={loading}
+              >
                 {loading ? "Loading..." : homePageTextSamples.GET_CODE}
               </Button>
             </div>

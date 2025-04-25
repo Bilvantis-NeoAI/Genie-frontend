@@ -121,6 +121,12 @@ export function GitReleaseNote() {
         document.body.removeChild(link);
     };
 
+    const clearError = (field) => {
+      if (errors[field]) {
+        setErrors((prev) => ({ ...prev, [field]: "" }));
+      }
+    };
+  
     const handleRephraseReleaseNotes = async () => {
         if (!releaseNotesFeedback.trim()) {
             return;
@@ -174,12 +180,18 @@ export function GitReleaseNote() {
                       <Form.Group controlId="repoName">
                         <Form.Label>Repository URL <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                          type="text"
-                          placeholder="Repository Name"
-                          value={repoName}
-                          onChange={(e) => setRepoName(e.target.value)}
-                          isInvalid={!!errors.repoName}
-                        />
+  type="text"
+  placeholder="Repository Name"
+  value={repoName}
+  onChange={(e) => {
+    setRepoName(e.target.value);
+    if (errors.repoName) {
+      setErrors((prev) => ({ ...prev, repoName: "" }));
+    }
+  }}
+  isInvalid={!!errors.repoName}
+/>
+
                         <Form.Control.Feedback type="invalid">
                           {errors.repoName}
                         </Form.Control.Feedback>
@@ -190,12 +202,18 @@ export function GitReleaseNote() {
                       <Form.Group controlId="oldBranch">
                         <Form.Label>Old Branch <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                          type="text"
-                          placeholder="Old Branch"
-                          value={oldBranch}
-                          onChange={(e) => setOldBranch(e.target.value)}
-                          isInvalid={!!errors.oldBranch}
-                        />
+  type="text"
+  placeholder="Old Branch"
+  value={oldBranch}
+  onChange={(e) => {
+    setOldBranch(e.target.value);
+    if (errors.oldBranch) {
+      setErrors((prev) => ({ ...prev, oldBranch: "" }));
+    }
+  }}
+  isInvalid={!!errors.oldBranch}
+/>
+
                         <Form.Control.Feedback type="invalid">
                           {errors.oldBranch}
                         </Form.Control.Feedback>
@@ -206,12 +224,18 @@ export function GitReleaseNote() {
                       <Form.Group controlId="newBranch">
                         <Form.Label>New Branch <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                          type="text"
-                          placeholder="New Branch"
-                          value={newBranch}
-                          onChange={(e) => setNewBranch(e.target.value)}
-                          isInvalid={!!errors.newBranch}
-                        />
+  type="text"
+  placeholder="New Branch"
+  value={newBranch}
+  onChange={(e) => {
+    setNewBranch(e.target.value);
+    if (errors.newBranch) {
+      setErrors((prev) => ({ ...prev, newBranch: "" }));
+    }
+  }}
+  isInvalid={!!errors.newBranch}
+/>
+
                         <Form.Control.Feedback type="invalid">
                           {errors.newBranch}
                         </Form.Control.Feedback>
@@ -225,12 +249,18 @@ export function GitReleaseNote() {
                       <Form.Group controlId="token">
                         <Form.Label>PAT <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                          type="password"
-                          placeholder="PAT"
-                          value={token}
-                          onChange={(e) => setToken(e.target.value)}
-                          isInvalid={!!errors.token}
-                        />
+  type="password"
+  placeholder="PAT"
+  value={token}
+  onChange={(e) => {
+    setToken(e.target.value);
+    if (errors.token) {
+      setErrors((prev) => ({ ...prev, token: "" }));
+    }
+  }}
+  isInvalid={!!errors.token}
+/>
+
                         <Form.Control.Feedback type="invalid">
                           {errors.token}
                         </Form.Control.Feedback>
@@ -241,50 +271,64 @@ export function GitReleaseNote() {
                       <Form.Group controlId="uploadFile">
                         <Form.Label>Upload Features (CSV) <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                          type="file"
-                          accept=".csv"
-                          onChange={handleFileChange}
-                          isInvalid={!!errors.file}
-                        />
-                        {errors.file && <div className="text-danger mt-1">{errors.file}</div>}
-                      </Form.Group>
+  type="file"
+  accept=".csv"
+  onChange={(e) => {
+    handleFileChange(e);
+    if (errors.file) {
+      setErrors((prev) => ({ ...prev, file: "" }));
+    }
+  }}
+  isInvalid={!!errors.file}
+/>
+{errors.file && <div className="text-danger mt-1">{errors.file}</div>}
+                   </Form.Group>
                     </Col>
                   </Row>
-          
                   {/* CSV Data Preview */}
                   {csvData.length > 0 && (
-                    <div className="mb-4 border rounded p-3">
-                      <h5 className="mb-3">Edit CSV Data</h5>
-                      <div className="table-responsive">
-                        <table className="table table-bordered table-sm">
-                          <thead className="table-light">
-                            <tr>
-                              {Object.keys(csvData[0]).map((header) => (
-                                <th key={header}>{header}</th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {csvData.map((row, index) => (
-                              <tr key={index}>
-                                {Object.entries(row).map(([field, value]) => (
-                                  <td key={field}>
-                                    <input
-                                      type="text"
-                                      value={value}
-                                      onChange={(e) => handleCsvDataChange(index, field, e.target.value)}
-                                      className="form-control form-control-sm"
-                                      style={{ border: 'none', width: '90%' }}
-                                    />
-                                  </td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
+  <div className="mb-4 border rounded p-3">
+    <h5 className="mb-3">Edit CSV Data</h5>
+    <div className="table-responsive">
+      <table className="table table-bordered table-sm">
+        <thead className="table-light">
+          <tr>
+            {Object.keys(csvData[0]).map((header) => (
+              <th key={header}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {csvData
+            .filter(
+              (row) =>
+                Object.values(row).some(
+                  (value) => value !== null && value.toString().trim() !== ''
+                )
+            )
+            .map((row, index) => (
+              <tr key={index}>
+                {Object.entries(row).map(([field, value]) => (
+                  <td key={field}>
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) =>
+                        handleCsvDataChange(index, field, e.target.value)
+                      }
+                      className="form-control form-control-sm"
+                      style={{ border: 'none', width: '90%' }}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
           
                   {/* Submit Button */}
                   <Button
@@ -302,11 +346,13 @@ export function GitReleaseNote() {
                         <Card className="p-3 bg-light border">
                           <h5 className="mb-3">📄 Release Notes</h5>
                           <textarea
-                            className="form-control bg-dark text-white"
-                            rows="10"
-                            readOnly
-                            value={releaseNotes}
-                          />
+  className="form-control bg-dark text-white"
+  rows="10"
+  readOnly
+  value={releaseNotes}
+  style={{ height: '320px', resize: 'none' }} // fixed height
+/>
+
                           <Button
                             onClick={() => handleDownload(releaseNotes, "release_notes.txt")}
                             className="btn btn-primary w-100 mt-3"
@@ -324,6 +370,7 @@ export function GitReleaseNote() {
                             rows="10"
                             value={releaseNotesFeedback}
                             onChange={(e) => setReleaseNotesFeedback(e.target.value)}
+                            style={{ height: '300px', resize: 'none' }} 
                           />
                           <Button
                             onClick={handleRephraseReleaseNotes}
@@ -347,6 +394,7 @@ export function GitReleaseNote() {
                             rows="10"
                             readOnly
                             value={commitLogs}
+                            style={{ height: '320px', resize: 'none' }} 
                           />
                           <Button
                             onClick={() => handleDownload(commitLogs, "commit_logs_summary.txt")}
@@ -365,6 +413,7 @@ export function GitReleaseNote() {
                             rows="10"
                             value={commitLogsFeedback}
                             onChange={(e) => setCommitLogsFeedback(e.target.value)}
+                            style={{ height: '300px', resize: 'none' }} 
                           />
                           <Button
                             onClick={handleRephraseCommitLogs}

@@ -139,7 +139,7 @@ export default function UsageMetric() {
             let innerObject = data[key];
             if (innerObject && typeof innerObject === "object") {
                 innerObject["key"] = key;
-                metrics.push(innerObject); // Add to metrics only if it's valid
+                metrics.push(innerObject);
             }
         }
     }
@@ -149,7 +149,7 @@ export default function UsageMetric() {
     }, [dispatch, moduleType]);
     return (
         <>
-            <div className="row g-2">
+            <div className="row g-1">
                 {metrics?.map((metric, index) => {
                     const titleToFromMapping = {
                         "Review Usage Data": "Review",

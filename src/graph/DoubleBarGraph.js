@@ -7,11 +7,11 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
 } from "recharts";
-import { Spin } from 'antd'; 
+import { Spin } from 'antd';
 import { FilterOutlined } from "@ant-design/icons";
 import { XAXISKEYS, DATAKEY, TITLE, XAXISNAMES } from '../utils/constatnts';
+
 const CustomTick = ({ x, y, payload }) => {
     const valueStr = String(payload?.value || "");
     const truncatedValue = valueStr.substring(0, 5);
@@ -38,7 +38,30 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
+const StickyLegend = ({ items }) => (
+    <div
+        style={{
+            position: "sticky",
+            background: "#fff",
+            display: "flex",
+            padding: "8px",
+            fontSize: "12px",
+            zIndex: 2,
+            gap:'5px',
+            marginLeft: '45%',
+            marginRight: '1%'
+        }}
+    >
+        {items.map((item, index) => (
+            <div key={index} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div style={{ width: 12, height: 12, backgroundColor: item.color }} />
+                <span>{item.name}</span>
+            </div>
+        ))}
+    </div>
+);
+
+const DynamicBarGraph = ({ title, data, keys, handleFilter, isLoading }) => {
     const scrollContainerRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -65,7 +88,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
 
     let xAxisKey = "";
     let bars = [];
-    let containerStyle = { width: "100%", height: 240, overflow: "hidden" };
+    let containerStyle = { width: "100%", height: 195, overflow: "hidden" };
 
     if (title === TITLE.COMMIT_ISSUES_SEVERITY) {
         xAxisKey = XAXISKEYS.SEVERITY;
@@ -84,8 +107,8 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
     const graphWidth = Math.max(data.length * 50, 850);
 
     return (
-        <div className="card g-4">
-            <div className="graph-title">
+        <div className="card g-1">
+            <div className="graph-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>{title}</div>
                 <div>
                     <button
@@ -101,21 +124,17 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
                     </button>
                 </div>
             </div>
-
             <div style={containerStyle}>
-            {isLoading ? (
+                {isLoading ? (
                     <div style={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        height: "100%",
                     }}>
                         <Spin size="large" />
                     </div>
-                ) :data.length === 0 ? (
-                    <div className="classnodata">
-                        No Data Found
-                    </div>
+                ) : data.length === 0 ? (
+                    <div className="classnodata">No Data Found</div>
                 ) : (
                     <div
                         ref={scrollContainerRef}
@@ -132,13 +151,12 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
                         onMouseLeave={handleMouseLeave}
                     >
                         <div style={{ width: `${graphWidth}px` }}>
-                            <ResponsiveContainer width="100%" height={240}>
+                            <ResponsiveContainer width="100%" height={200}>
                                 <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }} barGap={3}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey={xAxisKey} tick={<CustomTick />} interval={0} />
                                     <YAxis fontSize={10} />
                                     <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
-                                    <Legend />
                                     {bars.map((bar, index) => (
                                         <Bar key={index} dataKey={bar.key} barSize={20} fill={bar.color} name={bar.name} style={{ cursor: "pointer" }} />
                                     ))}
@@ -148,6 +166,7 @@ const DynamicBarGraph = ({ title, data, keys, handleFilter,isLoading  }) => {
                     </div>
                 )}
             </div>
+            <StickyLegend items={bars} />
         </div>
     );
 };
