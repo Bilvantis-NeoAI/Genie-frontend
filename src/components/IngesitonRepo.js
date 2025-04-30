@@ -106,7 +106,7 @@ export default function IngestionRepo() {
               <div className="mb-4">
                 <label className="form-label fw-bold">{homePage1TextSamples.TOKEN}</label>
                 <input
-                  type="text"
+                  type="password"
                   name="pat"
                   className="form-control"
                   placeholder="Enter the Token"

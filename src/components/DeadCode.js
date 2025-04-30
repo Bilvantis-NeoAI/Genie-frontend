@@ -187,45 +187,52 @@ export function DeadCode() {
                         </Button>
                     </div>
                 </Form>
-
-                {/* Files Download Section */}
                 {Object.keys(dataFrames).length > 0 && (
-                    <>
-                        <div className="d-flex gap-2 mt-5" style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                            Available files to Download:
-                        </div>
-                        <div className="d-flex flex-wrap gap-2 mt-3">
-                            <Button
-                                style={{ fontSize: '14px' }}
-                                variant="success"
-                                onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}
-                            >
-                                Deadcode Code
-                            </Button>
-                            <Button
-                                style={{ fontSize: '14px' }}
-                                variant="success"
-                                onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}
-                            >
-                                Unused Content
-                            </Button>
-                            <Button
-                                style={{ fontSize: '14px' }}
-                                variant="success"
-                                onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}
-                            >
-                                Unused Summary
-                            </Button>
-                            <Button
-                                style={{ fontSize: '14px' }}
-                                variant="success"
-                                onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}
-                            >
-                                Git Leaks
-                            </Button>
-                        </div>
-                    </>
-                )}
+    <>
+        <div className="d-flex gap-2 mt-5" style={{ fontSize: '16px', fontWeight: 'bold' }}>
+            Available files to Download:
+        </div>
+        <div className="d-flex flex-wrap gap-2 mt-3">
+            {dataFrames.deadCode?.length > 0 && (
+                <Button
+                    style={{ fontSize: '14px' }}
+                    variant="success"
+                    onClick={() => downloadAsExcel(dataFrames.deadCode, "Deadcode_Data")}
+                >
+                    Deadcode Code
+                </Button>
+            )}
+            {dataFrames.unusedContent?.length > 0 && (
+                <Button
+                    style={{ fontSize: '14px' }}
+                    variant="success"
+                    onClick={() => downloadAsExcel(dataFrames.unusedContent, "Unused_Content")}
+                >
+                    Unused Content
+                </Button>
+            )}
+            {dataFrames.summary?.length > 0 && (
+                <Button
+                    style={{ fontSize: '14px' }}
+                    variant="success"
+                    onClick={() => downloadAsExcel(dataFrames.summary, "Summary_of_Issues")}
+                >
+                    Unused Summary
+                </Button>
+            )}
+            {dataFrames.secrets?.length > 0 && (
+                <Button
+                    style={{ fontSize: '14px' }}
+                    variant="success"
+                    onClick={() => downloadAsExcel(dataFrames.secrets, "Git_Secrets")}
+                >
+                    Git Leaks
+                </Button>
+            )}
+        </div>
+    </>
+)}
+
             </Card>
         </Col>
     </Row>
