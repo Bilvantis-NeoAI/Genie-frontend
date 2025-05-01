@@ -1,24 +1,8 @@
 import Swal from "sweetalert2";
-// export const IP = process.env.REACT_APP_IP==="https://neoai.bilvantis.com/"?process.env.REACT_APP_IP:process.env.REACT_APP_AWS
-// let IP
 const ip = process.env.REACT_APP_IP;
 const aws = process.env.REACT_APP_AWS;
 
 export const IP = ip !== undefined ? ip : aws;
-
-// const ip = process.env.REACT_APP_IP;
-// const aws = process.env.REACT_APP_AWS;
-
-// export const IP =
-//   ip && ip === "https://neoai.bilvantis.com/" ? ip : aws || "";
-
-// if(process.env.REACT_APP_IP==="https://neoai.bilvantis.com/"){
-//     IP = process.env.REACT_APP_IP
-// }else {
-//     IP = process.env.REACT_APP_AWS
-// }
-//'http://34.46.36.105:3000/'
-
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
