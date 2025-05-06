@@ -33,6 +33,8 @@ export const BootstrapSidebar = () => {
       cancelButtonText: sweetalert.CANCEL_BUTTON_TEXT,
     }).then((result) => {
       if (result.isConfirmed) {
+        sessionStorage.clear();
+        localStorage.clear();
         setActiveTab("");
         navigate("/");
       }
