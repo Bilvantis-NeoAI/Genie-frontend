@@ -28,6 +28,8 @@ export function TestCaseAi() {
     const [selectAll, setSelectAll] = useState(false);
     const [fileContent, setFileContent] = useState("");
     const [fileName, setFileName] = useState("");
+    const [mockFileContent, setMockFileContent] = useState("")
+    const [mockFileName, setMockFileName] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [feedback, setFeedback] = useState("");
     const dispatch = useDispatch();
@@ -200,7 +202,7 @@ export function TestCaseAi() {
 
             const response = await dispatch(addAiCsvData(formData));
             if (response?.data) {
-                const { output_file_path } = response?.data;
+                const { output_file_path ,mock_api_path} = response?.data;
 
                 const fetchFileContent = async (url) => {
                     const response = await fetch(url);
@@ -213,6 +215,12 @@ export function TestCaseAi() {
                     const content = await fetchFileContent(fileUrl);
                     setFileContent(content);
                     setFileName(output_file_path);
+                }
+                if (mock_api_path) {
+                    const fileUrl = `${IP}test_ai/${mock_api_path}`;
+                    const content = await fetchFileContent(fileUrl);
+                    setMockFileContent(content);
+                    setMockFileName(mock_api_path);
                 }
             } else {
                 console.error("No data available in Redux.");
@@ -272,6 +280,15 @@ export function TestCaseAi() {
         link.href = URL.createObjectURL(blob);
         link.download = fileName || "downloaded_file.txt";
         document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    const handleMockDownload = () => {
+        const blob = new Blob([mockFileContent], { type: 'text/plain' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName || "downloaded_file.txt";
+        document.body.appendChild(link);            
         link.click();
         document.body.removeChild(link);
     };
@@ -448,6 +465,33 @@ export function TestCaseAi() {
                                         disabled={isLoading}
                                     >
                                         Submit Feedback
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {mockFileContent && (
+                        <div className="row g-4 mt-3 ms-1">
+                            <div className="">
+                                <div className="p-4 bg-dark text-white rounded shadow">
+                                    <h5 className="mb-3">Processed File</h5>
+                                    <textarea
+                                        value={mockFileContent}
+                                        readOnly
+                                        className="form-control bg-black text-white font-monospace"
+                                        style={{
+                                            height: '350px',
+                                            resize: 'none',
+                                            overflowY: 'auto'
+                                        }}
+                                    />
+
+                                    <button
+                                        onClick={handleMockDownload}
+                                        className="btn btn-success mt-3"
+
+                                    >
+                                        Download File
                                     </button>
                                 </div>
                             </div>
