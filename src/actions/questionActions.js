@@ -5,7 +5,6 @@ import {
   INCREMENT_COUNTER
 } from "../actionTypes/questionActionTypes.js"
 import { ApiAnswer } from "../Interceptor/interceptor.js";
-import { ENDPOINT_FULL_QA } from "../Utils.js";
 import { apis } from "../utils/config.js";
 
 export const fetchAnswersRequest = () => ({
