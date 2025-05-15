@@ -79,12 +79,12 @@ const ReleaseBarGraph = ({ data, title, keys, handleFilter, from }) => {
                         onMouseLeave={handleMouseUp}
                     >
                         {data.length === 0 ? (
-                            <div className="classnodata" style={{height:'133px'}}>
+                            <div style={{marginTop:'17%',marginLeft:'30%',height:'100px',color: '#999'}}>
                                 No Data Found
                             </div>
                         ) : (
                             <div style={{ minWidth: `${data.length * 50}px` }}>
-                                <ResponsiveContainer width="100%" height={210}>
+                                <ResponsiveContainer width="100%" height={200}>
                                     <BarChart
                                         data={data}
                                         margin={{

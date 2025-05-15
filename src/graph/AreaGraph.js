@@ -51,7 +51,7 @@ const AreaGraph = ({ data, title, handleFilter, keys }) => {
                 }) => (
                     <div>
                         {data.length === 0 ? (
-                            <div className="classnodata">No Data Found</div>
+                            <div style={{marginTop:'18%',marginLeft:'30%',height:'132px',color: '#999'}}>No Data Found</div>
                         ) : (
                             <div
                             ref={scrollContainerRef}

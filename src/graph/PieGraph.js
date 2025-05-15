@@ -27,9 +27,9 @@ const PieGraph = ({ data, title, handleFilter, keys }) => (
         </div>
         <div style={{ overflowX: "auto", scrollbarWidth: "none", position: "relative" }}>
             {data.length === 0 ? (
-                <div className="classnodata">No Data Found</div>
+                <div style={{marginTop:'18%',marginLeft:'30%',height:'132px',color: '#999'}}>No Data Found</div>
             ) : (
-                <ResponsiveContainer width="100%" height={240}>
+                <ResponsiveContainer width="100%" height={238}>
                     <PieChart>
                         <Pie
                             data={data}

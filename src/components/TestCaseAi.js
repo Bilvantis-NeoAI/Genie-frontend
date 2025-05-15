@@ -66,6 +66,9 @@ export function TestCaseAi() {
     };
 
     const handleCombinedSubmit = async () => {
+        setFileContent('')
+        setMockFileContent('')
+        setTableData('')
         let hasErrors = false;
 
         if (firstDropzoneState.file.length === 0) {
@@ -344,7 +347,6 @@ export function TestCaseAi() {
                     <Button
                         onClick={handleCombinedSubmit}
                         className="btn btn-primary text-white"
-                        style={{ width: "15%" }}
                         disabled={isLoading}
                     >
                         Submit

@@ -38,7 +38,7 @@ const TestStackedBarGraph = ({ data, title, keys, handleFilter }) => {
             </button>
           </div>
         </div>
-        <div className="classnodata">No Data Found</div>
+        <div style={{marginTop:'18%',marginLeft:'30%',height:'121px',color: '#999'}}>No Data Found</div>
       </div>
     );
   }
@@ -109,7 +109,7 @@ const TestStackedBarGraph = ({ data, title, keys, handleFilter }) => {
             <div>
               <BarChart
                 width={Math.max(transformedData.length * 80,800)}
-                height={210}
+                height={200}
                 data={transformedData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 barSize={20}
