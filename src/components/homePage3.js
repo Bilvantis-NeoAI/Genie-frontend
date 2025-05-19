@@ -26,14 +26,7 @@ export function HomePage3() {
                         <BootstrapSidebar />
                     </div>
                     <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
-                        <Nav className="toptabbar"
-                            // style={{
-                            //     borderBottom: "1px solid #dcdcdc",
-                            //     position: 'sticky',
-                            //     marginLeft: '5%',
-                            //     fontSize: '15px'
-                            // }}
-                        >
+                        <Nav className="toptabbar">
                             <Nav.Link eventKey="Severity" style={tabStyle("Severity")}>
                                 Issue Severity Distribution
                             </Nav.Link>
@@ -41,7 +34,7 @@ export function HomePage3() {
                                 Code Quality Per User
                             </Nav.Link>
                             <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
-                                Usage Metric
+                                Usage Metrics
                             </Nav.Link>
                             <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
                                 Commit Review Metrics
@@ -57,8 +50,6 @@ export function HomePage3() {
                             style={{
                                 marginTop: "12px",
                                 marginLeft: '5.5%',
-                                // backgroundColor: "rgb(248, 248, 248)",
-                                // padding: "0 2px",
                             }}
                         >
                             <Tab.Pane eventKey="Severity" type='severity'>

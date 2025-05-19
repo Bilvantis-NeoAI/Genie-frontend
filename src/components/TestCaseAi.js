@@ -416,7 +416,7 @@ export function TestCaseAi() {
                         </div>
                     </>
                 ) : (
-                    <p className="text-center mt-4" style={{ marginLeft: '20%', fontSize: '15px' }}>No data available</p>
+                    <p className="text-center mt-4" style={{ marginLeft: '20%', fontSize: '15px' }}></p>
                 )}
                 <div className="position-relative container">
                     {isLoading && (

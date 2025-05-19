@@ -14,7 +14,6 @@ import IngestionRepo from './components/IngesitonRepo';
 import RedirectRoute from './RedirectRoute';
 import ProtectRoute from './ProtectRoute';
 import Register from './components/Register';
-import GitMetrics from './components/GitMetrics';
 import { TestCaseAi } from './components/TestCaseAi';
 import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
