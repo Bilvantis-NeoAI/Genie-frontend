@@ -26,12 +26,12 @@ function App() {
   return (
     <Router>
       <Loader />
-      {isSpecialEnv ? (
+      {/* {isSpecialEnv ? (
         <Routes>
           <Route path="/" element={<KbmsOperations />} />
           <Route path="/gitmetrics" element={<KbmsOperations />} />
         </Routes>
-      ) : (
+      ) : ( */}
         <Routes>
           {/* Default route */}
           <Route path="/" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
@@ -49,12 +49,12 @@ function App() {
           <Route path="/gitReleaseNote" element={<ProtectRoute><GitReleaseNote /></ProtectRoute>} />
           <Route path="/adminDashBoard" element={<ProtectRoute><AdminDashboard /></ProtectRoute>} />
           <Route path="/deadCode" element={<ProtectRoute><DeadCode /></ProtectRoute>} />
-          <Route path="/gitmetrics" element={<ProtectRoute><KbmsOperations /></ProtectRoute>} />
+          {/* <Route path="/gitmetrics" element={<ProtectRoute><KbmsOperations /></ProtectRoute>} /> */}
  
           {/* Public route */}
           <Route path="/register" element={<Register />} />
         </Routes>
-      )}
+      {/* )} */}
     </Router>
   );
 }

@@ -47,17 +47,24 @@ export const BootstrapSidebar = () => {
   };
 
   // Dynamically assign sidebar items based on environment variable
-  const sidebarItems = appGcp !== undefined
-    ? [
+  // const sidebarItems = appGcp !== undefined
+  //   ? [
+  //       { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+  //       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+  //       { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+  //       { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+  //       { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
+  //     ]
+  //   : [
+  //       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" }
+  //     ];
+  const sidebarItems = [
         { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
-        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
+        // { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
         { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
         { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
         { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
       ]
-    : [
-        { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" }
-      ];
 
   return (
     <div className="sidebar">
@@ -78,7 +85,7 @@ export const BootstrapSidebar = () => {
           </li>
         ))}
 
-        {appGcp !== undefined && (
+        {/* {appGcp !== undefined && ( */}
           <li
             className="d-flex justify-content-center align-items-center"
             onClick={handleLogout}
@@ -91,7 +98,7 @@ export const BootstrapSidebar = () => {
             <img src={logoutIcon} alt="Logout" style={iconStyle} />
             <span className="tooltip" style={{ marginLeft: "10px" }}>Logout</span>
           </li>
-        )}
+         {/* )} */}
       </ul>
     </div>
   );

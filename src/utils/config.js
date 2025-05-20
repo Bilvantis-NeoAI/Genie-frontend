@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
-const ip = process.env.REACT_APP_IP;
-const aws = process.env.REACT_APP_AWS;
+// const IP = process.env.REACT_APP_IP;
+// const aws = process.env.REACT_APP_AWS;
 
-export const IP = ip !== undefined ? ip : aws;
+export const IP = process.env.REACT_APP_IP;
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
     DOCUMENT_UPLOAD : '/ingest',
