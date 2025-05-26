@@ -29,7 +29,7 @@ export function TestCaseAi() {
     const [fileContent, setFileContent] = useState("");
     const [fileName, setFileName] = useState("");
     const [mockFileContent, setMockFileContent] = useState("")
-    const [mockFileName, setMockFileName] = useState("")
+    const setMockFileName =''//[mockFileName, setMockFileName] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [feedback, setFeedback] = useState("");
     const dispatch = useDispatch();
@@ -121,7 +121,7 @@ export function TestCaseAi() {
     useEffect(() => {
         if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
             const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
-            const fullUrl = `${IP}test_ai/${filePath}`;
+            const fullUrl = `${IP}:7000/test_ai/${filePath}`;
 
 
             fetch(fullUrl)
@@ -214,13 +214,13 @@ export function TestCaseAi() {
                 };
 
                 if (output_file_path) {
-                    const fileUrl = `${IP}test_ai/${output_file_path}`;
+                    const fileUrl = `${IP}:7000/test_ai/${output_file_path}`;
                     const content = await fetchFileContent(fileUrl);
                     setFileContent(content);
                     setFileName(output_file_path);
                 }
                 if (mock_api_path) {
-                    const fileUrl = `${IP}test_ai/${mock_api_path}`;
+                    const fileUrl = `${IP}:7000/test_ai/${mock_api_path}`;
                     const content = await fetchFileContent(fileUrl);
                     setMockFileContent(content);
                     setMockFileName(mock_api_path);
@@ -240,7 +240,7 @@ export function TestCaseAi() {
             formData.append("test_file", new Blob([fileContent], { type: 'text/plain' }));
             formData.append("modification_text", feedback);
 
-            const response = await fetch(`${IP}test_ai/modify_test_file`, {
+            const response = await fetch(`${IP}:7000/test_ai/modify_test_file`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -258,7 +258,7 @@ export function TestCaseAi() {
                     return await response.text();
                 };
 
-                const fileUrl = `${IP}test_ai/${data.output_file_path}`;
+                const fileUrl = `${IP}:7000/test_ai/${data.output_file_path}`;
                 const content = await fetchFileContent(fileUrl);
 
                 console.log("content>>>", content);

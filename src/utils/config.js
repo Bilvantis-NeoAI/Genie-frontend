@@ -1,7 +1,4 @@
 import Swal from "sweetalert2";
-// const IP = process.env.REACT_APP_IP;
-// const aws = process.env.REACT_APP_AWS;
-
 export const IP = process.env.REACT_APP_IP;
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -37,20 +34,20 @@ export const apis = {
 }
     export const URL ={
         Api : `${IP}`,
-        ApiInject :`${IP}kbmsapi`, //Upload Documnet and upload URL
+        ApiInject :`${IP}kbmsapi`,
         ApiAnswer:`${IP}kbmsapi`,
  
  
-        GitIngestion: `${IP}gitkbapi`,  //Ingestion repo
-        DeployedURL:`${IP}genieapi/`,  // Login and Genie metrics
-        GIT_GRAPH_DATA:`${IP}kbmsapi`, //git metrics
-        TEST_AI_METRICS :`${IP}test_ai`,
+        GitIngestion: `${IP}:3001/gitkbapi`,
+        DeployedURL:`${IP}:3000/genieapi/`,
+        GIT_GRAPH_DATA:`${IP}kbmsapi`,
+        TEST_AI_METRICS :`${IP}:7000/test_ai`,
  
         API_BASE_AI :`${IP}:7000`,
-        TEST_AI :`${IP}test_ai`, //Test Ai
+        TEST_AI :`${IP}:7000/test_ai`,
        
  
-        ADMIN_USERS :`${IP}genieapi/admin`, //admin
+        ADMIN_USERS :`${IP}:3000/genieapi/admin`,
     }
     export const showSuccessAlert = (title = 'Success', text = 'Operation completed successfully!') => {
         return Swal.fire({
