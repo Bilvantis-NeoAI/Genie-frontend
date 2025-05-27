@@ -48,7 +48,6 @@ export const testAIGraph = (payload , graphType) => {
         return TestAIMetrics
             .get(apis.TEST_AI_METRICS, config)
             .then((response) => {
-                console.log("===responseresponseresponse", response.data);
                 dispatch(testAiSuccess(response.data, 'test'));
             })
             .catch((error) => {

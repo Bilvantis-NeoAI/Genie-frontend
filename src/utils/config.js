@@ -34,20 +34,20 @@ export const apis = {
 }
     export const URL ={
         Api : `${IP}`,
-        ApiInject :`${IP}kbmsapi`,
-        ApiAnswer:`${IP}kbmsapi`,
+        ApiInject :`${IP}genieapi`,
+        ApiAnswer:`${IP}genieapi`,
  
  
-        GitIngestion: `${IP}:3001/gitkbapi`,
-        DeployedURL:`${IP}:3000/genieapi/`,
-        GIT_GRAPH_DATA:`${IP}kbmsapi`,
-        TEST_AI_METRICS :`${IP}:7000/test_ai`,
+        GitIngestion: `${IP}/genieapi/gitkb`,
+        DeployedURL:`${IP}/genieapi/`,
+        GIT_GRAPH_DATA:`${IP}genieapi`,
+        TEST_AI_METRICS :`${IP}/genieapi/testAI`,
  
-        API_BASE_AI :`${IP}:7000`,
-        TEST_AI :`${IP}:7000/test_ai`,
+        API_BASE_AI :`${IP}`,
+        TEST_AI :`${IP}/genieapi/testAI`,
        
  
-        ADMIN_USERS :`${IP}:3000/genieapi/admin`,
+        ADMIN_USERS :`${IP}/genieapi/admin`,
     }
     export const showSuccessAlert = (title = 'Success', text = 'Operation completed successfully!') => {
         return Swal.fire({
