@@ -50,9 +50,6 @@ export function GitOperations() {
                             <Nav.Link eventKey="gitrealse" style={tabStyle("gitrealse")}>
                                 Release Note & Commit logs
                             </Nav.Link>
-                            {/* <Nav.Link eventKey="fixit" style={tabStyle("fixit")}>
-                               Fix It
-                            </Nav.Link> */}
                         </Nav>
                         <Tab.Content
                             style={{
