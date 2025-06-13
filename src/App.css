@@ -133,10 +133,10 @@ body {
     transform: rotate(360deg);
   }
 }
-.custom-textarea {
+/* .custom-textarea {
   resize: none;
   line-height: 1.4;
-}
+} */
 /***Admin **/
 .table tbody tr td {
   padding: 4px 6px; /* Reduce padding */
@@ -262,9 +262,9 @@ input.form-control {
   opacity: 0.6;
 }
 
-.text-danger {
+/* .text-danger {
   font-size: 0.9rem;
-}
+} */
 
 /*******Fix It*********/
 .required-styling {
@@ -425,10 +425,7 @@ padding-left:0px
 .barli:hover{
   background-color: #172D76;
 }
-.header-style{
-  background: #07439C 0% 0% no-repeat padding-box;
-opacity: 1;
-}
+
 .header-text{
   font: normal normal bold 24px/30px Open Sans;
   color:white
@@ -508,17 +505,6 @@ height: 5vh;
   overflow-y: auto;
   font-size: 12px;
   pointer-events:auto
-}
-.empty-dropzone {
-  background-image: url('../src/Assets/pdfIcon.jpeg'); /* Replace with your image URL */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100px 80px; /* Adjust this to control the image size */
-  height: 200px; /* Adjust the height of the dropzone */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #555; /* Optional text color */
 }
 
 
@@ -766,12 +752,3 @@ a:hover {
 
 
 /************************/
-
-.header-style-component {
-  position: sticky;
-   top: 0;
-   z-index: 1000;
-}
-.sideNav-style-component{
-width: 10% 
-}

@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { addAiDocument, addAiCsvData } from '../actions/aiTestCasesActions';
 import Papa from 'papaparse';
 import { IP } from '../utils/config'
+import "../styles/TestCase.css";
 export function TestCaseAi() {
     const [firstDropzoneState, setFirstDropzoneState] = useState({
         file: [],
@@ -29,9 +30,9 @@ export function TestCaseAi() {
     const [fileContent, setFileContent] = useState("");
     const [fileName, setFileName] = useState("");
     const [mockFileContent, setMockFileContent] = useState("")
-    const setMockFileName =''//[mockFileName, setMockFileName] = useState("")
-    const [isLoading, setIsLoading] = useState(false);
+    const setMockFileName = ''
     const [feedback, setFeedback] = useState("");
+    const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
     const dispatch = useDispatch();
 
     const aiTestCaseData = useSelector((state) => state.aiTestCaseData);
@@ -205,7 +206,7 @@ export function TestCaseAi() {
 
             const response = await dispatch(addAiCsvData(formData));
             if (response?.data) {
-                const { output_file_path ,mock_api_path} = response?.data;
+                const { output_file_path, mock_api_path } = response?.data;
 
                 const fetchFileContent = async (url) => {
                     const response = await fetch(url);
@@ -234,13 +235,13 @@ export function TestCaseAi() {
     };
     const handleSubmit = async () => {
         try {
-            setIsLoading(true);
+            setIsSubmittingFeedback(true);
             const token = sessionStorage.getItem("access_token");
             const formData = new FormData();
             formData.append("test_file", new Blob([fileContent], { type: 'text/plain' }));
             formData.append("modification_text", feedback);
 
-            const response = await fetch(`${IP}/genieapi/modify_test_file`, {
+            const response = await fetch(`${IP}/genieapi/testAI/modify_test_file`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -270,7 +271,7 @@ export function TestCaseAi() {
         } catch (error) {
             console.error("Error submitting feedback:", error);
         } finally {
-            setIsLoading(false); // Stop loader
+            setIsSubmittingFeedback(false);
         }
     };
 
@@ -289,19 +290,19 @@ export function TestCaseAi() {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = fileName || "downloaded_file.txt";
-        document.body.appendChild(link);            
+        document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
     return (
-        <Container fluid className='w-100' style={{ height: '100vh' }}>
-            <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+        <Container fluid className='w-100'>
+            <Row className='header-style'>
                 <HeaderComponent />
             </Row>
-            <div style={{ width: '10%' }}>
+            <div className='sideNav-style'>
                 <BootstrapSidebar />
             </div>
-            <div className='card' style={{ overflowY: 'scroll', scrollbarWidth: 'none', marginLeft: '6%', fontSize: '10px' }}>
+            <div className='card top-div' >
                 <h4 className='ms-4 mt-2'>Test Gen</h4>
                 <div className="col-12 d-flex ">
                     <div className='dropzone'>
@@ -345,7 +346,6 @@ export function TestCaseAi() {
                     <Button
                         onClick={handleCombinedSubmit}
                         className="btn btn-primary text-white"
-                        disabled={isLoading}
                     >
                         Submit
                     </Button>
@@ -371,7 +371,7 @@ export function TestCaseAi() {
                                         ))}
                                     </tr>
                                 </thead>
-                                <tbody style={{ width: "100%", fontSize: "12px" }}>
+                                <tbody>
                                     {tableData.map((row, rowIndex) => (
                                         <tr key={row.id} className={row.isSelected ? "table-active" : ""}>
                                             <td style={{ verticalAlign: "middle", textAlign: "center" }}>
@@ -413,35 +413,18 @@ export function TestCaseAi() {
                             </Button>
                         </div>
                     </>
-                ) : (
-                    <p className="text-center mt-4" style={{ marginLeft: '20%', fontSize: '15px' }}></p>
+                ) : (''
                 )}
                 <div className="position-relative container">
-                    {isLoading && (
-                        <div
-                            className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-
-                        >
-                            <div className="spinner-border text-light" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    )}
-
                     {fileContent && (
-                        <div className="row g-4 mt-3 ms-1">
-                            <div className="">
+                        <div className="row g-4 mt-3">
+                            <div>
                                 <div className="p-4 bg-dark text-white rounded shadow">
                                     <h5 className="mb-3">Processed File</h5>
                                     <textarea
                                         value={fileContent}
                                         readOnly
-                                        className="form-control bg-black text-white font-monospace"
-                                        style={{
-                                            height: '350px',
-                                            resize: 'none',
-                                            overflowY: 'auto'
-                                        }}
+                                        className="form-control bg-black text-white font-monospace processed-file-textarea"
                                     />
 
                                     <button
@@ -456,13 +439,12 @@ export function TestCaseAi() {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                         placeholder="Write your feedback here..."
-                                        className="form-control bg-light text-dark font-monospace resize-none border custom-textarea"
-                                        style={{ height: '30%' }}
+                                        className="form-control bg-light text-dark font-monospace resize-none border processed-file-textarea"
                                     />
                                     <button
                                         onClick={handleSubmit}
                                         className="btn btn-primary mt-3"
-                                        disabled={isLoading}
+                                        disabled={isSubmittingFeedback}
                                     >
                                         Submit Feedback
                                     </button>
@@ -478,12 +460,7 @@ export function TestCaseAi() {
                                     <textarea
                                         value={mockFileContent}
                                         readOnly
-                                        className="form-control bg-black text-white font-monospace"
-                                        style={{
-                                            height: '350px',
-                                            resize: 'none',
-                                            overflowY: 'auto'
-                                        }}
+                                        className="form-control bg-black text-white font-monospace processed-file-textarea"
                                     />
 
                                     <button
@@ -498,6 +475,16 @@ export function TestCaseAi() {
                         </div>
                     )}
                 </div>
+                {isSubmittingFeedback && (
+                    <div
+                        className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+                        style={{ backgroundColor: "rgba(160, 160, 160, 0.5)", zIndex: 1050 }}
+                    >
+                        <div className="spinner-border text-light" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                )}
             </div>
             <ToastContainer />
         </Container>
@@ -526,17 +513,14 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                                 key={file.name}
                                 className="d-flex justify-content-between p-1 bg-light rounded mb-1"
                             >
-                                <p className="text-muted text-truncate" style={{ maxWidth: '120px' }}>
+                                <p className="text-muted text-truncate file-name-width" >
                                     {file.name}
                                 </p>
                             </div>
 
                         ))}
                     </Dropzone>
-                    <p
-                        className="text-danger"
-                        style={{ minHeight: '20px', marginTop: '4px', fontSize: '0.875rem' }}
-                    >
+                    <p className="text-danger">
                         {errors || '\u00A0'}
                     </p>
                 </div>
