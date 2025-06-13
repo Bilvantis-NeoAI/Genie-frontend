@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import logoutIcon from "../Assets/logout.svg";
 import admin from "../Assets/admin.svg";
 import gitIcon from "../Assets/git.svg";
-import ragIcon from "../Assets/rag.svg";
 import testai from "../Assets/testgen.svg";
 import metrics from "../Assets/metrics.svg";
 import { sweetalert } from "../utils/constatnts";
@@ -14,9 +13,6 @@ export const BootstrapSidebar = () => {
   const location = useLocation();
 
   const [activeTab, setActiveTab] = useState(location.state?.activeTab || "metrics");
-
-  const appGcp = process.env.REACT_APP_IP;
-  const appAws = process.env.REACT_APP_AWS;
 
   const handleNavigation = (path, tabName) => {
     setActiveTab(tabName);
@@ -45,22 +41,8 @@ export const BootstrapSidebar = () => {
     width: "25px",
     height: "25px",
   };
-
-  // Dynamically assign sidebar items based on environment variable
-  // const sidebarItems = appGcp !== undefined
-  //   ? [
-  //       { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
-  //       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
-  //       { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
-  //       { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
-  //       { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
-  //     ]
-  //   : [
-  //       { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" }
-  //     ];
   const sidebarItems = [
         { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
-        // { path: "/gitmetrics", icon: ragIcon, label: "RAG", name: "rag" },
         { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
         { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
         { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }

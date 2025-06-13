@@ -1,11 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
- 
-import { HomePage } from './components/homePage';
-import { HomePage1 } from './components/homePage1';
-import { HomePage2 } from './components/homePage2';
-import { HomePage3 } from './components/homePage3';
+ import { HomePage3 } from './components/homePage3';
 import { Loader } from './Interceptor/interceptor';
 import LoginPage from './components/LoginPage';
 import { AdminDashboard } from './components/AdminDashboard';
@@ -18,21 +14,15 @@ import { TestCaseAi } from './components/TestCaseAi';
 import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
 import { GitOperations } from './components/GitOperations';
-import { KbmsOperations } from './components/KbmsOperations';
  
-function App() {
-  const isSpecialEnv = process.env.REACT_APP_AWS !== undefined;
- 
+function App() { 
   return (
     <Router>
       <Loader />
         <Routes>
           <Route path="/" element={<RedirectRoute><LoginPage /></RedirectRoute>} />
-           <Route path="/homepage" element={<ProtectRoute><HomePage /></ProtectRoute>} />
           <Route path="/repoingestion" element={<ProtectRoute><IngestionRepo /></ProtectRoute>} />
           <Route path="/retrivingData" element={<ProtectRoute><RetrieveData /></ProtectRoute>} />
-          <Route path="/document" element={<ProtectRoute><HomePage1 /></ProtectRoute>} />
-          <Route path="/audio" element={<ProtectRoute><HomePage2 /></ProtectRoute>} />
           <Route path="/metrics" element={<ProtectRoute><HomePage3 /></ProtectRoute>} />
           <Route path="/admin" element={<ProtectRoute><AdminDashboard /></ProtectRoute>} />
           <Route path="/gitoprations" element={<ProtectRoute><GitOperations /></ProtectRoute>} />

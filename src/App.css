@@ -766,3 +766,15 @@ a:hover {
 .engineering-text{
   font-size: 5px;
 }
+
+
+/************************/
+
+.header-style-component {
+  position: sticky;
+   top: 0;
+   z-index: 1000;
+}
+.sideNav-style-component{
+width: 10% 
+}

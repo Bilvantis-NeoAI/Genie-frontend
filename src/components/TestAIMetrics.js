@@ -6,21 +6,12 @@ import TestStackedBarGraph from "../graph/TestStackedGraphs";
 import "react-datepicker/dist/react-datepicker.css";
 import OffCanvas from "./OffCanvas";
 export default function TestAIMetrics() {
-    const FullScreenLoader = () => (
-        <div className="loader-overlay">
-            <div className="spinner-border text-white" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    );
     const [offCanvas, setOffCanvas] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({ project_name: "" });
     const moduleType = "test_cases_metrics"
-    const [loading, setLoading] = useState(false);
-    const data = useSelector((state) => state.testAiData?.test?.data)
-    console.log("===datadatadata",data);
-    
+    // const [loading, setLoading] = useState(false);
+    const data = useSelector((state) => state.testAiData?.test?.data)   
     const dispatch = useDispatch();
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
@@ -95,7 +86,6 @@ export default function TestAIMetrics() {
             start_date:"",
             time_unit:"",
             end_date:"",
-            time_unit:"",
             _id: "",
             date: ""
         }));
@@ -149,8 +139,8 @@ export default function TestAIMetrics() {
     return (
         <>
             <div className="row g-1">
-                {!loading ? (
-                    metrics?.map((metric, index) => {
+                {/* {!loading ? ( */}
+                    {metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;
                         return (
                             <div className="col-lg-6 col-md-12" key={index}>
@@ -165,10 +155,10 @@ export default function TestAIMetrics() {
                                 )}
                             </div>
                         );
-                    })
-                ) : (
+                    })}
+                {/* ) : (
                     <div className="col-12 text-center">Loading...</div>
-                )}
+                )} */}
             </div>
             <OffCanvas
                 isVisible={offCanvas}

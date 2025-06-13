@@ -7,11 +7,10 @@ import OffCanvas from "./OffCanvas";
 
 export default function QualityMetric() {
     const [offCanvas, setOffCanvas] = useState(false);
-    const [filters, setFilters] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState({});
     const dispatch = useDispatch();
-    const [moduleType, setModuleType] = useState("quality");
+    const moduleType= "quality";
     const data = useSelector((state) => state.graphs[moduleType]?.data);
     const handleFilter = (filterValues, graphTitle, graphKey) => {
         setSelectedFilter((prevFilter) => ({
@@ -24,7 +23,6 @@ export default function QualityMetric() {
 
     const handleCloseCanvas = () => {
         setOffCanvas(false);
-        setFilters([]);
     };
     const onClear = () => {
         setSelectedFilter((prevState) => {
