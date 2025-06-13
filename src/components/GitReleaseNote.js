@@ -1,7 +1,4 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import { BootstrapSidebar } from "./sideNav";
-import { HeaderComponent } from "./header";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback, deleteTempDir } from '../actions/gitReleaseNoteActions';
