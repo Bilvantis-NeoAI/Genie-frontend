@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Container, Row, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { homePageTextSamples } from "../utils/constatnts";
 import { retriveRepoData, getRepoCodeData } from "../actions/RetriveDataAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ export default function RetrieveData() {
   const dispatch = useDispatch();
   const answerData = useSelector((state) => state.repoData);
   const getCodeResponse = useSelector((state) => state.getCode);
-  const [data, setData] = useState([]);
+  const data=[];
   useEffect(() => {
     if (answerData?.repoData?.action?.data?.explanation) {
       answerData.repoData.action.data.explanation.forEach((exp) => {

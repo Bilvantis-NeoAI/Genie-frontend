@@ -1,17 +1,11 @@
 import { Container, Row, Tab, Nav } from "react-bootstrap";
-import SeverityMetric from "./SeverityMetric";
-import QualityMetric from "./QualityMetric";
-import UsageMetric from "./UsageMetric";
 import { HeaderComponent } from "./header";
 import { useState } from "react";
 import { BootstrapSidebar } from "./sideNav";
-import CommitReviewMetric from "./CommitReviewMetric";
-import TestAIMetrics from "./TestAIMetrics";
 import IngestionRepo from "./IngesitonRepo";
 import { DeadCode } from "./DeadCode";
 import RetrieveData from "./RetrieveData";
 import { GitReleaseNote } from "./GitReleaseNote";
-import Fixit from "./Fixit";
 export function GitOperations() {
 
     const [activeTab, setActiveTab] = useState("repoingestion");
