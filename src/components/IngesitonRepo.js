@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { homePage1TextSamples } from "../utils/constatnts";
 import Button from "react-bootstrap/Button";
 import { Container } from "react-bootstrap";
@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import { repo_Ingestion, sweetalert } from "../utils/constatnts";
 import Swal from "sweetalert2";
 import { ingestedRepoList } from "../actions/IngestionAction";
+import "../styles/GitOperations.css";
 export default function IngestionRepo() {
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
@@ -84,7 +85,7 @@ export default function IngestionRepo() {
     <div className="bg-light min-vh-100 py-5">
       <Container>
         <form onSubmit={handleSubmit}>
-          <div className="mx-auto card shadow-lg p-4" style={{ maxWidth: "600px" }}>
+          <div className="mx-auto card shadow-lg p-4 max-w-600" >
             <div className="form-group">
               <div className="mb-4">
                 <label className="form-label fw-bold">
@@ -136,7 +137,7 @@ export default function IngestionRepo() {
           </div>
         </form>
 
-        <div className="table-responsive mt-5 mx-auto" style={{ maxWidth: "800px" }}>
+        <div className="table-responsive mt-5 mx-auto  max-w-800" >
           <h4>Ingested Repositories</h4>
 
           <table className="table table-bordered table-striped">

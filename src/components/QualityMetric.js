@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { DatePicker } from "antd";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "antd/dist/reset.css";
 import LineGraph from "../graph/LineGraph";
@@ -126,10 +125,9 @@ export default function QualityMetric() {
     if (data) {
         for (let key in data) {
             let innerObject = data[key];
-            // Ensure the innerObject is not null and is an object
             if (innerObject && typeof innerObject === "object") {
                 innerObject["key"] = key;
-                metrics.push(innerObject); // Add to metrics only if it's valid
+                metrics.push(innerObject); 
             }
         }
     }
@@ -161,9 +159,7 @@ export default function QualityMetric() {
                                 />
                             )}
                         </div>
-                        
-                    );
-                    
+                    ); 
                 })}
             </div>
             <OffCanvas

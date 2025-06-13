@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import "antd/dist/reset.css";
@@ -187,7 +187,6 @@ export default function UsageMetric() {
                 onClear={onClear}
                 handleReset={handleReset}  
             />
-
             </>
     );
 }

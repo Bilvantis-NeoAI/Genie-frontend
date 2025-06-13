@@ -2,16 +2,15 @@ import OffCanvas from "./OffCanvas";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
-import { CANVASKEY } from '../utils/constatnts'
+import { CANVASKEY } from '../utils/constatnts';
 import BarGraph from "../graph/ReleaseBarGraph";
-import React from "react";
+
 export default function GitReleaseMetrics() {
     const [offCanvas, setOffCanvas] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState({});
     const moduleType = "releasenotes_commitlogs"
     const [users, setUsers] = useState([]);
     const data = useSelector((state) => state.graphs[moduleType]?.data);
-    console.log("==datadatadata metrics1212", data);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -67,7 +66,6 @@ export default function GitReleaseMetrics() {
         const filters = {};
         filters.start_date = selectedFilter.start_date
         filters.end_date = selectedFilter.end_date
-        // filters.user_id = selectedFilter.user_id
         filters.time_unit=selectedFilter.time_unit
         filters.repo_name=selectedFilter.project_name
         const filtersString = JSON.stringify(filters);

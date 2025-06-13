@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGraphList } from "../actions/graphsDataActions";
 import { testAIGraph } from "../actions/testAIGraphActions";
 import TestStackedBarGraph from "../graph/TestStackedGraphs";
 import "react-datepicker/dist/react-datepicker.css";
@@ -77,9 +76,7 @@ export default function TestAIMetrics() {
         }
     };
 
-    const handleSubmit = (e) => {
-        console.log("===asfdsafdsadf");
-        
+    const handleSubmit = (e) => {        
         e.preventDefault();
         const filters = {};
         filters.start_date = selectedFilter.start_date
@@ -87,11 +84,6 @@ export default function TestAIMetrics() {
         filters.user_id = selectedFilter.user_id
         filters.project_name = selectedFilter.project_name;
         filters.time_unit = selectedFilter.time_unit;
-
-        const filtersString = JSON.stringify(filters);
-        const params = {
-        };
-        console.log("==paramsparamsparams",params);
         
         dispatch(testAIGraph(filters ,moduleType));
 
@@ -148,7 +140,6 @@ export default function TestAIMetrics() {
         }
         metrics = Object.values(data);
     }
-    console.log("===metricsmetrics",metrics);
     
         useEffect(() => {            
             const params = { type: moduleType, filter: false };

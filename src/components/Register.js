@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/Register.css'
 import { useDispatch } from "react-redux";
@@ -79,22 +79,24 @@ const Register = () => {
                     {error && <p className="error" style={{ color: 'red', marginBottom: '20px' }}>{error}</p>}
                     <div className="form-row">
                         <div className="form-details">
-                            <label>Email:</label>
+                            <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
+                                placeholder="Enter your email"
                                 onChange={handleChange}
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$"
                                 required
                             />
                         </div>
                         <div className="form-details">
-                            <label>User Name:</label>
+                            <label htmlFor="username">User Name:</label>
                             <input
                                 type="text"
                                 name="username"
                                 value={formData.username}
+                                placeholder="Enter your username"
                                 onChange={handleChange}
                                 required
                             />
@@ -102,20 +104,22 @@ const Register = () => {
                     </div>
                     <div className="form-row">
                         <div className="form-details">
-                            <label>Full Name:</label>
+                            <label htmlFor="fullName">Full Name:</label>
                             <input
                                 type="text"
                                 name="fullName"
+                                placeholder="Enter your full name"
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
                         <div className="form-details">
-                            <label>Company Name:</label>
+                            <label htmlFor="companyName">Company Name:</label>
                             <input
                                 type="text"
                                 name="companyName"
+                                placeholder="Enter your company name"
                                 value={formData.companyName}
                                 onChange={handleChange}
                                 required
@@ -124,11 +128,12 @@ const Register = () => {
                     </div>
                     <div className="form-row">
                         <div className="form-details">
-                            <label>Password:</label>
+                            <label htmlFor="password">Password:</label>
                             <div className="password-container">
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     name="password"
+                                    placeholder="Enter your password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
@@ -151,11 +156,12 @@ const Register = () => {
                             </div>
                         </div>
                         <div className="form-details">
-                            <label>Confirm Password:</label>
+                            <label htmlFor="confirmPassword">Confirm Password:</label>
                             <div className="password-container">
                                 <input
                                     type={showConfirmPassword ? "text" : "password"}
                                     name="confirmPassword"
+                                    placeholder="Confirm your password"
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     required
@@ -183,8 +189,8 @@ const Register = () => {
                     </button>
                     <div className="login-redirect">
                         <p>
-                            Already have an account?{" "}
-                            <span className="login-link" onClick={handleLogin}>
+                            Already have an account?
+                            <span className="login-link ms-2" onClick={handleLogin}>
                                 Login
                             </span>
                         </p>

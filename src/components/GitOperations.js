@@ -1,17 +1,14 @@
 import { Container, Row, Tab, Nav } from "react-bootstrap";
-import SeverityMetric from "./SeverityMetric";
-import QualityMetric from "./QualityMetric";
-import UsageMetric from "./UsageMetric";
 import { HeaderComponent } from "./header";
 import { useState } from "react";
 import { BootstrapSidebar } from "./sideNav";
-import CommitReviewMetric from "./CommitReviewMetric";
-import TestAIMetrics from "./TestAIMetrics";
 import IngestionRepo from "./IngesitonRepo";
 import { DeadCode } from "./DeadCode";
 import RetrieveData from "./RetrieveData";
 import { GitReleaseNote } from "./GitReleaseNote";
-import Fixit from "./Fixit";
+import "../styles/HomePageThree.css";
+import "../styles/GitOperations.css";
+
 export function GitOperations() {
 
     const [activeTab, setActiveTab] = useState("repoingestion");
@@ -21,22 +18,17 @@ export function GitOperations() {
     return (
         <>
             <Container fluid className="w-100" >
-                <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+                <Row className="sticky-row">
                     <HeaderComponent />
                 </Row>
 
                 <div className="w-100">
-                    <div style={{ width: '10%' }}>
+                    <div >
                         <BootstrapSidebar />
                     </div>
                     <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
                         <Nav
-                            style={{
-                                borderBottom: "1px solid #dcdcdc",
-                                position: 'sticky',
-                                marginLeft: '5%',
-                                fontSize: '15px'
-                            }}
+                            className="nav-custom"
                         >
                             <Nav.Link eventKey="repoingestion" style={tabStyle("repoingestion")}>
                                 Repo Ingestion
@@ -50,19 +42,13 @@ export function GitOperations() {
                             <Nav.Link eventKey="gitrealse" style={tabStyle("gitrealse")}>
                                 Release Note & Commit logs
                             </Nav.Link>
-                            {/* <Nav.Link eventKey="fixit" style={tabStyle("fixit")}>
-                               Fix It
-                            </Nav.Link> */}
+                          
                         </Nav>
                         <Tab.Content
-                            style={{
-                                marginTop: "10px",
-                                marginLeft: '5%',
-                                padding: "0 2px",
-                            }}
+                          className="tab-content-custom"
                         >
                             <Tab.Pane eventKey="repoingestion" type='repoingestion'>
-                                <IngestionRepo />
+                                <IngestionRepo /> 
                             </Tab.Pane>
                             <Tab.Pane eventKey="gitqa" type='gitqa'>
                                 <RetrieveData />
@@ -72,9 +58,7 @@ export function GitOperations() {
                             <Tab.Pane eventKey="gitrealse" type='gitrealse'>
                                 <GitReleaseNote />
                             </Tab.Pane>
-                            {/* <Tab.Pane eventKey="fixit" type='fixit'>
-                                <Fixit/>
-                            </Tab.Pane> */}
+                        
                         </Tab.Content>
                     </Tab.Container>
                 </div>
