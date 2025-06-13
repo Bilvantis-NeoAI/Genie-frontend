@@ -3,3 +3,15 @@
   top: 0;
   z-index: 1000;
 }
+
+.ml-10-percent {
+  margin-left: 10%;
+}
+
+.custom-action-button {
+  right: 5%;
+  padding: 6px 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}

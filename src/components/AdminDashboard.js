@@ -15,6 +15,8 @@ import resetPass from '../Assets/resetPass.svg'
 import { userList, pendingUserList, userApprove, userDelete, userReject, userRoleEdit, userResetPassword } from "../actions/userActions";
 import Swal from "sweetalert2";
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from "../utils/config";
+import '../styles/AdminDashboard.css';
+
 export function AdminDashboard() {
     const [activeadminTab, setadminActiveTab] = useState("adminUsers");
     const [userData, setUserData] = useState()
@@ -274,7 +276,7 @@ export function AdminDashboard() {
 
     }
     const handleStorageClick = () => {
-        const formData = new FormData();
+        const formData = new FormData(); 
         formData.append('storage', storageOption);
         dispatch(changeStorage(formData))
             .then(response => response && toast.success("Storage updated successfully"))
@@ -282,7 +284,7 @@ export function AdminDashboard() {
     };
     return (
         <Container fluid className="w-90">
-            <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+            <Row className="sticky-row">
                 <HeaderComponent />
             </Row>
             <div
@@ -292,7 +294,7 @@ export function AdminDashboard() {
             <div className="row">
                 {loading && <FullScreenLoader />}
                 <ul className="nav">
-                    <li className="nav-item" style={{ marginLeft: '10%' }}>
+                    <li className="nav-item ml-10-percent" >
                         <button
                             className="nav-link"  style={admintabStyle("adminUsers")}
                             onClick={() => setadminActiveTab("adminUsers")}>
@@ -312,7 +314,7 @@ export function AdminDashboard() {
                 {activeadminTab === "adminUsers" ?
                     (<>
                         <ul className="nav gap-5 d-flex w-100 position-relative" style={{marginTop:'-12px'}}>
-                            <li className="nav-item" style={{ marginLeft: '10%' }}>
+                            <li className="nav-item ml-10-percent" >
                                 <button
                                     className="nav-link" style={tabStyle("users")}
                                     onClick={() => setActiveTab("users")}>
@@ -329,14 +331,8 @@ export function AdminDashboard() {
                             </li>
                             {activeTab === "users" && (
                               <button
-                              className="btn btn-outline-primary btn-sm position-absolute"
-                              style={{
-                                  right: "5%",
-                                  padding: "6px 16px",
-                                  fontWeight: "500",
-                                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                  transition: "all 0.3s ease-in-out",
-                              }}
+                              className="btn btn-outline-primary btn-sm position-absolute custom-action-button"
+                             
                               title="Filter"
                               onClick={(e) => onFilter(e)}
                               onMouseEnter={(e) => {
