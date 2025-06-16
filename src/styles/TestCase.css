@@ -1,26 +1,41 @@
 .header-style {
-    position: sticky;
-     top: 0;
-     z-index: 1000;
-  }
-  .sideNav-style{
-  width: 10% 
-  }
-  .text-danger{
-min-height: 20px;
-    margin-top: 4px;
-    font-size: 0.875rem;
-  }
-  .file-name-width{
-    max-width: 120px ;
-  }
-  .processed-file-textarea{
-    height: 350px;
-    resize: none;
-    overflow-y:auto
-  }
-  .top-div{
-overflow-y: scroll;
-    scrollbar-width: none;
-    margin-left: 6%;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.sideNav-style {
+  width: 10%;
+}
+.text-danger {
+  min-height: 20px;
+  margin-top: 4px;
+  font-size: 0.875rem;
+}
+.file-name-width {
+  max-width: 120px;
+}
+.processed-file-textarea {
+  height: 350px;
+  resize: none;
+  overflow-y: auto;
+}
+.top-div {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  margin-left: 6%;
+}
+
+.table-cell-input {
+  width: 100%;
+  font-size: 12px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0.25rem;
+}
+
+.dropzone{
+  width: 48%;
+}
+.dropzone-title {
+  font-size: 14px; /* Adjust size as needed */
+}

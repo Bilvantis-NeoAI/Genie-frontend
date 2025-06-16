@@ -4,6 +4,13 @@
   align-items: center;
   height: 100vh;
   background-color: #f5f7fa;
+   width: 100%;
+}
+
+.login-form{
+  display: inline-block;
+  align-items: center;
+  width: 350px;
 }
 
 .login-form {
@@ -131,4 +138,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.engineering-text{
+  font-size: 5px;
 }
