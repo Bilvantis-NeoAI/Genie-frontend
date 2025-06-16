@@ -8,71 +8,70 @@ import { BootstrapSidebar } from "./sideNav";
 import CommitReviewMetric from "./CommitReviewMetric";
 import TestAIMetrics from "./TestAIMetrics";
 import GitReleaseMetrics from "./GitRealeaseMetrics";
+import "../styles/HomePageThree.css";
+
 export function HomePage3() {
-
-    const [activeTab, setActiveTab] = useState("Severity");
-    const tabStyle = (tabName) => ({
-        color: activeTab === tabName ? "#07439C" : "#666666",
-    });
-    return (
-        <>
-            <Container fluid className="w-100" >
-                <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
-                    <HeaderComponent />
-                </Row>
-
-                <div className="w-100">
-                    <div style={{ width: '10%' }}>
-                        <BootstrapSidebar />
-                    </div>
-                    <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
-                        <Nav className="toptabbar">
-                            <Nav.Link eventKey="Severity" style={tabStyle("Severity")}>
-                                Issue Severity Distribution
-                            </Nav.Link>
-                            <Nav.Link eventKey="Quality" style={tabStyle("Quality")}>
-                                Code Quality Per User
-                            </Nav.Link>
-                            <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
-                                Usage Metrics
-                            </Nav.Link>
-                            <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
-                                Commit Review Metrics
-                            </Nav.Link>
-                            <Nav.Link eventKey="Test" style={tabStyle("Test")}>
-                                Test AI Metrics
-                            </Nav.Link>
-                            <Nav.Link eventKey="Release" style={tabStyle("Release")}>
-                                Release Note Metrics
-                            </Nav.Link>
-                        </Nav>
-                        <Tab.Content
-                            style={{
-                                marginTop: "12px",
-                                marginLeft: '5.5%',
-                            }}
-                        >
-                            <Tab.Pane eventKey="Severity" type='severity'>
-                                <SeverityMetric />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Quality" type='quality'>
-                                <QualityMetric />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Usage"><UsageMetric type='usage' />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Commit" type='commit'>
-                                <CommitReviewMetric />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Test" type='test'>
-                                <TestAIMetrics />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Release" type='Release'>
-                                <GitReleaseMetrics />
-                            </Tab.Pane>
-                        </Tab.Content>
-                    </Tab.Container>
-                </div>
-            </Container>
-        </>
-    );
+  const [activeTab, setActiveTab] = useState("Severity");
+  const tabStyle = (tabName) => ({
+    color: activeTab === tabName ? "#07439C" : "#666666",
+  });
+  return (
+    <>
+      <Container fluid className="w-100">
+        <Row className="sticky-row">
+          <HeaderComponent />
+        </Row>
+        <div className="w-100">
+          <div>
+            <BootstrapSidebar />
+          </div>
+          <Tab.Container
+            activeKey={activeTab}
+            onSelect={(tab) => setActiveTab(tab)}
+          >
+            <Nav className="toptabbar">
+              <Nav.Link eventKey="Severity" style={tabStyle("Severity")}>
+                Issue Severity Distribution
+              </Nav.Link>
+              <Nav.Link eventKey="Quality" style={tabStyle("Quality")}>
+                Code Quality Per User
+              </Nav.Link>
+              <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
+                Usage Metrics
+              </Nav.Link>
+              <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
+                Commit Review Metrics
+              </Nav.Link>
+              <Nav.Link eventKey="Test" style={tabStyle("Test")}>
+                Test AI Metrics
+              </Nav.Link>
+              <Nav.Link eventKey="Release" style={tabStyle("Release")}>
+                Release Note Metrics
+              </Nav.Link>
+            </Nav>
+            <Tab.Content  className="tab-content-spacing">
+              <Tab.Pane eventKey="Severity" type="severity">
+                <SeverityMetric />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Quality" type="quality">
+                <QualityMetric />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Usage">
+                <UsageMetric type="usage" />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Commit" type="commit">
+                <CommitReviewMetric />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Test" type="test">
+                <TestAIMetrics />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Release" type="Release">
+                <GitReleaseMetrics />
+              </Tab.Pane>
+            </Tab.Content>
+          </Tab.Container>
+        </div>
+      </Container>
+    </>
+  );
 }

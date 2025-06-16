@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { testAIGraph } from "../actions/testAIGraphActions";
 import TestStackedBarGraph from "../graph/TestStackedGraphs";
@@ -75,10 +75,7 @@ export default function TestAIMetrics() {
         filters.user_id = selectedFilter.user_id
         filters.project_name = selectedFilter.project_name;
         filters.time_unit = selectedFilter.time_unit;
-
-        // const filtersString = JSON.stringify(filters);
-        // const params = {
-        // };        
+        
         dispatch(testAIGraph(filters ,moduleType));
 
         setOffCanvas(false);
@@ -132,7 +129,8 @@ export default function TestAIMetrics() {
             }
         }
         metrics = Object.values(data);
-    }    
+    }
+    
         useEffect(() => {            
             const params = { type: moduleType, filter: false };
             dispatch(testAIGraph(params,moduleType));

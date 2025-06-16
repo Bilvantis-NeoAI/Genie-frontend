@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGraphList } from "../actions/graphsDataActions";
 import BarGraph from "../graph/BarGraph";
@@ -164,16 +164,15 @@ export default function SeverityMetric() {
         setLoading(true);
         const params = { type: moduleType, filter: false };
         dispatch(fetchGraphList(params, moduleType)).finally(() => {
-            setLoading(false); // End loading
+            setLoading(false); 
         });
     }, [dispatch, moduleType]);
 
     return (
         <>
-            {loading && <FullScreenLoader />} {/* Display the loader while loading */}
+            {loading && <FullScreenLoader />} 
             <div className="row g-1">
                 {
-                // !loading ? (
                     metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;
                         return (
@@ -190,9 +189,6 @@ export default function SeverityMetric() {
                             </div>
                         );
                     })
-                // ) : (
-                //     <div className="col-12 text-center">Loading...</div>
-                // )
                 }
             </div>
             <OffCanvas
