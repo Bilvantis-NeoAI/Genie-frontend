@@ -97,7 +97,6 @@ export const deleteTempDir = () => {
                 return respose
             })
             .catch((error) => {
-                // dispatch(gitCommitFeedbackFailure(error))
             })
     }
 }

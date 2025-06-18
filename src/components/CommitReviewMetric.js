@@ -70,12 +70,7 @@ export default function CommitReviewMetric() {
         filters.start_date = selectedFilter.start_date
         filters.end_date = selectedFilter.end_date
         filters.user_id = selectedFilter.user_id
-        // if (selectedFilter.key === GRAPHKEYS.COMMIT_AVARAGE_CODE_QUALITY) {
-        //     filters.reponame = selectedFilter.project_name
-        // }
-        // else {
             filters.reponame = selectedFilter.project_name;
-        // }
         const filtersString = JSON.stringify(filters);
         const params = {
             type: moduleType,
