@@ -250,8 +250,6 @@ export function TestCaseAi() {
             });
 
             const data = await response.json();
-            console.log("AI Test Case Data:", data);
-
             if (data?.output_file_path) {
                 const fetchFileContent = async (url) => {
                     const response = await fetch(url);
@@ -302,7 +300,7 @@ export function TestCaseAi() {
             <div className='sideNav-style'>
                 <BootstrapSidebar />
             </div>
-            <div className='card top-div' >
+            <div className='card top-div mt-2 pb-5' >
                 <h4 className='ms-4 mt-2'>Test Gen</h4>
                 <div className="col-12 d-flex ">
                     <div className='dropzone'>
@@ -395,7 +393,6 @@ export function TestCaseAi() {
                                         </tr>
                                     ))}
                                 </tbody>
-
                             </table>
                         </div>
                         <div className="d-flex justify-content-between mt-4" >
@@ -439,7 +436,7 @@ export function TestCaseAi() {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                         placeholder="Write your feedback here..."
-                                        className="form-control bg-light text-dark font-monospace resize-none border processed-file-textarea"
+                                        className="form-control bg-light text-dark font-monospace resize-none border"
                                     />
                                     <button
                                         onClick={handleSubmit}

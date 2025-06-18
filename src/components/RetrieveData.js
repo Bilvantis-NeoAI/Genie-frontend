@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { homePageTextSamples } from "../utils/constatnts";
 import { retriveRepoData, getRepoCodeData } from "../actions/RetriveDataAction";
@@ -143,20 +143,11 @@ export default function RetrieveData() {
   return (
     <Container fluid className="w-100">
       <div
-        className="flex-grow-1 w-100v"
-        style={{ marginTop: "20px", marginLeft: "5%" }}
+        className="flex-grow-1 w-100vw tab-content-custom"
       >
         <div className="flex-grow-1 ms-4 ">
           <div
-            className="border rounded p-3 shadow-lg"
-            style={{
-              maxHeight: "60vh",
-              maxWidth: "90%",
-              overflowX: "auto",
-              overflowY: "auto",
-              background: "#f8f9fa",
-              borderRadius: "8px",
-            }}
+            className="border rounded p-3 shadow-lg custom-scroll-container"
           >
             {chatMessages.length === 0 && (
               <div className="text-center text-muted ">
@@ -166,8 +157,7 @@ export default function RetrieveData() {
             {chatMessages.map((chat, index) => (
               <div
                 key={index}
-                className={`mb-3 ${chat.sender === "user" ? "text-end" : "text-start"}`}
-                style={{ overflowX: "auto" }}
+                className={`mb-3 overflow-x-auto ${chat.sender === "user" ? "text-end" : "text-start"}`}
               >
                 <div
                   className={`d-inline-block p-2 text-black bg-light ${chat.sender === "user" ? "text-light" : "bg-light"
@@ -184,16 +174,14 @@ export default function RetrieveData() {
                 </div>
               </div>
             ))}
-            <div style={{ padding: '10px' }}
-              className={'d-inline-block p-2 text-black bg-light'}
+            <div 
+              className={'d-inline-block p-1 text-black bg-light'}
             >
               {renderExplanation(data)}
             </div>
 
           </div>
-          {/* Textarea and Buttons - aligned top & tight spacing */}
-          <div className="d-flex flex-column mt-3 gap-2" style={{ maxWidth: '90%' }}>
-            {/* Textarea with error message below */}
+          <div className="d-flex flex-column mt-3 gap-2 max-w-90">
             <div>
               <Form.Control
                 as="textarea"
@@ -201,7 +189,8 @@ export default function RetrieveData() {
                 value={inputField}
                 onChange={handleInputChange}
                 isInvalid={!!error}
-                style={{ minHeight: '40px', resize: 'none' }}
+                style={{ minHeight: '90px', resize: 'none' }}
+                 className="custom-textarea"
               />
               {error && (
                 <Form.Control.Feedback type="invalid" className="d-block mt-1">
@@ -210,20 +199,17 @@ export default function RetrieveData() {
               )}
             </div>
 
-            {/* Buttons below textarea and error */}
-            <div className="d-flex gap-2">
+            <div className="d-flex gap-2 mb-2">
               <Button
                 onClick={() => handleSubmit("explain")}
-                className="btn btn-primary px-3"
-                style={{ whiteSpace: 'nowrap', height: '40px' }}
+                className="btn btn-primary px-3 custom-button"
                 disabled={loading}
               >
                 {loading ? "Loading..." : homePageTextSamples.EXPLAIN}
               </Button>
               <Button
                 onClick={() => handleSubmit("code")}
-                className="btn btn-primary px-3"
-                style={{ whiteSpace: 'nowrap', height: '40px' }}
+                className="btn btn-primary px-3 custom-button"
                 disabled={loading}
               >
                 {loading ? "Loading..." : homePageTextSamples.GET_CODE}

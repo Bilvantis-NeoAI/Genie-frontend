@@ -41,13 +41,13 @@ export const BootstrapSidebar = () => {
     width: "25px",
     height: "25px",
   };
-  const sidebarItems = [
-        { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
-        { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
-        { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
-        { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin" }
-      ]
-
+  let role = sessionStorage.getItem("role");
+const sidebarItems = [
+  { path: "/metrics", icon: metrics, label: "Metrics", name: "metrics" },
+  { path: "/gitoprations", icon: gitIcon, label: "Repo Operations", name: "git" },
+  { path: "/testcases", icon: testai, label: "Test Gen", name: "test" },
+  { path: "/adminDashBoard", icon: admin, label: "Admin", name: "admin", requiresAdmin: true }
+].filter(item => !item.requiresAdmin || role === "admin");
   return (
     <div className="sidebar">
       <ul className="nav-list m-0 p-0">

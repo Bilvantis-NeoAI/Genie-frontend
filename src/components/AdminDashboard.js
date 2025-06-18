@@ -15,6 +15,8 @@ import resetPass from '../Assets/resetPass.svg'
 import { userList, pendingUserList, userApprove, userDelete, userReject, userRoleEdit, userResetPassword } from "../actions/userActions";
 import Swal from "sweetalert2";
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from "../utils/config";
+import '../styles/AdminDashboard.css';
+
 export function AdminDashboard() {
     const [activeadminTab, setadminActiveTab] = useState("adminUsers");
     const [userData, setUserData] = useState()
@@ -36,9 +38,7 @@ export function AdminDashboard() {
     const admintabStyle = (tabName) => ({
         color: activeadminTab === tabName ? "#07439C" : "#666666",
     });
-    useEffect(() => {
-        console.log("===activeadminTabactiveadminTab",activeadminTab ,activeTab);
-        
+    useEffect(() => {        
         setLoading(true)
         dispatch(userList()).finally(() => {
             setLoading(false);
@@ -80,12 +80,10 @@ export function AdminDashboard() {
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${token}`,
-          // DO NOT set Content-Type manually
         },
         body: formData
       })
         .then(data => {
-          console.log('LLM selection saved:', data);
           setSelectedLLM('')
           Swal.fire({
             icon: 'success',
@@ -274,7 +272,7 @@ export function AdminDashboard() {
 
     }
     const handleStorageClick = () => {
-        const formData = new FormData();
+        const formData = new FormData(); 
         formData.append('storage', storageOption);
         dispatch(changeStorage(formData))
             .then(response => response && toast.success("Storage updated successfully"))
@@ -282,7 +280,7 @@ export function AdminDashboard() {
     };
     return (
         <Container fluid className="w-90">
-            <Row style={{ position: "sticky", top: 0, zIndex: 1000 }}>
+            <Row className="sticky-row">
                 <HeaderComponent />
             </Row>
             <div
@@ -292,7 +290,7 @@ export function AdminDashboard() {
             <div className="row">
                 {loading && <FullScreenLoader />}
                 <ul className="nav">
-                    <li className="nav-item" style={{ marginLeft: '10%' }}>
+                    <li className="nav-item ml-10-percent" >
                         <button
                             className="nav-link"  style={admintabStyle("adminUsers")}
                             onClick={() => setadminActiveTab("adminUsers")}>
@@ -312,7 +310,7 @@ export function AdminDashboard() {
                 {activeadminTab === "adminUsers" ?
                     (<>
                         <ul className="nav gap-5 d-flex w-100 position-relative" style={{marginTop:'-12px'}}>
-                            <li className="nav-item" style={{ marginLeft: '10%' }}>
+                            <li className="nav-item ml-10-percent" >
                                 <button
                                     className="nav-link" style={tabStyle("users")}
                                     onClick={() => setActiveTab("users")}>
@@ -329,14 +327,8 @@ export function AdminDashboard() {
                             </li>
                             {activeTab === "users" && (
                               <button
-                              className="btn btn-outline-primary btn-sm position-absolute"
-                              style={{
-                                  right: "5%",
-                                  padding: "6px 16px",
-                                  fontWeight: "500",
-                                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                  transition: "all 0.3s ease-in-out",
-                              }}
+                              className="btn btn-outline-primary btn-sm position-absolute custom-action-button"
+                             
                               title="Filter"
                               onClick={(e) => onFilter(e)}
                               onMouseEnter={(e) => {
@@ -356,10 +348,10 @@ export function AdminDashboard() {
                         <hr className="navBarAdmin"></hr>
                         <div className="content">
                             {activeTab === "users" && (
-                                <div className="w-70" style={{ maxHeight: '400px', overflowY: "auto", overflowX: 'hidden' }}>
+                                <div className="w-70 scrollable-user-panel">
                                     {users &&
-                                        <table className="table table-bordered table-hover" style={{ fontSize: 10, marginLeft: '7%', width: '90%' }}>
-                                            <thead className="table-active" style={{ position: "sticky", top: 0, zIndex: 0 }}>
+                                        <table className="table table-bordered table-hover custom-table">
+                                            <thead className="table-active sticky-thead" >
                                                 <tr>
                                                     <th style={{ width: "3%" }}>Sl.N</th>
                                                     <th style={{ width: "15%" }}>Name</th>
@@ -385,20 +377,20 @@ export function AdminDashboard() {
                                                             <td>{user.created_at}</td>
                                                             <td>{user.updated_at}</td>
                                                             <td>
-                                                                <button className="btn " title="Edit Role" onClick={(e) => onEditRole(e, user)} style={{ border: 0 }}>
+                                                                <button className="btn " title="Edit Role" onClick={(e) => onEditRole(e, user)} >
                                                                     <img src={edit} alt="edit" className="" />
                                                                 </button>
-                                                                <button className="btn" title="Delete User" onClick={(e) => deleteUser(user)} style={{ border: 0 }}>
+                                                                <button className="btn" title="Delete User" onClick={(e) => deleteUser(user)}>
                                                                     <img src={deleteicon} alt="edit" className="" />
                                                                 </button>
-                                                                <button className="btn resetButton" title="Reset Password" onClick={(e) => onResetPass(user)} style={{ border: 0 }}>
+                                                                <button className="btn resetButton" title="Reset Password" onClick={(e) => onResetPass(user)} >
                                                                     <img src={resetPass} alt="edit" className="" />
                                                                 </button>
                                                             </td>
                                                         </tr>
                                                     ))
                                                 ) : <tr>
-                                                    <td colSpan="12" style={{ textAlign: "center", fontWeight: "bold" }}>No Data Found</td>
+                                                    <td colSpan="12" className="no-data-cell">No Data Found</td>
                                                 </tr>}
                                             </tbody>
                                         </table>
@@ -406,9 +398,9 @@ export function AdminDashboard() {
                                 </div>
                             )}
                             {activeTab === "pendingUsers" &&
-                                (<div className="" style={{ maxHeight: '400px', overflowY: "auto" }}>
-                                    <table className="table table-bordered table-hover" style={{ fontSize: 10, marginLeft: '7%', width: '90%' }}>
-                                        <thead className="table-active" style={{ position: "sticky", top: 0, zIndex: 0 }}>
+                                (<div className="scrollable-user-panel">
+                                    <table className="table table-bordered table-hover custom-table" >
+                                        <thead className="table-active sticky-thead">
                                             <tr>
                                                 <th style={{ width: "5%" }}>Sl.N</th>
                                                 <th style={{ width: "20%" }}>Name</th>
@@ -439,7 +431,7 @@ export function AdminDashboard() {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="6" style={{ textAlign: "center", fontWeight: "bold" }}>No Data Found</td>
+                                                    <td colSpan="6" className="no-data-cell">No Data Found</td>
                                                 </tr>
                                             )}
 
@@ -471,13 +463,7 @@ export function AdminDashboard() {
                                     <>
                                         <p>User name : {selectedUser?.full_name}</p>
                                         <label>New Password: </label>
-                                        <input type="password" style={{
-                                            width: '100%',
-                                            padding: '8px',
-                                            borderRadius: '4px',
-                                            border: '1px solid #ccc',
-                                            fontSize: '14px',
-                                        }}
+                                        <input type="password" className="password-input"
                                             onChange={(e) => onPasswordChange(e, selectedUser)}></input>
                                     </>
                                 ) : modelFrom === "User" ? (
@@ -487,13 +473,7 @@ export function AdminDashboard() {
                                             id="roleSelect"
                                             name="role"
                                             onChange={(e) => onRoleChange(e, selectedUser)}
-                                            style={{
-                                                width: '100%',
-                                                padding: '8px',
-                                                borderRadius: '4px',
-                                                border: '1px solid #ccc',
-                                                fontSize: '14px',
-                                            }}
+                                          className="password-input"
                                         >
                                             <option value="" hidden>Select a role</option>
                                             {roles?.map((role) => (
@@ -535,10 +515,10 @@ export function AdminDashboard() {
                                             onChange={handleChange}
                                         />
                                         <div className="d-flex gap-3 align-items-end">
-                                            <button type="submit" className="btn btn-primary" style={{ backgroundColor: "#135ae8", color: "#fff", width: '30%' }}>
+                                            <button type="submit" className="btn btn-primary" >
                                                 Submit
                                             </button>
-                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)} style={{ color: "#fff", width: '30%' }}>
+                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)} >
                                                 Close
                                             </button>
                                             <button type="button" className="btn btn-secondary" onClick={handleReset}>
@@ -553,22 +533,14 @@ export function AdminDashboard() {
                                 {modelFrom === "Reset" ? (<Button
                                     variant="secondary"
                                     onClick={(e) => resetPassWord(e)}
-                                    style={{
-                                        backgroundColor: '#135ae8',
-                                        borderColor: '#6c757d',
-                                        color: '#fff',
-                                    }}>
+                                   className="btn-primary-custom">
                                     Reset
                                 </Button>) :
                                     modelFrom === "User" ? (
                                         <Button
                                             variant="secondary"
                                             onClick={(e) => submitEditedRole(userData)}
-                                            style={{
-                                                backgroundColor: '#135ae8',
-                                                borderColor: '#6c757d',
-                                                color: '#fff',
-                                            }}>
+                                             className="btn-primary-custom">
                                             Submit
                                         </Button>
                                     ) : ''}
@@ -576,17 +548,13 @@ export function AdminDashboard() {
                                     <Button
                                         variant="secondary"
                                         onClick={() => setShowModal(false)}
-                                        style={{
-                                            backgroundColor: '#6c757d',
-                                            borderColor: '#6c757d',
-                                            color: '#fff',
-                                        }}>
+                                        className="btn-secondary-custom">
                                         Close
                                     </Button>) : ''}
                             </Modal.Footer>
                         </Modal>
                     </>)
-                    : (<><div className='col-7 card' style={{ marginLeft: '16%' }}>
+                    : (<><div className='col-7 card ml-16-percent'>
                         <div className='d-flex gap-2 ms-5 mt-3'>
                             <Button className="btn btn-primary btn-sm" onClick={handleFlushDB}>Flush DB</Button>
                             <Button className="btn btn-primary btn-sm" onClick={handleContainerRestart}>Restart Container</Button>
@@ -601,7 +569,7 @@ export function AdminDashboard() {
                                         <Select
                                             value={selectedLLM}
                                             onChange={e => handleSelect(e.target.value)}
-                                            style={{ height: '35px' }}
+                                           className="custom-select-height"
                                         >
                                             {llmConfig.map((option, index) => (
                                                 <MenuItem key={index} value={option.value}>
@@ -619,7 +587,7 @@ export function AdminDashboard() {
                                 <div className="d-flex align-items-start mt-4 w-100">
                                     <FormControl fullWidth className="p-2">
                                         <InputLabel>Select Option</InputLabel>
-                                        <Select value={selectedNeo4jOption} onChange={e => setSelectedNeo4jOption(e.target.value)} style={{ height: '35px' }}>
+                                        <Select value={selectedNeo4jOption} onChange={e => setSelectedNeo4jOption(e.target.value)} className="custom-select-height">
                                             {neo4jStatusOptions.map((option, index) => (
                                                 <MenuItem key={index} value={option.value}>{option.label}</MenuItem>
                                             ))}
@@ -633,7 +601,7 @@ export function AdminDashboard() {
                                 <div className="d-flex align-items-start mt-3 w-100 h-10">
                                     <FormControl fullWidth className="p-2">
                                         <InputLabel>Select Storage</InputLabel>
-                                        <Select value={storageOption} onChange={handleStorageChange} style={{ height: '35px' }}>
+                                        <Select value={storageOption} onChange={handleStorageChange} className="custom-select-height">
                                             {storageStatusOptions.map((option, index) => (
                                                 <MenuItem key={index} value={option.value}>{option.label}</MenuItem>
                                             ))}

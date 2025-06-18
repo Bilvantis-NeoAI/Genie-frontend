@@ -1,0 +1,101 @@
+ .nav-custom {
+  border-bottom: 1px solid #dcdcdc;
+  position: sticky;
+  margin-left: 5%;
+  font-size: 15px;
+}
+
+.tab-content-custom {
+  margin-top: 10px;
+  margin-left: 5%;
+  padding: 0 2px;
+}
+
+.max-w-800 {
+  max-width: 800px;
+}
+
+.max-w-600 {
+  max-width: 600px;
+}
+
+.custom-scroll-container {
+  max-height: 60vh;
+  max-width: 90%;
+  overflow-x: auto;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.max-w-90 {
+  max-width: 90%;
+}
+
+.custom-textarea {
+  resize: none;
+}
+
+.custom-button {
+  white-space: nowrap;
+  height: 40px;
+}
+
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.large-spinner {
+  width: 4rem;
+  height: 4rem;
+}
+
+
+.custom-card {
+  max-width: 500px;
+}
+
+.custom-card-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+.small-button-text {
+  font-size: 14px;
+}
+
+
+.download-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.csv-cell-input {
+  border: none;
+  width: 90%;
+}
+
+.fixed-size-btn {
+  width: 150px;
+  height: 40px;
+}
+
+
+.fixed-textarea {
+  height: 320px;
+  resize: none;
+}

@@ -15,29 +15,8 @@ export const testAiFailure = (response) => ({
     type: TEST_GRAPH_FAILRE,
     payload: response
 })
-// export const testAIGraph = (payload) => {
-//     return (dispatch) => {
-//         dispatch(testAiData());
-
-//         const config = payload
-//             ? { params: payload }
-//             : {};
-
-//         return TestAIMetrics
-//             .get(apis.TEST_AI_METRICS, config)
-//             .then((response) => {
-//                 console.log("===responseresponseresponse",response.data);
-                
-//                 dispatch(testAiSuccess(response));
-//             })
-//             .catch((error) => {
-//                 dispatch(testAiFailure(error));
-//             });
-//     };
-// };
 export const testAIGraph = (payload , graphType) => {
     return (dispatch) => {
-        // const graphType =moduleType // or dynamically decide this
         dispatch({
             type: TEST_GRAPH_DATA,
             graphType,

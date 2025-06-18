@@ -1,0 +1,10 @@
+.sticky-row {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.tab-content-spacing {
+  margin-top: 12px;
+  margin-left: 5.5%;
+}

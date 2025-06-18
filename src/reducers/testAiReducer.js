@@ -20,7 +20,6 @@ import {
   };
   
   const testAiReducer = (state = initialState, action) => {
-  console.log("===actionaction12",action.graphType);
   
     switch (action.type) {
       case TEST_GRAPH_DATA:
