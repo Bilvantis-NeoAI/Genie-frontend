@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import CryptoJS from 'crypto-js';
 export const IP = process.env.REACT_APP_IP;
 export const apis = {
     ENDPOINT_FULL_QA : '/answer',
@@ -83,3 +84,20 @@ export const apis = {
             reverseButtons: true,
         });
     };
+
+    export const encryptData = (requestData) => {
+        try {
+          const key = CryptoJS.enc.Utf8.parse("1234567890123456");
+          const iv = CryptoJS.enc.Utf8.parse("abcdefghijklmnop");
+      
+          const encrypted = CryptoJS.AES.encrypt(requestData, key, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+          });
+      
+          return encrypted.toString();
+        } catch (error) {
+          return { status: false, data: error.toString() };
+        }
+      };

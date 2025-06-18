@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback, deleteTempDir } from '../actions/gitReleaseNoteActions';
+import { gitReleaseNote, gitRealseFeedback, gitCommitFeedback } from '../actions/gitReleaseNoteActions';
 import { useEffect, useState } from 'react';
 import Papa from "papaparse";
 import Swal from "sweetalert2";
@@ -91,9 +91,6 @@ export function GitReleaseNote() {
         formData.append("new_branch", newBranch);
         formData.append("csv_file", file);
         formData.append("token", token);
-        const csvString = Papa.unparse(csvData);
-        const blob = new Blob([csvString], { type: "text/csv" });
-        const updatedFile = new File([blob], file.name, { type: "text/csv" });
                 dispatch(gitReleaseNote(formData)).then((response) => {
                     setLoading(false)
                     if (!response) {
@@ -116,14 +113,7 @@ export function GitReleaseNote() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
-
-    const clearError = (field) => {
-      if (errors[field]) {
-        setErrors((prev) => ({ ...prev, [field]: "" }));
-      }
-    };
-  
+    };  
     const handleRephraseReleaseNotes = async () => {
         if (!releaseNotesFeedback.trim()) {
             return;

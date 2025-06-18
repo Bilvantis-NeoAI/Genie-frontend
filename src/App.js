@@ -9,12 +9,11 @@ import RetrieveData from './components/RetrieveData';
 import IngestionRepo from './components/IngesitonRepo';
 import RedirectRoute from './RedirectRoute';
 import ProtectRoute from './ProtectRoute';
-import Register from './components/Register';
 import { TestCaseAi } from './components/TestCaseAi';
 import { DeadCode } from './components/DeadCode';
 import { GitReleaseNote } from './components/GitReleaseNote';
 import { GitOperations } from './components/GitOperations';
- 
+import Register from './components/Register';
 function App() { 
   return (
     <Router>
