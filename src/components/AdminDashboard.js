@@ -120,8 +120,10 @@ export function AdminDashboard() {
         setShowModal(true);
     };
     const approveUser = (e, user) => {
+        setLoading(true);
         dispatch(userApprove(user.id))
             .then((response) => {
+                 setLoading(false);
                 if (response?.status === 200) {
                     showSuccessAlert('Success', 'User approved successfully!');
                     dispatch(userList());
@@ -138,9 +140,12 @@ export function AdminDashboard() {
         showConfirmAlert("Edit", "Do you want to edit this user's role?", "Yes, Edit it!")
             .then((result) => {
                 if (result.isConfirmed) {
-                    setShowModal(false);
+                    setShowModal(true);
+                    setLoading(true);
                     dispatch(userRoleEdit(user))
                         .then((response) => {
+                            setLoading(false)
+                            setShowModal(false);
                             if (response?.status === 200) {
                                 showSuccessAlert('Success', 'User role has been edited successfully!');
                                 dispatch(userList());
@@ -160,8 +165,10 @@ export function AdminDashboard() {
         showConfirmAlert('Delete', 'Do you want to delete this user?', 'Yes, delete it!')
             .then((result) => {
                 if (result.isConfirmed) {
+                    setLoading(true);
                     dispatch(userDelete(user.id))
                         .then((response) => {
+                              setLoading(false);
                             if (response?.status === 200) {
                                 showSuccessAlert('Deleted!', 'User has been deleted.');
                                 dispatch(userList());
@@ -181,8 +188,10 @@ export function AdminDashboard() {
         showConfirmAlert('Reject', 'Do you want to reject this user?', 'Yes!')
             .then((result) => {
                 if (result.isConfirmed) {
+                     setLoading(true);
                     dispatch(userReject(user.id))
                         .then((response) => {
+                             setLoading(false);
                             if (response?.status === 200) {
                                 showSuccessAlert('Rejected!', 'User has been rejected successfully.');
                                 dispatch(userList());
@@ -209,10 +218,12 @@ export function AdminDashboard() {
         setNewPassword({ new_password: e.target.value })
     }
     const resetPassWord = (user) => {
+        setLoading(true);
         dispatch(userResetPassword(newPassword, selectedUser))
             .then((response) => {
                 setShowModal(false);
                 if (response?.status === 200) {
+                    setLoading(false);
                     showSuccessAlert('Reset Password', 'Password has been reset successfully!');
                 } else {
                     showErrorAlert('Error', 'Failed to reset password.');
