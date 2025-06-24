@@ -10,7 +10,7 @@ import { repo_Ingestion, sweetalert } from "../utils/constatnts";
 import Swal from "sweetalert2";
 import { ingestedRepoList } from "../actions/IngestionAction";
 import "../styles/GitOperations.css";
-export default function IngestionRepo() {
+export function IngestionRepo() {
   const [error, setError] = useState({ url: "" });
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
@@ -80,98 +80,102 @@ export default function IngestionRepo() {
           confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
         });
       });
-  };
+  }; 
   return (
-    <div className="bg-light min-vh-100 py-5">
-      <Container>
-        <form onSubmit={handleSubmit}>
-          <div className="mx-auto card shadow-lg p-4 max-w-600" >
-            <div className="form-group">
-              <div className="mb-4">
-                <label className="form-label fw-bold">
-                  {homePage1TextSamples.URL_INPUT}
-                  <span className="text-danger ms-1">*</span>
-                </label>
-                <input
-                  type="url"
-                  name="url"
-                  className="form-control"
-                  placeholder="Enter the URL"
-                  value={inputFields.url}
-                  onChange={handleChange}
-                />
-                {loading && <FullScreenLoader />}
-                {error.url && <div className="text-danger mt-1 small">{error.url}</div>}
-              </div>
+    <div className="container mt-3" style={{ overflow: "visible" }}>
+      <div className="row align-items-start">
+        <div className="col-md-6">
+          <div><b>Ingest Repository</b></div>
+          <form onSubmit={handleSubmit}>
+            <div className="mx-auto card shadow-lg p-4 max-w-600 mt-2" >
+              <div className="form-group">
+                <div className="mb-4">
+                  <label className="form-label fw-bold">
+                    {homePage1TextSamples.URL_INPUT}
+                    <span className="text-danger ms-1">*</span>
+                  </label>
+                  <input
+                    type="url"
+                    name="url"
+                    className="form-control"
+                    placeholder="Enter the URL"
+                    value={inputFields.url}
+                    onChange={handleChange}
+                  />
+                  {loading && <FullScreenLoader />}
+                  {error.url && <div className="text-danger mt-1 small">{error.url}</div>}
+                </div>
 
-              <div className="mb-4">
-                <label className="form-label fw-bold">{homePage1TextSamples.TOKEN}</label>
-                <input
-                  type="text"
-                  name="pat"
-                  className="form-control"
-                  placeholder="Enter the Token"
-                  value={inputFields.pat}
-                  onChange={handleChange}
-                />
-              </div>
+                <div className="mb-4">
+                  <label className="form-label fw-bold">{homePage1TextSamples.TOKEN}</label>
+                  <input
+                    type="text"
+                    name="pat"
+                    className="form-control"
+                    placeholder="Enter the Token"
+                    value={inputFields.pat}
+                    onChange={handleChange}
+                  />
+                </div>
 
-              <div className="mb-4">
-                <label className="form-label fw-bold">{homePage1TextSamples.BRANCH_NAME}</label>
-                <input
-                  type="text"
-                  name="branch"
-                  className="form-control"
-                  placeholder="Enter Branches (comma separated)"
-                  value={inputFields.branch}
-                  onChange={handleChange}
-                />
-              </div>
+                <div className="mb-4">
+                  <label className="form-label fw-bold">{homePage1TextSamples.BRANCH_NAME}</label>
+                  <input
+                    type="text"
+                    name="branch"
+                    className="form-control"
+                    placeholder="Enter Branches (comma separated)"
+                    value={inputFields.branch}
+                    onChange={handleChange}
+                  />
+                </div>
 
-              <div className="text-center">
-                <Button type="submit" className="btn btn-primary px-4" disabled={isDisable}>
-                  {homePage1TextSamples.SUBMIT}
-                </Button>
+                <div className="text-center">
+                  <Button type="submit" className="btn btn-primary px-4 mb-3" disabled={isDisable}>
+                    {homePage1TextSamples.SUBMIT}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-
-        <div className="table-responsive mt-5 mx-auto  max-w-800" >
-          <h4>Ingested Repositories</h4>
-
-          <table className="table table-bordered table-striped">
-            <thead className="table-secondary">
-              <tr>
-                <th style={{ width: "10%" }}>Sl</th>
-                <th style={{ width: "45%" }}>Repo</th>
-                <th style={{ width: "45%" }}>Branch</th>
-              </tr>
-            </thead>
-            <tbody>
-              {repoData && repoData.repos.length > 0 ? (
-                repoData.repos.map((repo, index) =>
-                  repo.branches.map((branch, idx) => (
-                    <tr key={`${index}-${idx}`}>
-                      <td>{index + 1}</td>
-                      <td>{repo.repo_name}</td>
-                      <td>{branch}</td>
-                    </tr>
-                  ))
-                )
-              ) : (
-                <tr>
-                  <td colSpan="3" className="text-center">
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          </form>
         </div>
-
-        <ToastContainer />
-      </Container>
+        <div className="col-md-6">
+          <div><b>Ingested Repositories</b></div> 
+          <div className='mt-2' style={{ maxHeight: "400px", overflowY: "auto", overflowX: "auto" }}>
+            <table className="table table-bordered table-striped">
+              <thead className="table-secondary sticky-top">
+                <tr>
+                  <th>Sl</th>
+                  <th>Repo</th>
+                  <th>Branch</th>
+                </tr>
+              </thead>
+              <tbody>
+                {repoData && repoData.repos.length > 0 ? (
+                  repoData.repos.map((repo, index) =>
+                    repo.branches.map((branch, idx) => (
+                      <tr key={`${index}-${idx}`}>
+                        <td>{index + 1}</td>
+                        <td>{repo.repo_name}</td>
+                        <td>{branch}</td>
+                      </tr>
+                    ))
+                  )
+                ) : (
+                  <tr>
+                    <td colSpan="3" className="text-center">
+                      No data found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
     </div>
   );
 }
+
+export default IngestionRepo;
