@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { homePage1TextSamples } from "../utils/constatnts";
 import Button from "react-bootstrap/Button";
-import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { repoIngestion } from "../actions/IngestionAction";
 import 'react-toastify/dist/ReactToastify.css';
