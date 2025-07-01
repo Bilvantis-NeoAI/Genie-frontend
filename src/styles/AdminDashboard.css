@@ -9,8 +9,7 @@
 }
 
 .custom-action-button {
-  right: 5%;
-  padding: 6px 16px;
+  right: 7%;
   font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
@@ -116,4 +115,11 @@
 
 .nav-link{
   color: #333;
+}
+
+.pagination-controls {
+  display: flex;
+ padding:  0px 30px 0px 30px;
+  justify-content: space-between;
+  align-items: center;
 }

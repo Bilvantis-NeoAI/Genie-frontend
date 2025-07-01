@@ -118,11 +118,17 @@ export const userList = (payload) => {
 };
 
 
-export const pendingUserList = () => {
+export const pendingUserList = (payload) => {
     return (dispatch) => {
         dispatch(pendingUserListData());
+        const filteredPayload = payload
+            ? Object.fromEntries(Object.entries(payload).filter(([_, v]) => v !== "" && v !== null && v !== undefined))
+            : {};
+
+        const params = Object.keys(filteredPayload).length ? { params: filteredPayload } : {};
+
         return AdminUsers
-            .get(apis.PENDING_LIST)
+            .get(apis.PENDING_LIST,params)
             .then((response) => {
                 dispatch(pendingUserListSuccess(response))
                 return response

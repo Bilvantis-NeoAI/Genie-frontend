@@ -120,6 +120,7 @@ export function TestCaseAi() {
 
 
     useEffect(() => {
+        setTableData('')
         if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
             const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
             const fullUrl = `${IP}/genieapi/${filePath}`;
@@ -436,7 +437,7 @@ export function TestCaseAi() {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                         placeholder="Write your feedback here..."
-                                        className="form-control bg-light text-dark font-monospace resize-none border processed-file-textarea"
+                                        className="form-control bg-light text-dark font-monospace resize-none border processed-feedback-textarea"
                                     />
                                     <button
                                         onClick={handleSubmit}

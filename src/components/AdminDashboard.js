@@ -2,7 +2,7 @@ import { Col, Row, Container, Button, Modal } from "react-bootstrap";
 import { BootstrapSidebar } from './sideNav';
 import { HeaderComponent } from './header';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { flushDB, containerRestart, neo4jStatus, reloadData, changeStorage } from "../actions/adminActions";
 import { toast } from 'react-toastify';
 import Switch from '@mui/material/Switch';
@@ -16,7 +16,7 @@ import { userList, pendingUserList, userApprove, userDelete, userReject, userRol
 import Swal from "sweetalert2";
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from "../utils/config";
 import '../styles/AdminDashboard.css';
-
+import DynamicTable from "./DynamicTable";
 export function AdminDashboard() {
     const [activeadminTab, setadminActiveTab] = useState("adminUsers");
     const [userData, setUserData] = useState()
@@ -28,26 +28,51 @@ export function AdminDashboard() {
     const [loading, setLoading] = useState(false);
     const [selectedLLM, setSelectedLLM] = useState('');
     const [activeTab, setActiveTab] = useState("users");
+    const [pendingCurrentPage, setPendingCurrentPage] = useState(1);
+    const [pendingTotalPages, setPendingTotalPages] = useState(1);
+    let [pendingUsers, setPendingUsers] = useState([]);
+    let [users, setUsers] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
     let roles = [{ id: '1', rolename: "super_user" }, { id: '2', rolename: "admin" }, { id: '3', rolename: "user" }]
     const dispatch = useDispatch();
-    let users = useSelector((state) => state.usersList?.userListData?.payload?.data?.users);
-    const pendingUsers = useSelector((state) => state.usersList?.pendingUsers?.payload?.data?.pending_users);
     const tabStyle = (tabName) => ({
         color: activeTab === tabName ? "#07439C" : "#666666",
     });
     const admintabStyle = (tabName) => ({
         color: activeadminTab === tabName ? "#07439C" : "#666666",
     });
-    useEffect(() => {        
-        setLoading(true)
-        dispatch(userList()).finally(() => {
-            setLoading(false);
-        });
-        dispatch(pendingUserList()).finally(() => {
-            setLoading(false);
-        });
 
-    }, []);
+    const fetchUsers = async (page) => {
+        setLoading(true);
+        try {
+            const response = await dispatch(userList({ page, page_size: pageSize }));
+            const data = response?.data;
+            setUsers(data.users || []);
+            setTotalPages(data?.total_pages || 1);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchPendingUsers = async (page) => {
+        setLoading(true);
+        try {
+            const response = await dispatch(
+                pendingUserList({ page, page_size: pageSize })
+            );
+            const data = response?.data;
+            setPendingUsers(data?.pending_users || []);
+            setPendingTotalPages(data?.total_pages || 1);
+        } catch (error) {
+            console.error("Error fetching pending users:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
     const FullScreenLoader = () => (
         <div className="loader-overlay">
             <div className="spinner-border text-white" role="status">
@@ -55,6 +80,19 @@ export function AdminDashboard() {
             </div>
         </div>
     );
+    const userColumns = users.length > 0
+        ? Object.keys(users[0]).filter((key) => key !== "id" && key !== "fullname").map((key) => ({
+            label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            accessor: key,
+        }))
+        : [];
+
+    const pendingUserColumns = pendingUsers.length > 0
+        ? Object.keys(pendingUsers[0]).filter((key) => key !== "id" && key !== "fullname").map((key) => ({
+            label: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            accessor: key,
+        }))
+        : [];
     const neo4jStatusOptions = [{ label: "Include All", value: 'False' }, { label: "Include Texts", value: 'True' }];
     const llmConfig = [
         { label: 'OpenAI', value: 'openai' },
@@ -62,13 +100,20 @@ export function AdminDashboard() {
     ];
     const handleSelect = (value) => {
         setSelectedLLM(value);
-    }; 
+    };
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
     const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
     const [storageOption, setStorageOption] = useState('local');
     const [isActive, setIsActive] = useState(false);
     const [formValues, setFormValues] = useState({ email: "", role: "", company_name: "" });
+    useEffect(() => {
+        if (activeTab === "users") {
+            fetchUsers(currentPage);
+        } else if (activeTab === "pendingUsers") {
+            fetchPendingUsers(pendingCurrentPage);
+        }
+    }, [currentPage, pendingCurrentPage, activeTab]);
 
     const handleLLMSubmit = () => {
       const token = sessionStorage.getItem("access_token");
@@ -102,7 +147,7 @@ export function AdminDashboard() {
           });
         });
     };
-    const onRoleChange = (e, user) => {
+    const onRoleChange = (e,user) => {
         let selectedProject = roles.find(
             (role) => role.id === e.target.value
         );
@@ -113,17 +158,17 @@ export function AdminDashboard() {
             userid: user.id
         })
     }
-    const onEditRole = (e, user) => {
+    const onEditRole = (user) => {
         setModelFrom("User")
         setModelHead("Edit Role")
         setSelectedUser(user);
         setShowModal(true);
     };
-    const approveUser = (e, user) => {
+    const approveUser = (user) => {
         setLoading(true);
         dispatch(userApprove(user.id))
             .then((response) => {
-                 setLoading(false);
+                setLoading(false);
                 if (response?.status === 200) {
                     showSuccessAlert('Success', 'User approved successfully!');
                     dispatch(userList());
@@ -168,7 +213,7 @@ export function AdminDashboard() {
                     setLoading(true);
                     dispatch(userDelete(user.id))
                         .then((response) => {
-                              setLoading(false);
+                            setLoading(false);
                             if (response?.status === 200) {
                                 showSuccessAlert('Deleted!', 'User has been deleted.');
                                 dispatch(userList());
@@ -188,10 +233,10 @@ export function AdminDashboard() {
         showConfirmAlert('Reject', 'Do you want to reject this user?', 'Yes!')
             .then((result) => {
                 if (result.isConfirmed) {
-                     setLoading(true);
+                    setLoading(true);
                     dispatch(userReject(user.id))
                         .then((response) => {
-                             setLoading(false);
+                            setLoading(false);
                             if (response?.status === 200) {
                                 showSuccessAlert('Rejected!', 'User has been rejected successfully.');
                                 dispatch(userList());
@@ -208,6 +253,13 @@ export function AdminDashboard() {
                 }
             });
     };
+    const handlePageChange = (page) => {
+        if (activeTab === "users" && page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        } else if (activeTab === "pendingUsers" && page >= 1 && page <= pendingTotalPages) {
+            setPendingCurrentPage(page);
+        }
+    }
     const onResetPass = (user) => {
         setSelectedUser(user);
         setModelFrom("Reset")
@@ -283,7 +335,7 @@ export function AdminDashboard() {
 
     }
     const handleStorageClick = () => {
-        const formData = new FormData(); 
+        const formData = new FormData();
         formData.append('storage', storageOption);
         dispatch(changeStorage(formData))
             .then(response => response && toast.success("Storage updated successfully"))
@@ -300,17 +352,17 @@ export function AdminDashboard() {
                 <BootstrapSidebar /></div>
             <div className="row">
                 {loading && <FullScreenLoader />}
-                <ul className="nav">
-                    <li className="nav-item ml-10-percent" >
+                <ul className="nav" style={{ marginLeft: "6%" }}>
+                    <li className="nav-item" >
                         <button
-                            className="nav-link"  style={admintabStyle("adminUsers")}
+                            className="nav-link" style={admintabStyle("adminUsers")}
                             onClick={() => setadminActiveTab("adminUsers")}>
                             Users
                         </button>
                     </li>
                     <li className="nav-item">
                         <button
-                            className= "nav-link" style={admintabStyle("actions")}
+                            className="nav-link" style={admintabStyle("actions")}
                             onClick={() => setadminActiveTab("actions")}
                         >
                             Actions
@@ -320,8 +372,8 @@ export function AdminDashboard() {
                 <hr className="navBarAdmin"></hr>
                 {activeadminTab === "adminUsers" ?
                     (<>
-                        <ul className="nav gap-5 d-flex w-100 position-relative" style={{marginTop:'-12px'}}>
-                            <li className="nav-item ml-10-percent" >
+                        <ul className="nav d-flex w-100 position-relative" style={{ marginLeft: "6%" }}>
+                            <li className="nav-item" >
                                 <button
                                     className="nav-link" style={tabStyle("users")}
                                     onClick={() => setActiveTab("users")}>
@@ -337,118 +389,75 @@ export function AdminDashboard() {
                                 </button>
                             </li>
                             {activeTab === "users" && (
-                              <button
-                              className="btn btn-outline-primary btn-sm position-absolute custom-action-button"
-                             
-                              title="Filter"
-                              onClick={(e) => onFilter(e)}
-                              onMouseEnter={(e) => {
-                                  e.target.style.backgroundColor = "#0d6efd";
-                                  e.target.style.color = "#fff";
-                              }}
-                              onMouseLeave={(e) => {
-                                  e.target.style.backgroundColor = "transparent";
-                                  e.target.style.color = "#0d6efd";
-                              }}
-                          >
-                              <i className="bi bi-funnel-fill me-1"></i> Filter
-                          </button>
-                          
+                                <button
+                                    className="btn btn-outline-primary btn-sm position-absolute custom-action-button"
+
+                                    title="Filter"
+                                    onClick={(e) => onFilter(e)}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.backgroundColor = "#0d6efd";
+                                        e.target.style.color = "#fff";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.backgroundColor = "transparent";
+                                        e.target.style.color = "#0d6efd";
+                                    }}
+                                >
+                                    <i className="bi bi-funnel-fill me-1"></i> Filter
+                                </button>
+
                             )}
                         </ul>
                         <hr className="navBarAdmin"></hr>
-                        <div className="content">
+                        <div className="content" style={{ marginLeft: "6%" }}>
                             {activeTab === "users" && (
-                                <div className="w-70 scrollable-user-panel">
-                                    {users &&
-                                        <table className="table table-bordered table-hover custom-table">
-                                            <thead className="table-active sticky-thead" >
-                                                <tr>
-                                                    <th style={{ width: "3%" }}>Sl.N</th>
-                                                    <th style={{ width: "15%" }}>Name</th>
-                                                    <th style={{ width: "10%" }}>Role</th>
-                                                    <th>Email</th>
-                                                    <th style={{ width: "18%" }}>Company Name</th>
-                                                    <th>Registerd Date</th>
-                                                    <th>Last Update Date</th>
-                                                    <th style={{ width: "10%" }}>Actions</th>
-                                                </tr>
-
-                                            </thead>
-                                            <tbody>
-                                                {users?.length > 0 ? (
-
-                                                    users?.map((user, index) => (
-                                                        <tr key={user.id}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{user.full_name}</td>
-                                                            <td >{user.role}</td>
-                                                            <td>{user.email}</td>
-                                                            <td>{user.company_name}</td>
-                                                            <td>{user.created_at}</td>
-                                                            <td>{user.updated_at}</td>
-                                                            <td>
-                                                                <button className="btn " title="Edit Role" onClick={(e) => onEditRole(e, user)} >
-                                                                    <img src={edit} alt="edit" className="" />
-                                                                </button>
-                                                                <button className="btn" title="Delete User" onClick={(e) => deleteUser(user)}>
-                                                                    <img src={deleteicon} alt="edit" className="" />
-                                                                </button>
-                                                                <button className="btn resetButton" title="Reset Password" onClick={(e) => onResetPass(user)} >
-                                                                    <img src={resetPass} alt="edit" className="" />
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : <tr>
-                                                    <td colSpan="12" className="no-data-cell">No Data Found</td>
-                                                </tr>}
-                                            </tbody>
-                                        </table>
-                                    }
+                                <div className="table-container" style={{ width: "94%" }}>
+                                    <DynamicTable
+                                        data={users}
+                                        columns={userColumns}
+                                        emptyMessage="No Users Found"
+                                        actions={[
+                                            { label: "Edit", icon: edit, onClick: onEditRole, title: "Edit Role" },
+                                            { label: "Delete", icon: deleteicon, onClick: deleteUser, title: "Delete User" },
+                                            { label: "Reset", icon: resetPass, onClick: onResetPass, title: "Reset Password" },
+                                        ]}
+                                    />
                                 </div>
                             )}
-                            {activeTab === "pendingUsers" &&
-                                (<div className="scrollable-user-panel">
-                                    <table className="table table-bordered table-hover custom-table" >
-                                        <thead className="table-active sticky-thead">
-                                            <tr>
-                                                <th style={{ width: "5%" }}>Sl.N</th>
-                                                <th style={{ width: "20%" }}>Name</th>
-                                                <th style={{ width: "30%" }}>Email</th>
-                                                <th style={{ width: "20%" }}>Company Name</th>
-                                                <th>Registerd Date</th>
-                                                <th style={{ width: "10%" }}>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {pendingUsers?.length > 0 ? (
-                                                pendingUsers.map((user, index) => (
-                                                    <tr key={user.id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{user.full_name}</td>
-                                                        <td>{user.email}</td>
-                                                        <td>{user.company_name}</td>
-                                                        <td>{user.created_at}</td>
-                                                        <td>
-                                                            <button className="btn" title="Approve User" onClick={(e) => approveUser(e, user)}>
-                                                                <img src={userApproveIcon} alt="approve" />
-                                                            </button>
-                                                            <button className="btn" title="Reject User" onClick={() => rejectUser(user)}>
-                                                                <img src={rejectIcon} alt="reject" />
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="no-data-cell">No Data Found</td>
-                                                </tr>
-                                            )}
 
-                                        </tbody>
-                                    </table>
-                                </div>)}
+                            {activeTab === "pendingUsers" && (
+                                <div className="table-container" style={{ width: "94%" }}>
+                                    <DynamicTable
+                                        data={pendingUsers}
+                                        columns={pendingUserColumns}
+                                        emptyMessage="No Pending Users"
+                                        actions={[
+                                            { label: "Approve", icon: userApproveIcon, onClick: approveUser, title: "Approve User" },
+                                            { label: "Reject", icon: rejectIcon, onClick: rejectUser, title: "Reject User" },
+                                        ]}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        <div className="pagination-controls fixed-pagination" style={{ width: "94%", marginLeft: "6%" }}>
+                            <button
+                                className="btn btn-sm btn-outline-primary"
+                                onClick={() => handlePageChange(activeTab === "users" ? currentPage - 1 : pendingCurrentPage - 1)}
+                                disabled={activeTab === "users" ? currentPage === 1 : pendingCurrentPage === 1}
+                            >
+                                Previous
+                            </button>
+                            <span style={{ fontSize: "0.85rem" }}>
+                                Page {activeTab === "users" ? currentPage : pendingCurrentPage} of{" "}
+                                {activeTab === "users" ? totalPages : pendingTotalPages}
+                            </span>
+                            <button
+                                className="btn btn-sm btn-outline-primary"
+                                onClick={() => handlePageChange(activeTab === "users" ? currentPage + 1 : pendingCurrentPage + 1)}
+                                disabled={activeTab === "users" ? currentPage === totalPages : pendingCurrentPage === pendingTotalPages}
+                            >
+                                Next
+                            </button>
                         </div>
                         <Modal
                             show={showModal}
@@ -484,7 +493,7 @@ export function AdminDashboard() {
                                             id="roleSelect"
                                             name="role"
                                             onChange={(e) => onRoleChange(e, selectedUser)}
-                                          className="password-input"
+                                            className="password-input"
                                         >
                                             <option value="" hidden>Select a role</option>
                                             {roles?.map((role) => (
@@ -544,14 +553,14 @@ export function AdminDashboard() {
                                 {modelFrom === "Reset" ? (<Button
                                     variant="secondary"
                                     onClick={(e) => resetPassWord(e)}
-                                   className="btn-primary-custom">
+                                    className="btn-primary-custom">
                                     Reset
                                 </Button>) :
                                     modelFrom === "User" ? (
                                         <Button
                                             variant="secondary"
                                             onClick={(e) => submitEditedRole(userData)}
-                                             className="btn-primary-custom">
+                                            className="btn-primary-custom">
                                             Submit
                                         </Button>
                                     ) : ''}
@@ -580,7 +589,7 @@ export function AdminDashboard() {
                                         <Select
                                             value={selectedLLM}
                                             onChange={e => handleSelect(e.target.value)}
-                                           className="custom-select-height"
+                                            className="custom-select-height"
                                         >
                                             {llmConfig.map((option, index) => (
                                                 <MenuItem key={index} value={option.value}>
@@ -589,7 +598,7 @@ export function AdminDashboard() {
                                             ))}
                                         </Select>
                                     </FormControl>
-                                     <Button className="btn btn-primary btn-sm mt-2" onClick={handleLLMSubmit}>Submit</Button>
+                                    <Button className="btn btn-primary btn-sm mt-2" onClick={handleLLMSubmit}>Submit</Button>
                                 </div>
                             </Col>
 
