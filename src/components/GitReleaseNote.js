@@ -381,8 +381,8 @@ export function GitReleaseNote() {
               </Col>
 
               <Col lg={3}>
-                <Card className="p-3 bg-white border">
-                  <h5 className="mb-3">💬 Feedback</h5>
+                <Card className="p-2 bg-white border">
+                  <h5 className="mb-2">💬 Feedback</h5>
                   <textarea
                     className="form-control fixed-textarea"
                     rows="10"
@@ -402,7 +402,7 @@ export function GitReleaseNote() {
           )}
 
           {commitLogs && (
-            <Row className="g-4 mt-5">
+            <Row className="mt-5">
               <Col lg={9}>
                 <Card className="p-3 bg-light border">
                   <h5 className="mb-3">📝 Commit Logs Summary</h5>
@@ -425,8 +425,8 @@ export function GitReleaseNote() {
               </Col>
 
               <Col lg={3}>
-                <Card className="p-3 bg-white border">
-                  <h5 className="mb-3">💬 Feedback</h5>
+                <Card className="p-2 bg-white border">
+                  <h5 className="mb-4">💬 Feedback</h5>
                   <textarea
                     className="form-control fixed-textarea"
                     rows="10"

@@ -120,6 +120,7 @@ export function TestCaseAi() {
 
 
     useEffect(() => {
+        setTableData('')
         if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
             const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
             const fullUrl = `${IP}/genieapi/${filePath}`;
@@ -323,8 +324,8 @@ export function TestCaseAi() {
                             required={true} />
                     </div>
                 </div>
-                <div className="col-md-6 ms-4 mt-3 d-flex align-items-center gap-3">
-                    <label className="mb-0" style={{ fontSize: '15px' }}>
+                <div className="col-md-5 ms-4 mt-3 d-flex align-items-center gap-3">
+                    <label className="mb-0" style={{ fontSize: '15px', marginLeft: '20px' }}>
                         Select Data Type:
                     </label>
 
@@ -436,7 +437,7 @@ export function TestCaseAi() {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                         placeholder="Write your feedback here..."
-                                        className="form-control bg-light text-dark font-monospace resize-none border"
+                                        className="form-control bg-light text-dark font-monospace resize-none border processed-feedback-textarea"
                                     />
                                     <button
                                         onClick={handleSubmit}
@@ -450,7 +451,7 @@ export function TestCaseAi() {
                         </div>
                     )}
                     {mockFileContent && (
-                        <div className="row g-4 mt-3 ms-1">
+                        <div className="row g-4 mt-3">
                             <div className="">
                                 <div className="p-4 bg-dark text-white rounded shadow">
                                     <h5 className="mb-3">Processed File</h5>
@@ -489,9 +490,20 @@ export function TestCaseAi() {
 }
 
 function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors, required }) {
+    const handleSingleFile = (files) => {
+        if (files && files.length > 1) {
+            updateFiles([files[files.length - 1]], title.props ? title.props.children : title);
+        } else {
+            updateFiles(files, title.props ? title.props.children : title);
+        }
+    };
+
     return (
         <div className="d-flex flex-column align-items-center mt-2 px-2 w-100 ms-3">
-            <div className="max-w-xs bg-white shadow-sm rounded-md p-3 border border-gray-200">
+            <div
+                className="max-w-xs bg-white shadow-sm rounded-md p-3 border border-gray-200"
+                style={{ width: 550, height: 270 }}
+            >
                 <div className="mb-3">
                     <div className="d-flex justify-content-between">
                         <h3 className="text-sm font-weight-bold">
@@ -500,10 +512,12 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                     </div>
 
                     <Dropzone
-                        onChange={updateFiles}
+                        onChange={handleSingleFile}
                         value={dropzoneState.file}
                         className="mt-2 border-2 border-dashed border-primary rounded p-2 bg-light"
-                        accept=".pdf, .docx, .pptx, .jpg, .jpeg, .png, .bmp, .tiff, .svg, .csv, .xlsx"
+                        accept=".pdf, .docx,.tiff, .svg, .csv, .xlsx"
+                        style={{ minHeight: 170, maxHeight: 170, fontSize: '14px', overflowY: 'auto', width: 460 }}
+                        multiple={false}
                     >
                         {dropzoneState.file.map((file, index) => (
                             <div
@@ -514,7 +528,6 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                                     {file.name}
                                 </p>
                             </div>
-
                         ))}
                     </Dropzone>
                     <p className="text-danger">

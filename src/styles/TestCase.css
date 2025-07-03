@@ -19,6 +19,11 @@
   resize: none;
   overflow-y: auto;
 }
+.processed-feedback-textarea {
+  height: 50px;
+  resize: none;
+  overflow-y: auto;
+}
 .top-div {
   overflow-y: scroll;
   scrollbar-width: none;

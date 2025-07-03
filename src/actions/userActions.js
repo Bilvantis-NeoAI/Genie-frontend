@@ -3,9 +3,9 @@ import {
     USER_PENDING_DATA, USER_PENDING_FAILURE, USER_PENDING_SUCCESS,
     USER_APPROVE_DATA, USER_APPROVE_FAILURE, USER_APPROVE_SUCCESS,
     USER_DELETE_DATA, USER_DELETE_FAILURE, USER_DELETE_SUCCESS,
-    USER_REJECT_DATA,USER_REJECT_FAILURE,USER_REJECT_SUCCESS,
-    USER_ROLE_EDIT_DATA,USER_ROLE_EDIT_FAILURE,USER_ROLE_EDIT_SUCCESS,
-    USER_RESET_PASSWORD_DATA,USER_RESET_PASSWORD_FAILURE,USER_RESET_PASSWORD_SUCCESS
+    USER_REJECT_DATA, USER_REJECT_FAILURE, USER_REJECT_SUCCESS,
+    USER_ROLE_EDIT_DATA, USER_ROLE_EDIT_FAILURE, USER_ROLE_EDIT_SUCCESS,
+    USER_RESET_PASSWORD_DATA, USER_RESET_PASSWORD_FAILURE, USER_RESET_PASSWORD_SUCCESS
 } from "../actionTypes/adminActionTypes.js";
 import { AdminUsers } from "../Interceptor/interceptor.js";
 import { apis } from "../utils/config.js";
@@ -59,54 +59,65 @@ export const userDeleteFailure = (error) => ({
     payload: error
 })
 
-export const userRejectData=()=>({
-    type:USER_REJECT_DATA
+export const userRejectData = () => ({
+    type: USER_REJECT_DATA
 })
-export const userRejectSuccess=(response)=>({
-    type:USER_REJECT_SUCCESS,
-    payload:response
+export const userRejectSuccess = (response) => ({
+    type: USER_REJECT_SUCCESS,
+    payload: response
 })
-export const userRejectFailure=(error)=>({
-    type:USER_REJECT_FAILURE,
-    payload:error
-})
-
-export const userRoleEditData=()=>({
-    type:USER_ROLE_EDIT_DATA
-})
-export const userRoleEditSuccess=(response)=>({
-    type:USER_ROLE_EDIT_SUCCESS,
-    payload:response
-})
-export const userRoleEditFailure=(error)=>({
-    type:USER_ROLE_EDIT_FAILURE,
-    payload:error
+export const userRejectFailure = (error) => ({
+    type: USER_REJECT_FAILURE,
+    payload: error
 })
 
-export const userResetPasswordData =()=>({
-    type:USER_RESET_PASSWORD_DATA
+export const userRoleEditData = () => ({
+    type: USER_ROLE_EDIT_DATA
 })
-export const userResetPasswordSeccess=(response)=>({
-    type:USER_RESET_PASSWORD_SUCCESS,
-    payload:response
+export const userRoleEditSuccess = (response) => ({
+    type: USER_ROLE_EDIT_SUCCESS,
+    payload: response
 })
-export const userResetPasswordFailure=(error)=>({
-    type:USER_RESET_PASSWORD_FAILURE,
-    payload:error
+export const userRoleEditFailure = (error) => ({
+    type: USER_ROLE_EDIT_FAILURE,
+    payload: error
+})
+
+export const userResetPasswordData = () => ({
+    type: USER_RESET_PASSWORD_DATA
+})
+export const userResetPasswordSeccess = (response) => ({
+    type: USER_RESET_PASSWORD_SUCCESS,
+    payload: response
+})
+export const userResetPasswordFailure = (error) => ({
+    type: USER_RESET_PASSWORD_FAILURE,
+    payload: error
 })
 export const userList = (payload) => {
     return (dispatch) => {
         dispatch(userListRequest());
 
-        // Filter out empty values from payload
-        const filteredPayload = payload
-            ? Object.fromEntries(Object.entries(payload).filter(([_, v]) => v !== "" && v !== null && v !== undefined))
-            : {};
+        if (!payload) payload = {};
+
+        const { formValues = {}, page, page_size } = payload;
+
+        // Combine formValues + pagination
+        const combined = {
+            ...formValues,
+            page,
+            page_size
+        };
+
+        // Remove empty, null, or undefined values
+        const filteredPayload = Object.fromEntries(
+            Object.entries(combined).filter(([_, v]) => v !== "" && v !== null && v !== undefined)
+        );
 
         const params = Object.keys(filteredPayload).length ? { params: filteredPayload } : {};
 
         return AdminUsers
-            .get(apis.USERS_LIST, params) // Pass filtered params
+            .get(apis.USERS_LIST, params)
             .then((response) => {
                 dispatch(userListSuccess(response));
                 return response;
@@ -117,12 +128,17 @@ export const userList = (payload) => {
     };
 };
 
-
-export const pendingUserList = () => {
+export const pendingUserList = (payload) => {
     return (dispatch) => {
         dispatch(pendingUserListData());
+        const filteredPayload = payload
+            ? Object.fromEntries(Object.entries(payload).filter(([_, v]) => v !== "" && v !== null && v !== undefined))
+            : {};
+
+        const params = Object.keys(filteredPayload).length ? { params: filteredPayload } : {};
+
         return AdminUsers
-            .get(apis.PENDING_LIST)
+            .get(apis.PENDING_LIST, params)
             .then((response) => {
                 dispatch(pendingUserListSuccess(response))
                 return response
@@ -163,11 +179,11 @@ export const userDelete = (userid) => {
     }
 }
 
-export const userReject=(userid)=>{
-    return (dispatch)=>{
+export const userReject = (userid) => {
+    return (dispatch) => {
         dispatch(userRejectData())
         return AdminUsers
-        .post(`${apis.REJECT_USER}/${userid}`)
+            .post(`${apis.REJECT_USER}/${userid}`)
             .then((response) => {
                 dispatch(userRejectSuccess(response))
                 return response
@@ -178,32 +194,32 @@ export const userReject=(userid)=>{
     }
 }
 
-export const userRoleEdit=(payload)=>{    
-    return(dispatch)=>{
+export const userRoleEdit = (payload) => {
+    return (dispatch) => {
         dispatch(userRoleEditData())
         return AdminUsers
-        .put(`${apis.EDIT_USER_ROLE}/${payload.userid}/role`,{ role: payload.role })
-        .then((response) => {
-            dispatch(userRoleEditSuccess(response))
-            return response
-        })
-        .catch((error) => {
-            dispatch(userRoleEditFailure(error.message))
-        })
+            .put(`${apis.EDIT_USER_ROLE}/${payload.userid}/role`, { role: payload.role })
+            .then((response) => {
+                dispatch(userRoleEditSuccess(response))
+                return response
+            })
+            .catch((error) => {
+                dispatch(userRoleEditFailure(error.message))
+            })
     }
 }
 
-export const userResetPassword=(password,payload)=>{    
-    return(dispatch)=>{
+export const userResetPassword = (password, payload) => {
+    return (dispatch) => {
         dispatch(userResetPasswordData())
         return AdminUsers
-        .post(`${apis.RESET_PASSWORD}/${payload.id}/`,{ new_password: password.new_password })
-        .then((response)=>{
-            dispatch(userResetPasswordSeccess(response))
-            return response
-        })
-        .catch((error)=>{
-            dispatch(userResetPasswordFailure(error.message))
-        })
+            .post(`${apis.RESET_PASSWORD}/${payload.id}/`, { new_password: password.new_password })
+            .then((response) => {
+                dispatch(userResetPasswordSeccess(response))
+                return response
+            })
+            .catch((error) => {
+                dispatch(userResetPasswordFailure(error.message))
+            })
     }
 }
