@@ -34,6 +34,11 @@ export function AdminDashboard() {
     let [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
+    const [storageOption, setStorageOption] = useState('local');
+    const [isActive, setIsActive] = useState(false);
+    const [formValues, setFormValues] = useState({ email: "", role: "", company_name: "" });
+
     const pageSize = 10;
     let roles = [{ id: '1', rolename: "super_user" }, { id: '2', rolename: "admin" }, { id: '3', rolename: "user" }]
     const dispatch = useDispatch();
@@ -44,10 +49,12 @@ export function AdminDashboard() {
         color: activeadminTab === tabName ? "#07439C" : "#666666",
     });
 
-    const fetchUsers = async (page) => {
+    const fetchUsers = async (page,formValues) => {
         setLoading(true);
         try {
-            const response = await dispatch(userList({ page, page_size: pageSize }));
+            console.log("===formValuesformValuesformValuesformValues",formValues);
+            
+            const response = await dispatch(userList({ page, page_size: pageSize,formValues }));
             const data = response?.data;
             setUsers(data.users || []);
             setTotalPages(data?.total_pages || 1);
@@ -103,51 +110,53 @@ export function AdminDashboard() {
     };
     const storageStatusOptions = [{ label: "Local", value: 'local' }, { label: "S3", value: 's3' },
     { label: "Blob", value: 'blob' }, { label: "Google Storage Bucket", value: 'google storage bucket' }];
-    const [selectedNeo4jOption, setSelectedNeo4jOption] = useState('True');
-    const [storageOption, setStorageOption] = useState('local');
-    const [isActive, setIsActive] = useState(false);
-    const [formValues, setFormValues] = useState({ email: "", role: "", company_name: "" });
-    useEffect(() => {
+        useEffect(() => {
         if (activeTab === "users") {
-            fetchUsers(currentPage);
+            fetchUsers(currentPage,formValues);
         } else if (activeTab === "pendingUsers") {
             fetchPendingUsers(pendingCurrentPage);
         }
     }, [currentPage, pendingCurrentPage, activeTab]);
-
-    const handleLLMSubmit = () => {
-      const token = sessionStorage.getItem("access_token");
-    
-      const formData = new FormData();
-      formData.append("new_llm_config", selectedLLM);
-    
-      fetch(process.env.REACT_APP_IP + 'genieapi/update-llm-config', {
-        method: 'POST',
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-        body: formData
-      })
-        .then(data => {
-          setSelectedLLM('')
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'LLM configuration updated successfully!',
-            timer: 2000,
-            showConfirmButton: false,
-          });
-        })
-        .catch(err => {
-          console.error('Error sending LLM to backend:', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Failed to update LLM configuration. Please try again.',
-          });
-        });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setCurrentPage(1);
+        fetchUsers(currentPage,formValues)
+        // setFormValues({ email: "", role: "", company_name: "" })
+        setShowModal(false);
     };
-    const onRoleChange = (e,user) => {
+    const handleLLMSubmit = () => {
+        const token = sessionStorage.getItem("access_token");
+
+        const formData = new FormData();
+        formData.append("new_llm_config", selectedLLM);
+
+        fetch(process.env.REACT_APP_IP + 'genieapi/update-llm-config', {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(data => {
+                setSelectedLLM('')
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'LLM configuration updated successfully!',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            })
+            .catch(err => {
+                console.error('Error sending LLM to backend:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update LLM configuration. Please try again.',
+                });
+            });
+    };
+    const onRoleChange = (e, user) => {
         let selectedProject = roles.find(
             (role) => role.id === e.target.value
         );
@@ -294,12 +303,6 @@ export function AdminDashboard() {
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(userList(formValues))
-        setFormValues({ email: "", role: "", company_name: "" })
-        setShowModal(false);
-    };
     const handleFlushDB = () => {
         dispatch(flushDB())
             .then(response => response && toast.success(response.data))
@@ -328,10 +331,22 @@ export function AdminDashboard() {
     const handleStorageChange = (event) => {
         setStorageOption(event.target.value);
     };
-    const handleReset = (e) => {
-        setFormValues({ email: "", role: "", company_name: "" })
-        dispatch(userList())
-        setShowModal(false);
+    const handleReset = async (e) => {
+        setLoading(true);
+        try {
+                    setCurrentPage(1);
+            let page = currentPage
+            const response = await dispatch(userList({ page, page_size: pageSize }));
+            const data = response?.data;
+            setUsers(data.users || []);
+            setTotalPages(data?.total_pages || 1);
+                    setShowModal(false);
+            setFormValues({ email: "", role: "", company_name: "" })
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        } finally {
+            setLoading(false);
+        }
 
     }
     const handleStorageClick = () => {
