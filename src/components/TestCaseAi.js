@@ -107,8 +107,8 @@ export function TestCaseAi() {
 
             if (response?.status === 200) {
                 toast.success('All documents added successfully!');
-                setFirstDropzoneState({ file: [] });
-                setSecondDropzoneState({ file: [] });
+                // setFirstDropzoneState({ file: [] });
+                // setSecondDropzoneState({ file: [] });
             } else {
                 toast.error('Failed to upload documents.');
             }
@@ -314,13 +314,13 @@ export function TestCaseAi() {
                             required={true}
                         />
                     </div>
-                    <div className='dropzone'>
+                    <div className='dropzone'> 
                         <DropzoneSection
                             title={<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
                             dropzoneState={secondDropzoneState}
                             updateFiles={(files) => updateFiles(files, "second")}
                             removeFile={(index) => removeFile(index, "second")}
-                            errors={secondDropzoneErrors}
+                            errors={secondDropzoneErrors} 
                             required={true} />
                     </div>
                 </div>
@@ -515,7 +515,7 @@ function DropzoneSection({ title, dropzoneState, updateFiles, removeFile, errors
                         onChange={handleSingleFile}
                         value={dropzoneState.file}
                         className="mt-2 border-2 border-dashed border-primary rounded p-2 bg-light"
-                        accept=".pdf, .docx,.tiff, .svg, .csv, .xlsx"
+                        accept=".pdf, .docx,.tiff, .svg, .csv, .xlsx , .json"
                         style={{ minHeight: 170, maxHeight: 170, fontSize: '14px', overflowY: 'auto', width: 460 }}
                         multiple={false}
                     >

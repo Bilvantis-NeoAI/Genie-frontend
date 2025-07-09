@@ -1,7 +1,7 @@
 import {
     GIT_RELEASE_NOTE_DATA, GIT_RELEASE_NOTE_FAILURE, GIT_RELEASE_NOTE_SUCCESS,
     GIT_RELEASE_FEEDBACK_DATA, GIT_RELEASE_FEEDBACK_FAILURE, GIT_RELEASE_FEEDBACK_SUCCESS,
-    GIT_COMMIT_FEEDBACK_DATA, GIT_COMMIT_FEEDBACK_FAILURE, GIT_COMMIT_FEEDBACK_SUCCESS
+    GIT_COMMIT_FEEDBACK_DATA, GIT_COMMIT_FEEDBACK_FAILURE, GIT_COMMIT_FEEDBACK_SUCCESS, CLEAR_GIT_NOTE_RESPONSE
 } from "../actionTypes/gitReleaseNoteActionType";
 import { DeployedURL } from "../Interceptor/interceptor.js";
 import { apis } from "../utils/config.js";
@@ -44,6 +44,10 @@ export const gitCommitFeedbackFailure = (error) => ({
     type: GIT_COMMIT_FEEDBACK_FAILURE,
     payload: error
 })
+
+export const clearGitNoteResponse = () => ({
+  type: CLEAR_GIT_NOTE_RESPONSE,
+});
 
 
 export const gitReleaseNote = (payload) => {

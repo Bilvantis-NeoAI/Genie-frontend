@@ -141,7 +141,7 @@ export default function GitReleaseMetrics() {
     };
     return (
         <>
-            <div className="row g-1">
+            <div className="row g-1 mb-1">
                 {
                     metrics?.map((metric, index) => {
                         const GraphComponent = graphComponents[metric?.graph_type] || null;

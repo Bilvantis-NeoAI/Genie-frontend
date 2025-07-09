@@ -6,6 +6,7 @@ import {
   gitRealseFeedback,
   gitCommitFeedback,
   deleteTempDir,
+  clearGitNoteResponse
 } from "../actions/gitReleaseNoteActions";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
@@ -51,6 +52,14 @@ export function GitReleaseNote() {
       setCommitLogsFeedback("");
     }
   }, [response]);
+
+  useEffect(() => {
+  // cleanup on unmount
+  return () => {
+    dispatch(clearGitNoteResponse());
+  };
+}, []);
+
   const handleFileChange = (event) => {
     try {
       const selectedFile = event.target.files[0];

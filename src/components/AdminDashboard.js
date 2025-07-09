@@ -553,10 +553,10 @@ export function AdminDashboard() {
                                             <button type="submit" className="btn btn-primary" >
                                                 Submit
                                             </button>
-                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)} >
+                                            <button type="button" className="btn btn-primary" onClick={() => setShowModal(false)} >
                                                 Close
                                             </button>
-                                            <button type="button" className="btn btn-secondary" onClick={handleReset}>
+                                            <button type="button" className="btn btn-primary" onClick={handleReset}>
                                                 Reset
                                             </button>
 
