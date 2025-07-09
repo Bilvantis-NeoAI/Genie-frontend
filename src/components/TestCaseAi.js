@@ -314,7 +314,7 @@ export function TestCaseAi() {
                             required={true}
                         />
                     </div>
-                    <div className='dropzone'>
+                    <div className='dropzone'> 
                         <DropzoneSection
                             title={<span className="dropzone-title">Upload OpenAPI Config/Backend Files</span>}
                             dropzoneState={secondDropzoneState}
