@@ -99,17 +99,19 @@ export default function RetrieveData() {
     try {
       setError("");
       setLoading(true);
-      addChatMessage("user", inputField, actionType);
+      const currentInput = inputField; 
+      setInputField(""); 
+      addChatMessage("user", currentInput, actionType);
       if (actionType === "explain") {
-        await dispatch(retriveRepoData({ question: inputField }));
+        await dispatch(retriveRepoData({ question: currentInput }));
       } else if (actionType === "code") {
-        await dispatch(getRepoCodeData({ question: inputField }));
+        await dispatch(getRepoCodeData({ question: currentInput }));
       }
     } catch {
       addChatMessage("system", Retrive_repo_data.FAILED_TO_RETRIVE_DATA, actionType);
     } finally {
       setLoading(false);
-      setInputField("");
+      // setInputField("");
     }
   }, [inputField, dispatch, addChatMessage]);
 

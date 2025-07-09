@@ -149,7 +149,7 @@ export default function UsageMetric() {
     }, [dispatch, moduleType]);
     return (
         <>
-            <div className="row g-1">
+            <div className="row g-1 mb-1">
                 {metrics?.map((metric, index) => {
                     const titleToFromMapping = {
                         "Review Usage Data": "Review",
