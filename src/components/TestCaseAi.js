@@ -320,7 +320,7 @@ export function TestCaseAi() {
                             dropzoneState={secondDropzoneState}
                             updateFiles={(files) => updateFiles(files, "second")}
                             removeFile={(index) => removeFile(index, "second")}
-                            errors={secondDropzoneErrors}
+                            errors={secondDropzoneErrors} 
                             required={true} />
                     </div>
                 </div>
