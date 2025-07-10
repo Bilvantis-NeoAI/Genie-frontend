@@ -199,7 +199,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                         onMouseUp={handleMouseUp}
                         onMouseLeave={handleMouseUp}
                     >
-                        {data.length !== 0 && (
+                        {data.length !== 0 ? (
                             <ResponsiveContainer width={Math.max(90 + formattedData.length * 10) + "%"} height="100%">
                                 <BarChart
                                     data={formattedData}
@@ -210,6 +210,7 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                                     <XAxis dataKey="repo_name" fontSize={10} tick={<CustomTick />} />
                                     <YAxis fontSize={10} />
                                     <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
+                                    
                                     {issueKeys.map((key, index) => (
                                         <Bar
                                             key={key}
@@ -242,7 +243,9 @@ const MultiStackedGraph = ({ data, title, handleFilter, keys }) => {
                                     ))}
                                 </BarChart>
                             </ResponsiveContainer>
-                        )}
+                        ) : (
+                    <div className="classnodata">No Data Found</div>
+                ) }
                     </div>
                 )}
             </MouseEventsHandler>

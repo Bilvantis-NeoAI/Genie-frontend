@@ -31,7 +31,8 @@ export const apis = {
     DEL_TEM_DIR:'temp_dir_delete',
     TEST_AI_METRICS:'/metrics',
      USER_DETAILS :'auth/users/me',
-    DEAD_CODE:'deadcode_data_identification'
+    DEAD_CODE:'deadcode_data_identification',
+    GET_USER_ROLES : 'user-roles'
 }
     export const URL ={
         Api : `${IP}`,

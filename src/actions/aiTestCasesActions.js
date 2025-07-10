@@ -5,6 +5,7 @@ import {
     ADD_AI_CSV_DATA,
     ADD_AI_CSV_SUCCESS,
     ADD_AI_CSV_FAILURE,
+    CLEAR_AI_TEST_CASE_DATA
   } from "../actionTypes/aiTestCasesActionTypes.js";
   import { ApiNewService } from "../Interceptor/interceptor.js";
   import { apis } from "../utils/config.js";
@@ -22,6 +23,11 @@ export const addAiDocumentRequest = () => ({
     type: ADD_AI_DOCUMENT_FAILURE,
     payload: error,
   });
+
+
+  export const clearAiTestCaseData = () => ({
+  type: CLEAR_AI_TEST_CASE_DATA,
+});
   
   export const addAiDocument = (payload) => {
     return (dispatch) => {

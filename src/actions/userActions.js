@@ -5,7 +5,7 @@ import {
     USER_DELETE_DATA, USER_DELETE_FAILURE, USER_DELETE_SUCCESS,
     USER_REJECT_DATA, USER_REJECT_FAILURE, USER_REJECT_SUCCESS,
     USER_ROLE_EDIT_DATA, USER_ROLE_EDIT_FAILURE, USER_ROLE_EDIT_SUCCESS,
-    USER_RESET_PASSWORD_DATA, USER_RESET_PASSWORD_FAILURE, USER_RESET_PASSWORD_SUCCESS
+    USER_RESET_PASSWORD_DATA, USER_RESET_PASSWORD_FAILURE, USER_RESET_PASSWORD_SUCCESS, USER_ROLE_DATA, USER_ROLE_SUCCESS, USER_ROLE_FAILURE
 } from "../actionTypes/adminActionTypes.js";
 import { AdminUsers } from "../Interceptor/interceptor.js";
 import { apis } from "../utils/config.js";
@@ -223,3 +223,35 @@ export const userResetPassword = (password, payload) => {
             })
     }
 }
+
+
+export const userRoleData = () => ({
+    type: USER_ROLE_DATA
+});
+
+export const userRoleSuccess = (response) => ({
+    type: USER_ROLE_SUCCESS,
+    payload: response
+});
+
+export const userRoleFailure = (error) => ({
+    type: USER_ROLE_FAILURE,
+    payload: error
+});
+
+
+export const getUserRoles = () => {
+    return (dispatch) => {
+        dispatch(userRoleData());
+
+        return AdminUsers
+            .get(apis.GET_USER_ROLES)  // This endpoint should be defined in your config.js
+            .then((response) => {
+                dispatch(userRoleSuccess(response));
+                return response;
+            })
+            .catch((error) => {
+                dispatch(userRoleFailure(error.message));
+            });
+    };
+};
