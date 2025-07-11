@@ -5,6 +5,7 @@ import {
   ADD_AI_CSV_DATA,
   ADD_AI_CSV_SUCCESS,
   ADD_AI_CSV_FAILURE,
+  CLEAR_AI_TEST_CASE_DATA
 } from "../actionTypes/aiTestCasesActionTypes.js";
 
 const initialState = {
@@ -69,6 +70,19 @@ const aiTestCasesReducer = (state = initialState, action) => {
         aiCsv: {
           ...state.aiCsv,
           error: action.payload,
+        },
+      };
+
+      case CLEAR_AI_TEST_CASE_DATA: // ⬅️ handle clear
+      return {
+        ...state,
+        aiDocument: {
+          data: null,
+          error: null,
+        },
+        aiCsv: {
+          data: null,
+          error: null,
         },
       };
 
