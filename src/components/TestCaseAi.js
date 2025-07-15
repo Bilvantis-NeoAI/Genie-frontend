@@ -110,14 +110,14 @@ export function TestCaseAi() {
       const response = await dispatch(addAiDocument(combinedFormData));
 
       if (response?.status === 200) {
-        toast.success("All documents added successfully!");
+        toast.success("Test cases generated successfully!");
         // setFirstDropzoneState({ file: [] });
         // setSecondDropzoneState({ file: [] });
       } else {
-        toast.error("Failed to upload documents.");
+        toast.error("Failed to generate test cases.");
       }
     } catch (error) {
-      toast.error("An error occurred while adding the documents.");
+      toast.error("An error occurred while generating test cases.");
       console.error("Upload error:", error);
     }
   };
@@ -129,7 +129,7 @@ export function TestCaseAi() {
   }, []);
 
   useEffect(() => {
-    setTableData("");
+    // setTableData("");
     if (aiTestCaseData?.aiDocument?.data?.test_case_file_path) {
       const filePath = aiTestCaseData.aiDocument.data.test_case_file_path;
       const fullUrl = `${IP}/genieapi/${filePath}`;
@@ -164,6 +164,10 @@ export function TestCaseAi() {
         isSelected: checked,
       }))
     );
+
+    if (checked) {
+      setErrorMessage("");
+    }
   };
 
   const handleSelectRow = (index, checked) => {
@@ -171,6 +175,10 @@ export function TestCaseAi() {
     newData[index].isSelected = checked;
     setTableData(newData);
     setSelectAll(newData.every((row) => row.isSelected));
+
+    if (newData.some((row) => row.isSelected)) {
+      setErrorMessage("");
+    }
   };
 
   const handleExport = () => {
@@ -199,7 +207,19 @@ export function TestCaseAi() {
     };
     setTableData(newData);
   };
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSendToBackend = async () => {
+    const selectedData = tableData.filter((row) => row.isSelected);
+
+    if (selectedData.length === 0) {
+      setErrorMessage("Please select at least one test case.");
+      return;
+    }
+
+    setErrorMessage("");
+
     try {
       const selectedData = tableData.filter((row) => row.isSelected);
 
@@ -217,6 +237,8 @@ export function TestCaseAi() {
       formData.append("test_cases_file", file);
 
       const response = await dispatch(addAiCsvData(formData));
+      setSelectAll(false);
+
       if (response?.data) {
         const { output_file_path, mock_api_path } = response?.data;
 
@@ -240,6 +262,7 @@ export function TestCaseAi() {
         }
       } else {
         console.error("No data available in Redux.");
+         toast.error("Failed to generate test cases .");
       }
     } catch (error) {
       console.error("Error sending data to backend:", error);
@@ -321,7 +344,7 @@ export function TestCaseAi() {
       <div className="sideNav-style">
         <BootstrapSidebar />
       </div>
-      <div className="card top-div mt-2 pb-5">
+      <div className="card top-div mt-2 pb-5 mb-2">
         <h4 className="ms-4 mt-2">Test Gen</h4>
         <div className="col-12 d-flex ">
           <div className="dropzone">
@@ -432,6 +455,9 @@ export function TestCaseAi() {
                   ))}
                 </tbody>
               </table>
+              {errorMessage && (
+                <p className="text-danger mt-1 error-message">{errorMessage}</p> 
+              )}
             </div>
             <div className="d-flex justify-content-between mt-4">
               <Button onClick={handleExport} className="btn-primary ms-4">
@@ -474,9 +500,7 @@ export function TestCaseAi() {
                     className="form-control bg-light text-dark font-monospace resize-none border processed-feedback-textarea"
                   />
                   {feedbackError && (
-                    <p
-                      className="text-danger mt-1 error-message"
-                    >
+                    <p className="text-danger mt-1 error-message">
                       {feedbackError}
                     </p>
                   )}

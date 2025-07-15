@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
-import { deadCode } from "../actions/deadCodeAction";
+import { deadCode, clearDeadCodeData} from "../actions/deadCodeAction";
 
 export function DeadCode() {
   const [dataFrames, setDataFrames] = useState({});
@@ -109,6 +109,12 @@ export function DeadCode() {
       setDataFrames(parsedDataFrames);
     }
   }, [response]);
+
+   useEffect(() => {
+    return () => {
+      dispatch(clearDeadCodeData());
+    };
+  }, []);
 
   const downloadAsExcel = (data, fileName) => {
     if (!data || data.length === 0) {

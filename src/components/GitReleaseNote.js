@@ -186,7 +186,7 @@ export function GitReleaseNote() {
       </div>
 
       <div
-        className="mt-3 pt-3 ps-3 pe-3"
+        className="mt-3 pt-3 ps-3 pe-3 mb-2"
       >
         <Card className="p-4 shadow-sm rounded release-form-card">
           {loading && <FullScreenLoader />}

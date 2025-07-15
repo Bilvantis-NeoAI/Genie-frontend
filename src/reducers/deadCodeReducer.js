@@ -1,4 +1,4 @@
-import { DEAD_CODE_DATA,DEAD_CODE_FAILURE,DEAD_CODE_SUCCESS } from "../actionTypes/deadCodeActionTypes";
+import { DEAD_CODE_DATA,DEAD_CODE_FAILURE,DEAD_CODE_SUCCESS, CLEAR_DEAD_CODE_DATA } from "../actionTypes/deadCodeActionTypes";
 const initialState={
     loading:null,
     deadCoderesponse:null,
@@ -24,6 +24,10 @@ const deadCodeReducer =(state=initialState ,action)=>{
                 deadCoderesponse:null,
                 error:action
             }
+         case CLEAR_DEAD_CODE_DATA:
+      return {
+        ...initialState,
+      };    
         default:
         return  state
     }
