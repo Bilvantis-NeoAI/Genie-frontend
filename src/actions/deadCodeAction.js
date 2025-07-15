@@ -1,4 +1,4 @@
-import { DEAD_CODE_DATA,DEAD_CODE_FAILURE,DEAD_CODE_SUCCESS } from "../actionTypes/deadCodeActionTypes";
+import { DEAD_CODE_DATA, DEAD_CODE_FAILURE, DEAD_CODE_SUCCESS, CLEAR_DEAD_CODE_DATA } from "../actionTypes/deadCodeActionTypes";
 import { DeployedURL } from "../Interceptor/interceptor";
 import { apis } from "../utils/config";
 export const deadCodeData =()=>({
@@ -26,3 +26,7 @@ export const deadCode =(payload)=>{
         })
     }
 }
+
+export const clearDeadCodeData = () => ({
+  type: CLEAR_DEAD_CODE_DATA,
+});
