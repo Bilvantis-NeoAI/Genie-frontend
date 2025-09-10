@@ -7,7 +7,7 @@ trigger:
 - mains
 
 pool:
-  name: Default
+  name: azurevm
 
 steps:
   - task: Docker@2
