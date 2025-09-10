@@ -1,30 +1,44 @@
 trigger:
-  branches:
-    include:
-      - main
+- main
 
 pool:
-  name: azurevm
+  name: azurevm  # Or your self-hosted agent
 
 variables:
-  imagename: "firstimage"
-  tag: "$(Build.BuildNumber)"
+  imageRepository: 'myapp'             # ACR repository name
+  dockerfilePath: '**/dockerfile'      # Path to Dockerfile
+  tag: '$(Build.BuildId)'               # Image tag
+  azureSubscription: 'azurevm-serconn' # Your Azure Resource Manager service connection
+  acrName: 'amaniacr'               # Your ACR registry name (without .azurecr.io)
+  acrLoginServer: 'amaniacr.azurecr.io'  # Full ACR login server name
 
-stages:
-  - stage: BuildDockerfile
-    displayName: "Build and Push Docker Image"
-    jobs:
-      - job: build
-        displayName: "Build and Push Docker Image"
-        steps:
-          - task: Docker@2
-            displayName: "Build and Push image"
-            inputs:
-              containerRegistry: 'amani-serconn'   # service connection name
-              repository: '$(imagename)'
-              command: 'buildAndPush'
-              Dockerfile: '$(System.DefaultWorkingDirectory)/dockerfile'
-              buildContext: '.'
-              tags: |
-                $(tag)
-                latest
+steps:
+
+# Login to Azure with the ARM service connection
+- task: AzureCLI@2
+  name: AzureLogin
+  inputs:
+    azureSubscription: $(azureSubscription)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Logged into Azure"
+
+# Login to ACR via az CLI
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureSubscription)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az acr login --name $(acrName)
+
+# Build Docker image
+- script: |
+    docker build -f $(dockerfilePath) -t $(acrLoginServer)/$(imageRepository):$(tag) .
+  displayName: 'Build Docker image'
+
+# Push Docker image to ACR
+- script: |
+    docker push $(acrLoginServer)/$(imageRepository):$(tag)
+  displayName: 'Push Docker image to ACR'
