@@ -16,11 +16,17 @@ steps:
     inlineScript: |
       echo "Logged into Azure"
       az account show
-      echo "Login to azure ACR"
-      sudo usermod -aG docker azureuser
-      sudo systemctl restart docker
-      sudo systemctl status docker
-      docker --version
-      sudo az acr login --name amaniacr
-      echo "Loggined sucessfully"
+      az vm list 
+      
+- task: Docker@2
+  displayName: Build and push image
+  inputs:
+    containerRegistry: 'amani-serconn'   # service connection name
+    repository: 'firstimage'
+    command: 'buildAndPush'
+    Dockerfile: '**/dockerfile'
+    tags: |
+      $(Build.BuildNumber)
+      latest
+
 
