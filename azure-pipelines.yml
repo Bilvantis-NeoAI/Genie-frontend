@@ -4,41 +4,16 @@ trigger:
 pool:
   name: azurevm  # Or your self-hosted agent
 
-variables:
-  imageRepository: 'myapp'             # ACR repository name
-  dockerfilePath: '**/dockerfile'      # Path to Dockerfile
-  tag: '$(Build.BuildId)'               # Image tag
-  azureSubscription: 'azurevm-serconn' # Your Azure Resource Manager service connection
-  acrName: 'amaniacr'               # Your ACR registry name (without .azurecr.io)
-  acrLoginServer: 'amaniacr.azurecr.io'  # Full ACR login server name
-
 steps:
 
 # Login to Azure with the ARM service connection
 - task: AzureCLI@2
   name: AzureLogin
   inputs:
-    azureSubscription: $(azureSubscription)
+    azureSubscription: 'azurevm-serconn'
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
       echo "Logged into Azure"
+      az account show
 
-# Login to ACR via az CLI
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(azureSubscription)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      sudo az acr login --name $(acrName)
-
-# Build Docker image
-- script: |
-    docker build -f $(dockerfilePath) -t $(acrLoginServer)/$(imageRepository):$(tag) .
-  displayName: 'Build Docker image'
-
-# Push Docker image to ACR
-- script: |
-    docker push $(acrLoginServer)/$(imageRepository):$(tag)
-  displayName: 'Push Docker image to ACR'
