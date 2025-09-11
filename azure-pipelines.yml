@@ -9,7 +9,7 @@ steps:
   displayName: Build and push image
   inputs:
     containerRegistry: 'amani-serconn'   # service connection name
-    repository: 'secondimage'
+    repository: 'thirdimage'
     command: 'buildAndPush'
     Dockerfile: '**/dockerfile'
     tags: |
