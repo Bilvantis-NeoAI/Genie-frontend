@@ -5,19 +5,6 @@ pool:
   name: azurevm  # Or your self-hosted agent
 
 steps:
-
-# Login to Azure with the ARM service connection
-- task: AzureCLI@2
-  name: AzureLogin
-  inputs:
-    azureSubscription: 'azurevm-serconn'
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      echo "Logged into Azure"
-      az account show
-      
-      
 - task: Docker@2
   displayName: Build and push image
   inputs:
