@@ -17,6 +17,10 @@ steps:
       echo "Logged into Azure"
       az account show
       echo "Login to azure ACR"
-      az acr login --name amaniacr
+      sudo usermod -aG docker azureuser
+      sudo systemctl restart docker
+      sudo systemctl status docker
+      docker --version
+      sudo az acr login --name amaniacr
       echo "Loggined sucessfully"
 
