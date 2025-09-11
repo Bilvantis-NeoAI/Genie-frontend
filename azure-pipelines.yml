@@ -16,7 +16,7 @@ steps:
     inlineScript: |
       echo "Logged into Azure"
       az account show
-      az vm list 
+      
       
 - task: Docker@2
   displayName: Build and push image
