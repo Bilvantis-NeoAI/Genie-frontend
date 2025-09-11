@@ -31,7 +31,7 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      az acr login --name $(acrName)
+      sudo az acr login --name $(acrName)
 
 # Build Docker image
 - script: |
