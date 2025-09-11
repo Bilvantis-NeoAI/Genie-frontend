@@ -9,11 +9,10 @@ steps:
   displayName: Build and push image
   inputs:
     containerRegistry: 'amani-serconn'   # service connection name
-    repository: 'firstimage'
+    repository: 'secondimage'
     command: 'buildAndPush'
     Dockerfile: '**/dockerfile'
     tags: |
-      $(Build.BuildNumber)
       latest
 
 
