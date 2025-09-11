@@ -16,4 +16,7 @@ steps:
     inlineScript: |
       echo "Logged into Azure"
       az account show
+      echo "Login to azure ACR"
+      az acr login --name amaniacr
+      echo "Loggined sucessfully"
 
