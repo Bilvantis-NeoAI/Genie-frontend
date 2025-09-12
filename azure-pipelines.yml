@@ -2,17 +2,37 @@ trigger:
 - main
 
 pool:
-  name: azurevm  # Or your self-hosted agent
+  name: azurevm  # self-hosted agent pool
 
-steps:
-- task: Docker@2
-  displayName: Build and push image
-  inputs:
-    containerRegistry: 'amani-serconn'   # service connection name
-    repository: 'thirdimage'
-    command: 'buildAndPush'
-    Dockerfile: '**/dockerfile'
-    tags: |
-      latest
+stages:
+- stage: script
+  displayName: "Executing commands"
+  jobs:
+  - job: script
+    displayName: "Executing script"
+    steps:
+    - script: |
+        az --version
+        sudo apt-get update -y
+        sudo apt-get install git -y
+      displayName: "Run commands"
+
+- stage: BuildAndPush
+  displayName: "Build and push Docker image"
+  jobs:
+  - job: BuildAndPushJob
+    displayName: "Build and push Docker image"
+    steps:
+    - task: Docker@2
+      displayName: "Build and push image"
+      inputs:
+        containerRegistry: 'amani-serconn'   # Docker Registry/Azure Container Registry service connection
+        repository: 'thirdimage'             # Repo name inside ACR (e.g. amaniacr.azurecr.io/thirdimage)
+        command: 'buildAndPush'
+        Dockerfile: '**/dockerfile'
+        buildContext: '.'                    # Recommended to set explicitly
+        tags: |
+          $(Build.BuildNumber)
+          latest
 
 
