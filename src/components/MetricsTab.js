@@ -33,9 +33,9 @@ export default function MetricTabs() {
                             <Nav.Link eventKey="Usage" style={tabStyle("Usage")}>
                                 Usage Metrics
                             </Nav.Link>
-                            <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
+                            {/* <Nav.Link eventKey="Commit" style={tabStyle("Commit")}>
                                 Commit Review Metrics
-                            </Nav.Link>
+                            </Nav.Link> */}
                         </Nav>
                         <Tab.Content className="nav-components">
                             <Tab.Pane eventKey="Severity" type='severity'>

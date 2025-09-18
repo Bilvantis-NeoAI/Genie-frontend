@@ -16,7 +16,7 @@ export default function CommitReviewMetric() {
     const dispatch = useDispatch();
     useEffect(() => {
         const params = { type: moduleType, filter: false };
-        dispatch(fetchGraphList(params, moduleType))
+        // dispatch(fetchGraphList(params, moduleType))
     }, [dispatch, moduleType]);
     const handleReset = () => {     
         setSelectedFilter((prevState) => {
