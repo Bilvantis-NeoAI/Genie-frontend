@@ -21,8 +21,8 @@ export const XAXISKEYS = {
     WEEK : 'week',
 }
 export const XAXISNAMES = {
-    AVARAGE_QUALITY: 'Avarage quality',
-    AVARAGE_SEVERITY: 'Avarage severity',
+    AVARAGE_QUALITY: 'Average quality',
+    AVARAGE_SEVERITY: 'Average severity',
     COUNT: 'Count',
     PERCENTAGE: 'Percentage',
    SECRETS_COUNT: 'Secrets Count',
