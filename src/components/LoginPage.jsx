@@ -46,7 +46,7 @@ const LoginPage = () => {
       } else {
         setLoading(false);
         Swal.fire({
-          title: sweetalert.ERROR_CONFIRMED_TEXT,
+          // title: sweetalert.ERROR_CONFIRMED_TEXT,
           text: response,
           icon: sweetalert.ERROR_ICON,
           confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
