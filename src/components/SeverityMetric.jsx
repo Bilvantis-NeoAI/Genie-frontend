@@ -70,9 +70,9 @@ export default function SeverityMetric() {
     setOffCanvas(false);
   };
 
-  const handleProjectChange = (projectId) => {
+  const handleProjectChange = (projectName) => {
     let selectedProject = data?.project_user_mapping?.find(
-      (project) => project._id === projectId
+      (project) => (project.project_name = projectName)
     );
     setUsers(selectedProject?.users || []);
     if (selectedProject) {
