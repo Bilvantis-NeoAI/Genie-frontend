@@ -86,6 +86,7 @@ const MuilBarGraph = ({ data, title, handleFilter, keys }) => {
               ref={scrollContainerRef}
               style={{
                 overflowX: data.length > 0 ? "auto" : "hidden",
+                overflowY: data.length > 0 ? "auto" : "hidden",
                 scrollbarWidth: "none",
                 height: "205px",
                 position: "relative",

@@ -21,35 +21,22 @@ export default function QualityMetric() {
     setOffCanvas(true);
   };
   const handleCloseCanvas = () => {
+    
     setOffCanvas(false);
   };
   const handleReset = () => {
-    setSelectedFilter((prevState) => {
-      const updatedState = {
-        ...prevState,
-        project_name: "",
-        user_id: "",
-        _id: "",
-        date: "",
-      };
-      return updatedState;
-    });
+    const savedUserId = sessionStorage.getItem("user_id") || null;
+    setSelectedFilter((prevState) => ({
+      ...prevState,
+      project_name: null,
+      user_id: savedUserId,
+      _id: null,
+      date: null,
+    }));
     setUsers([]);
-    const filters = {};
-    if (selectedFilter.key === "issue_severity_distribution") {
-      filters.project_name = "";
-    } else if (selectedFilter.key === "issue_severity_frequency_by_project") {
-      filters.month = "";
-    } else {
-      filters.project_name = "";
-      filters.user_id = "";
-    }
-    const filtersString = JSON.stringify(filters);
     const params = {
       type: moduleType,
-      filter: true,
-      metric_name: selectedFilter.key,
-      filters: filtersString,
+      filter: false,
     };
     dispatch(fetchGraphList(params, moduleType));
     setOffCanvas(false);
@@ -69,10 +56,12 @@ export default function QualityMetric() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const savedUserId = sessionStorage.getItem("user_id") || null;
+
     const filters = {
       project_name: selectedFilter.project_name,
-      user_id: selectedFilter.user_id,
-      month: selectedFilter.date,
+      user_id: selectedFilter.user_id || savedUserId,
+      // month: selectedFilter.date,
     };
     const filtersString = JSON.stringify(filters);
     const params = {

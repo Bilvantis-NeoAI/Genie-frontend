@@ -41,22 +41,23 @@ export default function SeverityMetric() {
   };
 
   const handleReset = () => {
+    const savedUserId = sessionStorage.getItem("user_id") || null;
     setSelectedFilter((prevState) => ({
       ...prevState,
-      project_name: "",
-      user_id: "",
-      _id: "",
-      date: "",
+      project_name: null,
+      user_id: savedUserId,
+      _id: null,
+      date: null,
     }));
     setUsers([]);
     const filters = {};
     if (selectedFilter.key === "issue_severity_distribution") {
-      filters.project_name = "";
+      filters.project_name = null;
     } else if (selectedFilter.key === "issue_severity_frequency_by_project") {
-      filters.month = "";
+      filters.month = null;
     } else {
-      filters.project_name = "";
-      filters.user_id = "";
+      filters.project_name = null;
+      filters.user_id = null;
     }
     const filtersString = JSON.stringify(filters);
     const params = {
@@ -84,6 +85,7 @@ export default function SeverityMetric() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const savedUserId = sessionStorage.getItem("user_id") || null;
     const filters = {};
     if (selectedFilter.key === "issue_severity_distribution") {
       filters.project_name = selectedFilter.project_name;
@@ -91,7 +93,7 @@ export default function SeverityMetric() {
       filters.month = selectedFilter.date;
     } else {
       filters.project_name = selectedFilter.project_name;
-      filters.user_id = selectedFilter.user_id;
+      filters.user_id = selectedFilter.user_id || savedUserId;
     }
     const filtersString = JSON.stringify(filters);
     const params = {
@@ -105,17 +107,20 @@ export default function SeverityMetric() {
     setOffCanvas(false);
     setSelectedFilter((prevState) => ({
       ...prevState,
-      project_name: "",
-      user_id: "",
-      _id: "",
-      date: "",
+      project_name: null,
+      user_id: savedUserId,
+      _id: null,
+      date: null,
     }));
     setUsers([]);
   };
 
   const handleCloseCanvas = () => {
+    setSelectedFilter((prev) => ({
+      ...prev,
+      date: null,
+    }));
     setOffCanvas(false);
-    setSelectedFilter({});
   };
 
   const onChange = (e) => {

@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 // const { Title } = Typography;
 export function HeaderComponent() {
-    const username = localStorage.getItem("username") || "Admin";
+    const username = sessionStorage.getItem("user_name") || "Admin";
     return (
         <Header
             className="header">
