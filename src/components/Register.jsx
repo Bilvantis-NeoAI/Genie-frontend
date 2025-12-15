@@ -48,7 +48,7 @@ const Register = () => {
     try {
       if (formData.password !== formData.confirmPassword) {
         Swal.fire({
-          title: sweetalert.ERROR_CONFIRMED_TEXT,
+          // title: sweetalert.ERROR_CONFIRMED_TEXT,
           text: "Passwords do not match.",
           icon: sweetalert.ERROR_ICON,
           confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
@@ -72,7 +72,7 @@ const Register = () => {
         navigate("/");
       } else {
         Swal.fire({
-          title: sweetalert.ERROR_CONFIRMED_TEXT,
+          // title: sweetalert.ERROR_CONFIRMED_TEXT,
           text: response,
           icon: sweetalert.ERROR_ICON,
           confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
@@ -80,7 +80,7 @@ const Register = () => {
       }
     } catch (err) {
       Swal.fire({
-        title: sweetalert.ERROR_CONFIRMED_TEXT,
+        // title: sweetalert.ERROR_CONFIRMED_TEXT,
         text: err.message,
         icon: sweetalert.ERROR_ICON,
         confirmButtonText: sweetalert.ERROR_CONFIRMED_TEXT,
